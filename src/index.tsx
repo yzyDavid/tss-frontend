@@ -1,5 +1,5 @@
 import dva, {connect} from 'dva';
-import {Router, Route} from 'dva/router';
+import {Router, Route, Switch} from 'dva/router';
 import * as React from 'react';
 import HomePage from './components/HomePage';
 import GlobalState from './models/globalState';
@@ -31,8 +31,10 @@ const LoginPage = connect(state => {
 
 app.router(({history}) => (
         <Router history={history}>
-            <Route path="/" component={LoginPage}/>
-            <Route path="/navi" component={<div>navi page</div>}/>
+            <Switch>
+                <Route path="/" component={LoginPage}/>
+                <Route path="/navi" component={<div>navi page</div>}/>
+            </Switch>
         </Router>
     )
 );
