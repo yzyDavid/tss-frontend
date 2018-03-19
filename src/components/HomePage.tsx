@@ -1,6 +1,6 @@
 import {Component} from 'react';
 import * as React from 'react';
-import {Layout, Button} from 'antd';
+import {Layout} from 'antd';
 
 const {Header, Content, Footer} = Layout;
 
@@ -14,7 +14,6 @@ export default class HomePage extends Component {
                     </Header>
                     <Content style={{minHeight: "500px"}}>
                         <h2>登录</h2>
-                        <Button>but</Button>
                     </Content>
                     <Footer>
                         <div style={{textAlign: "center"}}>&copy;2018 浙江大学</div>
