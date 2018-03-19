@@ -21,16 +21,20 @@ app.model({
     reducers: {
         ['login/saveSession']: saveSession,
         ['login/loadSession']: loadSession
-    }
+    },
+    effects: {},
+    subscriptions: {}
 });
 
 const LoginPage = connect(state => {
 })(HomePage);
 
 app.router(({history}) => (
-    <Router history={history}>
-        <Route path="/" component={LoginPage}/>
-    </Router>)
+        <Router history={history}>
+            <Route path="/" component={LoginPage}/>
+            <Route path="/navi" component={<div>navi page</div>}/>
+        </Router>
+    )
 );
 
 app.start('#root');
