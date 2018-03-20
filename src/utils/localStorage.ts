@@ -2,8 +2,8 @@ import GlobalState from '../models/globalState';
 import {sessionStorageKey} from '../configs/localStorage';
 
 const saveSession = (state: GlobalState): null => {
-    const {uid, token, userName} = state;
-    const values = JSON.stringify({uid, token, userName});
+    const {uid, token, username} = state;
+    const values = JSON.stringify({uid, token, username});
     localStorage.setItem(sessionStorageKey, values);
     return null;
 };

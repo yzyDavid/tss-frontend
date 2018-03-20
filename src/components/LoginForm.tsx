@@ -9,7 +9,7 @@ interface FormProps extends DvaProps {
     form: any;
 }
 
-class LoginFormData {
+export class LoginFormData {
     uid: string;
     password: string;
 }
@@ -26,6 +26,7 @@ export class LoginForm extends Component<FormProps, LoginFormData> {
                 message.error('信息填写不合法');
                 return;
             }
+            this.props.dispatch({type:'login/login', payload: values});
         });
     };
 
