@@ -25,8 +25,12 @@ app.model({
     namespace: 'login',
     state: state,
     reducers: {
-        ['login/saveSession']: saveSession,
-        ['login/loadSession']: loadSession
+        saveSession(st) {
+            return saveSession(st)
+        },
+        loadSession(st) {
+            return loadSession(st)
+        }
     },
     effects: {},
     subscriptions: {}

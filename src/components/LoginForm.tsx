@@ -1,6 +1,6 @@
 import {Component, FormEvent, ReactNode} from 'react';
 import * as React from 'react';
-import {Icon, Form, Button, Input} from 'antd';
+import {Icon, Form, Button, Input, message} from 'antd';
 import DvaProps from '../models/DvaProps';
 
 const FormItem = Form.Item;
@@ -9,13 +9,24 @@ interface FormProps extends DvaProps {
     form: any;
 }
 
-export class LoginForm extends Component<FormProps, any> {
+class LoginFormData {
+    uid: string;
+    password: string;
+}
+
+export class LoginForm extends Component<FormProps, LoginFormData> {
     componentDidMount() {
     }
 
     handleSubmit = (e: FormEvent<{}>) => {
         e.preventDefault();
         const formProps = this.props.form;
+        formProps.validateFieldsAndScroll((err: any, values: LoginFormData) => {
+            if (err) {
+                message.error('信息填写不合法');
+                return;
+            }
+        });
     };
 
     render() {
