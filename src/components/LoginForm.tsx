@@ -13,10 +13,10 @@ export class LoginForm extends Component<FormProps, any> {
     componentDidMount() {
     }
 
-    handleSubmit(e: FormEvent<any>) {
+    handleSubmit = (e: FormEvent<{}>) => {
         e.preventDefault();
         const formProps = this.props.form;
-    }
+    };
 
     render() {
         const {getFieldDecorator} = this.props.form;
@@ -51,15 +51,18 @@ export class LoginForm extends Component<FormProps, any> {
                                 {required: true, message: '请输入密码'}
                             ]
                         })(
-                            <Input prefix={<Icon type="password" style={{fontSize: 13}}/>}/>
+                            <Input prefix={<Icon type="unlock" style={{fontSize: 13}}/>}/>
                         )
                     }
+                </FormItem>
+                <FormItem {...formItemLayout}>
+                    <Button icon="copy" type="primary" htmlType="submit">登录</Button>
                 </FormItem>
             </Form>
         );
     }
 }
 
-const WrappedLoginForm = Form.create({})(LoginForm);
+const WrappedLoginForm: any = Form.create({})(LoginForm);
 
 export {WrappedLoginForm};

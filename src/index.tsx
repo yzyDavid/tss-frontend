@@ -9,6 +9,7 @@ import {loadSession, saveSession} from './utils/localStorage';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 import NavigationPageComponent from './components/NavigationPage';
+import UserPageComponent from "./components/UserPage";
 
 const {Content} = Layout;
 
@@ -37,6 +38,9 @@ const HomePage = connect(state => {
 const NavigationPage = connect(state => {
 })(NavigationPageComponent);
 
+const UserPage = connect(state => {
+})(UserPageComponent);
+
 app.router(({history}) => (
         <Router history={history}>
             <Layout>
@@ -45,7 +49,7 @@ app.router(({history}) => (
                     <Switch>
                         <Route path="/" component={HomePage}/>
                         <Route path="/navi" component={NavigationPage}/>
-                        <Route path="/user" component={<div>user page</div>}/>
+                        <Route path="/user" component={UserPage}/>
                     </Switch>
                 </Content>
                 <TssFooter/>

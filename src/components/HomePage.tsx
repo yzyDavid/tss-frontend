@@ -3,13 +3,16 @@ import * as React from 'react';
 import {WrappedLoginForm} from './LoginForm';
 import DvaProps from '../models/DvaProps';
 
-export default class HomePageComponent extends Component implements DvaProps {
+class HomePageProps implements DvaProps {
     public dispatch: any;
+}
 
+export default class HomePageComponent extends Component<HomePageProps, {}> {
     render() {
         return (
             <div>
-                <WrappedLoginForm dispatch={this.dispatch}/>
+                <h2>用户登录</h2>
+                <WrappedLoginForm dispatch={this.props.dispatch}/>
             </div>
         );
     }
