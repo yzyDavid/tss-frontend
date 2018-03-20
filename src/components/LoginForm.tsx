@@ -1,7 +1,12 @@
 import {Component, ReactNode} from 'react';
 import * as React from 'react';
+import {Form} from 'antd';
 
-export default class LoginForm extends Component {
+interface FormProps {
+    form: any;
+}
+
+export class LoginForm extends Component<FormProps, any> {
     componentDidMount() {
     }
 
@@ -14,3 +19,7 @@ export default class LoginForm extends Component {
         );
     }
 }
+
+const WrappedLoginForm = Form.create({})(LoginForm);
+
+export {WrappedLoginForm};

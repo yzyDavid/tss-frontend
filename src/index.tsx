@@ -1,11 +1,16 @@
 import dva, {connect} from 'dva';
 import {Router, Route, Switch} from 'dva/router';
 import * as React from 'react';
+import {Layout} from 'antd';
+import {TssFooter, TssHeader} from './components/TssPublicComponents';
 import HomePageComponent from './components/HomePage';
 import GlobalState from './models/globalState';
 import {loadSession, saveSession} from './utils/localStorage';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
+import NavigationPageComponent from './components/NavigationPage';
+
+const {Content} = Layout;
 
 const app = dva();
 
@@ -26,16 +31,25 @@ app.model({
     subscriptions: {}
 });
 
-const LoginPage = connect(state => {
+const HomePage = connect(state => {
 })(HomePageComponent);
+
+const NavigationPage = connect(state => {
+})(NavigationPageComponent);
 
 app.router(({history}) => (
         <Router history={history}>
-            <Switch>
-                <Route path="/" component={LoginPage}/>
-                <Route path="/navi" component={<div>navi page</div>}/>
-                <Route path="/user" component={<div>user page</div>}/>
-            </Switch>
+            <Layout>
+                <TssHeader/>
+                <Content style={{minHeight: '300px'}}>
+                    <Switch>
+                        <Route path="/" component={HomePage}/>
+                        <Route path="/navi" component={NavigationPage}/>
+                        <Route path="/user" component={<div>user page</div>}/>
+                    </Switch>
+                </Content>
+                <TssFooter/>
+            </Layout>
         </Router>
     )
 );

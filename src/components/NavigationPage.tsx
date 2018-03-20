@@ -4,7 +4,9 @@ import {Component} from 'react';
 export default class NavigationPageComponent extends Component {
     render() {
         return (
-            <div>NavigationPage</div>
+            <div>
+                <h2>Navigation Page</h2>
+            </div>
         );
     }
 }
