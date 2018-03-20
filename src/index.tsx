@@ -1,7 +1,7 @@
 import dva, {connect} from 'dva';
 import {Router, Route, Switch} from 'dva/router';
 import * as React from 'react';
-import HomePage from './components/HomePage';
+import HomePageComponent from './components/HomePage';
 import GlobalState from './models/globalState';
 import {loadSession, saveSession} from './utils/localStorage';
 import registerServiceWorker from './registerServiceWorker';
@@ -27,13 +27,14 @@ app.model({
 });
 
 const LoginPage = connect(state => {
-})(HomePage);
+})(HomePageComponent);
 
 app.router(({history}) => (
         <Router history={history}>
             <Switch>
                 <Route path="/" component={LoginPage}/>
                 <Route path="/navi" component={<div>navi page</div>}/>
+                <Route path="/user" component={<div>user page</div>}/>
             </Switch>
         </Router>
     )

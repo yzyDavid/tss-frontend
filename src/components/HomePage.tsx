@@ -4,7 +4,7 @@ import {Layout} from 'antd';
 
 const {Header, Content, Footer} = Layout;
 
-export default class HomePage extends Component {
+export default class HomePageComponent extends Component {
     render() {
         return (
             <div>

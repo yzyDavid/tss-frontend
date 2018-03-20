@@ -13,4 +13,8 @@ const loadSession = (state: GlobalState): GlobalState => {
     return {...state, ...values};
 };
 
-export {saveSession, loadSession};
+const getAuthTokenFromLocalStorage = () => {
+    return JSON.parse(localStorage.getItem(sessionStorageKey) || '{token: ""}').token;
+};
+
+export {saveSession, loadSession, getAuthTokenFromLocalStorage};
