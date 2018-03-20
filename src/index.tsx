@@ -1,5 +1,5 @@
 import dva, {connect} from 'dva';
-import {Router, Route, Switch, routerRedux} from 'dva/router';
+import {Router, Route, Switch, routerRedux, browserHistory} from 'dva/router';
 import * as React from 'react';
 import {Layout, message} from 'antd';
 import {TssFooter, TssHeader} from './components/TssPublicComponents';
@@ -15,7 +15,9 @@ import {LoginFormData} from './components/LoginForm';
 
 const {Content} = Layout;
 
-const app = dva();
+const app = dva({
+    history: browserHistory
+});
 
 const state: GlobalState = {
     token: '',
@@ -64,18 +66,15 @@ app.model({
 });
 
 const HomePage = connect(state => {
-    {
-    }
+    return {}
 })(HomePageComponent);
 
 const NavigationPage = connect(state => {
-    {
-    }
+    return {}
 })(NavigationPageComponent);
 
 const UserPage = connect(state => {
-    {
-    }
+    return {}
 })(UserPageComponent);
 
 app.router(({history}) => (
@@ -84,7 +83,7 @@ app.router(({history}) => (
                 <TssHeader/>
                 <Content style={{minHeight: '300px'}}>
                     <Switch>
-                        <Route path="/" component={HomePage}/>
+                        <Route path="/" exact component={HomePage}/>
                         <Route path="/navi" component={NavigationPage}/>
                         <Route path="/user" component={UserPage}/>
                     </Switch>
