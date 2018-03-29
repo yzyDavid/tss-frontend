@@ -1,4 +1,4 @@
-# tss-frontend
+# tss-frontend [![Build Status](https://www.travis-ci.org/yzyDavid/tss-frontend.svg?branch=master)](https://www.travis-ci.org/yzyDavid/tss-frontend)
 
 ZJU Software Engineering course project, Teaching Service System.
 
