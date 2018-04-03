@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Component} from 'react';
 import {Redirect} from 'react-router';
 import {Button, Card, message, Row, Col, Dropdown, Menu} from 'antd';
-import DvaProps from '../models/DvaProps';
+import DvaProps from '../types/DvaProps';
 
 interface NaviProps extends DvaProps {
     uid: string;

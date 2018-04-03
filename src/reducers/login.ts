@@ -1,4 +1,4 @@
-import GlobalState from '../models/globalState';
+import GlobalState from '../types/globalState';
 
 const login = (state: GlobalState): GlobalState => {
     return state;
