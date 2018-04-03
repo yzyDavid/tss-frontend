@@ -2,12 +2,9 @@ import dva, {connect} from 'dva';
 import {Router, Route, Switch} from 'dva/router';
 import * as React from 'react';
 import HomePage from './components/HomePage';
-import NaviPage from './components/NavigationPage';
-import UserPage from './components/UserPage';
 import GlobalState from './models/globalState';
 import {loadSession, saveSession} from './utils/localStorage';
 import registerServiceWorker from './registerServiceWorker';
-
 import './index.css';
 
 const app = dva();
@@ -25,22 +22,18 @@ app.model({
         ['login/saveSession']: saveSession,
         ['login/loadSession']: loadSession
     },
-    effects: {} ,
+    effects: {},
     subscriptions: {}
 });
 
 const LoginPage = connect(state => {
 })(HomePage);
-const navi = connect(state => {
-})(NaviPage);
-const user = connect(state => {
-})(UserPage);
+
 app.router(({history}) => (
         <Router history={history}>
             <Switch>
-                <Route path="/index" component={LoginPage}/>
-                <Route path="/navi" component={navi}/>
-                <Route path="/user" component={user}/>
+                <Route path="/" component={LoginPage}/>
+                <Route path="/navi" component={<div>navi page</div>}/>
             </Switch>
         </Router>
     )
