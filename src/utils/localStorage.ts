@@ -1,11 +1,11 @@
 import GlobalState from '../models/globalState';
 import {sessionStorageKey} from '../configs/localStorage';
 
-const saveSession = (state: GlobalState): GlobalState => {
-    const {uid, token, userName} = state;
-    const values = JSON.stringify({uid, token, userName});
+const saveSession = (state: GlobalState): null => {
+    const {uid, token, username} = state;
+    const values = JSON.stringify({uid, token, username});
     localStorage.setItem(sessionStorageKey, values);
-    return state;
+    return null;
 };
 
 const loadSession = (state: GlobalState): GlobalState => {
@@ -13,4 +13,9 @@ const loadSession = (state: GlobalState): GlobalState => {
     return {...state, ...values};
 };
 
-export {saveSession, loadSession};
+const getAuthTokenFromLocalStorage = () => {
+    console.log(sessionStorageKey);
+    return JSON.parse(localStorage.getItem(sessionStorageKey) || '{"token": ""}').token;
+};
+
+export {saveSession, loadSession, getAuthTokenFromLocalStorage};

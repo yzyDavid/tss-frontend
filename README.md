@@ -25,3 +25,5 @@ yarn build  # build a release version
 
 # replacing yarn with coresponding npm commands is OK.
 ```
+
+Check whether `yarn build` pass and format code with WebStorm before commit.

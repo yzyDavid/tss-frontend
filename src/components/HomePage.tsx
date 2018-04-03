@@ -1,24 +1,18 @@
 import {Component} from 'react';
 import * as React from 'react';
-import {Layout} from 'antd';
+import {WrappedLoginForm} from './LoginForm';
+import DvaProps from '../models/DvaProps';
 
-const {Header, Content, Footer} = Layout;
+class HomePageProps implements DvaProps {
+    public dispatch: any;
+}
 
-export default class HomePage extends Component {
+export default class HomePageComponent extends Component<HomePageProps, {}> {
     render() {
         return (
             <div>
-                <Layout>
-                    <Header>
-                        <h1 style={{color: "white"}}>教务服务系统</h1>
-                    </Header>
-                    <Content style={{minHeight: "500px"}}>
-                        <h2>登录</h2>
-                    </Content>
-                    <Footer>
-                        <div style={{textAlign: "center"}}>&copy;2018 浙江大学</div>
-                    </Footer>
-                </Layout>
+                <h2>用户登录</h2>
+                <WrappedLoginForm dispatch={this.props.dispatch}/>
             </div>
         );
     }
