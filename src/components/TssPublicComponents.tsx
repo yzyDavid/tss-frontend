@@ -47,30 +47,27 @@ export default class NavigationBar extends Component<BarProps>{
                   selectedKeys={[this.props.current]}
                   mode="horizontal"
             >
-                <Menu.Item key="user">
-                    <Icon type="user" />个人信息
-                </Menu.Item>
-                <Menu.Item key="course">
-                    <Icon type="book" />课程信息
-                </Menu.Item>
-                <SubMenu title={<span><Icon type="book" />课程信息</span>}>
-                    <MenuItemGroup title="分组1">
-                        <Menu.Item key="setting:1">选项1</Menu.Item>
-                        <Menu.Item key="setting:2">选项2</Menu.Item>
-                    </MenuItemGroup>
-                    <MenuItemGroup title="分组2">
-                        <Menu.Item key="setting:3">选项3</Menu.Item>
-                        <Menu.Item key="setting:4">选项4</Menu.Item>
+                <SubMenu title={<span><Icon type="user" />个人信息</span>}>
+                    <MenuItemGroup title="个人信息">
+                        <Menu.Item key="user">个人信息查询</Menu.Item>
+                        <Menu.Item key="setting:2">管理用户信息</Menu.Item>
                     </MenuItemGroup>
                 </SubMenu>
+                <Menu.Item key="course">
+                    <Icon type="book" />选课系统
+                </Menu.Item>
+                <Menu.Item key="list">
+                    <Icon type="calendar" />查看课表
+                </Menu.Item>
                 <Menu.Item key="alipay">
-                    <a href="http://www.alipay.com/" target="_blank">导航四 - 链接</a>
+                    <a href="http://www.alipay.com/" target="_blank"><Icon type="message" />
+                        学生论坛</a>
                 </Menu.Item>
                 <Menu.Item key="forum">
-                    <Icon type="message" />论坛
+                    <Icon type="edit" />在线测试
                 </Menu.Item>
                 <Menu.Item key="exam">
-                    <Icon type="edit" />考试信息
+                    <Icon type="bar-chart" />成绩查询
                 </Menu.Item>
             </Menu>
         );

@@ -10,6 +10,7 @@ import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 import NavigationPageComponent from './components/NavigationPage';
 import UserPageComponent from './components/UserPage';
+import UserManagePageComponent from './components/UserManagePage';
 import {tssFetch} from './utils/tssFetch';
 import {LoginFormData} from './components/LoginForm';
 import {userInfo} from "os";
@@ -146,6 +147,10 @@ const UserPage = connect(state => {
     return {...state.userinfo};
 })(UserPageComponent);
 
+const UserManagePage = connect(state => {
+    return {};
+})(UserManagePageComponent);
+
 app.router(({history}) => (
         <Router history={history}>
             <Layout>
@@ -155,6 +160,7 @@ app.router(({history}) => (
                         <Route path="/" exact component={HomePage}/>
                         <Route path="/navi" component={NavigationPage}/>
                         <Route path="/user" component={UserPage}/>
+                        <Route path="/userManage" component={UserManagePage}/>
                     </Switch>
                 </Content>
                 <TssFooter/>
