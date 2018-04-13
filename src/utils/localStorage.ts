@@ -1,4 +1,4 @@
-import GlobalState from '../models/globalState';
+import GlobalState from '../types/globalState';
 import {sessionStorageKey} from '../configs/localStorage';
 
 const saveSession = (state: GlobalState): null => {
