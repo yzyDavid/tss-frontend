@@ -12,6 +12,7 @@ import UserManagePageComponent from './components/UserManagePage';
 import LoginModel from './models/loginModel';
 import NavigationModel from './models/navigationModel';
 import UserInfoModel from './models/userInfoModel';
+import SelectionNaviComponent from "./components/SelectionNavi";
 
 const {Content} = Layout;
 
@@ -39,6 +40,10 @@ const UserManagePage = connect(state => {
     return {};
 })(UserManagePageComponent);
 
+const SelectionNavi = connect(state => {
+    return {};
+})(SelectionNaviComponent);
+
 app.router(({history}) => (
         <Router history={history}>
             <Layout>
@@ -49,6 +54,7 @@ app.router(({history}) => (
                         <Route path="/navi" component={NavigationPage}/>
                         <Route path="/user" component={UserPage}/>
                         <Route path="/userManage" component={UserManagePage}/>
+                        <Route path="/selection" component={SelectionNavi}/>
                     </Switch>
                 </Content>
                 <TssFooter/>

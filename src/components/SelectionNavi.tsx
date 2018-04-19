@@ -7,7 +7,7 @@ import DvaProps from '../types/DvaProps';
 const { Header, Content, Footer, Sider } = Layout;
 const { Column } = Table;
 
-export default class SelectionNavi extends Component{
+export default class SelectionNaviComponent extends Component{
     componentDidMount(){
 
     };
