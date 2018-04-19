@@ -53,11 +53,14 @@ export default class NavigationBar extends Component<BarProps>{
                         <Menu.Item key="setting:2">管理用户信息</Menu.Item>
                     </MenuItemGroup>
                 </SubMenu>
-                <Menu.Item key="course">
-                    <Icon type="book" />选课系统
-                </Menu.Item>
+                <SubMenu title={<span><Icon type="book" />选课系统</span>}>
+                    <MenuItemGroup title="选课系统">
+                        <Menu.Item key="course">选课</Menu.Item>
+                        <Menu.Item key="classtable">查看课表</Menu.Item>
+                    </MenuItemGroup>
+                </SubMenu>
                 <Menu.Item key="list">
-                    <Icon type="calendar" />查看课表
+                    <Icon type="calendar" />培养方案
                 </Menu.Item>
                 <Menu.Item key="alipay">
                     <a href="http://www.alipay.com/" target="_blank"><Icon type="message" />

@@ -38,7 +38,7 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
     };
 
     button3 = {
-        btnName: "查看课表",
+        btnName: "培养方案",
         src: require("src/img/Calendar.png"),
     };
 
@@ -93,7 +93,7 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
                             <Block1 level={this.props.level} />
                         </Col>
                         <Col span={4} offset={2}>
-                            <JumpButton {...this.button2} />
+                            <JumpButton {...this.button2} onClick={this.handleClick.bind(this, {direction: "selection"})} />
                         </Col>
                         <Col span={4} offset={2}>
                             <JumpButton {...this.button3} />
