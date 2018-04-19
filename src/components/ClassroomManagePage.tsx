@@ -14,25 +14,25 @@ interface UserState {
 }
 
 const columns = [
-    {title: '姓名', dataIndex: 'name', key: 'name'},
-    {title: '年级', dataIndex: 'age', key: 'age'},
-    {title: '学号', dataIndex: 'address', key: 'address'},
+    {title: '校区', dataIndex: 'campus', key: 'campus'},
+    {title: '容量', dataIndex: 'capacity', key: 'capacity'},
+    {title: '设备', dataIndex: 'device', key: 'device'},
     {title: '操作', dataIndex: 'x', key: 'x', render: () => <a >编辑</a>},
 ];
 
 const data = [
-    {key: 1, name: '胡彦斌', age: '大一', address: '3150100001', x: ''},
-    {key: 2, name: '吴彦祖', age: '大一', address: '3150100002', x: ''},
-    {key: 3, name: '李大嘴', age: '大一', address: '3150100003', x: ''},
-    {key: 4, name: '小明', age: '大一', address: '3150100004', x: ''},
-    {key: 5, name: '小李', age: '大一', address: '3150100005', x: ''},
-    {key: 6, name: '小红', age: '大一', address: '3150100006', x: ''},
-    {key: 7, name: '小王', age: '大一', address: '3150100007', x: ''},
-    {key: 8, name: '小张', age: '大一', address: '3150100008', x: ''},
-    {key: 9, name: '小天', age: '大一', address: '3150100009', x: ''},
-    {key: 9, name: '小小明', age: '大一', address: '3150100010', x: ''},
-    {key: 9, name: '小天', age: '大一', address: '3150100011', x: ''},
-    {key: 9, name: '小天', age: '大一', address: '3150100012', x: ''},
+    {key: 1, campus: '紫金港', capacity: '50', device: '桌椅', x: ''},
+    {key: 2, campus: '紫金港', capacity: '40', device: '桌椅', x: ''},
+    {key: 3, campus: '紫金港', capacity: '120', device: '电脑', x: ''},
+    {key: 4, campus: '玉泉', capacity: '40', device: '电脑', x: ''},
+    {key: 5, campus: '玉泉', capacity: '40', device: '桌椅', x: ''},
+    {key: 6, campus: '西溪', capacity: '120', device: '桌椅', x: ''},
+    {key: 7, campus: '西溪', capacity: '120', device: '桌椅', x: ''},
+    {key: 8, campus: '华家池', capacity: '120', device: '桌椅', x: ''},
+    {key: 9, campus: '舟山', capacity: '233', device: '桌椅', x: ''},
+    {key: 9, campus: '海宁', capacity: '233', device: '桌椅', x: ''},
+    {key: 9, campus: '之江', capacity: '40', device: '电脑', x: ''},
+    {key: 9, campus: '舟山', capacity: '40', device: '电脑', x: ''},
 
 ];
 // 通过 rowSelection 对象表明需要行选择
@@ -67,31 +67,26 @@ class SearchForm extends Component<UserManageProps, {}> {
         return (
             <div>
                 <Form className="ant-advanced-search-form" layout={"inline"} onSubmit={this.handleSearch}>
-                    <FormItem label="学号或教工号" labelCol={{span: 8, offset: 4}} wrapperCol={{span: 8}}>
-                        {
-                            getFieldDecorator('uid', {
-                                rules: [
-                                    {pattern: /^[0-9]+$/, message: '请输入数字'}
-                                ]
-                            })(
-                                <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} style={{width: 200}}/>
-                            )
-                        }
-                    </FormItem>
-                    <FormItem label="年级" labelCol={{span: 8, offset: 4}} wrapperCol={{span: 8}}>
+                    <FormItem label="校区" labelCol={{span: 8, offset: 4}} wrapperCol={{span: 8}}>
                         {
                             getFieldDecorator('grade', {})(
                                 <Select style={{width: 200}}>
-                                    <Option value="大一">大一</Option>
-                                    <Option value="大二">大二</Option>
-                                    <Option value="大三">大三</Option>
-                                    <Option value="大四">大四</Option>
+                                    <Option value="紫金港">紫金港</Option>
+                                    <Option value="玉泉">玉泉</Option>
+                                    <Option value="西溪">西溪</Option>
+                                    <Option value="华家池">华家池</Option>
+                                    <Option value="之江">之江</Option>
+                                    <Option value="舟山">舟山</Option>
+                                    <Option value="海宁">海宁</Option>
                                 </Select>
                             )
                         }
                     </FormItem>
                     <FormItem labelCol={{span: 8, offset: 24}} wrapperCol={{span: 8, offset: 12}}>
                         <Button style={{width: "250px"}} icon="search" type="primary" htmlType="submit">搜索</Button>
+                    </FormItem>
+                    <FormItem labelCol={{span: 8, offset: 24}} wrapperCol={{span: 8, offset: 12}}>
+                        <Button style={{width: "250px"}} icon="search" type="primary" htmlType="submit">批量录入</Button>
                     </FormItem>
                     {/*<FormItem wrapperCol={{span: 12, offset: 11}}>*/}
                     {/*<Button icon="edit" type="primary" >编辑</Button>*/}
