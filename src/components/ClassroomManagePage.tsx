@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 import {Component} from 'react';
 import {Form, Button, Modal, Input, Icon, Select, Table, Divider} from 'antd';
 import DvaProps from '../types/DvaProps';
@@ -117,7 +117,7 @@ class SearchForm extends Component<UserManageProps, {}> {
 
 const WrappedSearchForm: any = Form.create({})(SearchForm);
 
-export default class UserManagePageComponent extends Component<UserManageProps, UserState> {
+export default class ClassroomManagePage extends Component<UserManageProps, UserState> {
     constructor(props) {
         super(props);
         this.state = {
@@ -139,7 +139,7 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
     render() {
         return (
             <div>
-                <NavigationBar current={"userManage"} dispatch={this.props.dispatch}/>
+                <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
                 <br/>
                 <div>
                     <WrappedSearchForm/>
