@@ -28,7 +28,8 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
 
     button1 = {
         btnName: "个人信息",
-        src: require("src/img/User.png"),
+        src: require("" +
+            "'/img/User.png"),
     };
 
     button2 = {
