@@ -13,6 +13,11 @@ import LoginModel from './models/loginModel';
 import NavigationModel from './models/navigationModel';
 import UserInfoModel from './models/userInfoModel';
 import SelectionNaviComponent from "./components/SelectionNavi";
+import AutoSchedulingComponent from './components/AutoScheduling';
+import ManualSchedulingComponent from './components/ManualScheduling';
+import ClassroomManagePageComponent from './components/ClassroomManagePage';
+import ManualSchModifyComponent from './components/ManualSchModify';
+
 
 const {Content} = Layout;
 
@@ -40,9 +45,27 @@ const UserManagePage = connect(state => {
     return {};
 })(UserManagePageComponent);
 
+
 const SelectionNavi = connect(state => {
     return {};
 })(SelectionNaviComponent);
+
+const AutoSchedulingPage = connect(state => {
+    return {};
+})(AutoSchedulingComponent);
+
+const ManualSchedulingPage = connect(state => {
+    return {};
+})(ManualSchedulingComponent);
+
+const ManualSchModifyPage = connect(state => {
+    return {};
+})(ManualSchModifyComponent);
+
+const ClassroomManagePage = connect(state => {
+    return {};
+})(ClassroomManagePageComponent);
+
 
 app.router(({history}) => (
         <Router history={history}>
@@ -55,6 +78,11 @@ app.router(({history}) => (
                         <Route path="/user" component={UserPage}/>
                         <Route path="/userManage" component={UserManagePage}/>
                         <Route path="/selection" component={SelectionNavi}/>
+                        <Route path="/autoScheduling" component={AutoSchedulingPage} />
+                        <Route path="/manualScheduling" component={ManualSchedulingPage} />
+                        <Route path="/manualSchModify" component={ManualSchModifyPage} />
+                        <Route path="/classroomManage" component={ClassroomManagePage}/>
+
                     </Switch>
                 </Content>
                 <TssFooter/>

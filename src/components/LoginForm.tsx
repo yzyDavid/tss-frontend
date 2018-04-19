@@ -1,7 +1,7 @@
 import {Component, FormEvent, ReactNode} from 'react';
 import * as React from 'react';
 import {Icon, Form, Button, Input, message} from 'antd';
-import DvaProps from '../models/DvaProps';
+import DvaProps from '../types/DvaProps';
 
 const FormItem = Form.Item;
 
