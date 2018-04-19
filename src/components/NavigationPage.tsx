@@ -38,10 +38,20 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
         src: require("src/img/Bookmark.png"),
     };
 
+    button2_stu = {
+        btnName: "选课系统",
+        src: require("src/img/Bookmark.png"),
+    }
+
     button3 = {
         btnName: "自动排课",
         src: require("src/img/Calendar.png"),
     };
+
+    button3_stu = {
+        btnName: "培养方案",
+        src: require("src/img/Book.png"),
+    }
 
     button4 = {
         btnName: "学生论坛",
@@ -87,9 +97,9 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
         };
 
         const Block2 = (props) => {
-            if(props.level === 'student' || props.level === 'teacher'){
+            if(props.level === 'student' ){
                 return (
-                    <JumpButton {...this.button2} onClick={this.handleClick.bind(this, {direction: "user"})} />
+                    <JumpButton {...this.button2_stu} onClick={this.handleClick.bind(this, {direction: "selection"})} />
                 );
             }
             else {
@@ -111,9 +121,9 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
         };
 
         const Block3 = (props) => {
-            if(props.level === 'student' || props.level === 'teacher'){
+            if(props.level === 'student' ){
                 return (
-                    <JumpButton {...this.button3} onClick={this.handleClick.bind(this, {direction: "user"})} />
+                    <JumpButton {...this.button3_stu} onClick={this.handleClick.bind(this, {direction: "user"})} />
                 );
             }
             else {
