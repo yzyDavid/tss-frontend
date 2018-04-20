@@ -1,7 +1,12 @@
 import {Component, FormEvent} from 'react';
 import * as React from 'react';
+<<<<<<< Updated upstream
 import {Icon, Form, Input, message} from 'antd';
 import DvaProps from '../models/DvaProps';
+=======
+import {Icon, Form, Input, message, Button} from 'antd';
+import DvaProps from '../types/DvaProps';
+>>>>>>> Stashed changes
 
 const FormItem = Form.Item;
 const {TextArea} = Input;
@@ -18,10 +23,14 @@ class InfoEditFormData {
     email: string;
     tel: string;
     intro: string;
+    previewVisible: boolean;
+    previewImage: string;
+    fileList: [any];
 }
 
 export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
     componentDidMount() {
+        this.beforeUpload = this.beforeUpload.bind(this);
     };
 
     handleSubmit = (e: FormEvent<{}>) => {
@@ -45,7 +54,17 @@ export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
             intro: this.props.intro
         });
     };
-
+    handlePreview = (file) => {
+        this.setState({
+            previewImage: file.url || file.thumbUrl,
+            previewVisible: true,
+        });
+    };
+    handleUpload = ({ fileList }) => this.setState({ fileList })
+    beforeUpload = (file) => {
+        this.setState({fileList: file, previewVisible: true, previewImage: file.url || file.thumbUrl});
+        return false;
+    };
     render() {
         const {getFieldDecorator} = this.props.form;
         const formItemLayout = {
@@ -96,7 +115,63 @@ export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
                         )
                     }
                 </FormItem>
+                <FormItem>
+                    <Upload beforeUpload={this.beforeUpload} name="logo" action="/photo" method="post" listType="picture" onChange={this.handleUpload} onPreview={this.handlePreview}
+                        {...getFieldDecorator('upload', {
+                                valuePropName: 'fileList',
+                            })}
+                    >
+                        <Button type="ghost">
+                            <Icon type="upload" /> 点击上传
+                        </Button>
+                    </Upload>
+                </FormItem>
             </Form>
+        );
+    }
+}
+import { Upload, Modal } from 'antd';
+
+class PicturesWall extends React.Component {
+    state = {
+        previewVisible: false,
+        previewImage: '',
+        fileList: [{
+            uid: -1,
+            name: 'xxx.png',
+            status: 'done',
+            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+        }],
+    };
+
+    handleCancel = () => this.setState({ previewVisible: false })
+
+    handlePreview = (file) => {
+        this.setState({
+            previewImage: file.url || file.thumbUrl,
+            previewVisible: true,
+        });
+    }
+
+    handleChange = ({ fileList }) => this.setState({ fileList })
+
+    render() {
+        const { previewVisible, previewImage, fileList } = this.state;
+        const uploadButton = (
+            <div>
+                <Icon type="plus" />
+                <div className="ant-upload-text">Upload</div>
+            </div>
+        );
+        return (
+            <div className="clearfix">
+                <Upload onPreview={this.handlePreview} onChange={this.handleChange} >
+                    {fileList.length >= 3 ? null : uploadButton}
+                </Upload>
+                <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+                    <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                </Modal>
+            </div>
         );
     }
 }
