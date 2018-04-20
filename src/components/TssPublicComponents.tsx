@@ -55,7 +55,7 @@ export default class NavigationBar extends Component<BarProps>{
                 </SubMenu>
                 <SubMenu title={<span><Icon type="book" />选课系统</span>}>
                     <MenuItemGroup title="选课系统">
-                        <Menu.Item key="course">选课</Menu.Item>
+                        <Menu.Item key="selection">选课</Menu.Item>
                         <Menu.Item key="classtable">查看课表</Menu.Item>
                     </MenuItemGroup>
                 </SubMenu>

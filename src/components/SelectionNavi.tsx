@@ -1,10 +1,11 @@
 import * as React from 'react';
 import {Component} from 'react';
-import {Layout, Menu, Breadcrumb, Icon, Table, Button, Input, Select, Form} from 'antd';
+import {Layout, Modal, Breadcrumb, Icon, Table, Button, Input, Select, Form} from 'antd';
 import 'antd/dist/antd.css';
-
+import {WrappedCourseDetailForm}from './CourseDetailForm';
 import NavigationBar from './TssPublicComponents'
 import DvaProps from '../types/DvaProps';
+
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Column } = Table;
@@ -20,6 +21,7 @@ interface UserProps extends DvaProps {
 
 interface UserState {
     modalVisible: boolean;
+    courseName: string;
 }
 
 const search = (
@@ -39,48 +41,57 @@ const rowSelection = {
     }),
 };
 
+
 const data = [{
     key: '1',
     id: 20102,
     name: '数据结构基础',
+    teacher: 'Mike',
+    brief: 'eee',
     credit: 3.0,
     semester: '春夏',
 }, {
     key: '2',
     id: 20104,
     name: '软件工程',
+    teacher: 'Mary',
+    brief: 'ddd',
     credit: 2.0,
     semester: '春',
-}, {
-    key: '3',
-    id: 20106,
-    name: '计算机网络',
-    credit: 3.5,
-    semester: '夏',
-},{
-    key: '4',
-    id: 20109,
-    name: '人工智能',
-    credit: 3.5,
-    semester: '夏',
-},{
-    key: '5',
-    id: 20111,
-    name: 'B/S体系设计',
-    credit: 4,
-    semester: '春夏',
 }
 ];
+
 
 export default class SelectionNaviComponent extends Component<UserProps, UserState>{
     constructor(props){
         super(props);
-
+        this.state = {
+            modalVisible: false,
+            courseName: "",
+        }
     }
+    ChooseCourse() {
+
+}
     componentDidMount(){
 
     };
+
     render(){
+        const columns = [{
+            title: "课程代码",
+            dataIndex: "id",
+        },{
+            title: "课程名称",
+            dataIndex: "name",
+            render: (text, record, index) => <a onClick={this.ChooseCourse}>{text}</a>
+        },{
+            title: "学分",
+            dataIndex: "credit"
+        },{
+            title: "学期",
+            dataIndex: 'semester'
+        }];
         return(
             <Layout>
                 <div>
@@ -103,30 +114,16 @@ export default class SelectionNaviComponent extends Component<UserProps, UserSta
                             <FormItem>
                             <Button type="primary" icon="search">搜索</Button>
                             </FormItem>
+                            <FormItem>
+                                <span>{this.props.tel}</span>
+                            </FormItem>
                         </Form>
                         <br/>
-                        <Table dataSource={data} rowSelection={rowSelection}>
-                            <Column
-                                title="课程代码"
-                                dataIndex="id"
-                                key="id"
-                            />
-                            <Column
-                                title="课程名称"
-                                dataIndex="name"
-                                key="name"
-                            />
-                            <Column
-                                title="学分"
-                                dataIndex="credit"
-                                key="credit"
-                            />
-                            <Column
-                                title="学期"
-                                dataIndex='semester'
-                                key='semester'/>
+                        <Table dataSource={data} rowSelection={rowSelection} columns={columns}>
+
                         </Table>)
                     </div>
+
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
                     浙江大学本科生院 ©2018 Created by Group A
