@@ -1,6 +1,6 @@
 ﻿import * as React from 'react';
 import {Component} from 'react';
-import {Form, Button, Modal, Input, Icon, Select, Table, Divider} from 'antd';
+import {Form, Button, Modal, Input, Icon, Select, Table, Divider,Upload} from 'antd';
 import DvaProps from '../types/DvaProps';
 import {WrappedInfoEditForm} from './InfoEditForm';
 import NavigationBar from './TssPublicComponents';
@@ -15,24 +15,26 @@ interface UserState {
 
 const columns = [
     {title: '校区', dataIndex: 'campus', key: 'campus'},
+    {title: '教学楼', dataIndex: 'building', key: 'building'},
+    {title: '教室', dataIndex: 'room', key: 'room'},
     {title: '容量', dataIndex: 'capacity', key: 'capacity'},
     {title: '设备', dataIndex: 'device', key: 'device'},
     {title: '操作', dataIndex: 'x', key: 'x', render: () => <a >编辑</a>},
 ];
 
 const data = [
-    {key: 1, campus: '紫金港', capacity: '50', device: '桌椅', x: ''},
-    {key: 2, campus: '紫金港', capacity: '40', device: '桌椅', x: ''},
-    {key: 3, campus: '紫金港', capacity: '120', device: '电脑', x: ''},
-    {key: 4, campus: '玉泉', capacity: '40', device: '电脑', x: ''},
-    {key: 5, campus: '玉泉', capacity: '40', device: '桌椅', x: ''},
-    {key: 6, campus: '西溪', capacity: '120', device: '桌椅', x: ''},
-    {key: 7, campus: '西溪', capacity: '120', device: '桌椅', x: ''},
-    {key: 8, campus: '华家池', capacity: '120', device: '桌椅', x: ''},
-    {key: 9, campus: '舟山', capacity: '233', device: '桌椅', x: ''},
-    {key: 9, campus: '海宁', capacity: '233', device: '桌椅', x: ''},
-    {key: 9, campus: '之江', capacity: '40', device: '电脑', x: ''},
-    {key: 9, campus: '舟山', capacity: '40', device: '电脑', x: ''},
+    {key: 1, campus: '紫金港', building:'东2',room:'302',capacity: '50', device: '桌椅', x: ''},
+    {key: 2, campus: '紫金港', building:'东1',room:'404',capacity: '40', device: '桌椅', x: ''},
+    {key: 3, campus: '紫金港', building:'西1',room:'505',capacity: '120', device: '电脑', x: ''},
+    {key: 4, campus: '玉泉', building:'教4',room:'233',capacity: '40', device: '电脑', x: ''},
+    {key: 5, campus: '玉泉', building:'曹光彪西1',room:'111',capacity: '40', device: '桌椅', x: ''},
+    {key: 6, campus: '西溪', building:'楼1',room:'777',capacity: '120', device: '桌椅', x: ''},
+    {key: 7, campus: '西溪', building:'楼2',room:'666',capacity: '120', device: '桌椅', x: ''},
+    {key: 8, campus: '华家池', building:'楼1',room:'110',capacity: '120', device: '桌椅', x: ''},
+    {key: 9, campus: '舟山', building:'楼2',room:'119',capacity: '233', device: '桌椅', x: ''},
+    {key: 9, campus: '海宁', building:'楼3',room:'120',capacity: '233', device: '桌椅', x: ''},
+    {key: 9, campus: '之江', building:'楼4',room:'911',capacity: '40', device: '电脑', x: ''},
+    {key: 9, campus: '舟山', building:'楼5',room:'999',capacity: '40', device: '电脑', x: ''},
 
 ];
 // 通过 rowSelection 对象表明需要行选择
@@ -86,7 +88,9 @@ class SearchForm extends Component<UserManageProps, {}> {
                         <Button style={{width: "250px"}} icon="search" type="primary" htmlType="submit">搜索</Button>
                     </FormItem>
                     <FormItem labelCol={{span: 8, offset: 24}} wrapperCol={{span: 8, offset: 12}}>
-                        <Button style={{width: "250px"}} icon="search" type="primary" htmlType="submit">批量录入</Button>
+                        <Upload>
+                            <Button style={{width: "250px"}}  type="primary" htmlType="submit">批量录入</Button>
+                        </Upload>
                     </FormItem>
                     {/*<FormItem wrapperCol={{span: 12, offset: 11}}>*/}
                     {/*<Button icon="edit" type="primary" >编辑</Button>*/}
