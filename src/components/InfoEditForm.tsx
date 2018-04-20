@@ -1,12 +1,8 @@
 import {Component, FormEvent} from 'react';
 import * as React from 'react';
-<<<<<<< Updated upstream
-import {Icon, Form, Input, message} from 'antd';
-import DvaProps from '../models/DvaProps';
-=======
 import {Icon, Form, Input, message, Button} from 'antd';
 import DvaProps from '../types/DvaProps';
->>>>>>> Stashed changes
+
 
 const FormItem = Form.Item;
 const {TextArea} = Input;
