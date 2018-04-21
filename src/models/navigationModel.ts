@@ -19,7 +19,7 @@ const model = {
                 case "manualScheduling": yield put(routerRedux.push('/manualScheduling')); break;
                 case "manualSchModify": yield put(routerRedux.push('/manualSchModify')); break;
                 case "classroomManage": yield put(routerRedux.push('/classroomManage')); break;
-
+                case "courseTable": yield  put(routerRedux.push('/courseTable')); break;
             }
             return;
         }

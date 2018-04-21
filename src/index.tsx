@@ -19,6 +19,7 @@ import ClassroomManagePageComponent from './components/ClassroomManagePage';
 import ManualSchModifyComponent from './components/ManualSchModify';
 import NavigationBar from './components/TssPublicComponents'
 import {log} from "util";
+import CourseTableComponent from "./components/CourseTable";
 
 const {Content} = Layout;
 
@@ -67,6 +68,9 @@ const ClassroomManagePage = connect(state => {
     return {};
 })(ClassroomManagePageComponent);
 
+const CourseTable = connect(state => {
+    return {};
+})(CourseTableComponent);
 
 app.router(({history}) => (
         <Router history={history}>
@@ -83,7 +87,7 @@ app.router(({history}) => (
                         <Route path="/manualScheduling" component={ManualSchedulingPage} />
                         <Route path="/manualSchModify" component={ManualSchModifyPage} />
                         <Route path="/classroomManage" component={ClassroomManagePage}/>
-
+                        <Route path="/courseTable" component={CourseTable}/>
                     </Switch>
                 </Content>
                 <TssFooter/>

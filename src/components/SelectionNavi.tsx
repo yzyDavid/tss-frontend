@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react';
-import {Layout, Modal, Breadcrumb, Icon, Table, Button, Input, Select, Form} from 'antd';
+import {Layout, Modal, Breadcrumb,  Table, Button, Input, Select, Form} from 'antd';
 import 'antd/dist/antd.css';
 import {WrappedCourseDetailForm}from './CourseDetailForm';
 import NavigationBar from './TssPublicComponents'
@@ -11,6 +11,7 @@ const { Header, Content, Footer, Sider } = Layout;
 const { Column } = Table;
 const Option = Select.Option;
 const FormItem = Form.Item;
+const Search = Input.Search;
 
 interface UserProps extends DvaProps {
     uid: string;
@@ -25,7 +26,7 @@ interface UserState {
 }
 
 const search = (
-    <Select defaultValue="课程名" style={{width: 90}}>
+    <Select defaultValue="课程名" style={{width: 85}} onChange={(value) => {console.log(value)}}>
         <Option value="课程名">课程名</Option>
         <Option value="教师">教师</Option>
     </Select>
@@ -105,6 +106,7 @@ export default class SelectionNaviComponent extends Component<UserProps, UserSta
         this.setState({ modalVisible: modalVisible });
     };
 
+    /*handleSearch(value)*/
     componentDidMount(){
 
     };
@@ -142,10 +144,12 @@ export default class SelectionNaviComponent extends Component<UserProps, UserSta
                     <div style={{ padding: 24, background: '#fff', minHeight: 780 }}>
                         <Form layout="inline" >
                             <FormItem>
-                            <Input addonBefore={search} defaultValue="数据结构基础" />
-                            </FormItem>
-                            <FormItem>
-                            <Button type="primary" icon="search">搜索</Button>
+                                <Search
+                                    addonBefore={search}
+                                    placeholder="input search text"
+                                    onSearch={value => console.log(value)}
+                                    enterButton
+                                />
                             </FormItem>
                             <FormItem>
                                 <span>{this.props.tel}</span>
