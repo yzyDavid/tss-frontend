@@ -17,7 +17,8 @@ import AutoSchedulingComponent from './components/AutoScheduling';
 import ManualSchedulingComponent from './components/ManualScheduling';
 import ClassroomManagePageComponent from './components/ClassroomManagePage';
 import ManualSchModifyComponent from './components/ManualSchModify';
-
+import NavigationBar from './components/TssPublicComponents'
+import {log} from "util";
 
 const {Content} = Layout;
 

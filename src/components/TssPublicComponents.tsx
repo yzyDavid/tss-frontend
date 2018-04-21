@@ -41,6 +41,7 @@ export default class NavigationBar extends Component<BarProps>{
     handleClick(e) {
         if(e.key !== this.props.current)this.props.dispatch({type:'navigation/jump', payload: {direction: e.key}});
     };
+
     render() {
         return (
             <Menu onClick={this.handleClick}

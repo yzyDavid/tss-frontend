@@ -15,7 +15,7 @@ const model = {
     namespace: 'login',
     state: {
         ...state,
-        level: 'student'
+        level: 'manager'
     },
     reducers: {
         saveSession(st) {

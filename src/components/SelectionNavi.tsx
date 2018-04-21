@@ -21,7 +21,7 @@ interface UserProps extends DvaProps {
 
 interface UserState {
     modalVisible: boolean;
-    courseName: string;
+    courseIndex: number;
 }
 
 const search = (
@@ -41,7 +41,6 @@ const rowSelection = {
     }),
 };
 
-
 const data = [{
     key: '1',
     id: 20102,
@@ -58,21 +57,54 @@ const data = [{
     brief: 'ddd',
     credit: 2.0,
     semester: '春',
+}, {
+    key: '3',
+    id: 20106,
+    name: '计算机网络',
+    teacher: 'Joe',
+    brief: 'ccc',
+    credit: 3.5,
+    semester: '夏',
+},{
+    key: '4',
+    id: 20109,
+    name: '人工智能',
+    teacher: 'Kathy',
+    brief: 'bbb',
+    credit: 3.5,
+    semester: '夏',
+},{
+    key: '5',
+    id: 20111,
+    name: 'B/S体系设计',
+    teacher: 'Steve',
+    brief: 'aaa',
+    credit: 4,
+    semester: '春夏',
 }
-];
 
+];
 
 export default class SelectionNaviComponent extends Component<UserProps, UserState>{
     constructor(props){
         super(props);
         this.state = {
             modalVisible: false,
-            courseName: "",
+            courseIndex: 0,
         }
     }
-    ChooseCourse() {
 
-}
+    formRef: any;
+    ChooseCourse(index, modalVisible) {
+        if(this.formRef && modalVisible === true) this.formRef.refresh();
+        this.setState({ modalVisible: modalVisible, courseIndex: index });
+        console.log(index);
+        console.log(data[index].name);
+    }
+    setModalVisible(modalVisible) {
+        this.setState({ modalVisible: modalVisible });
+    };
+
     componentDidMount(){
 
     };
@@ -84,7 +116,7 @@ export default class SelectionNaviComponent extends Component<UserProps, UserSta
         },{
             title: "课程名称",
             dataIndex: "name",
-            render: (text, record, index) => <a onClick={this.ChooseCourse}>{text}</a>
+            render: (text, record, index) => <a onClick={()=>this.ChooseCourse(index, true)}>{text}</a>
         },{
             title: "学分",
             dataIndex: "credit"
@@ -92,6 +124,7 @@ export default class SelectionNaviComponent extends Component<UserProps, UserSta
             title: "学期",
             dataIndex: 'semester'
         }];
+
         return(
             <Layout>
                 <div>
@@ -117,6 +150,16 @@ export default class SelectionNaviComponent extends Component<UserProps, UserSta
                             <FormItem>
                                 <span>{this.props.tel}</span>
                             </FormItem>
+                            <Modal
+                                title="查看课程详情"
+                                wrapClassName="vertical-center-modal"
+                                visible={this.state.modalVisible}
+                                onCancel={() => this.setModalVisible(false)}
+                                onOk={() => this.setModalVisible(false)}
+
+                            >
+                                <WrappedCourseDetailForm  wrappedComponentRef={(inst) => this.formRef = inst} dispatch={this.props.dispatch} name={data[this.state.courseIndex].name} id={data[this.state.courseIndex].id} teacher={data[this.state.courseIndex].teacher} brief={data[this.state.courseIndex].brief}/>
+                            </Modal>
                         </Form>
                         <br/>
                         <Table dataSource={data} rowSelection={rowSelection} columns={columns}>
