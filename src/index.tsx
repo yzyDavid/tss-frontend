@@ -12,16 +12,12 @@ import UserManagePageComponent from './components/UserManagePage';
 import LoginModel from './models/loginModel';
 import NavigationModel from './models/navigationModel';
 import UserInfoModel from './models/userInfoModel';
+import ForumLoginComponent from './components/ForumLogin'
+
+
 
 const {Content} = Layout;
 
-const app = dva({
-    history: browserHistory
-});
-
-app.model(LoginModel);
-app.model(NavigationModel);
-app.model(UserInfoModel);
 const HomePage = connect(state => {
     return {}
 })(HomePageComponent);
@@ -39,19 +35,37 @@ const UserManagePage = connect(state => {
     return {};
 })(UserManagePageComponent);
 
+
+const ForumLogin = connect(state => {
+    return {}
+})(ForumLoginComponent);
+
+
+const app = dva({
+    history: browserHistory
+});
+
+
+
+app.model(LoginModel);
+app.model(NavigationModel);
+app.model(UserInfoModel);
+
+
 app.router(({history}) => (
         <Router history={history}>
             <Layout>
-                <TssHeader/>
+
                 <Content style={{minHeight: '300px'}}>
                     <Switch>
-                        <Route path="/" exact component={HomePage}/>
-                        <Route path="/navi" component={NavigationPage}/>
-                        <Route path="/user" component={UserPage}/>
-                        <Route path="/userManage" component={UserManagePage}/>
+
+                        <Route path="/"  component={ForumLogin}/>
+                        {/*<Route path="/navi" component={NavigationPage}/>*/}
+                        {/*<Route path="/user" component={UserPage}/>*/}
+                        {/*<Route path="/userManage" component={UserManagePage}/>*/}
                     </Switch>
                 </Content>
-                <TssFooter/>
+
             </Layout>
         </Router>
     )
