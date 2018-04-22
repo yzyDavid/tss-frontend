@@ -1,8 +1,8 @@
 import {Component} from 'react';
 import * as React from 'react';
-import {WrappedLoginForm} from './LoginForm';
+import {ForumLoginComponent, ForumLoginForm} from './ForumLogin';
 import DvaProps from '../models/DvaProps';
-
+import "./css/HomePage.css"
 class HomePageProps implements DvaProps {
     public dispatch: any;
 }
@@ -10,9 +10,10 @@ class HomePageProps implements DvaProps {
 export default class HomePageComponent extends Component<HomePageProps, {}> {
     render() {
         return (
-            <div>
-                <h2>用户登录</h2>
-                <WrappedLoginForm dispatch={this.props.dispatch}/>
+            <div style={{position: "fixed", left: screen.width/2 - 150}}  className="forum-login-component">
+                {/*<h2 style={{textAlign:"center"}}>用户登录</h2>*/}
+                <ForumLoginForm   dispatch={this.props.dispatch} />
+
             </div>
         );
     }

@@ -68,7 +68,7 @@ export class LoginForm extends Component<FormProps, LoginFormData> {
                     }
                 </FormItem>
                 <FormItem {...formItemLayout}>
-                    <Button icon="copy" type="primary" htmlType="submit">登录</Button>
+                    <Button icon="copy" type="primary" htmlType="submit"  >登录</Button>
                 </FormItem>
             </Form>
         );
