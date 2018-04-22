@@ -4,6 +4,14 @@ import * as React from 'react';
 import {Layout, message} from 'antd';
 import {TssFooter, TssHeader} from './components/TssPublicComponents';
 import HomePageComponent from './components/HomePage';
+import TestsysHomePageComponent from './components/TestsysHomePage';
+import TestsysTeacherPageComponent from './components/TestsysTeacher';
+import TestsysStudentPageComponent from './components/TestsysStudent';
+import TestsysTeacherQuestionPageComponent from './components/TestsysTeacherQuestion';
+import TestsysTeacherPaperPageComponent from './components/TestsysTeacherPaper';
+import TestsysTeacherQuestionInsertComponent from './components/TestsysTeacherQuestionInsert';
+import TestsysTeacherQuestionSearchComponent from './components/TestsysTeacherQuestionSearch'
+
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 import NavigationPageComponent from './components/NavigationPage';
@@ -12,6 +20,7 @@ import UserManagePageComponent from './components/UserManagePage';
 import LoginModel from './models/loginModel';
 import NavigationModel from './models/navigationModel';
 import UserInfoModel from './models/userInfoModel';
+import TestsysTeacherQuestionModel from './models/TestsysTeacherQuestionModel';
 
 const {Content} = Layout;
 
@@ -22,6 +31,7 @@ const app = dva({
 app.model(LoginModel);
 app.model(NavigationModel);
 app.model(UserInfoModel);
+app.model(TestsysTeacherQuestionModel);
 const HomePage = connect(state => {
     return {}
 })(HomePageComponent);
@@ -39,6 +49,36 @@ const UserManagePage = connect(state => {
     return {};
 })(UserManagePageComponent);
 
+const TestsysHomePage = connect (state => {
+    const {uid, level} = state.login;
+    return {level: level, uid: uid}
+})(TestsysHomePageComponent);
+
+const TestsysTeacherPage = connect(state => {
+    const {uid, level} = state.login;
+    return {level: level, uid: uid}
+})(TestsysTeacherPageComponent);
+
+const TestsysStudentPage = connect(state => {
+    return {...state.userinfo};
+})(TestsysStudentPageComponent);
+
+const TestsysTeacherQuestionPage = connect(state => {
+    return {...state.userinfo};
+})(TestsysTeacherQuestionPageComponent);
+
+const TestsysTeacherPaperPage = connect(state => {
+    return {...state.userinfo};
+})(TestsysTeacherPaperPageComponent);
+
+const TestsysTeacherQuestionInsertPage = connect(state => {
+    return {...state.userinfo};
+})(TestsysTeacherQuestionInsertComponent);
+
+const TestsysTeacherQuestionSearchPage = connect(state => {
+    return {...state.userinfo};
+})(TestsysTeacherQuestionSearchComponent);
+
 app.router(({history}) => (
         <Router history={history}>
             <Layout>
@@ -49,6 +89,13 @@ app.router(({history}) => (
                         <Route path="/navi" component={NavigationPage}/>
                         <Route path="/user" component={UserPage}/>
                         <Route path="/userManage" component={UserManagePage}/>
+                        <Route path="/testsys" component={TestsysHomePage}/>
+                        <Route path="/testsys_teacher" component={TestsysTeacherPage}/>
+                        <Route path="/testsys_student" component={TestsysStudentPage}/>
+                        <Route path="/testsys_teacher_question" component={TestsysTeacherQuestionPage}/>
+                        <Route path="/testsys_teacher_paper" component={TestsysTeacherPaperPage}/>
+                        <Route path="/testsys_teacher_question_insert" component={TestsysTeacherQuestionInsertPage}/>
+                        <Route path="/testsys_teacher_question_search" component={TestsysTeacherQuestionSearchPage}/>
                     </Switch>
                 </Content>
                 <TssFooter/>
