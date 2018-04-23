@@ -1,123 +1,57 @@
 import * as React from 'react';
 import {Component} from 'react';
-import {Form, Button, Table, Select} from 'antd';
+import {Form, Button, Table, Select, message} from 'antd';
 import DvaProps from '../types/DvaProps';
 import NavigationBar from './TssPublicComponents';
-
-interface UserManageProps extends DvaProps {
-    form: any;
-}
-
-interface UserState {
-    modalVisible: boolean;
-}
-
-interface roomResource {
-    data: any;
-    pagination: any;
-    loading: boolean;
-}
+import {FormEvent} from "react";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
-
 const columns = [
     {title: '地点', dataIndex: 'classroomAddress', key: 'classroomAddress'},
     {title: '时间', dataIndex: 'classroomTime', key: 'classroomTime'},
+    {title: '容量', dataIndex: 'classroomCapacity', key: 'classroomCapacity'},
     {tile: '操作', key: 'operation', render:()=>(<a>修改至该时间</a>)}
     ];
 
-const data = [
-    {key: 1, classroomAddress: '东一102', classroomTime: '16:30-18:30'},
-    {key: 2, classroomAddress: '东二202', classroomTime: '16:30-18:30'},
-    {key: 3, classroomAddress: '西一223', classroomTime: '16:30-18:30'},
-    {key: 4, classroomAddress: '西二308', classroomTime: '16:30-18:30'},
-    {key: 5, classroomAddress: '东一105', classroomTime: '16:30-18:30'},
-];
 
-/*
-class classroomData extends Component<UserManageProps,roomResource>{
-    constructor(props){
-        super(props);
-        this.state = {
-            data: [],
-            pagination: {},
-            loading: false,
-        }
-        this.handleTableChange = this.handleTableChange.bind(this);
-    }
+var initData = [
+            {key: 1, classroomAddress: '东一102', classroomTime: '16:30-18:30', classroomCapacity: '100'},
+            {key: 2, classroomAddress: '东二202', classroomTime: '16:30-18:30', classroomCapacity: '50'},
+            {key: 3, classroomAddress: '西一223', classroomTime: '16:30-18:30', classroomCapacity: '100'},
+            {key: 4, classroomAddress: '西二308', classroomTime: '16:30-18:30', classroomCapacity: '200'},
+            {key: 5, classroomAddress: '东一105', classroomTime: '16:30-18:30', classroomCapacity: '150'},
+        ];
 
-    handleTableChange(pagination, filters, sorter) {
-        const pager = this.state.pagination;
-        pager.current = pagination.current;
-        this.setState({
-            pagination: pager,
-        });
-        this.fetch({
-            results: pagination.pageSize,
-            page: pagination.current,
-            sortField: sorter.field,
-            sortOrder: sorter.order,
-            ...filters,
-        });
-    }
-    fetch(params = {}) {
-        console.log('请求参数：', params);
-        this.setState({ loading: true });
-        request({
-            url: 'http://api.randomuser.me',
-            method: 'get',
-            data: {
-                results: 10,
-                ...params,
-            },
-            type: 'json',
-        }).then(data => {
-            const pagination = this.state.pagination;
-            // Read total count from server
-            // pagination.total = data.totalCount;
-            pagination.total = 200;
-            this.setState({
-                loading: false,
-                data: data.results,
-                pagination,
-            });
-        });
-    }
-    componentDidMount() {
-        this.fetch();
-    }
-    render() {
-        return (
-            <Table columns={columns}
-                   rowKey={record => record.registered}
-                   dataSource={this.state.data}
-                   pagination={this.state.pagination}
-                   loading={this.state.loading}
-                   onChange={this.handleTableChange}
-            />
-        );
-    }
-
+interface ManualSchModifyProps extends DvaProps {
+    form: any;
+    dataSource: any;
 }
-*/
 
-class SearchForm extends Component<UserManageProps, {}> {
-    handleSearch = (e) => {
+export class FreeClassroomFormData {
+    campus: string;
+    classroomDate: string;
+    classroomTime: string;
+}
+
+class SearchForm extends Component<ManualSchModifyProps> {
+    handleSubmit = (e: FormEvent<{}>) => {
         e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            console.log('Received values of form: ', values);
+        const formProps = this.props.form;
+        formProps.validateFieldsAndScroll((err: any, values: FreeClassroomFormData) => {
+            if (err) {
+                return;
+            }
+            this.props.dispatch({type: 'freeclassroominfo/freeClassroomInfo', payload: values});
+            console.log(this.props.dataSource);
         });
-    }
-    handleReset = () => {
-        this.props.form.resetFields();
     }
 
     render() {
         const {getFieldDecorator} = this.props.form;
         return (
             <div>
-                <Form className="ant-advanced-search-form" layout={"inline"} onSubmit={this.handleSearch}>
+                <Form layout={"inline"} onSubmit={this.handleSubmit.bind(this)}>
                     <FormItem
                         label="校区" style={{paddingLeft: 20}}>
                         {getFieldDecorator('campus', {})(
@@ -161,11 +95,6 @@ class SearchForm extends Component<UserManageProps, {}> {
                     </FormItem>
                     <Button icon="search" type="primary" htmlType="submit">搜索</Button>
                 </Form>
-                <Table
-                    style={{width: "100%", background: "#ffffff"}}
-                    columns={columns}
-                    dataSource={data}
-                    className="table"/>
             </div>
         );
     }
@@ -173,23 +102,9 @@ class SearchForm extends Component<UserManageProps, {}> {
 
 const WrappedSearchForm: any = Form.create({})(SearchForm);
 
-export default class ManualSchModifyComponent extends Component<UserManageProps, UserState> {
+export default class ManualSchModifyComponent extends Component<ManualSchModifyProps> {
     constructor(props) {
         super(props);
-        this.state = {
-            modalVisible: false
-        };
-    }
-
-    formRef: any;
-
-    setModalVisible(modalVisible) {
-        if (this.formRef && modalVisible === true) this.formRef.refresh();
-        this.setState({modalVisible: modalVisible});
-    };
-
-    handleOk(e) {
-        // if(!this.formRef.handleSubmit(e)) this.setModalVisible(false);
     }
 
     render() {
@@ -198,7 +113,11 @@ export default class ManualSchModifyComponent extends Component<UserManageProps,
                 <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
                 <br/>
                 <div>
-                    <WrappedSearchForm/>
+                    <WrappedSearchForm dispatch={this.props.dispatch}/>
+                    <Table
+                        style={{width: "100%", background: "#ffffff"}}
+                        columns={columns}
+                        dataSource={initData}/>
                 </div>
             </div>
         );

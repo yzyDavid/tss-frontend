@@ -6,15 +6,16 @@ import {TssFooter, TssHeader} from './components/TssPublicComponents';
 import HomePageComponent from './components/HomePage';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
+import LoginModel from './models/loginModel';
+import NavigationModel from './models/navigationModel';
+import FreeClassroomInfoModel from './models/FreeClassroomInfoModel';
+import UserInfoModel from './models/userInfoModel';
 import NavigationPageComponent from './components/NavigationPage';
 import UserPageComponent from './components/UserPage';
 import UserManagePageComponent from './components/UserManagePage';
-import LoginModel from './models/loginModel';
-import NavigationModel from './models/navigationModel';
-import UserInfoModel from './models/userInfoModel';
+import ClassroomManagePageComponent from './components/ClassroomManagePage';
 import AutoSchedulingComponent from './components/AutoScheduling';
 import ManualSchedulingComponent from './components/ManualScheduling';
-import ClassroomManagePageComponent from './components/ClassroomManagePage';
 import ManualSchModifyComponent from './components/ManualSchModify';
 
 const {Content} = Layout;
@@ -26,6 +27,8 @@ const app = dva({
 app.model(LoginModel);
 app.model(NavigationModel);
 app.model(UserInfoModel);
+app.model(FreeClassroomInfoModel);
+
 const HomePage = connect(state => {
     return {}
 })(HomePageComponent);
@@ -52,7 +55,10 @@ const ManualSchedulingPage = connect(state => {
 })(ManualSchedulingComponent);
 
 const ManualSchModifyPage = connect(state => {
-    return {};
+    //console.log('this is the connect   ');
+    const {freeclassroominfo} = state.freeclassroominfo;
+    console.log(state.freeclassroominfo);
+    return{datasoure: freeclassroominfo};
 })(ManualSchModifyComponent);
 
 const ClassroomManagePage = connect(state => {
