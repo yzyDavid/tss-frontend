@@ -34,6 +34,7 @@ class LoadButton extends Component<NaviProps,loadingState>{
     render() {
         return (
             <Button
+                style={{marginLeft: 35}}
                 type="primary"
                 loading={this.state.loading}
                 onClick={this.handleClick}>
