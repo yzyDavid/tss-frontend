@@ -25,20 +25,27 @@ var initData = [
 
 interface ManualSchModifyProps extends DvaProps {
     form: any;
-    dataSource: string;
+    dataSource: any;
 }
 
+interface comonentFlush {
+    reflush: boolean;
+}
 export class FreeClassroomFormData {
     campus: string;
     classroomDate: string;
     classroomTime: string;
 }
 
-class SearchForm extends Component<ManualSchModifyProps> {
+class SearchForm extends Component<ManualSchModifyProps,comonentFlush> {
     constructor(props){
         super(props);
+        this.state = {
+            reflush : false,
+        }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
     handleSubmit = (e: FormEvent<{}>) => {
         e.preventDefault();
         const formProps = this.props.form;
@@ -47,16 +54,13 @@ class SearchForm extends Component<ManualSchModifyProps> {
                 return;
             }
             this.props.dispatch({type: 'freeclassroominfo/freeClassroomInfo', payload: values});
-            console.log('submit');
-            console.log(this.props.dataSource);
-            
+            initData=this.props.dataSource;
+            this.setState({reflush:true});
         });
     };
 
     render() {
         const {getFieldDecorator} = this.props.form;
-        console.log('render');
-        console.log(this.props.dataSource);
         return (
             <div>
                 <Form layout={"inline"} onSubmit={this.handleSubmit.bind(this)}>
@@ -102,6 +106,10 @@ class SearchForm extends Component<ManualSchModifyProps> {
                         )}
                     </FormItem>
                     <Button icon="search" type="primary" htmlType="submit">搜索</Button>
+                    <Table
+                        style={{width: "100%", background: "#ffffff"}}
+                        columns={columns}
+                        dataSource={initData}/>
                 </Form>
             </div>
         );
@@ -116,16 +124,14 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
     }
 
     render() {
+        console.log('main render');
+        console.log(initData);
         return (
             <div>
                 <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
                 <br/>
                 <div>
                     <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource}/>
-                    <Table
-                        style={{width: "100%", background: "#ffffff"}}
-                        columns={columns}
-                        dataSource={initData}/>
                 </div>
             </div>
         );
