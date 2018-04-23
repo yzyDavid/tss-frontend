@@ -3,7 +3,7 @@ import {message} from 'antd';
 import {FreeClassroomFormData} from '../components/ManualSchModify';
 
 const model = {
-    namespace: 'freeClassroomInfo',
+    namespace: 'freeclassroominfo',
     state: {
         data: [
             {key: 1, classroomAddress: '东一102', classroomTime: '16:30-18:30', classroomCapacity: '100'},

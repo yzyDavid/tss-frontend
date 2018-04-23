@@ -55,8 +55,7 @@ const ManualSchedulingPage = connect(state => {
 })(ManualSchedulingComponent);
 
 const ManualSchModifyPage = connect(state => {
-    //console.log('this is the connect   ');
-    console.log(state.freeclassroominfo);
+    //console.log(state.freeclassroominfo);
     return{...state.freeclassroominfo};
 })(ManualSchModifyComponent);
 
