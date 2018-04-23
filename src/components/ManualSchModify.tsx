@@ -25,7 +25,7 @@ var initData = [
 
 interface ManualSchModifyProps extends DvaProps {
     form: any;
-    dataSource: any;
+    dataSource: string;
 }
 
 export class FreeClassroomFormData {
@@ -35,6 +35,10 @@ export class FreeClassroomFormData {
 }
 
 class SearchForm extends Component<ManualSchModifyProps> {
+    constructor(props){
+        super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
     handleSubmit = (e: FormEvent<{}>) => {
         e.preventDefault();
         const formProps = this.props.form;
@@ -45,7 +49,7 @@ class SearchForm extends Component<ManualSchModifyProps> {
             this.props.dispatch({type: 'freeclassroominfo/freeClassroomInfo', payload: values});
             console.log(this.props.dataSource);
         });
-    }
+    };
 
     render() {
         const {getFieldDecorator} = this.props.form;
@@ -113,7 +117,7 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
                 <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
                 <br/>
                 <div>
-                    <WrappedSearchForm dispatch={this.props.dispatch}/>
+                    <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource}/>
                     <Table
                         style={{width: "100%", background: "#ffffff"}}
                         columns={columns}
