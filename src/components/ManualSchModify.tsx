@@ -43,12 +43,16 @@ class SearchForm extends Component<ManualSchModifyProps> {
                 return;
             }
             this.props.dispatch({type: 'freeclassroominfo/freeClassroomInfo', payload: values});
+            console.log('submit');
             console.log(this.props.dataSource);
+            
         });
     }
 
     render() {
         const {getFieldDecorator} = this.props.form;
+        console.log('render');
+        console.log(this.props.dataSource);
         return (
             <div>
                 <Form layout={"inline"} onSubmit={this.handleSubmit.bind(this)}>

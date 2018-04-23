@@ -12,6 +12,8 @@ const model = {
     },
     reducers: {
         updateClassroomInfo(st, payload) {
+            //console.log('update ');
+            //console.log(payload.payload);
             return {...st, ...payload.payload};
         },
     },
@@ -28,8 +30,9 @@ const model = {
     },
     effects: {
         * freeClassroomInfo(payload: { payload: FreeClassroomFormData }, {call, put}) {
-            console.log(payload);
-            // const msg = payload.payload;
+            //console.log('freeClass ');
+            //console.log(payload.payload);
+            const msg = payload.payload;
             // //const tssFetch = (url: string, method: httpMethod, payload: string | object)
             // //返回一个js对象
             // const response = yield call(tssFetch, '/classroom/info', 'GET', msg);
