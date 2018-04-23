@@ -56,9 +56,8 @@ const ManualSchedulingPage = connect(state => {
 
 const ManualSchModifyPage = connect(state => {
     //console.log('this is the connect   ');
-    const {freeclassroominfo} = state.freeclassroominfo;
     console.log(state.freeclassroominfo);
-    return{datasoure: freeclassroominfo};
+    return{...state.freeclassroominfo};
 })(ManualSchModifyComponent);
 
 const ClassroomManagePage = connect(state => {
