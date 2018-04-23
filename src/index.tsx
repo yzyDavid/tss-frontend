@@ -55,7 +55,7 @@ const ManualSchedulingPage = connect(state => {
 })(ManualSchedulingComponent);
 
 const ManualSchModifyPage = connect(state => {
-    const {dataSource} = state.getFreeClassroomInfo;
+    const {dataSource} = state.freeclassroominfo;
     return {dataSource: dataSource};
 })(ManualSchModifyComponent);
 
