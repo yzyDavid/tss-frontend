@@ -12,7 +12,6 @@ const model = {
     },
     reducers: {
         updateClassroomInfo(st, payload) {
-            console.log('this is the ');
             return {...st, ...payload.payload};
         },
     },
