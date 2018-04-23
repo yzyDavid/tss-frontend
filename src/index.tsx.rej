@@ -1,0 +1,12 @@
+diff a/src/index.tsx b/src/index.tsx	(rejected hunks)
+@@ -56,9 +56,8 @@
+ 
+ const ManualSchModifyPage = connect(state => {
+     //console.log('this is the connect   ');
+-    const {freeclassroominfo} = state.freeclassroominfo;
+     console.log(state.freeclassroominfo);
+-    return{datasoure: freeclassroominfo};
++    return{...state.freeclassroominfo};
+ })(ManualSchModifyComponent);
+ 
+ const ClassroomManagePage = connect(state => {
