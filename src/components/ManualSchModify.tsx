@@ -28,16 +28,17 @@ interface ManualSchModifyProps extends DvaProps {
     dataSource: any;
 }
 
-interface comonentFlush {
+interface ViewState {
     reflush: boolean;
 }
+
 export class FreeClassroomFormData {
     campus: string;
     classroomDate: string;
     classroomTime: string;
 }
 
-class SearchForm extends Component<ManualSchModifyProps,comonentFlush> {
+class SearchForm extends Component<ManualSchModifyProps,ViewState> {
     constructor(props){
         super(props);
         this.state = {
@@ -55,6 +56,9 @@ class SearchForm extends Component<ManualSchModifyProps,comonentFlush> {
             }
             this.props.dispatch({type: 'freeclassroominfo/freeClassroomInfo', payload: values});
             initData=this.props.dataSource;
+            // console.log('adfsf');
+            // console.log(this.props.dataSource);
+            // console.log(initData);
             this.setState({reflush:true});
         });
     };
@@ -106,11 +110,11 @@ class SearchForm extends Component<ManualSchModifyProps,comonentFlush> {
                         )}
                     </FormItem>
                     <Button icon="search" type="primary" htmlType="submit">搜索</Button>
-                    <Table
-                        style={{width: "100%", background: "#ffffff"}}
-                        columns={columns}
-                        dataSource={initData}/>
                 </Form>
+                <Table
+                    style={{width: "100%", background: "#ffffff"}}
+                    columns={columns}
+                    dataSource={initData}/>
             </div>
         );
     }
@@ -124,8 +128,6 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
     }
 
     render() {
-        console.log('main render');
-        console.log(initData);
         return (
             <div>
                 <NavigationBar current={"course"} dispatch={this.props.dispatch}/>

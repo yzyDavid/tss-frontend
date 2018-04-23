@@ -9,6 +9,7 @@ import './index.css';
 import LoginModel from './models/loginModel';
 import NavigationModel from './models/navigationModel';
 import FreeClassroomInfoModel from './models/FreeClassroomInfoModel';
+import CourseInfoModel from './models/CourseInfoModel';
 import UserInfoModel from './models/userInfoModel';
 import NavigationPageComponent from './components/NavigationPage';
 import UserPageComponent from './components/UserPage';
@@ -28,6 +29,7 @@ app.model(LoginModel);
 app.model(NavigationModel);
 app.model(UserInfoModel);
 app.model(FreeClassroomInfoModel);
+app.model(CourseInfoModel);
 
 const HomePage = connect(state => {
     return {}
@@ -51,7 +53,8 @@ const AutoSchedulingPage = connect(state => {
 })(AutoSchedulingComponent);
 
 const ManualSchedulingPage = connect(state => {
-    return {};
+    const {dataSource} = state.courseinfo;
+    return {dataSource: dataSource};
 })(ManualSchedulingComponent);
 
 const ManualSchModifyPage = connect(state => {
