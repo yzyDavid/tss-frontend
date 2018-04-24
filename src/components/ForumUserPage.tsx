@@ -34,7 +34,7 @@ export default class ForumUserPageComponent extends Component<UserProps, UserSta
     render() {
         return (
             <div>
-                <NavigationBar current={"user"} dispatch={this.props.dispatch}/>
+                <NavigationBar current={"userinfo"} dispatch={this.props.dispatch}/>
                 <br/>
                 <div>
                     <FormItem label="学号" labelCol={{ span: 8, offset: 3 }} wrapperCol={{ span: 10 }}>

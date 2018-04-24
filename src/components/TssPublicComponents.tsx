@@ -56,19 +56,18 @@ export default class NavigationBar extends Component<BarProps>{
                     {/*<a href="http://www.alipay.com/" target="_blank"><Icon type="message" />*/}
                         {/*学生论坛</a>*/}
                 {/*</Menu.Item>*/}
-                <Menu.Item key="user">
-                    <Icon type="user" />个人中心
-                    {/*<MenuItemGroup >*/}
-                        {/*<Menu.Item key="user">基本资料</Menu.Item>*/}
-                        {/*<Menu.Item key="setting:2">我的帖子</Menu.Item>*/}
-                    {/*</MenuItemGroup>*/}
-                </Menu.Item>
+                <SubMenu title={<span><Icon type="user" />个人中心</span>}>
+                    <MenuItemGroup >
+                        <Menu.Item key="userinfo">基本信息</Menu.Item>
+                        <Menu.Item key="mypost">我的帖子</Menu.Item>
+                    </MenuItemGroup>
+                </SubMenu>
 
 
                 <SubMenu title={<span><Icon type="message" />消息中心</span>}>
                     <MenuItemGroup >
-                        <Menu.Item key="user">私信</Menu.Item>
-                        <Menu.Item key="setting:2">回复我的</Menu.Item>
+                        <Menu.Item key="PrivateLetter">私信</Menu.Item>
+                        <Menu.Item key="Reply">回复我的</Menu.Item>
                     </MenuItemGroup>
                 </SubMenu>
             </Menu>

@@ -14,8 +14,9 @@ import LoginModel from './models/loginModel';
 import NavigationModel from './models/navigationModel';
 import UserInfoModel from './models/userInfoModel';
 import ForumUserPageComponent from './components/ForumUserPage'
-
-
+import MyPostPageComponent from './components/MyPostPage'
+import ReplyPageComponent from './components/ReplyPage'
+import LetterPageComponent from './components/LetterPage'
 
 const {Content} = Layout;
 
@@ -30,6 +31,20 @@ const HomePage = connect(state => {
 const UserPage = connect(state => {
     return {}
 })(ForumUserPageComponent);
+
+const MyPostPage = connect(state => {
+    return {}
+})(MyPostPageComponent);
+
+const LetterPage = connect(state => {
+    return {}
+})(LetterPageComponent);
+
+const ReplyPage = connect(state => {
+    return {}
+})(ReplyPageComponent);
+
+
 const app = dva({
     history: browserHistory
 });
@@ -48,10 +63,13 @@ app.router(({history}) => (
                 <Content style={{minHeight: '300px'}}>
                     <Switch>
 
-                        <Route exact path="/"  component={UserPage}/>
+                        <Route exact path="/"  component={LoginPage}/>
                         <Route exact path="/home" component={HomePage}/>
-                        <Route path="/userinfo" component={UserPage}/>
-                        {/*<Route path="/userManage" component={UserManagePage}/>*/}
+                        <Route exact path="/userinfo" component={UserPage}/>
+                        <Route exact path="/userarticle" component={UserPage}/>
+                        <Route exact path="/mypost" component={MyPostPage}/>
+                        <Route exact path="/privateLetter" component={LetterPage}/>
+                        <Route exact path="/reply" component={ReplyPage}/>
                     </Switch>
                 </Content>
 
