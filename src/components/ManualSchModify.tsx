@@ -11,7 +11,7 @@ const columns = [
     {title: '地点', dataIndex: 'classroomAddress', key: 'classroomAddress'},
     {title: '时间', dataIndex: 'classroomTime', key: 'classroomTime'},
     {title: '容量', dataIndex: 'classroomCapacity', key: 'classroomCapacity'},
-    {tile: '操作', key: 'operation', render:()=>(<a>修改至该时间</a>)}
+    {tile: '操作', key: 'operation', render:()=>(<Button>修改至该时间</Button>)}
     ];
 
 
@@ -56,9 +56,6 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
             }
             this.props.dispatch({type: 'freeclassroominfo/freeClassroomInfo', payload: values});
             initData=this.props.dataSource;
-            // console.log('adfsf');
-            // console.log(this.props.dataSource);
-            // console.log(initData);
             this.setState({reflush:true});
         });
     };

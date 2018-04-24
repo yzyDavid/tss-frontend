@@ -5,15 +5,13 @@ import DvaProps from '../types/DvaProps';
 import NavigationBar from './TssPublicComponents';
 import {FreeClassroomFormData} from "./ManualSchModify";
 
-
 const FormItem = Form.Item;
 const Option = Select.Option;
 const columns = [
     {title: '课程号', dataIndex: 'courseNumber', key: 'courseNumber'},
     {title: '课程名称', dataIndex: 'courseTitle', key: 'courseTitle'},
     {title: '上课地点', dataIndex: 'courseAddress', key: 'courseAddress'},
-    {title: '上课时间', dataIndex: 'courseTime', key: 'courseTime'},
-    {tile: '操作', key: 'operation', render:()=>(<a>修改至该时间</a>)}
+    {title: '上课时间', dataIndex: 'courseTime', key: 'courseTime'}
 ];
 
 interface ManualSchedulingProps extends DvaProps {
@@ -44,33 +42,7 @@ var initData = [
     {key: 11, courseNumber: '00011', courseTitle: '大学英语', courseAddress: '3150100011', courseTime: '16:30-18:30'},
     {key: 12, courseNumber: '00012', courseTitle: '线性代数', courseAddress: '3150100012', courseTime: '16:30-18:30'},
 ];
-
-/*
-class ModifyButton extends Component{
-    constructor(props){
-        super(props);
-
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    handleClick(){
-        //send the requirement of this to the back
-        //open a new window
-
-    }
-
-    render() {
-        return (
-            <Button
-                onClick={this.handleClick}>
-                修改
-            </Button>
-        );
-    }
-}
-
-const WrappedModifyButton: any = Form.create({})(ModifyButton);
-*/
+var selectedValue;
 
 class SearchForm extends Component<ManualSchedulingProps,ViewState> {
     constructor(props){
@@ -78,10 +50,11 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
         this.state = {
             reflush : false,
         }
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSubmit1 = this.handleSubmit1.bind(this);
+        this.handleSubmit2 = this.handleSubmit2.bind(this);
     }
 
-    handleSubmit = (e) => {
+    handleSubmit1 = (e) => {
         e.preventDefault();
         const formProps = this.props.form;
         formProps.validateFieldsAndScroll((err: any, values: FreeClassroomFormData) => {
@@ -96,11 +69,18 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
         });
     }
 
+    handleSubmit2 = (e) => {
+        e.preventDefault();
+        //console.log('the modify button');
+        //console.log(selectedValue);
+        this.props.dispatch({type:'courseinfo/modifyCourseInfo',payload:selectedValue});
+    }
+
     render() {
         const {getFieldDecorator} = this.props.form;
         return (
             <div>
-                <Form layout={"inline"} onSubmit={this.handleSubmit}>
+                <Form layout={"inline"} onSubmit={this.handleSubmit1}>
                     <FormItem
                         label="校区" >
                         {getFieldDecorator('campus', {})(
@@ -123,13 +103,29 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
                     <Button
                         icon="search"
                         type="primary"
-                        htmlType="submit" >搜索
+                        htmlType="submit"
+                        onClick={this.handleSubmit1}>搜索
+                    </Button>
+                    <Button
+                        style={{marginLeft:10}}
+                        icon="edit"
+                        type="primary"
+                        htmlType="submit"
+                        onClick={this.handleSubmit2}>选择
                     </Button>
                 </Form>
                 <Table
                     style={{width: "100%", background: "#ffffff"}}
                     columns={columns}
+                    rowSelection={{
+                        type: 'radio',
+                        onSelect(record, selected, selectedRows) {
+                            //console.log(record, selected, selectedRows);
+                            selectedValue = record;
+                        },}}
+                    className = "table"
                     dataSource={initData}/>
+                <br/>
             </div>
         );
     }

@@ -1,6 +1,7 @@
 import {httpMethod, tssFetch} from '../utils/tssFetch';
 import {message} from 'antd';
 import {CourseFormData} from '../components/ManualScheduling';
+import {routerRedux} from 'dva/router';
 
 const model = {
     namespace: 'courseinfo',
@@ -48,7 +49,20 @@ const model = {
                     ]}
             });
             return;
+        },
+
+       * modifyCourseInfo(payload: { payload:{courseNumber:string,}}, {call, put})
+       {
+           console.log('this is the new dispatch');
+           console.log(payload.payload.courseNumber);
+       },
+
+        * jump(payload: {payload: {courseNumber: string}}, {call, put}) {
+            yield put(routerRedux.push('/manualSchModify'));
+
+            return;
         }
+
     }
 };
 
