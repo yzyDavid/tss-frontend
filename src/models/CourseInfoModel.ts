@@ -1,7 +1,7 @@
 import {httpMethod, tssFetch} from '../utils/tssFetch';
 import {message} from 'antd';
 import {CourseFormData} from '../components/ManualScheduling';
-import {routerRedux} from 'dva/router';
+import {Router, Route, Switch, routerRedux, browserHistory} from 'dva/router';
 
 const model = {
     namespace: 'courseinfo',
@@ -20,7 +20,7 @@ const model = {
         setup({dispatch, history}) {
             return history.listen(({pathname}) => {
                 if (pathname === '/manualScheduling') {
-                    dispatch({ type: 'courseInfo', payload: {key: 1, courseNumber: ' ', courseTitle: ' ', courseAddress: ' ', courseTime: ' '} });
+                    dispatch({ type: 'courseInfo', payload: {key: 1, courseNumber: '', courseTitle: '', courseAddress: '', courseTime: ''} });
                 }
             });
         }
@@ -53,16 +53,10 @@ const model = {
 
        * modifyCourseInfo(payload: { payload:{courseNumber:string,}}, {call, put})
        {
-           console.log('this is the new dispatch');
-           console.log(payload.payload.courseNumber);
+           const value = payload.payload.courseNumber.toString();
+           yield put(routerRedux.push({pathname:'/manualSchModify/'+value,query: value,}));
+           return;
        },
-
-        * jump(payload: {payload: {courseNumber: string}}, {call, put}) {
-            yield put(routerRedux.push('/manualSchModify'));
-
-            return;
-        }
-
     }
 };
 

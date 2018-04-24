@@ -3,7 +3,8 @@ import {Component} from 'react';
 import {Form, Button, Input, Select, Table} from 'antd';;
 import DvaProps from '../types/DvaProps';
 import NavigationBar from './TssPublicComponents';
-import {FreeClassroomFormData} from "./ManualSchModify";
+import FreeClassroomFormData from "./ManualSchModify";
+import {browserHistory, routerRedux} from 'dva/router';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -71,8 +72,6 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
 
     handleSubmit2 = (e) => {
         e.preventDefault();
-        //console.log('the modify button');
-        //console.log(selectedValue);
         this.props.dispatch({type:'courseinfo/modifyCourseInfo',payload:selectedValue});
     }
 
@@ -107,7 +106,7 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
                         onClick={this.handleSubmit1}>搜索
                     </Button>
                     <Button
-                        style={{marginLeft:10}}
+                        style={{marginLeft:100}}
                         icon="edit"
                         type="primary"
                         htmlType="submit"

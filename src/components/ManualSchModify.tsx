@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {Component} from 'react';
-import {Form, Button, Table, Select, message} from 'antd';
+import {Form, Button, Table, Select, Modal,message} from 'antd';
+import { Router,Route,hashHistory} from 'react-router';
 import DvaProps from '../types/DvaProps';
 import NavigationBar from './TssPublicComponents';
 import {FormEvent} from "react";
@@ -11,7 +12,6 @@ const columns = [
     {title: '地点', dataIndex: 'classroomAddress', key: 'classroomAddress'},
     {title: '时间', dataIndex: 'classroomTime', key: 'classroomTime'},
     {title: '容量', dataIndex: 'classroomCapacity', key: 'classroomCapacity'},
-    {tile: '操作', key: 'operation', render:()=>(<Button>修改至该时间</Button>)}
     ];
 
 
@@ -22,14 +22,17 @@ var initData = [
             {key: 4, classroomAddress: '西二308', classroomTime: '16:30-18:30', classroomCapacity: '200'},
             {key: 5, classroomAddress: '东一105', classroomTime: '16:30-18:30', classroomCapacity: '150'},
         ];
+var confirmData = {classroomAddress: '', classroomTime: '', classroomCapacity: ''};
 
 interface ManualSchModifyProps extends DvaProps {
     form: any;
     dataSource: any;
+    location: any;
 }
 
 interface ViewState {
     reflush: boolean;
+    modalState: boolean;
 }
 
 export class FreeClassroomFormData {
@@ -43,11 +46,15 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
         super(props);
         this.state = {
             reflush : false,
+            modalState: false,
         }
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSubmit1 = this.handleSubmit1.bind(this);
+        this.handleSubmit2 = this.handleSubmit2.bind(this);
+        this.handleOk = this.handleOk.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
     }
 
-    handleSubmit = (e: FormEvent<{}>) => {
+    handleSubmit1 = (e: FormEvent<{}>) => {
         e.preventDefault();
         const formProps = this.props.form;
         formProps.validateFieldsAndScroll((err: any, values: FreeClassroomFormData) => {
@@ -60,11 +67,26 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
         });
     };
 
+    handleSubmit2 = (e) => {
+        e.preventDefault();
+        if(confirmData.classroomAddress.length>1)
+            this.setState({modalState: true,});
+    };
+
+    handleOk() {
+        this.setState({modalState: false,});
+    };
+
+    handleCancel(e) {
+        this.setState({modalState: false,});
+    };
+
+
     render() {
         const {getFieldDecorator} = this.props.form;
         return (
             <div>
-                <Form layout={"inline"} onSubmit={this.handleSubmit.bind(this)}>
+                <Form layout={"inline"} onSubmit={this.handleSubmit1.bind(this)}>
                     <FormItem
                         label="校区" style={{paddingLeft: 20}}>
                         {getFieldDecorator('campus', {})(
@@ -106,11 +128,41 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
                             </Select>
                         )}
                     </FormItem>
-                    <Button icon="search" type="primary" htmlType="submit">搜索</Button>
+                    <Button
+                        icon="search"
+                        type="primary"
+                        htmlType="submit"
+                        onClick={this.handleSubmit1}>搜索
+                    </Button>
+                    <Button
+                        style={{marginLeft: 20}}
+                        icon="edit"
+                        type="primary"
+                        htmlType="submit"
+                        onClick={this.handleSubmit2}>修改至该时间
+                    </Button>
+                    <Modal title="修改成功" visible={this.state.modalState}
+                           onOk={this.handleOk} onCancel={this.handleCancel}
+                    >
+                        <br/>
+                        <p> 上课地点: {confirmData.classroomAddress}</p>
+                        <br/>
+                        <p>  上课时间: {confirmData.classroomTime}</p>
+                        <br/>
+                        <p>  教室容量: {confirmData.classroomCapacity}</p>
+                        <br/>
+                    </Modal>
                 </Form>
+                <br/>
                 <Table
                     style={{width: "100%", background: "#ffffff"}}
                     columns={columns}
+                    rowSelection={{
+                        type: 'radio',
+                        onSelect(record, selected, selectedRows) {
+                            confirmData = record;
+                            console.log(record, selected, selectedRows);
+                        },}}
                     dataSource={initData}/>
             </div>
         );
@@ -120,8 +172,9 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
 const WrappedSearchForm: any = Form.create({})(SearchForm);
 
 export default class ManualSchModifyComponent extends Component<ManualSchModifyProps> {
-    constructor(props) {
-        super(props);
+    constructor(props,context) {
+        super(props,context);
+        console.log(props.location.query);
     }
 
     render() {
