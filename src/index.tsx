@@ -3,7 +3,8 @@ import {Router, Route, Switch, routerRedux, browserHistory} from 'dva/router';
 import * as React from 'react';
 import {Layout, message} from 'antd';
 import {TssFooter, TssHeader} from './components/TssPublicComponents';
-import HomePageComponent from './components/HomePage';
+import ForumHomePageComponent from './components/ForumHomePage';
+import LoginPageComponent from './components/ForumLoginPage';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 import NavigationPageComponent from './components/NavigationPage';
@@ -18,12 +19,13 @@ import UserInfoModel from './models/userInfoModel';
 
 const {Content} = Layout;
 
+const LoginPage = connect(state => {
+    return {}
+})(LoginPageComponent);
+
 const HomePage = connect(state => {
     return {}
-})(HomePageComponent);
-
-
-
+})(ForumHomePageComponent);
 
 
 const app = dva({
@@ -39,19 +41,19 @@ app.model(UserInfoModel);
 
 app.router(({history}) => (
         <Router history={history}>
-            {/*<Layout>*/}
+            <Layout>
 
-                {/*<Content style={{minHeight: '300px'}}>*/}
+                <Content style={{minHeight: '300px'}}>
                     <Switch>
 
-                        <Route path="/"  component={HomePage}/>
-                        {/*<Route path="/navi" component={NavigationPage}/>*/}
+                        <Route exact path="/"  component={LoginPage}/>
+                        <Route exact path="/home" component={HomePage}/>
                         {/*<Route path="/user" component={UserPage}/>*/}
                         {/*<Route path="/userManage" component={UserManagePage}/>*/}
                     </Switch>
-                {/*</Content>*/}
+                </Content>
 
-            {/*</Layout>*/}
+            </Layout>
         </Router>
     )
 );

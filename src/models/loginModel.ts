@@ -12,7 +12,7 @@ const state: GlobalState = {
 };
 
 const model = {
-    namespace: 'login',
+    namespace: 'ForumLogin',
     state: {
         ...state,
         level: 'manager'
@@ -31,27 +31,32 @@ const model = {
     effects: {
         * login(payload: { payload: LoginFormData }, {call, put}) {
             // console.log(payload);
-            const msg = payload.payload;
-            const response = yield call(tssFetch, '/session/login', 'POST', msg);
-            console.log(response);
-            if (response.status === 400) {
-                message.error('用户名或密码错误');
-                return;
-            }
-            const jsonBody = yield call(response.text.bind(response));
-            const body = JSON.parse(jsonBody);
-            // console.log(body);
-            yield put({type: 'updateSession', payload: {uid: body.uid, password: msg.password, token: body.token}}); // level 添加用户身份 学生？教师？管理员？
-            message.success('登录成功');
-            yield put(routerRedux.push('/navi'));
-            return;
+            // const msg = payload.payload;
+            // const response = yield call(tssFetch, '/session/login', 'POST', msg);
+            // console.log(response);
+            // if (response.status === 400) {
+            //     message.error('用户名或密码错误');
+            //     return;
+            // }
+            // const jsonBody = yield call(response.text.bind(response));
+            // const body = JSON.parse(jsonBody);
+            // // console.log(body);
+            // yield put({type: 'updateSession', payload: {uid: body.uid, password: msg.password, token: body.token}}); // level 添加用户身份 学生？教师？管理员？
+            // message.success('登录成功');
+            yield put(routerRedux.push({
+                pathname: '/home',
+            }))
+            // yield put(routerRedux.push('/home'));
+            // return;
         },
         * echo(payload: {}, {call, put}) {
             const response = yield call(tssFetch, '/echo', 'GET', {});
             console.log(response);
         }
     },
-    subscriptions: {}
+    subscriptions: {
+
+    }
 };
 
 export default model;

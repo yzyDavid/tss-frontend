@@ -7,11 +7,12 @@ class HomePageProps implements DvaProps {
     public dispatch: any;
 }
 
-export default class HomePageComponent extends Component<HomePageProps> {
+export default class LoginPageComponent extends Component<HomePageProps, {}> {
     render() {
         return (
             <div style={{position: "fixed", left: screen.width/2 - 150}}  className="forum-login-component">
-                <h2 style={{textAlign:"center"}}>用户登录</h2>
+                {/*<h2 style={{textAlign:"center"}}>用户登录</h2>*/}
+                <ForumLoginForm   dispatch={this.props.dispatch} />
 
             </div>
         );
