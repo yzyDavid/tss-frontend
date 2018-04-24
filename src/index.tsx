@@ -13,7 +13,7 @@ import UserManagePageComponent from './components/UserManagePage';
 import LoginModel from './models/loginModel';
 import NavigationModel from './models/navigationModel';
 import UserInfoModel from './models/userInfoModel';
-
+import ForumUserPageComponent from './components/ForumUserPage'
 
 
 
@@ -27,7 +27,9 @@ const HomePage = connect(state => {
     return {}
 })(ForumHomePageComponent);
 
-
+const UserPage = connect(state => {
+    return {}
+})(ForumUserPageComponent);
 const app = dva({
     history: browserHistory
 });
@@ -46,9 +48,9 @@ app.router(({history}) => (
                 <Content style={{minHeight: '300px'}}>
                     <Switch>
 
-                        <Route exact path="/"  component={LoginPage}/>
+                        <Route exact path="/"  component={UserPage}/>
                         <Route exact path="/home" component={HomePage}/>
-                        {/*<Route path="/user" component={UserPage}/>*/}
+                        <Route path="/userinfo" component={UserPage}/>
                         {/*<Route path="/userManage" component={UserManagePage}/>*/}
                     </Switch>
                 </Content>

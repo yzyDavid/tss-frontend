@@ -47,28 +47,30 @@ export default class NavigationBar extends Component<BarProps>{
                   selectedKeys={[this.props.current]}
                   mode="horizontal"
             >
-                <SubMenu title={<span><Icon type="user" />个人信息</span>}>
-                    <MenuItemGroup title="个人信息">
-                        <Menu.Item key="user">个人信息查询</Menu.Item>
-                        <Menu.Item key="setting:2">管理用户信息</Menu.Item>
+
+
+                <Menu.Item key="home">
+                    <Icon type="calendar" />首页
+                </Menu.Item>
+                {/*<Menu.Item key="alipay">*/}
+                    {/*<a href="http://www.alipay.com/" target="_blank"><Icon type="message" />*/}
+                        {/*学生论坛</a>*/}
+                {/*</Menu.Item>*/}
+                <Menu.Item key="user">
+                    <Icon type="user" />个人中心
+                    {/*<MenuItemGroup >*/}
+                        {/*<Menu.Item key="user">基本资料</Menu.Item>*/}
+                        {/*<Menu.Item key="setting:2">我的帖子</Menu.Item>*/}
+                    {/*</MenuItemGroup>*/}
+                </Menu.Item>
+
+
+                <SubMenu title={<span><Icon type="message" />消息中心</span>}>
+                    <MenuItemGroup >
+                        <Menu.Item key="user">私信</Menu.Item>
+                        <Menu.Item key="setting:2">回复我的</Menu.Item>
                     </MenuItemGroup>
                 </SubMenu>
-                <Menu.Item key="course">
-                    <Icon type="book" />选课系统
-                </Menu.Item>
-                <Menu.Item key="list">
-                    <Icon type="calendar" />查看课表
-                </Menu.Item>
-                <Menu.Item key="alipay">
-                    <a href="http://www.alipay.com/" target="_blank"><Icon type="message" />
-                        学生论坛</a>
-                </Menu.Item>
-                <Menu.Item key="forum">
-                    <Icon type="edit" />在线测试
-                </Menu.Item>
-                <Menu.Item key="exam">
-                    <Icon type="bar-chart" />成绩查询
-                </Menu.Item>
             </Menu>
         );
     };
