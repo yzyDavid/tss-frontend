@@ -21,7 +21,7 @@ interface ManualSchedulingProps extends DvaProps {
 }
 
 interface ViewState {
-    reflush: boolean;
+    refresh: boolean;
 }
 
 export class CourseFormData {
@@ -49,7 +49,7 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
     constructor(props){
         super(props);
         this.state = {
-            reflush : false,
+            refresh : false,
         }
         this.handleSubmit1 = this.handleSubmit1.bind(this);
         this.handleSubmit2 = this.handleSubmit2.bind(this);
@@ -66,7 +66,7 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
             this.props.dispatch({type: 'courseinfo/courseInfo', payload: values});
             initData=this.props.dataSource;
             console.log(this.props.dataSource);
-            this.setState({reflush:true});
+            this.setState({refresh:true});
         });
     }
 

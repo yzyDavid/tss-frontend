@@ -31,7 +31,7 @@ interface ManualSchModifyProps extends DvaProps {
 }
 
 interface ViewState {
-    reflush: boolean;
+    refresh: boolean;
     modalState: boolean;
 }
 
@@ -45,7 +45,7 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
     constructor(props){
         super(props);
         this.state = {
-            reflush : false,
+            refresh : false,
             modalState: false,
         }
         this.handleSubmit1 = this.handleSubmit1.bind(this);
@@ -63,7 +63,7 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
             }
             this.props.dispatch({type: 'freeclassroominfo/freeClassroomInfo', payload: values});
             initData=this.props.dataSource;
-            this.setState({reflush:true});
+            this.setState({refresh:true});
         });
     };
 

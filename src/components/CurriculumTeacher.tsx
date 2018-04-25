@@ -31,7 +31,7 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
     render() {
         return (
             <div>
-                <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
+                <NavigationBar current={"list"} dispatch={this.props.dispatch}/>
                 <br/>
                 <div>
                     <Table
