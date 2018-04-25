@@ -11,13 +11,16 @@ import NavigationModel from './models/navigationModel';
 import FreeClassroomInfoModel from './models/FreeClassroomInfoModel';
 import CourseInfoModel from './models/CourseInfoModel';
 import UserInfoModel from './models/userInfoModel';
+import CurriculumTeacherModel from './models/CurriculumTeacherModel'
 import NavigationPageComponent from './components/NavigationPage';
 import UserPageComponent from './components/UserPage';
 import UserManagePageComponent from './components/UserManagePage';
 import ClassroomManagePageComponent from './components/ClassroomManagePage';
 import AutoSchedulingComponent from './components/AutoScheduling';
-import ManualSchedulingComponent from './components/ManualScheduling';
-import ManualSchModifyComponent from './components/ManualSchModify';
+import ManualSchedulingPageComponent from './components/ManualScheduling';
+import ManualSchModifyPageComponent from './components/ManualSchModify';
+import CurriculumManagePageComponent from './components/CurriculumManage';
+import CurriculumTeacherPageComponent from './components/CurriculumTeacher';
 
 const {Content} = Layout;
 
@@ -30,6 +33,7 @@ app.model(NavigationModel);
 app.model(UserInfoModel);
 app.model(FreeClassroomInfoModel);
 app.model(CourseInfoModel);
+app.model(CurriculumTeacherModel);
 
 const HomePage = connect(state => {
     return {}
@@ -55,16 +59,25 @@ const AutoSchedulingPage = connect(state => {
 const ManualSchedulingPage = connect(state => {
     const {dataSource} = state.courseinfo;
     return {dataSource: dataSource};
-})(ManualSchedulingComponent);
+})(ManualSchedulingPageComponent);
 
 const ManualSchModifyPage = connect(state => {
     const {dataSource} = state.freeclassroominfo;
     return {dataSource: dataSource};
-})(ManualSchModifyComponent);
+})(ManualSchModifyPageComponent);
 
 const ClassroomManagePage = connect(state => {
     return {};
 })(ClassroomManagePageComponent);
+
+const CurriculumTeacherPage = connect(state => {
+    const {dataSource} = state.curriculumteacher;
+    return {dataSource: dataSource};
+})(CurriculumTeacherPageComponent);
+
+const CurriculumManagePage = connect(state => {
+    return {};
+})(CurriculumManagePageComponent);
 
 app.router(({history}) => (
         <Router history={history}>
@@ -80,6 +93,8 @@ app.router(({history}) => (
                         <Route path="/manualScheduling" component={ManualSchedulingPage} />
                         <Route path="/manualSchModify/:name" component={ManualSchModifyPage} />
                         <Route path="/classroomManage" component={ClassroomManagePage}/>
+                        <Route path="/curriculumTeacher/:name" component={CurriculumTeacherPage}/>
+                        <Route path="/curriculumManage" component={CurriculumManagePage}/>
                     </Switch>
                 </Content>
                 <TssFooter/>

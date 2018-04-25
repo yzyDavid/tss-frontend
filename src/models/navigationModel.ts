@@ -18,7 +18,8 @@ const model = {
                 case "manualScheduling": yield put(routerRedux.push('/manualScheduling')); break;
                 case "manualSchModify": yield put(routerRedux.push('/manualSchModify')); break;
                 case "classroomManage": yield put(routerRedux.push('/classroomManage')); break;
-
+                case "curriculumManage": yield put(routerRedux.push('/curriculumManage')); break;
+                case "curriculumTeacher": yield put(routerRedux.push({pathname:'/curriculumTeacher/123',query: '123',}));
             }
             return;
         }

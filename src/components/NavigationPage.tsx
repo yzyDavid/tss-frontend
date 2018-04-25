@@ -110,9 +110,25 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
         };
 
         const Block3 = (props) => {
-            if(props.level === 'student' || props.level === 'teacher'){
+            if(props.level === 'student'){
                 return (
                     <JumpButton {...this.button3} onClick={this.handleClick.bind(this, {direction: "user"})} />
+                );
+            }
+            else if(props.level === 'teacher'){
+                const menu = (
+                    <Menu>
+                        <Menu.Item key="curriculumTeacher">
+                            <a onClick={this.handleClick.bind(this, {direction: "curriculumTeacher"})}>课表查询</a>
+                        </Menu.Item>
+                    </Menu>
+                );
+                return(
+                    <Dropdown overlay={menu}>
+                        <div>
+                            <JumpButton {...this.button3} />
+                        </div>
+                    </Dropdown>
                 );
             }
             else {
@@ -124,7 +140,9 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
                         <Menu.Item key="manualScheduling">
                             <a onClick={this.handleClick.bind(this, {direction: "manualScheduling"})}>手动调课</a>
                         </Menu.Item>
-                        <Menu.Item key="3">课表查询</Menu.Item>
+                        <Menu.Item key="curriculumTeacher">
+                            <a onClick={this.handleClick.bind(this, {direction: "curriculumManage"})}>课表查询</a>
+                        </Menu.Item>
                     </Menu>
                 );
                 return(

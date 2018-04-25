@@ -27,8 +27,8 @@ const model = {
     },
     effects: {
         * courseInfo(payload: { payload: CourseFormData}, {call, put}) {
-            console.log('courseInfo ');
-            console.log(payload.payload);
+            //console.log('courseInfo ');
+            //console.log(payload.payload);
             //const msg = payload.payload;
             // //const tssFetch = (url: string, method: httpMethod, payload: string | object)
             // //返回一个js对象
@@ -44,8 +44,8 @@ const model = {
                 type: 'updateCourseInfo',
                 //payload: {data:body.data}
                 payload: {dataSource:[
-                        {key: 1, courseNumber: '00001', courseTitle: '线性代数', courseAddress: '3150100001', courseTime: '16:30-18:30'},
-                        {key: 2, courseNumber: '00002', courseTitle: '微积分', courseAddress: '3150100002', courseTime: '16:30-18:30'}
+                        {key: 1, courseNumber: '00011', courseTitle: '线性代数', courseAddress: '3150100001', courseTime: '16:30-18:30'},
+                        {key: 2, courseNumber: '00022', courseTitle: '微积分', courseAddress: '3150100002', courseTime: '16:30-18:30'}
                     ]}
             });
             return;
