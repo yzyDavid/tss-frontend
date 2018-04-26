@@ -174,13 +174,20 @@ const WrappedSearchForm: any = Form.create({})(SearchForm);
 export default class ManualSchModifyComponent extends Component<ManualSchModifyProps> {
     constructor(props,context) {
         super(props,context);
-        console.log(props.location.query);
+        // console.log('this is the query we get');
+        // console.log(props.location.query);
     }
 
     render() {
         return (
             <div>
                 <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
+                <br/>
+                <label style={{fontSize: 'large', marginLeft: 20}}>课程号：{this.props.location.query.courseNumber}</label>
+                <label style={{fontSize: 'large', marginLeft: 50}}>课程名称：{this.props.location.query.courseTitle}</label>
+                <label style={{fontSize: 'large', marginLeft: 50}}>课程地址：{this.props.location.query.courseAddress}</label>
+                <label style={{fontSize: 'large', marginLeft: 50}}>课程时间：{this.props.location.query.courseTime}</label>
+                <br/>
                 <br/>
                 <div>
                     <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource}/>

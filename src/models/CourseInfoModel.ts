@@ -1,6 +1,6 @@
 import {httpMethod, tssFetch} from '../utils/tssFetch';
 import {message} from 'antd';
-import {CourseFormData} from '../components/ManualScheduling';
+import {CourseFormData,CourseInfo} from '../components/ManualScheduling';
 import {Router, Route, Switch, routerRedux, browserHistory} from 'dva/router';
 
 const model = {
@@ -51,10 +51,10 @@ const model = {
             return;
         },
 
-       * modifyCourseInfo(payload: { payload:{courseNumber:string,}}, {call, put})
+       * modifyCourseInfo(payload: { payload: CourseInfo}, {call, put})
        {
            const value = payload.payload.courseNumber.toString();
-           yield put(routerRedux.push({pathname:'/manualSchModify/'+value,query: value,}));
+           yield put(routerRedux.push({pathname:'/manualSchModify/'+value,query: payload.payload,}));
            return;
        },
     }

@@ -29,6 +29,13 @@ export class CourseFormData {
     courseName: string;
 }
 
+export class CourseInfo {
+    courseNumber: string;
+    courseTitle: string;
+    courseAddress: string;
+    courseTime: string;
+}
+
 var initData = [
     {key: 1, courseNumber: '00001', courseTitle: '线性代数', courseAddress: '3150100001', courseTime: '16:30-18:30'},
     {key: 2, courseNumber: '00002', courseTitle: '微积分', courseAddress: '3150100002', courseTime: '16:30-18:30'},
