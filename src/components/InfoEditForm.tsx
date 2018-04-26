@@ -38,7 +38,7 @@ export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
                 flag = true;
                 return;
             }
-            this.props.dispatch({type:'user/modify', payload: values});
+            this.props.dispatch({type:'userinfo/modify', payload: {...values, uid: this.props.uid}});
         });
         return flag;
     };
@@ -92,7 +92,7 @@ export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
                 </FormItem>
                 <FormItem label="Telephone" {...formItemLayout} hasFeedback>
                     {
-                        getFieldDecorator('tel', {
+                        getFieldDecorator('telephone', {
                             rules: [
                                 {message: "请输入数字", pattern: /^[0-9]+$/, }
                             ],
@@ -112,15 +112,15 @@ export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
                     }
                 </FormItem>
                 <FormItem>
-                    <Upload beforeUpload={this.beforeUpload} name="logo" action="/photo" method="post" listType="picture" onChange={this.handleUpload} onPreview={this.handlePreview}
-                        {...getFieldDecorator('upload', {
-                                valuePropName: 'fileList',
-                            })}
-                    >
+                    {/*<Upload beforeUpload={this.beforeUpload} name="logo" action="/photo" method="post" listType="picture" onChange={this.handleUpload} onPreview={this.handlePreview}*/}
+                        {/*{...getFieldDecorator('upload', {*/}
+                                {/*valuePropName: 'fileList',*/}
+                            {/*})}*/}
+                    {/*>*/}
                         <Button type="ghost">
                             <Icon type="upload" /> 点击上传
                         </Button>
-                    </Upload>
+                    {/*</Upload>*/}
                 </FormItem>
             </Form>
         );

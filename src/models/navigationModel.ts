@@ -12,9 +12,10 @@ const model = {
     effects: {
         * jump(payload: {payload: {direction: string}}, {call, put}) {
             const direction = payload.payload.direction;
-            switch(direction){
-                case "user": yield put(routerRedux.push('/user')); break;
-            }
+            yield put(routerRedux.push("/"+direction));
+            // switch(direction){
+            //     case "user": yield put(routerRedux.push('/user')); break;
+            // }
             return;
         }
     }
