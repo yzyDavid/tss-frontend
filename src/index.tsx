@@ -97,7 +97,7 @@ app.router(({history}) => (
                         <Route path="/manualScheduling" component={ManualSchedulingPage} />
                         <Route path="/manualSchModify/:name" component={ManualSchModifyPage} />
                         <Route path="/classroomManage" component={ClassroomManagePage}/>
-                        <Route path="/curriculumTeacher/:name" component={CurriculumTeacherPage}/>
+                        <Route path="/curriculumTeacher" component={CurriculumTeacherPage}/>
                         <Route path="/curriculumManage" component={CurriculumManagePage}/>
                     </Switch>
                 </Content>

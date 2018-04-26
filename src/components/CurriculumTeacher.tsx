@@ -23,7 +23,7 @@ interface CurriculumTeacherProps extends DvaProps {
 export default class CurriculumTeacher extends Component<CurriculumTeacherProps> {
     constructor(props,context) {
         super(props,context);
-        //console.log(props.location.query);
+        console.log(props.location.query);
         this.props.dispatch({type: 'curriculumteacher/curriculumTeacher', payload: {teacherId: '123'}});
         //initData = this.props.dataSource;
     }
@@ -33,6 +33,8 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
             <div>
                 <NavigationBar current={"list"} dispatch={this.props.dispatch}/>
                 <br/>
+                <label style={{fontSize: 'large', marginLeft: 20}}>教师号：{this.props.location.query}</label>
+                <label style={{fontSize: 'large', marginLeft: 20}}>教师姓名：{this.props.location.query}</label>
                 <div>
                     <Table
                         style={{width: "100%", background: "#ffffff"}}
