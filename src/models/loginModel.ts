@@ -19,7 +19,8 @@ const model = {
     },
     reducers: {
         saveSession(st) {
-            return saveSession(st)
+            saveSession({token: st.token, username: st.username, uid: st.uid});
+            return {...st};
         },
         loadSession(st) {
             return loadSession(st)
@@ -44,6 +45,7 @@ const model = {
             yield put({type: 'updateSession', payload: {uid: body.uid, password: msg.password, token: body.token}}); // level 添加用户身份 学生？教师？管理员？
             message.success('登录成功');
             yield put(routerRedux.push('/navi'));
+            yield put({type: 'saveSession'});
             return;
         },
         * echo(payload: {}, {call, put}) {

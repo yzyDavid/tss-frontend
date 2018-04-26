@@ -72,7 +72,8 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
                         <Menu.Item key="user">
                             <a onClick={this.handleClick.bind(this, {direction: "user"})}>个人信息查询</a>
                         </Menu.Item>
-                        <Menu.Item key="2">用户信息管理</Menu.Item>
+                        <Menu.Item key="userManage">
+                            <a onClick={this.handleClick.bind(this, {direction: "userManage"})}>用户信息管理</a></Menu.Item>
                     </Menu>
                 );
                 return(
