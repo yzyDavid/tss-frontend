@@ -21,6 +21,7 @@ const JumpButton = (props) => {
         </Button>
     );
 }
+
 export default class NavigationPageComponent extends Component<NaviProps, {}> {
     handleClick = (e) => {
         this.props.dispatch({type:'navigation/jump', payload: {direction: e.direction}});
@@ -32,12 +33,12 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
     };
 
     button2 = {
-        btnName: "选课系统",
+        btnName: "信息管理",
         src: require("src/img/Bookmark.png"),
     };
 
     button3 = {
-        btnName: "查看课表",
+        btnName: "自动排课",
         src: require("src/img/Calendar.png"),
     };
 
@@ -58,6 +59,7 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
 
     render() {
         console.log(this.props.level);
+
         const Block1 = (props) => {
             if(props.level === 'student' || props.level === 'teacher'){
                 return (
@@ -70,13 +72,84 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
                         <Menu.Item key="user">
                             <a onClick={this.handleClick.bind(this, {direction: "user"})}>个人信息查询</a>
                         </Menu.Item>
-                        <Menu.Item key="2">用户信息管理</Menu.Item>
+                        <Menu.Item key="userManage">
+                            <a onClick={this.handleClick.bind(this, {direction: "userManage"})}>用户信息管理</a></Menu.Item>
                     </Menu>
                 );
                 return(
                     <Dropdown overlay={menu}>
                         <div>
                             <JumpButton {...this.button1} />
+                        </div>
+                    </Dropdown>
+                );
+            }
+        };
+
+        const Block2 = (props) => {
+            if(props.level === 'student' || props.level === 'teacher'){
+                return (
+                    <JumpButton {...this.button2} onClick={this.handleClick.bind(this, {direction: "user"})} />
+                );
+            }
+            else {
+                const menu = (
+                    <Menu>
+                        <Menu.Item key="classroomManage">
+                            <a onClick={this.handleClick.bind(this, {direction: "classroomManage"})}>信息管理</a>
+                        </Menu.Item>
+                    </Menu>
+                );
+                return(
+                    <Dropdown overlay={menu}>
+                        <div>
+                            <JumpButton {...this.button2} />
+                        </div>
+                    </Dropdown>
+                );
+            }
+        };
+
+        const Block3 = (props) => {
+            if(props.level === 'student'){
+                return (
+                    <JumpButton {...this.button3} onClick={this.handleClick.bind(this, {direction: "user"})} />
+                );
+            }
+            else if(props.level === 'teacher'){
+                const menu = (
+                    <Menu>
+                        <Menu.Item key="curriculumTeacher">
+                            <a onClick={this.handleClick.bind(this, {direction: "curriculumTeacher"})}>课表查询</a>
+                        </Menu.Item>
+                    </Menu>
+                );
+                return(
+                    <Dropdown overlay={menu}>
+                        <div>
+                            <JumpButton {...this.button3} />
+                        </div>
+                    </Dropdown>
+                );
+            }
+            else {
+                const menu = (
+                    <Menu>
+                        <Menu.Item key="autoScheduling">
+                            <a onClick={this.handleClick.bind(this, {direction: "autoScheduling"})}>自动排课</a>
+                        </Menu.Item>
+                        <Menu.Item key="manualScheduling">
+                            <a onClick={this.handleClick.bind(this, {direction: "manualScheduling"})}>手动调课</a>
+                        </Menu.Item>
+                        <Menu.Item key="curriculumTeacher">
+                            <a onClick={this.handleClick.bind(this, {direction: "curriculumManage"})}>课表查询</a>
+                        </Menu.Item>
+                    </Menu>
+                );
+                return(
+                    <Dropdown overlay={menu}>
+                        <div>
+                            <JumpButton {...this.button3} />
                         </div>
                     </Dropdown>
                 );
@@ -92,10 +165,10 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
                             <Block1 level={this.props.level} />
                         </Col>
                         <Col span={4} offset={2}>
-                            <JumpButton {...this.button2} />
+                            <Block2 level={this.props.level} />
                         </Col>
                         <Col span={4} offset={2}>
-                            <JumpButton {...this.button3} />
+                            <Block3 level={this.props.level} />
                         </Col>
                     </Row>
                     <p />

@@ -50,7 +50,7 @@ export default class NavigationBar extends Component<BarProps>{
                 <SubMenu title={<span><Icon type="user" />个人信息</span>}>
                     <MenuItemGroup title="个人信息">
                         <Menu.Item key="user">个人信息查询</Menu.Item>
-                        <Menu.Item key="setting:2">管理用户信息</Menu.Item>
+                        <Menu.Item key="userManage">管理用户信息</Menu.Item>
                     </MenuItemGroup>
                 </SubMenu>
                 <Menu.Item key="course">

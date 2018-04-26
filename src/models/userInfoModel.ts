@@ -15,19 +15,19 @@ const model = {
         },
     },
     subscriptions: {
-        setup({dispatch, history}) {
-            return history.listen(({pathname}) => {
-                if (pathname === '/user') {
-                    dispatch({ type: 'userInfo', payload: {uid: ''} });
+        setup({ dispatch, history }) {
+            history.listen(location => {
+                if (location.pathname === '/user') {
+                    dispatch({type: 'userInfo', payload: {uid: null}});
                 }
             });
         }
     },
     effects: {
-        * userInfo(payload: { payload: {uid: string} }, {call, put}) {
+        * userInfo(payload: { payload: {uid: null|string} }, {call, put}) {
             const msg = payload.payload;
-            const response = yield call(tssFetch, '/user/info', 'GET', msg);
-            if(response.status === 400) {
+            const response = yield call(tssFetch, '/user/get', 'POST', msg);
+            if(response.status === 401) {
                 message.error('查询个人信息失败');
                 return;
             }
@@ -37,6 +37,16 @@ const model = {
                 type: 'updateUserInfo',
                 payload: {uid: body.uid, email: body.email, telephone: body.telephone, intro: body.intro}
             });
+            return;
+        },
+        * modify(payload: { payload: {uid: null|string, email: null|string, telephone: null|string, intro: null|string} }, {call, put}) {
+            const msg = payload.payload;
+            const response = yield call(tssFetch, '/user/modify', 'POST', msg);
+            if(response.status === 400) {
+                message.error('编辑个人信息失败');
+                return;
+            }
+            yield put({type: 'userInfo', payload: {uid: null}});
             return;
         }
     }
