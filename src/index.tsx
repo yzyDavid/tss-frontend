@@ -13,7 +13,6 @@ import CourseInfoModel from './models/CourseInfoModel';
 import UserInfoModel from './models/userInfoModel';
 import CurriculumTeacherModel from './models/CurriculumTeacherModel'
 import CurriculumManageModel from './models/CurriculumManageModel'
-
 import NavigationPageComponent from './components/NavigationPage';
 import UserPageComponent from './components/UserPage';
 import UserManagePageComponent from './components/UserManagePage';
@@ -23,6 +22,10 @@ import ManualSchedulingPageComponent from './components/ManualScheduling';
 import ManualSchModifyPageComponent from './components/ManualSchModify';
 import CurriculumManagePageComponent from './components/CurriculumManage';
 import CurriculumTeacherPageComponent from './components/CurriculumTeacher';
+import SelectionNaviComponent from "./components/SelectionNavi";
+import NavigationBar from './components/TssPublicComponents'
+import {log} from "util";
+import CourseTableComponent from "./components/CourseTable";
 
 const {Content} = Layout;
 
@@ -55,6 +58,11 @@ const UserManagePage = connect(state => {
     return {};
 })(UserManagePageComponent);
 
+
+const SelectionNavi = connect(state => {
+    return {};
+})(SelectionNaviComponent);
+
 const AutoSchedulingPage = connect(state => {
     return {};
 })(AutoSchedulingComponent);
@@ -83,6 +91,10 @@ const CurriculumManagePage = connect(state => {
     return {dataSource: dataSource,buildingData: state.curriculummanage.buildingData, classroomData: state.curriculummanage.classroomData};
 })(CurriculumManagePageComponent);
 
+const CourseTable = connect(state => {
+    return {};
+})(CourseTableComponent);
+
 app.router(({history}) => (
         <Router history={history}>
             <Layout>
@@ -93,12 +105,14 @@ app.router(({history}) => (
                         <Route path="/navi" component={NavigationPage}/>
                         <Route path="/user" component={UserPage}/>
                         <Route path="/userManage" component={UserManagePage}/>
+                        <Route path="/selection" component={SelectionNavi}/>
                         <Route path="/autoScheduling" component={AutoSchedulingPage} />
                         <Route path="/manualScheduling" component={ManualSchedulingPage} />
                         <Route path="/manualSchModify/:name" component={ManualSchModifyPage} />
                         <Route path="/classroomManage" component={ClassroomManagePage}/>
                         <Route path="/curriculumTeacher/:name" component={CurriculumTeacherPage}/>
                         <Route path="/curriculumManage" component={CurriculumManagePage}/>
+                        <Route path="/courseTable" component={CourseTable}/>
                     </Switch>
                 </Content>
                 <TssFooter/>

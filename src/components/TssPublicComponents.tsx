@@ -41,6 +41,7 @@ export default class NavigationBar extends Component<BarProps>{
     handleClick(e) {
         if(e.key !== this.props.current)this.props.dispatch({type:'navigation/jump', payload: {direction: e.key}});
     };
+
     render() {
         return (
             <Menu onClick={this.handleClick}
@@ -53,11 +54,14 @@ export default class NavigationBar extends Component<BarProps>{
                         <Menu.Item key="userManage">管理用户信息</Menu.Item>
                     </MenuItemGroup>
                 </SubMenu>
-                <Menu.Item key="course">
-                    <Icon type="book" />选课系统
-                </Menu.Item>
+                <SubMenu title={<span><Icon type="book" />选课系统</span>}>
+                    <MenuItemGroup title="选课系统">
+                        <Menu.Item key="selection">选课</Menu.Item>
+                        <Menu.Item key="courseTable">查看课表</Menu.Item>
+                    </MenuItemGroup>
+                </SubMenu>
                 <Menu.Item key="list">
-                    <Icon type="calendar" />查看课表
+                    <Icon type="calendar" />培养方案
                 </Menu.Item>
                 <Menu.Item key="alipay">
                     <a href="http://www.alipay.com/" target="_blank"><Icon type="message" />

@@ -8,6 +8,7 @@ const model = {
         email: 'haha@qq.com',
         tel: '23333',
         intro: 'hhhhh',
+        level: 'student',
     },
     reducers: {
         updateUserInfo(st, payload) {
