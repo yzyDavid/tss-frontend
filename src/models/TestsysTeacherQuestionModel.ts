@@ -16,7 +16,25 @@ const model = {
     state: {
         ...state,
         level: 'manager',
-
+        questions :[{
+            qid: '10',
+            question: 'Is monkey an animal?',
+            qanswer: 'yes',
+            qtype: '1',         //1judge
+            qunit: '1',
+        }, {
+            qid: '12',
+            question: 'Is apple an animal?',
+            qanswer: 'no',
+            qtype: '1',
+            qunit: '1',
+        },{
+            qid: '13',
+            question: 'Is the sun rising from east?',
+            qanswer: 'yes',
+            qtype: '1',
+            qunit: '2',
+        }]
     },
     reducers: {
         saveSession(st) {
@@ -27,7 +45,11 @@ const model = {
         },
         updateSession(st, payload) {
             return {...st, ...payload.payload};
-        }
+        },
+
+        updateQuestionInfo(st, payload) {
+            return {...st, ...payload.payload};
+        },
     },
     effects: {
         * jumpInsert(payload: {payload: {direction: string}}, {call, put}) {
@@ -55,7 +77,7 @@ const model = {
             return;
         },
 
-        * delete(payload: { payload: QuestionFormData }, {call, put}) {
+        * delete(payload: { payload: {pid:string} }, {call, put}) {     //删除问题
             // console.log(payload);
             const msg = payload.payload;
             const response = yield call(tssFetch, '/testsys_question/delete', 'POST', msg);
@@ -78,6 +100,28 @@ const model = {
                 return;
             };
             //?datasource
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            yield put({
+                type: 'updateSearchInfo',
+                payload: {questions: body.questions}
+            });
+
+            return;
+        },
+
+        * update(payload: { payload: QuestionFormData }, {call, put}) {
+            // console.log(payload);
+            const msg = payload.payload;
+            const response = yield call(tssFetch, '/testsys_question/update', 'POST', msg);
+            console.log(response);
+            if (response.status === 400) {
+                message.error('更新失败');
+                return;
+            };
+
+
+            //回馈？
 
             return;
         },
