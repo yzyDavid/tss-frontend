@@ -21,6 +21,9 @@ import LoginModel from './models/loginModel';
 import NavigationModel from './models/navigationModel';
 import UserInfoModel from './models/userInfoModel';
 import TestsysTeacherQuestionModel from './models/TestsysTeacherQuestionModel';
+import TestsysStudentPaperPageComponent from "./components/TestsysStudentPaper";
+import TestsysStudentQuestionPageComponent from "./components/TestsysStudentQuestion";
+import TestsysStudentQuestionReviewPageComponent from "./components/TestsysStudentQuestionReview";
 
 const {Content} = Layout;
 
@@ -79,6 +82,18 @@ const TestsysTeacherQuestionSearchPage = connect(state => {
     return {...state.userinfo};
 })(TestsysTeacherQuestionSearchComponent);
 
+const TestsysStudentPaperPage = connect(state => {
+    return {...state.userinfo};
+})(TestsysStudentPaperPageComponent);
+
+const TestsysStudentQuestionPage = connect(state => {
+    return {...state.userinfo};
+})(TestsysStudentQuestionPageComponent);
+
+const TestsysStudentQuestionReviewPage = connect(state => {
+    return {...state.userinfo};
+})(TestsysStudentQuestionReviewPageComponent);
+
 app.router(({history}) => (
         <Router history={history}>
             <Layout>
@@ -96,6 +111,9 @@ app.router(({history}) => (
                         <Route path="/testsys_teacher_paper" component={TestsysTeacherPaperPage}/>
                         <Route path="/testsys_teacher_question_insert" component={TestsysTeacherQuestionInsertPage}/>
                         <Route path="/testsys_teacher_question_search" component={TestsysTeacherQuestionSearchPage}/>
+                        <Route path="/testsys_student_paper" component={TestsysStudentPaperPage}/>
+                        <Route path="/testsys_student_question" component={TestsysStudentQuestionPage}/>
+                        <Route path="/testsys_student_question_review" component={TestsysStudentQuestionReviewPage}/>
                     </Switch>
                 </Content>
                 <TssFooter/>
