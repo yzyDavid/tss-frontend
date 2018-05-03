@@ -28,10 +28,16 @@ import LoginModel from './models/loginModel';
 import NavigationModel from './models/navigationModel';
 import UserInfoModel from './models/userInfoModel';
 import TestsysTeacherQuestionModel from './models/TestsysTeacherQuestionModel';
+<<<<<<< HEAD
+import TestsysStudentPaperPageComponent from "./components/TestsysStudentPaper";
+import TestsysStudentQuestionPageComponent from "./components/TestsysStudentQuestion";
+import TestsysStudentQuestionReviewPageComponent from "./components/TestsysStudentQuestionReview";
+=======
 import TestsysTeacherPaperModel from './models/TestsysTeacherPaperModel'
 import TestsysModel from './models/TestsysModel'
 import TestsysTeacherResultModel from './models/TestsysTeacherResultModel'
 
+>>>>>>> 97ed234c56a99c6cf6c9c60aabdbd9e9e7681df1
 
 const {Content} = Layout;
 
@@ -92,6 +98,19 @@ const TestsysTeacherQuestionSearchPage = connect(state => {
     return {...state.teacherquestion};
 })(TestsysTeacherQuestionSearchComponent);
 
+<<<<<<< HEAD
+const TestsysStudentPaperPage = connect(state => {
+    return {...state.userinfo};
+})(TestsysStudentPaperPageComponent);
+
+const TestsysStudentQuestionPage = connect(state => {
+    return {...state.userinfo};
+})(TestsysStudentQuestionPageComponent);
+
+const TestsysStudentQuestionReviewPage = connect(state => {
+    return {...state.userinfo};
+})(TestsysStudentQuestionReviewPageComponent);
+=======
 const TestsysTeacherPaperInsertPage = connect(state => {
     return{...state.teacherpaper}
 })(TestsysTeacherPaperInsertComponent);
@@ -119,6 +138,7 @@ const TestsysTeacherResultQtypePage = connect(state => {
 const TestsysTeacherResultQunitPage = connect(state => {
     return {...state.teacherresult};
 })(TestsysTeacherResultQunitComponent);
+>>>>>>> 97ed234c56a99c6cf6c9c60aabdbd9e9e7681df1
 
 app.router(({history}) => (
         <Router history={history}>
@@ -136,6 +156,11 @@ app.router(({history}) => (
                         <Route path="/testsys_teacher_question" component={TestsysTeacherQuestionPage}/>
                         <Route path="/testsys_teacher_question_insert" component={TestsysTeacherQuestionInsertPage}/>
                         <Route path="/testsys_teacher_question_search" component={TestsysTeacherQuestionSearchPage}/>
+<<<<<<< HEAD
+                        <Route path="/testsys_student_paper" component={TestsysStudentPaperPage}/>
+                        <Route path="/testsys_student_question" component={TestsysStudentQuestionPage}/>
+                        <Route path="/testsys_student_question_review" component={TestsysStudentQuestionReviewPage}/>
+=======
                         <Route path="/testsys_teacher_paper" component={TestsysTeacherPaperPage}/>
                         <Route path="/testsys_teacher_paper_insert" component={TestsysTeacherPaperInsertPage}/>
                         <Route path="/testsys_teacher_paper_search" component={TestsysTeacherPaperSearchPage}/>
@@ -145,6 +170,7 @@ app.router(({history}) => (
                         <Route path="/testsys_teacher_result_qtype" component={TestsysTeacherResultQtypePage}/>
                         <Route path="/testsys_teacher_result_qunit" component={TestsysTeacherResultQunitPage}/>
 
+>>>>>>> 97ed234c56a99c6cf6c9c60aabdbd9e9e7681df1
                     </Switch>
                 </Content>
                 <TssFooter/>
