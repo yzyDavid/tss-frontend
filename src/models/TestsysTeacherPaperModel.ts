@@ -75,17 +75,7 @@ const model = {
 
             },
 
-        * jumpInsert(payload: {payload: {direction: string}}, {call, put}) {
-            yield put(routerRedux.push('/testsys_teacher_paper_insert'));
 
-            return;
-        },
-
-        * jumpSearch(payload: {payload: {direction: string}}, {call, put}) {
-            yield put(routerRedux.push('/testsys_teacher_paper_search'));
-
-            return;
-        },
 
         * insert(payload: { payload: PaperFormData }, {call, put}) {
             // console.log(payload);
@@ -118,7 +108,7 @@ const model = {
             // console.log(payload);
 
             const response = yield call(tssFetch, '/testsys_paper/search', 'POST');
-            console.log(response);
+            console.log("search paper response"+response);
             if (response.status === 400) {
                 message.error('查询失败');
                 return;

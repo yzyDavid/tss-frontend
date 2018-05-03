@@ -44,7 +44,43 @@ export class QuestionSearchForm extends Component<FormProps,  QuestiontoEdit> {
     componentDidMount() {
     }
 
-    handleSearch = (e: FormEvent<{}>) => {
+    handleSearchQid =() =>{
+        const{form} = this.props;
+        const values = {
+            direction: "qid",
+            info: form.getFieldValue("qid"),
+        }
+        this.props.dispatch({type:'teacherquestion/search', payload: values});
+        console.log("Search question qid");
+        console.log(values);
+
+    }
+
+    handleSearchQunit =() =>{
+        const{form} = this.props;
+        const values = {
+            direction: "qunit",
+            info: form.getFieldValue("qunit"),
+        }
+        this.props.dispatch({type:'teacherquestion/search', payload: values});
+        console.log("Search question unit");
+        console.log(values);
+
+    }
+
+    handleSearchQtype =() =>{
+        const{form} = this.props;
+        const values = {
+            direction: "qtype",
+            info: form.getFieldValue("qtype"),
+        }
+        this.props.dispatch({type:'teacherquestion/search', payload: values});
+        console.log("Search question type");
+        console.log(values);
+
+    }
+
+    handleSearch = (e: FormEvent<{}>) => {      //无用
         e.preventDefault();
         const formProps = this.props.form;
         formProps.validateFieldsAndScroll((err: any, values: QuestionFormData) => {
@@ -52,7 +88,10 @@ export class QuestionSearchForm extends Component<FormProps,  QuestiontoEdit> {
                 message.error('信息填写不合法');
                 return;
             }
+
             this.props.dispatch({type:'teacherquestion/search', payload: values});
+            console.log("searchquestion");
+            console.log(values);
         });
     };
 
@@ -175,31 +214,20 @@ this.setState({list});*/
 
         return (
             <Form onSubmit={this.handleSearch}>
-
-                <FormItem label="题目关键字" {...formItemLayout} hasFeedback>
+                <FormItem label="题目号" {...formItemLayout} hasFeedback>
                     {
-                        getFieldDecorator('question', {
+                        getFieldDecorator('qid', {
                             rules: [
-                             //   {required: true, message: '请输入题目'}
+
                             ]
                         })(
+
                             <Input />
-                           // <TextArea rows={4} />
                         )
                     }
                 </FormItem>
 
-                <FormItem label="答案关键字" {...formItemLayout} hasFeedback>
-                    {
-                        getFieldDecorator('qanswer', {
-                            rules: [
-                               // {required: true, message: '请输入答案'}
-                            ]
-                        })(
-                            <Input  />
-                        )
-                    }
-                </FormItem>
+
 
                 <FormItem label="单元" {...formItemLayout} hasFeedback>
                     {
@@ -226,7 +254,9 @@ this.setState({list});*/
                 </FormItem>
 
                 <FormItem {...formItemLayout}>
-                    <Button icon="copy" type="primary" htmlType="submit">搜索</Button>
+                    <Button icon="copy" type="primary" onClick={()=>this.handleSearchQid()}>按题目号搜索</Button>
+                    <Button icon="copy" type="primary" onClick={()=>this.handleSearchQunit()}>按单元号搜索</Button>
+                    <Button icon="copy" type="primary" onClick={()=>this.handleSearchQtype()}>按题型搜索</Button>
                 </FormItem>
 
                 <Table rowKey="qid" columns = {columns} dataSource = {this.props.questions}/>
@@ -235,7 +265,7 @@ this.setState({list});*/
 
 
 
-                <FormItem label="题目关键字" {...formItemLayout} hasFeedback>
+                <FormItem label="题目" {...formItemLayout} hasFeedback>
                     {
                         getFieldDecorator('question_t', {
                             rules: [
@@ -248,7 +278,7 @@ this.setState({list});*/
                     }
                 </FormItem>
 
-                <FormItem label="答案关键字" {...formItemLayout} hasFeedback>
+                <FormItem label="答案" {...formItemLayout} hasFeedback>
                     {
                         getFieldDecorator('qanswer_t', {
                             rules: [

@@ -11,6 +11,7 @@ interface FormProps extends DvaProps {
 }
 
 export class QuestionFormData {
+    qid: string;
     question: string;
     qanswer: string;
     qtype: string;
@@ -30,7 +31,10 @@ export class QuestionInsertForm extends Component<FormProps, QuestionFormData> {
                 return;
             }
             this.props.dispatch({type:'teacherquestion/insert', payload: values});     //!!!!!!!!
+            console.log("insertquestion");
+            console.log(values);
         });
+
     };
 
     render() {
@@ -47,6 +51,20 @@ export class QuestionInsertForm extends Component<FormProps, QuestionFormData> {
         };
         return (
             <Form onSubmit={this.handleSubmit}>
+
+                <FormItem label="题目号" {...formItemLayout} hasFeedback>
+                    {
+                        getFieldDecorator('qid', {
+                            rules: [
+                                {required: true, message: '请输入题目号'},
+                                {pattern: /^[0-9]+$/, message: '请输入数字'}
+                            ]
+                        })(
+
+                            <Input />
+                        )
+                    }
+                </FormItem>
 
                 <FormItem label="题目" {...formItemLayout} hasFeedback>
                     {

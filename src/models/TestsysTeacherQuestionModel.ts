@@ -90,11 +90,11 @@ const model = {
             return;
         },
 
-        * search(payload: { payload: QuestionFormData }, {call, put}) {
+        * search(payload: { payload: {direction: string, info: string}}, {call, put}) {
             // console.log(payload);
             const msg = payload.payload;
             const response = yield call(tssFetch, '/testsys_question/search', 'POST', msg);
-            console.log(response);
+            console.log("search question response:"+response);
             if (response.status === 400) {
                 message.error('查询失败');
                 return;
