@@ -23,13 +23,12 @@ export default class TeacherPaperPageComponent extends Component<UserProps, User
         };
     }
     formRef: any;
-    setModalVisible(modalVisible) {
-        if(this.formRef && modalVisible === true) this.formRef.refresh();
-        this.setState({ modalVisible: modalVisible });
+
+    handleClick = (e) => {
+        this.props.dispatch({type:'teacherpaper/jump', payload: {direction: e.direction}});
+        console.log("teacherpaper:"+e.direction);
     };
-    handleOk(e){
-        if(!this.formRef.handleSubmit(e)) this.setModalVisible(false);
-    }
+
     render() {
 
         const formItemLayout = {
@@ -45,8 +44,9 @@ export default class TeacherPaperPageComponent extends Component<UserProps, User
         return (
             <div>
                 <FormItem {...formItemLayout}>
-                    <Button icon="copy" type="primary" htmlType="submit">新增试卷</Button>
-                    <Button icon="copy" type="primary" htmlType="submit">查询试卷</Button>
+
+                    <Button icon="copy" type="primary" htmlType="submit" onClick={this.handleClick.bind(this, {direction: "Insert"})}>新增试卷</Button>
+                    <Button icon="copy" type="primary" htmlType="submit" onClick={this.handleClick.bind(this, {direction: "Search"})}>查询试卷</Button>
                 </FormItem>
             </div>
 

@@ -10,6 +10,11 @@ class HomePageProps implements DvaProps {
 }
 
 export default class HomePageComponent extends Component<HomePageProps, {}> {
+    handleClick = (e) => {
+        this.props.dispatch({type:'testsys/jump', payload: {direction: e.direction}});
+    };
+
+
     render() {
 
         const formItemLayout = {
@@ -23,13 +28,14 @@ export default class HomePageComponent extends Component<HomePageProps, {}> {
             },
         };
 
+
         return (
             <div>
                 <h2>选择你的职位</h2>
 
                 <FormItem {...formItemLayout}>
-                    <Button icon="copy" type="primary" htmlType="submit">老师</Button>
-                    <Button icon="copy" type="primary" htmlType="submit">学生</Button>
+                    <Button icon="copy" type="primary" htmlType="submit" onClick={this.handleClick.bind(this, {direction: "Teacher"})}>老师</Button>
+                    <Button icon="copy" type="primary" htmlType="submit" onClick={this.handleClick.bind(this, {direction: "Student"})}>学生</Button>
                 </FormItem>
 
                 <FormItem {...formItemLayout}>
