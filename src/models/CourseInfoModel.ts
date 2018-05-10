@@ -2,6 +2,7 @@ import {httpMethod, tssFetch} from '../utils/tssFetch';
 import {message} from 'antd';
 import {CourseFormData,CourseInfo} from '../components/ManualScheduling';
 import {Router, Route, Switch, routerRedux, browserHistory} from 'dva/router';
+import {log} from "util";
 
 const model = {
     namespace: 'courseinfo',
@@ -54,6 +55,8 @@ const model = {
        * modifyCourseInfo(payload: { payload: CourseInfo}, {call, put})
        {
            const value = payload.payload.courseNumber.toString();
+           console.log(payload.payload);
+           //fetch the data of the case and add to the query
            yield put(routerRedux.push({pathname:'/manualSchModify/'+value,query: payload.payload,}));
            return;
        },

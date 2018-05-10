@@ -60,13 +60,13 @@ const AutoSchedulingPage = connect(state => {
 })(AutoSchedulingComponent);
 
 const ManualSchedulingPage = connect(state => {
-    const {dataSource} = state.courseinfo;
+    const dataSource = state.courseinfo;
     return {dataSource: dataSource};
 })(ManualSchedulingPageComponent);
 
 const ManualSchModifyPage = connect(state => {
-    const {dataSource} = state.freeclassroominfo;
-    return {dataSource: dataSource};
+    const dataSource = state.freeclassroominfo.dataSource;
+    return {dataSource: dataSource, courseInfo:  state.freeclassroominfo.selectedCourseInfo};
 })(ManualSchModifyPageComponent);
 
 const ClassroomManagePage = connect(state => {

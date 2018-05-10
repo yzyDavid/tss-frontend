@@ -14,20 +14,27 @@ const columns = [
     {title: '容量', dataIndex: 'classroomCapacity', key: 'classroomCapacity'},
     ];
 
-
 var initData = [
-            {key: 1, classroomAddress: '东一102', classroomTime: '16:30-18:30', classroomCapacity: '100'},
-            {key: 2, classroomAddress: '东二202', classroomTime: '16:30-18:30', classroomCapacity: '50'},
-            {key: 3, classroomAddress: '西一223', classroomTime: '16:30-18:30', classroomCapacity: '100'},
-            {key: 4, classroomAddress: '西二308', classroomTime: '16:30-18:30', classroomCapacity: '200'},
-            {key: 5, classroomAddress: '东一105', classroomTime: '16:30-18:30', classroomCapacity: '150'},
+            {key: 1, classroomAddress: '', classroomTime: '', classroomCapacity: ''},
+            // {key: 1, classroomAddress: '东一102', classroomTime: '16:30-18:30', classroomCapacity: '100'},
+            // {key: 2, classroomAddress: '东二202', classroomTime: '16:30-18:30', classroomCapacity: '50'},
+            // {key: 3, classroomAddress: '西一223', classroomTime: '16:30-18:30', classroomCapacity: '100'},
+            // {key: 4, classroomAddress: '西二308', classroomTime: '16:30-18:30', classroomCapacity: '200'},
+            // {key: 5, classroomAddress: '东一105', classroomTime: '16:30-18:30', classroomCapacity: '150'},
         ];
+
+var initCourseArrangement = [
+    {key: 1, classroomAddress: '', classroomTime: ''},
+    {key: 2, classroomAddress: '', classroomTime: ''},
+];
+
 var confirmData = {classroomAddress: '', classroomTime: '', classroomCapacity: ''};
 
 interface ManualSchModifyProps extends DvaProps {
     form: any;
     dataSource: any;
     location: any;
+    courseInfo: any;
 }
 
 interface ViewState {
@@ -62,7 +69,6 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
                 return;
             }
             this.props.dispatch({type: 'freeclassroominfo/freeClassroomInfo', payload: values});
-            initData=this.props.dataSource;
             this.setState({refresh:true});
         });
     };
@@ -84,6 +90,7 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
 
     render() {
         const {getFieldDecorator} = this.props.form;
+        initData=this.props.dataSource;
         return (
             <div>
                 <Form layout={"inline"} onSubmit={this.handleSubmit1.bind(this)}>
@@ -161,7 +168,7 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
                         type: 'radio',
                         onSelect(record, selected, selectedRows) {
                             confirmData = record;
-                            console.log(record, selected, selectedRows);
+                            //console.log(record, selected, selectedRows);
                         },}}
                     dataSource={initData}/>
             </div>
@@ -174,26 +181,110 @@ const WrappedSearchForm: any = Form.create({})(SearchForm);
 export default class ManualSchModifyComponent extends Component<ManualSchModifyProps> {
     constructor(props,context) {
         super(props,context);
-        // console.log('this is the query we get');
-        // console.log(props.location.query);
+        initCourseArrangement = this.props.courseInfo;
+        this.handleSubmit1 = this.handleSubmit1.bind(this);
+        this.handleSubmit2 = this.handleSubmit2.bind(this);
     }
 
+    handleSubmit1 = (e: FormEvent<{}>) => {
+        e.preventDefault();
+        this.props.dispatch({type: 'freeclassroominfo/deleteCourseInfo1', payload: this.props.location.query});
+
+    };
+    handleSubmit2 = (e: FormEvent<{}>) => {
+        e.preventDefault();
+        this.props.dispatch({type: 'freeclassroominfo/deleteCourseInfo2', payload: this.props.location.query});
+    };
+
     render() {
-        return (
-            <div>
-                <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
-                <br/>
-                <label style={{fontSize: 'large', marginLeft: 20}}>课程号：{this.props.location.query.courseNumber}</label>
-                <label style={{fontSize: 'large', marginLeft: 50}}>课程名称：{this.props.location.query.courseTitle}</label>
-                <label style={{fontSize: 'large', marginLeft: 50}}>课程地址：{this.props.location.query.courseAddress}</label>
-                <label style={{fontSize: 'large', marginLeft: 50}}>课程时间：{this.props.location.query.courseTime}</label>
-                <br/>
-                <br/>
+        initCourseArrangement = this.props.courseInfo;
+        if(initCourseArrangement[0].classroomAddress.length<1)
+            return (
                 <div>
-                    <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource}/>
+                    <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
+                    <br/>
+                    <label style={{fontSize: 'large', marginLeft: 20}}>课程号：{this.props.location.query.courseNumber}</label>
+                    <label style={{fontSize: 'large', marginLeft: 50}}>课程名称：{this.props.location.query.courseTitle}</label>
+                    <label style={{fontSize: 'large', marginLeft: 50}}>未安排课程时间：{this.props.location.query.courseTime}</label>
+                    <br/>
+                    <div>
+                        <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource}/>
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        else if(initCourseArrangement[1].classroomAddress.length<1)
+            return (
+                <div>
+                    <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
+                    <br/>
+                    <label style={{fontSize: 'large', marginLeft: 20}}>课程号：{this.props.location.query.courseNumber}</label>
+                    <label style={{fontSize: 'large', marginLeft: 50}}>课程名称：{this.props.location.query.courseTitle}</label>
+                    <label style={{fontSize: 'large', marginLeft: 50}}>未安排课程时间：{this.props.location.query.courseTime}</label>
+                    <br/>
+                    <Form  layout={"inline"} style={{background: "#ffffff", padding: 20}}>
+                        <FormItem
+                            label="地点" >{initCourseArrangement[0].classroomAddress}</FormItem>
+                        <FormItem
+                            label="时间" >{initCourseArrangement[0].classroomTime}</FormItem>
+                        <FormItem>
+                            <Button
+                                style={{marginLeft: 20}}
+                                icon="cross"
+                                type="primary"
+                                onClick={this.handleSubmit1}
+                                htmlType="submit">
+                            </Button>
+                        </FormItem>
+                    </Form>
+                    <div>
+                        <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource}/>
+                    </div>
+                </div>
+            );
+        else
+            return (
+                <div>
+                    <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
+                    <br/>
+                    <label style={{fontSize: 'large', marginLeft: 20}}>课程号：{this.props.location.query.courseNumber}</label>
+                    <label style={{fontSize: 'large', marginLeft: 50}}>课程名称：{this.props.location.query.courseTitle}</label>
+                    <label style={{fontSize: 'large', marginLeft: 50}}>未安排课时：{this.props.location.query.courseHour}</label>
+                    <br/>
+                    <Form  layout={"inline"} style={{background: "#ffffff", paddingLeft: 50}}>
+                        <FormItem
+                            label="地点" >{initCourseArrangement[0].classroomAddress}</FormItem>
+                        <FormItem
+                            label="时间" >{initCourseArrangement[0].classroomTime}</FormItem>
+                        <FormItem>
+                            <Button
+                                style={{marginLeft: 20}}
+                                icon="cross"
+                                type="primary"
+                                onClick={this.handleSubmit1}
+                                htmlType="submit">
+                            </Button>
+                        </FormItem>
+                    </Form><div/>
+                    <Form  layout={"inline"} style={{background: "#ffffff", paddingLeft: 50}}>
+                        <FormItem
+                            label="地点" >{initCourseArrangement[1].classroomAddress}</FormItem>
+                        <FormItem
+                            label="时间" >{initCourseArrangement[1].classroomTime}</FormItem>
+                        <FormItem>
+                            <Button
+                                style={{marginLeft: 20}}
+                                icon="cross"
+                                type="primary"
+                                onClick={this.handleSubmit2}
+                                htmlType="submit">
+                            </Button>
+                        </FormItem>
+                    </Form>
+                    <div>
+                        <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource}/>
+                    </div>
+                </div>
+            );
     }
 }
 
