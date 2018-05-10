@@ -109,6 +109,9 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
                         <Menu.Item key="classroomManage">
                             <a onClick={this.handleClick.bind(this, {direction: "classroomManage"})}>信息管理</a>
                         </Menu.Item>
+                        <Menu.Item key="manageTime">
+                            <a onClick = {this.handleClick.bind(this, {direction: "manageTime"})}>补退选时间</a>
+                        </Menu.Item>
                     </Menu>
                 );
                 return(

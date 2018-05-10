@@ -26,6 +26,7 @@ import SelectionNaviComponent from "./components/SelectionNavi";
 import NavigationBar from './components/TssPublicComponents'
 import {log} from "util";
 import CourseTableComponent from "./components/CourseTable";
+import ManageTimeComponent from "./components/ManageTime";
 
 const {Content} = Layout;
 
@@ -60,7 +61,8 @@ const UserManagePage = connect(state => {
 
 
 const SelectionNavi = connect(state => {
-    return {};
+    const {dataSource} = state.courseinfo;
+    return {dataSource: dataSource}
 })(SelectionNaviComponent);
 
 const AutoSchedulingPage = connect(state => {
@@ -95,6 +97,9 @@ const CourseTable = connect(state => {
     return {};
 })(CourseTableComponent);
 
+const ManageTime = connect(state =>{
+    return{};
+})(ManageTimeComponent)
 app.router(({history}) => (
         <Router history={history}>
             <Layout>
@@ -113,6 +118,7 @@ app.router(({history}) => (
                         <Route path="/curriculumTeacher/:name" component={CurriculumTeacherPage}/>
                         <Route path="/curriculumManage" component={CurriculumManagePage}/>
                         <Route path="/courseTable" component={CourseTable}/>
+                        <Route path="/manageTime" component = {ManageTime}/>
                     </Switch>
                 </Content>
                 <TssFooter/>

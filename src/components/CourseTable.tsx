@@ -76,11 +76,13 @@ export default class CourseTableComponent extends Component<CourseProps>{
         }];
         return(
             <div>
-               <NavigationBar current={'selection'} dispatch={this.props.dispatch}/>
+               <NavigationBar current={'courseTable'} dispatch={this.props.dispatch}/>
                 <div style={{ padding: 24, background: '#fff', minHeight: 780 }}>
                     <Table dataSource={data} columns={columns}>
                     </Table>
+                    <Button type="primary" >打印课表</Button>
                 </div>
+
             </div>
 
         );
