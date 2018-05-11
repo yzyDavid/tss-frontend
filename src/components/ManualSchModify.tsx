@@ -93,9 +93,9 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
         initData=this.props.dataSource;
         return (
             <div>
-                <Form layout={"inline"} onSubmit={this.handleSubmit1.bind(this)}>
+                <Form layout={"inline"} onSubmit={this.handleSubmit1.bind(this)} style={{textAlign: 'center'}}>
                     <FormItem
-                        label="校区" style={{paddingLeft: 20}}>
+                        label="校区" >
                         {getFieldDecorator('campus', {})(
                             <Select style={{width: 200}}>
                                 <Option value="玉泉校区">玉泉校区</Option>
@@ -142,7 +142,7 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
                         onClick={this.handleSubmit1}>搜索
                     </Button>
                     <Button
-                        style={{marginLeft: 20}}
+                        style={{marginLeft: 10}}
                         icon="edit"
                         type="primary"
                         htmlType="submit"
@@ -202,12 +202,16 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
             return (
                 <div>
                     <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
-                    <br/>
-                    <label style={{fontSize: 'large', marginLeft: 20}}>课程号：{this.props.location.query.courseNumber}</label>
-                    <label style={{fontSize: 'large', marginLeft: 50}}>课程名称：{this.props.location.query.courseTitle}</label>
-                    <label style={{fontSize: 'large', marginLeft: 50}}>未安排课程时间：{this.props.location.query.courseTime}</label>
-                    <br/>
-                    <div>
+                    <Form  layout={"inline"} style={{textAlign: 'center'}}>
+                        <FormItem
+                            label="课程号：" >{this.props.location.query.courseNumber}</FormItem>
+                        <FormItem
+                            label="课程名称：" >{this.props.location.query.courseTitle}</FormItem>
+                        <FormItem
+                            label="未安排课时" >{this.props.location.query.courseTime}</FormItem>
+                    </Form><div/>
+                    <div/>
+                        <div>
                         <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource}/>
                     </div>
                 </div>
@@ -216,12 +220,15 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
             return (
                 <div>
                     <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
-                    <br/>
-                    <label style={{fontSize: 'large', marginLeft: 20}}>课程号：{this.props.location.query.courseNumber}</label>
-                    <label style={{fontSize: 'large', marginLeft: 50}}>课程名称：{this.props.location.query.courseTitle}</label>
-                    <label style={{fontSize: 'large', marginLeft: 50}}>未安排课程时间：{this.props.location.query.courseTime}</label>
-                    <br/>
-                    <Form  layout={"inline"} style={{background: "#ffffff", padding: 20}}>
+                    <Form  layout={"inline"} style={{ textAlign: 'center'}}>
+                        <FormItem
+                            label="课程号：" >{this.props.location.query.courseNumber}</FormItem>
+                        <FormItem
+                            label="课程名称：" >{this.props.location.query.courseTitle}</FormItem>
+                        <FormItem
+                            label="未安排课时" >{this.props.location.query.courseTime}</FormItem>
+                    </Form><div/>
+                    <Form  layout={"inline"} style={{background: "#ffffff", paddingLeft: 20, textAlign: 'center'}}>
                         <FormItem
                             label="地点" >{initCourseArrangement[0].classroomAddress}</FormItem>
                         <FormItem
@@ -230,7 +237,7 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
                             <Button
                                 style={{marginLeft: 20}}
                                 icon="cross"
-                                type="primary"
+                                type="dashed"
                                 onClick={this.handleSubmit1}
                                 htmlType="submit">
                             </Button>
@@ -245,12 +252,15 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
             return (
                 <div>
                     <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
-                    <br/>
-                    <label style={{fontSize: 'large', marginLeft: 20}}>课程号：{this.props.location.query.courseNumber}</label>
-                    <label style={{fontSize: 'large', marginLeft: 50}}>课程名称：{this.props.location.query.courseTitle}</label>
-                    <label style={{fontSize: 'large', marginLeft: 50}}>未安排课时：{this.props.location.query.courseHour}</label>
-                    <br/>
-                    <Form  layout={"inline"} style={{background: "#ffffff", paddingLeft: 50}}>
+                    <Form  layout={"inline"} style={{textAlign: 'center'}}>
+                        <FormItem
+                            label="课程号：" >{this.props.location.query.courseNumber}</FormItem>
+                        <FormItem
+                            label="课程名称：" >{this.props.location.query.courseTitle}</FormItem>
+                        <FormItem
+                            label="未安排课时" >{this.props.location.query.courseTime}</FormItem>
+                    </Form><div/>
+                    <Form  layout={"inline"} style={{background: "#ffffff", paddingLeft: 20, textAlign: 'center'}}>
                         <FormItem
                             label="地点" >{initCourseArrangement[0].classroomAddress}</FormItem>
                         <FormItem
@@ -259,13 +269,13 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
                             <Button
                                 style={{marginLeft: 20}}
                                 icon="cross"
-                                type="primary"
+                                type="dashed"
                                 onClick={this.handleSubmit1}
                                 htmlType="submit">
                             </Button>
                         </FormItem>
                     </Form><div/>
-                    <Form  layout={"inline"} style={{background: "#ffffff", paddingLeft: 50}}>
+                    <Form  layout={"inline"} style={{background: "#ffffff", paddingLeft: 20, textAlign: 'center'}}>
                         <FormItem
                             label="地点" >{initCourseArrangement[1].classroomAddress}</FormItem>
                         <FormItem
@@ -274,7 +284,7 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
                             <Button
                                 style={{marginLeft: 20}}
                                 icon="cross"
-                                type="primary"
+                                type="dashed"
                                 onClick={this.handleSubmit2}
                                 htmlType="submit">
                             </Button>

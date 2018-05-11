@@ -7,7 +7,7 @@ const model = {
     namespace: 'curriculummanage',
     state: {
         dataSource: [
-            {key: 1, courseNumber: '', courseName: '', semester: '', campus: '', courseTime: '', courseAddress: ''},
+            {key: 1, courseNumber: '1', courseName: '1', semester: '', campus: '', courseTime: '', courseAddress: ''},
             ],
         buildingData: ['',],
         classroomData: ['',],
@@ -27,13 +27,14 @@ const model = {
         setup({dispatch, history}) {
             return history.listen(({pathname}) => {
                 if (pathname === '/curriculumManage') {
-                    dispatch({ type: 'curriculumManage', payload: {teacherId: ''} });
+                    dispatch({ type: 'curriculumManage', payload: {campus: ''} });
                 }
             });
         }
     },
     effects: {
-        * curriculumManage(payload: { payload: {teacherId: string} }, {call, put})  {
+        * curriculumManage(payload: { payload: ClassroomFormData }, {call, put})  {
+            console.log(payload.payload);
             const msg = payload.payload;
             // //const tssFetch = (url: string, method: httpMethod, payload: string | object)
             // //返回一个js对象
@@ -58,7 +59,7 @@ const model = {
 
         * getBuilding(payload: { payload: ClassroomFormData }, {call, put})  {
             //console.log('this is the getBuilding');
-            //console.log(payload.payload);
+            console.log(payload.payload);
             const msg = payload.payload;
             // //const tssFetch = (url: string, method: httpMethod, payload: string | object)
             // //返回一个js对象
@@ -80,7 +81,7 @@ const model = {
 
         * getClassroom(payload: { payload: ClassroomFormData }, {call, put})  {
             //console.log('this is the getClassroom');
-            //console.log(payload.payload);
+            console.log(payload.payload);
             const msg = payload.payload;
             // //const tssFetch = (url: string, method: httpMethod, payload: string | object)
             // //返回一个js对象

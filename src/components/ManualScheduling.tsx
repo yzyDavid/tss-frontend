@@ -70,10 +70,8 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
             if (err) {
                 return;
             }
-            console.log(values);
+            //console.log(values);
             this.props.dispatch({type: 'courseinfo/courseInfo', payload: values});
-            initData=this.props.dataSource;
-            console.log(this.props.dataSource);
             this.setState({refresh:true});
         });
     }
@@ -87,7 +85,7 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
         const {getFieldDecorator} = this.props.form;
         return (
             <div>
-                <Form layout={"inline"} onSubmit={this.handleSubmit1}>
+                <Form layout={"inline"} onSubmit={this.handleSubmit1} style={{textAlign: 'center'}}>
                     <FormItem
                         label="校区" >
                         {getFieldDecorator('campus', {})(
@@ -114,7 +112,7 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
                         onClick={this.handleSubmit1}>搜索
                     </Button>
                     <Button
-                        style={{marginLeft:100}}
+                        style={{marginLeft:10}}
                         icon="edit"
                         type="primary"
                         htmlType="submit"
@@ -146,7 +144,7 @@ export default class ManualSchedulingComponent extends Component<ManualSchedulin
     }
 
     render() {
-
+        initData=this.props.dataSource;
         return (
             <div>
                 <NavigationBar current={"course"} dispatch={this.props.dispatch}/>

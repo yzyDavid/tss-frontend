@@ -66,8 +66,6 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
             if (err) {
                 return;
             }
-            //console.log('this is the value we selected');
-            //console.log(values);
             if(this.state.item1State && (!this.state.item2State))
             {
                 if(values.campus)
@@ -117,7 +115,7 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
         if(this.state.item1State && (!this.state.item2State))
             return (
                 <div>
-                    <Form layout={"inline"} onSubmit={this.handleSubmit}>
+                    <Form layout={"inline"} onSubmit={this.handleSubmit} style={{textAlign: 'center'}}>
                         <FormItem
                             label="校区" >
                             {getFieldDecorator('campus', {})(
@@ -148,7 +146,7 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
         else if(this.state.item1State && this.state.item2State && (!this.state.item3State))
             return (
                 <div>
-                    <Form layout={"inline"} onSubmit={this.handleSubmit}>
+                    <Form layout={"inline"} onSubmit={this.handleSubmit} style={{textAlign: 'center'}}>
                         <FormItem
                             label="校区" >
                             {getFieldDecorator('campus', {})(
@@ -163,6 +161,7 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
                                     style={{width: 200}}>
                                     <Option value={this.props.buildingData[0]}>{this.props.buildingData[0]}</Option>
                                     <Option value={this.props.buildingData[1]}>{this.props.buildingData[1]}</Option>
+                                    <Option value=''></Option>
                                 </Select>
                             )}
                         </FormItem>
@@ -189,7 +188,7 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
         else if(this.state.item1State && this.state.item2State && this.state.item3State)
             return (
                 <div>
-                    <Form layout={"inline"} onSubmit={this.handleSubmit}>
+                    <Form layout={"inline"} onSubmit={this.handleSubmit} style={{textAlign: 'center'}}>
                         <FormItem
                             label="校区" >
                             {getFieldDecorator('campus', {})(
