@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react';
-import {Form, Button, Modal, Select, Table} from 'antd';;
+import {Form, Button, message, Select, Table} from 'antd';;
 import DvaProps from '../types/DvaProps';
 import NavigationBar from './TssPublicComponents';
 import {browserHistory, routerRedux} from 'dva/router';
@@ -14,6 +14,8 @@ const columns = [
     {title: '学期', dataIndex: 'semester', key: 'semester'},
     {title: '上课时间', dataIndex: 'courseTime', key: 'courseTime'},
 ];
+const waring1  = function() { message.error('不存在该教室，请重新选择');};
+const waring2  = function() { message.error('未选择需要查看的教室');};
 
 interface ManualSchedulingProps extends DvaProps {
     form: any;
@@ -23,9 +25,10 @@ interface ManualSchedulingProps extends DvaProps {
 }
 
 interface ViewState {
-    item1State: boolean;
     item2State: boolean;
     item3State: boolean;
+    item1Reset: boolean;
+    item2Reset: boolean;
 }
 
 export class CurriculumData {
@@ -51,12 +54,59 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
     constructor(props){
         super(props);
         this.state = {
-            item1State: true,
             item2State: false,
             item3State: false,
+            item1Reset: false,
+            item2Reset: false,
         }
+        this.handleChange1 = this.handleChange1.bind(this);
+        this.handleChange2 = this.handleChange2.bind(this);
+        this.handleChange3 = this.handleChange3.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleSubmit2 = this.handleSubmit2.bind(this);
+    }
+
+    handleChange1(values){
+        if(values)
+        {
+            this.setState({item2State:true});
+            selectedValue.campus = values;
+            this.props.dispatch({type: 'curriculummanage/getBuilding', payload: selectedValue});
+            if(!this.state.item1Reset)
+                this.setState({item1Reset:true});
+        }
+    }
+
+    handleChange2(values){
+        if(this.state.item2State )
+        {
+            if(values)
+            {
+                this.setState({item3State:true,item2Reset:true});
+                selectedValue.building = values;
+                this.props.dispatch({type: 'curriculummanage/getClassroom', payload: selectedValue});
+                if(this.state.item1Reset)
+                    this.setState({item1Reset:false});
+            }
+            else {
+                selectedValue = {campus: '',building: '', classroom: ''};
+                this.setState({item2State: false, item3State: false,item1Reset: false, item2Reset: false, });
+            }
+        }
+    }
+
+    handleChange3(values){
+        if(this.state.item3State )
+        {
+            if(values)
+            {
+                selectedValue.classroom = values;
+                this.setState({item2Reset: false});
+            }
+            else {
+                selectedValue = {campus: '',building: '', classroom: ''};
+                this.setState({item2State: false, item3State: false,item1Reset: false, item2Reset: false, });
+            }
+        }
     }
 
     handleSubmit = (e) => {
@@ -66,178 +116,86 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
             if (err) {
                 return;
             }
-            if(this.state.item1State && (!this.state.item2State))
-            {
-                if(values.campus)
+            if(this.state.item2State&&this.state.item3State)
+                if((!this.state.item1Reset)&&(!this.state.item2Reset))
                 {
-                    this.setState({item2State:true,});
-                    selectedValue.campus = values.campus;
-                    this.props.dispatch({type: 'curriculummanage/getBuilding', payload: values});
-                }
-            }
-            else if(this.state.item1State && this.state.item2State && (!this.state.item3State))
-            {
-                if(values.building)
-                {
-                    this.setState({item3State:true,});
-                    selectedValue.building = values.building;
-                    this.props.dispatch({type: 'curriculummanage/getClassroom', payload: values});
-                }
-            }
-            else if(this.state.item1State && this.state.item2State && this.state.item3State)
-            {
-                if(values.classroom)
-                {
-                    this.setState({item3State:true,});
-                    selectedValue.classroom = values.classroom;
                     this.props.dispatch({type: 'curriculummanage/curriculumManage', payload: values});
                     initData=this.props.dataSource;
                 }
+                else
+                {
+                    waring1();
+                    initData = [{key: 1, courseNumber: '', courseName: '', semester: '',  courseTime: ''},];
+                    selectedValue = {campus: '',building: '', classroom: ''};
+                    this.setState({item2State: false, item3State: false,item1Reset: false, item2Reset: false, });
+                }
+            else
+            {
+                waring2();
+                initData = [{key: 1, courseNumber: '', courseName: '', semester: '',  courseTime: ''},];
+                selectedValue = {campus: '',building: '', classroom: ''};
+                this.setState({item2State: false, item3State: false,item1Reset: false, item2Reset: false, });
             }
-        });
-    }
-
-    handleSubmit2 = (e) => {
-        e.preventDefault();
-        const formProps = this.props.form;
-        formProps.validateFieldsAndScroll((err: any, values: ClassroomFormData) => {
-            if (err) {
-                return;
-            }
-            console.log('this is the handleSubmit2');
-            selectedValue = {campus: '',building: '', classroom: ''};
-            this.setState({item1State: true, item2State: false, item3State: false,});
-        });
+         });
     }
 
     render() {
         const {getFieldDecorator} = this.props.form;
-        if(this.state.item1State && (!this.state.item2State))
-            return (
-                <div>
-                    <Form layout={"inline"} onSubmit={this.handleSubmit} style={{textAlign: 'center'}}>
-                        <FormItem
-                            label="校区" >
-                            {getFieldDecorator('campus', {})(
-                                <Select style={{width: 200}}>
-                                    <Option value="玉泉校区">玉泉校区</Option>
-                                    <Option value="紫金港校区">紫金港校区</Option>
-                                    <Option value="西溪校区">西溪校区</Option>
-                                    <Option value="华家池校区">华家池校区</Option>
-                                    <Option value="之江校区">之江校区</Option>
-                                    <Option value="舟山校区">舟山校区</Option>
-                                </Select>
-                            )}
-                        </FormItem>
-                        <Button
-                            icon="edit"
-                            type="primary"
-                            htmlType="submit"
-                            onClick={this.handleSubmit}>选择
-                        </Button>
-                    </Form>
-                    <Table
-                        style={{width: "100%", background: "#ffffff"}}
-                        columns={columns}
-                        className = "table"
-                        dataSource={[{key: 1, courseNumber: '', courseName: '', semester: '',  courseTime: ''},]}/>
-                </div>
-            );
-        else if(this.state.item1State && this.state.item2State && (!this.state.item3State))
-            return (
-                <div>
-                    <Form layout={"inline"} onSubmit={this.handleSubmit} style={{textAlign: 'center'}}>
-                        <FormItem
-                            label="校区" >
-                            {getFieldDecorator('campus', {})(
-                                <Select style={{width: 200}}>
-                                    <Option value={selectedValue.campus}>{selectedValue.campus}</Option>
-                                </Select>
-                            )}
-                        </FormItem>
-                        <FormItem label="教学楼">
-                            {getFieldDecorator('building', {})(
-                                <Select
-                                    style={{width: 200}}>
-                                    <Option value={this.props.buildingData[0]}>{this.props.buildingData[0]}</Option>
-                                    <Option value={this.props.buildingData[1]}>{this.props.buildingData[1]}</Option>
-                                    <Option value=''></Option>
-                                </Select>
-                            )}
-                        </FormItem>
-                        <Button
-                            icon="edit"
-                            type="primary"
-                            htmlType="submit"
-                            onClick={this.handleSubmit}>选择
-                        </Button>
-                        <Button
-                            style={{marginLeft:20}}
-                            type="primary"
-                            htmlType="submit"
-                            onClick={this.handleSubmit2}>重置
-                        </Button>
-                    </Form>
-                    <Table
-                        style={{width: "100%", background: "#ffffff"}}
-                        columns={columns}
-                        className = "table"
-                        dataSource={[{key: 1, courseNumber: '', courseName: '', semester: '',  courseTime: ''},]}/>
-                </div>
-            );
-        else if(this.state.item1State && this.state.item2State && this.state.item3State)
-            return (
-                <div>
-                    <Form layout={"inline"} onSubmit={this.handleSubmit} style={{textAlign: 'center'}}>
-                        <FormItem
-                            label="校区" >
-                            {getFieldDecorator('campus', {})(
-                                <Select style={{width: 200}}>
-                                    <Option value={selectedValue.campus}>{selectedValue.campus}</Option>
-                                </Select>
-                            )}
-                        </FormItem>
-                        <FormItem label="教学楼">
-                            {getFieldDecorator('building', {})(
-                                <Select
-                                    style={{width: 200}}>
-                                    <Option value={selectedValue.building}>{selectedValue.building}</Option>
-                                </Select>
-                            )}
-                        </FormItem>
-                        <FormItem label="教室">
-                            {getFieldDecorator('classroom', {})(
-                                <Select style={{width: 200}}>
-                                    <Option value={this.props.classroomData[0]}>{this.props.classroomData[0]}</Option>
-                                    <Option value={this.props.classroomData[1]}>{this.props.classroomData[1]}</Option>
-                                </Select>
-                            )}
-                        </FormItem>
-                        <Button
-                            icon="edit"
-                            type="primary"
-                            htmlType="submit"
-                            onClick={this.handleSubmit}>选择
-                        </Button>
-                        <Button
-                            style={{marginLeft:20}}
-                            type="primary"
-                            htmlType="submit"
-                            onClick={this.handleSubmit2}>重置
-                        </Button>
-                    </Form>
-                    <Table
-                        style={{width: "100%", background: "#ffffff"}}
-                        columns={columns}
-                        className = "table"
-                        dataSource={initData}/>
-                    <br/>
-                </div>
-            );
-        else
-            return (
-                <div/>
-            );
+
+        return (
+            <div>
+                <Form layout={"inline"} style={{textAlign: 'center'}}>
+                    <FormItem
+                        label="校区" >
+                        {getFieldDecorator('campus', {})(
+                            <Select  style={{width: 200}} onChange={this.handleChange1}>
+                                <Option value="玉泉校区">玉泉校区</Option>
+                                <Option value="紫金港校区">紫金港校区</Option>
+                                <Option value="西溪校区">西溪校区</Option>
+                                <Option value="华家池校区">华家池校区</Option>
+                                <Option value="之江校区">之江校区</Option>
+                                <Option value="舟山校区">舟山校区</Option>
+                            </Select>
+                        )}
+                    </FormItem>
+                    <FormItem label="教学楼">
+                        {getFieldDecorator('building', {})(
+                            <Select  disabled={!(this.state.item2State)} style={{width: 200}} onChange={this.handleChange2}>
+                                <Option value={this.props.buildingData[0]}>{this.props.buildingData[0]}</Option>
+                                <Option value={this.props.buildingData[1]}>{this.props.buildingData[1]}</Option>
+                                <Option value=''></Option>
+                            </Select>
+                        )}
+                    </FormItem>
+                    <FormItem label="教室">
+                        {getFieldDecorator('classroom', {})(
+                            <Select  disabled={!(this.state.item3State)} style={{width: 200}} onChange={this.handleChange3}>
+                                <Option value={this.props.classroomData[0]}>{this.props.classroomData[0]}</Option>
+                                <Option value={this.props.classroomData[1]}>{this.props.classroomData[1]}</Option>
+                            </Select>
+                        )}
+                    </FormItem>
+                    <Button
+                        icon="edit"
+                        type="primary"
+                        htmlType="submit"
+                        onClick={this.handleSubmit}>选择
+                    </Button>
+                    {/*<Button*/}
+                        {/*style={{marginLeft:20}}*/}
+                        {/*type="primary"*/}
+                        {/*htmlType="submit"*/}
+                        {/*onClick={this.handleSubmit}>重置*/}
+                    {/*</Button>*/}
+                </Form>
+                <Table
+                    style={{width: "100%", background: "#ffffff"}}
+                    columns={columns}
+                    className = "table"
+                    dataSource={initData}/>
+                <br/>
+            </div>
+        );
     }
 }
 
@@ -256,6 +214,10 @@ export default class ManualSchedulingComponent extends Component<ManualSchedulin
                 <div>
                     <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource} buildingData={this.props.buildingData} classroomData={this.props.classroomData}/>
                 </div>
+                <Form layout={"inline"} style={{textAlign: 'center'}}>
+                    <FormItem>
+                        <Button  type="primary" style={{fontSize: 'large'}}>打印</Button></FormItem>
+                </Form>
             </div>
 
         );

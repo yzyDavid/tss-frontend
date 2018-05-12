@@ -52,8 +52,8 @@ const model = {
                     type: 'updateCourseInfo',
                     //payload: {data:body.data}
                     payload: {dataSource:[
-                            {key: 1, courseNumber: '00011', courseTitle: '线性代数', courseAddress: '3150100001', courseTime: '16:30-18:30'},
-                            {key: 2, courseNumber: '00022', courseTitle: '微积分', courseAddress: '3150100002', courseTime: '16:30-18:30'}
+                            {key: 1, courseNumber: '00011', courseTitle: '微积分Ⅰ', courseAddress: '东一201', courseTime: '周一第1~2节'},
+                            {key: 2, courseNumber: '00012', courseTitle: '微积分Ⅱ', courseAddress: '东二302', courseTime: '周三第3~4节'}
                         ]}
                 });
             }

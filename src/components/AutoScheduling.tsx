@@ -34,7 +34,7 @@ class LoadButton extends Component<NaviProps,loadingState>{
     render() {
         return (
             <Button
-                style={{marginLeft: 35}}
+                style={{marginLeft: 35,textAlign: 'center'}}
                 type="primary"
                 loading={this.state.loading}
                 onClick={this.handleClick}>
@@ -59,12 +59,12 @@ export  default class AutoSchedulingComponent extends Component<NaviProps, {}> {
                 <NavigationBar current={"list"} dispatch={this.props.dispatch}/>
                 <br/>
                 <div>
-                <h2 className={"ant-menu-item-group-title"} style={{fontSize: "large", marginLeft: "35px"}}>自动排课页面</h2>
-                <div>
+                {/*<h2 className={"ant-menu-item-group-title"} style={{fontSize: "large", marginLeft: "35px"}}>自动排课</h2>*/}
+                {/*<div>*/}
                     <AutoSelectButton/>
                 </div>
                 </div>
-            </div>
+            // </div>
         );
     }
 }

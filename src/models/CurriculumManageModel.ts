@@ -50,8 +50,8 @@ const model = {
                 type: 'updateCurriculumManageInfo',
                 //payload: {data:body.data}
                 payload: {dataSource:[
-                        {key: 1, courseNumber: '00011', courseName: '线性代数', semester: '春夏', courseTime: '周一第一二节'},
-                        {key: 2, courseNumber: '00022', courseName: '线性代数', semester: '春夏', courseTime: '周一第一二节',}
+                        {key: 1, courseNumber: '00011', courseName: '线性代数', semester: '春夏', courseTime: '周一第1~2节'},
+                        {key: 2, courseNumber: '00022', courseName: '大学物理', semester: '春夏', courseTime: '周一第3~4节',}
                     ]}
             });
             return;
@@ -61,6 +61,18 @@ const model = {
             //console.log('this is the getBuilding');
             console.log(payload.payload);
             const msg = payload.payload;
+            if(payload.payload.campus === "紫金港校区")
+                yield put({
+                    type: 'updateBuildingData',
+                    //payload: {data:body.data}
+                    payload: { buildingData:['东一','东二']}
+                });
+            else
+                yield put({
+                    type: 'updateBuildingData',
+                    //payload: {data:body.data}
+                    payload: { buildingData:['教一','教二']}
+                });
             // //const tssFetch = (url: string, method: httpMethod, payload: string | object)
             // //返回一个js对象
             //const response = yield call(tssFetch, '/classroom/info', 'GET', msg);
@@ -71,11 +83,6 @@ const model = {
             // const jsonBody = yield call(response.text.bind(response));
             //将字符串转换为json对象
             //const body = JSON.parse(jsonBody);
-            yield put({
-                type: 'updateBuildingData',
-                //payload: {data:body.data}
-                payload: { buildingData:['building1','building2']}
-            });
             return;
         },
 
@@ -93,11 +100,18 @@ const model = {
             // const jsonBody = yield call(response.text.bind(response));
             //将字符串转换为json对象
             //const body = JSON.parse(jsonBody);
-            yield put({
-                type: 'updateClassroomData',
-                //payload: {data:body.data}
-                payload: { classroomData:['202','203']}
-            });
+            if(payload.payload.building === "东一")
+                yield put({
+                    type: 'updateClassroomData',
+                    //payload: {data:body.data}
+                    payload: { classroomData:['202','203']}
+                });
+            else
+                yield put({
+                    type: 'updateClassroomData',
+                    //payload: {data:body.data}
+                    payload: { classroomData:['512','516']}
+                });
             return;
         },
     }

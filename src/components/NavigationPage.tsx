@@ -38,7 +38,7 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
     };
 
     button3 = {
-        btnName: "自动排课",
+        btnName: "排课系统",
         src: require("src/img/Calendar.png"),
     };
 

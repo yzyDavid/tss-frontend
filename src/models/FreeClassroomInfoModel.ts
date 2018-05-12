@@ -51,9 +51,9 @@ const model = {
                 type: 'updateClassroomInfo',
                 //payload: {data:body.data}
                 payload: {dataSource:[
-                        {key: 1, classroomAddress: '东一102', classroomTime: '16:30-18:30', classroomCapacity: '100'},
-                        {key: 2, classroomAddress: '东二202', classroomTime: '16:30-18:30', classroomCapacity: '50'},
-                        {key: 3, classroomAddress: '东三202', classroomTime: '16:30-18:30', classroomCapacity: '60'},
+                        {key: 1, classroomAddress: '东一102', classroomTime: '周一第3~5节', classroomCapacity: '100'},
+                        {key: 2, classroomAddress: '东二202', classroomTime: '周一第7~8节', classroomCapacity: '50'},
+                        {key: 3, classroomAddress: '东三202', classroomTime: '周一第8~9节', classroomCapacity: '60'},
                     ]}
             });
             return;

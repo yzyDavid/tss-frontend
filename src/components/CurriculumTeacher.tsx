@@ -1,9 +1,11 @@
 import * as React from 'react';
 import {Component} from 'react';
-import {Form, Button, Table, Select, Modal,message} from 'antd';
+import {Form, Button, Table} from 'antd';
 import { Router,Route,hashHistory} from 'react-router';
 import DvaProps from '../types/DvaProps';
 import NavigationBar from './TssPublicComponents';
+
+const FormItem = Form.Item;
 
 const columns = [
     {title: '课程号', dataIndex: 'courseNumber', key: 'courseNumber'},
@@ -32,15 +34,22 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
         return (
             <div>
                 <NavigationBar current={"list"} dispatch={this.props.dispatch}/>
-                <br/>
-                <label style={{fontSize: 'large', marginLeft: 20}}>教师号：{this.props.location.query}</label>
-                <label style={{fontSize: 'large', marginLeft: 20}}>教师姓名：{this.props.location.query}</label>
+                <Form layout={"inline"} style={{textAlign: 'center',fontSize: 'larger'}}>
+                    <FormItem
+                         label="教师号：310001">{this.props.location.query}</FormItem>
+                    <FormItem
+                        label="教师姓名：张三">{this.props.location.query}</FormItem>
+                </Form>
                 <div>
                     <Table
                         style={{width: "100%", background: "#ffffff"}}
                         columns={columns}
                         dataSource={this.props.dataSource}/>
                 </div>
+                <Form layout={"inline"} style={{textAlign: 'center'}}>
+                    <FormItem>
+                    <Button  type="primary" style={{fontSize: 'large'}}>打印</Button></FormItem>
+                </Form>
             </div>
         );
     }
