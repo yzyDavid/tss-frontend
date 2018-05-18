@@ -1,12 +1,16 @@
 import * as React from 'react';
 import {Component} from 'react';
 import {Redirect} from 'react-router';
-import {Button, Card, message, Row, Col, Dropdown, Menu} from 'antd';
+import {Button, Card, message, Row, Col, Dropdown, Menu, Modal, Layout} from 'antd';
 import DvaProps from '../types/DvaProps';
+import {WrappedPswdForm} from './PswdEditForm'
+import {TssFooter, TssHeader} from "./TssPublicComponents";
+
 
 interface NaviProps extends DvaProps {
     uid: string;
     level: string;
+    pswdShow: boolean;
 }
 
 const JumpButton = (props) => {
@@ -20,7 +24,9 @@ const JumpButton = (props) => {
             </div>
         </Button>
     );
-}
+};
+const {Content} = Layout;
+
 export default class NavigationPageComponent extends Component<NaviProps, {}> {
     handleClick = (e) => {
         this.props.dispatch({type:'navigation/jump', payload: {direction: e.direction}});
@@ -32,12 +38,12 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
     };
 
     button2 = {
-        btnName: "选课系统",
+        btnName: "课程管理",
         src: require("src/img/Bookmark.png"),
     };
 
     button3 = {
-        btnName: "查看课表",
+        btnName: "院系管理",
         src: require("src/img/Calendar.png"),
     };
 
@@ -59,7 +65,7 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
     render() {
         console.log(this.props.level);
         const Block1 = (props) => {
-            if(props.level === 'student' || props.level === 'teacher'){
+            if(props.level === '1' || props.level === '2'){
                 return (
                     <JumpButton {...this.button1} onClick={this.handleClick.bind(this, {direction: "user"})} />
                 );
@@ -93,10 +99,10 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
                             <Block1 level={this.props.level} />
                         </Col>
                         <Col span={4} offset={2}>
-                            <JumpButton {...this.button2} />
+                            <JumpButton {...this.button2} onClick={this.handleClick.bind(this, {direction: "courseManage"})}/>
                         </Col>
                         <Col span={4} offset={2}>
-                            <JumpButton {...this.button3} />
+                            <JumpButton {...this.button3} onClick={this.handleClick.bind(this, {direction: "deptManage"})}/>
                         </Col>
                     </Row>
                     <p />
