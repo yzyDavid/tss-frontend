@@ -18,16 +18,18 @@ const model = {
         papername_t:'hello',
         begin_t: '2018-04-30 16:30:00',
         end_t: '2018-04-30 16:30:00',
+        last_t: '1:00:00',
         count_t: '2',
         isauto_t: false,
         qid_t: ['0', '0'],
         score_t: ['10', '20'],
 
-        paperlist:[{
+        paperlist:[/*{
             pid: '1',
             papername:'hello',
             begin: '2018-04-30 16:30:00',
             end: '2018-04-30 16:30:00',
+            last: '1:00:00',
             count: '2',
             isauto: false,
             qid: ['1', '2'],
@@ -37,6 +39,7 @@ const model = {
             papername:'hello2',
             begin: '2018-05-30 16:30:00',
             end: '2018-05-30 16:30:00',
+            last: '1:00:00',
             count: '2',
             isauto: false,
             qid: ['3', '4'],
@@ -46,11 +49,12 @@ const model = {
             papername:'hello3',
             begin: '2018-06-30 16:30:00',
             end: '2018-06-30 16:30:00',
+            last: '1:00:00',
             count: '2',
             isauto: false,
             qid: ['5', '6'],
             score: ['10', '20'],
-        }]
+        }*/]
     },
     reducers: {
         saveSession(st) {
@@ -61,7 +65,10 @@ const model = {
         },
         updateSession(st, payload) {
             return {...st, ...payload.payload};
-        }
+        },
+        updateSearchInfo(st, payload) {
+            return {...st, ...payload.payload};
+        },
     },
     effects: {
         * jump(payload: {payload: {direction: string}}, {call, put}) {
@@ -104,16 +111,22 @@ const model = {
         },
 
 
-        * search(payload: { }, {call, put}) {
-            // console.log(payload);
-
-            const response = yield call(tssFetch, '/testsys_paper/search', 'POST');
+        * search(payload: { payload: {direction: string, info: string}}, {call, put}) {
+            console.log(payload);
+            const msg = payload.payload;
+            const response = yield call(tssFetch, '/testsys_paper/search', 'POST',msg);
             console.log("search paper response"+response);
             if (response.status === 400) {
                 message.error('查询失败');
                 return;
             };
             //?datasource
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            yield put({
+                type: 'updateSearchInfo',
+                payload: {paperlist:body.paperlist}
+            });
 
             return;
         },

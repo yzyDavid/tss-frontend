@@ -39,6 +39,7 @@ export default class NavigationBar extends Component<BarProps>{
     componentDidMount() {
     };
     handleClick(e) {
+        console.log("jump:"+e.key);
         if(e.key !== this.props.current)this.props.dispatch({type:'navigation/jump', payload: {direction: e.key}});
     };
     render() {
@@ -59,14 +60,13 @@ export default class NavigationBar extends Component<BarProps>{
                 <Menu.Item key="list">
                     <Icon type="calendar" />查看课表
                 </Menu.Item>
-                <Menu.Item key="alipay">
-                    <a href="http://www.alipay.com/" target="_blank"><Icon type="message" />
-                        学生论坛</a>
-                </Menu.Item>
                 <Menu.Item key="forum">
-                    <Icon type="edit" />在线测试
+                        学生论坛
                 </Menu.Item>
                 <Menu.Item key="exam">
+                    <Icon type="edit"  />在线测试
+                </Menu.Item>
+                <Menu.Item key="score">
                     <Icon type="bar-chart" />成绩查询
                 </Menu.Item>
             </Menu>

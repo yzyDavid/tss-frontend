@@ -18,6 +18,18 @@ export class QuestionFormData {
     qunit: string;
 }
 
+const tailFormItemLayout = {
+    wrapperCol: {
+        xs: {
+            span: 24,
+            offset: 0,
+        },
+        sm: {
+            span: 14,
+            offset: 6,
+        },
+    },
+};
 export class QuestionInsertForm extends Component<FormProps, QuestionFormData> {
     componentDidMount() {
     }
@@ -116,7 +128,7 @@ export class QuestionInsertForm extends Component<FormProps, QuestionFormData> {
                     }
                 </FormItem>
 
-                <FormItem {...formItemLayout}>
+                <FormItem {...tailFormItemLayout}>
                     <Button icon="copy" type="primary" htmlType="submit">提交</Button>
                 </FormItem>
             </Form>

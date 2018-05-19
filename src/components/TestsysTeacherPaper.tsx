@@ -5,10 +5,7 @@ import DvaProps from '../types/DvaProps';
 import NavigationBar from './TssPublicComponents';
 
 interface UserProps extends DvaProps {
-    uid: string;
-    email: string;
-    tel: string;
-    intro: string;
+
 }
 interface UserState {
     modalVisible: boolean;

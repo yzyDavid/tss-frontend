@@ -1,9 +1,13 @@
 import {Component, FormEvent, ReactNode} from 'react';
 import * as React from 'react';
-import {Icon, Form, Button, Input, message, Table, Checkbox, Modal, Popconfirm, DatePicker} from 'antd';
+import {Icon, Form, Button, Input, message, Table, Checkbox, Modal, Popconfirm, DatePicker, Row, Col} from 'antd';
 import DvaProps from '../types/DvaProps';
 import {PaperFormData} from './TestsysTeacherPaperInsertForm';
 import {SearchPageProps} from './TestsysTeacherPaperSearch'
+import * as moment from "moment";
+import {Moment} from "moment";
+
+
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -19,6 +23,7 @@ interface PaperFormProps extends SearchPageProps {
 
 interface EditState {
   //  paperlist: PaperFormData[];
+    index: number;      //list的第几个
     modalVisible: boolean;
     buttonDisable: boolean;
     isauto: boolean;
@@ -30,6 +35,7 @@ interface EditState {
     papername_t: string;
     begin_t: string;
     end_t: string;
+    last_t: string;
     count_t: string;
     isauto_t: boolean;
     qid_t: string[];  //题目
@@ -42,17 +48,19 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
     constructor(props){
         super(props);
         this.state = {
+            index:0,
             modalVisible: false,
             buttonDisable: false,
             isauto: false,
             uuid:0,
             select: '0',
-            question_data:[{qid: '0', score:'0'}],
+            question_data:[],
 
             pid_t: '1',
             papername_t:'hello',
             begin_t: '2018-04-30 16:30:00',
             end_t: '2018-04-30 16:30:00',
+            last_t: '1:00:00',
             count_t: '2',
             isauto_t: false,
             qid_t: ['1111', '2222'],
@@ -88,7 +96,7 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
             const values = {
                    ...fieldsValue
             };
-            console.log('Received values of form: ', values);
+            console.log('Paper Search: ', values);
      //       this.props.dispatch({type:'teacherpaper/update', payload: values});
         });
 
@@ -96,7 +104,11 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
 
     handleSearch = () => {
         console.log("searchpaper");
-        this.props.dispatch({type:'teacherpaper/search'});
+        const values = {
+            direction: "all",
+            info: "",
+        }
+        this.props.dispatch({type:'teacherpaper/search', payload: values});
     }
 
     handleSetUpdate = (id)=>{
@@ -105,19 +117,8 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
 
         const{form} = this.props;
         const list = this.props.paperlist;
-        const qlist = this.state.qid_t;
-        const slist = this.state.score_t;
 
-
-        for(var i=0;i<qlist.length;i++){
-   //         console.log("setup:"+i);
-       //     this.setState({question_data[i]:[{qid:qlist[i], score:slist[i]}]});
-            this.state.question_data[i] = {qid: qlist[i], score: slist[i]};
-        }
-
-        this.setState({question_data:this.state.question_data});
-
-        var index = 0;
+        var index = 0;  //list中第几个
         for(var i=0;i<list.length;i++){
             if(list[i].pid == id){
                 index = i;
@@ -126,22 +127,51 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
             }
         }
 
+        if(index == list.length)
+            console.log("no such id!");
+
+
+        var qlist = list[index].qid;
+        var slist = list[index].score;
+
+        console.log("list:"+list[0].qid+"  index:"+index);
+        for(var i=0;i<qlist.length;i++){
+
+            this.state.question_data[i] = {qid: qlist[i], score: slist[i]};
+            console.log("i:"+i);
+            console.log("q:"+qlist[i]);
+            console.log("s:"+slist[i]);
+        }
+
+        this.setState({question_data:this.state.question_data});
+        this.setState({index:index});
+
+
+
+        console.log("index:"+index);
         const pid = form.getFieldValue('pid');
         const papername = form.getFieldValue('papername');
         const isauto = form.getFieldDecorator('auto');
+        const begin = form.getFieldValue('begin');
+        const end = form.getFieldValue('end');
+        const last = form.getFieldValue('last');
 
-        console.log(id);
+
         form.setFieldsValue({
             pid: list[index].pid,
             papername: list[index].papername,
             isauto: list[index].isauto,
+            begin: moment(list[index].begin),
+            end: moment(list[index].end),
+            last:list[index].last,
+            //begin end
 
         });
     //    console.log('ok');
-         console.log("old:"+this.state.qid_t);
+
         this.setState({pid_t:list[index].pid, papername_t:list[index].papername, isauto_t:list[index].isauto, begin_t:list[index].begin,
-        end_t:list[index].end, count_t:list[index].count, qid_t:list[index].qid, score_t:list[index].score});
-        console.log("new:"+this.state.qid_t);
+        end_t:list[index].end, last_t:list[index].last, count_t:list[index].count, qid_t:list[index].qid, score_t:list[index].score});
+
     };
 
 
@@ -149,11 +179,11 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
         const{form} = this.props;
         const rangeTimeValue =  form.getFieldValue("range-time-picker");
 
-
+        const list = this.props.paperlist;
         var add = this.state.uuid;
-        var c = Number(this.state.count_t);
-        var qid_old = this.state.qid_t;
-        var score_old = this.state.score_t;
+        var c = Number(list[this.state.index].count);
+        var qid_old = list[this.state.index].qid;
+        var score_old = list[this.state.index].score;
 
         for(var i = 0; i < add; i++){
             c = c+1;
@@ -171,15 +201,16 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
                 score_n
             ];
 
-            console.log("qid:"+qid_old);
+
 
         }
 
         const values = {
             pid: form.getFieldValue("pid"),
             papername: form.getFieldValue("papername"),
-            begin:  rangeTimeValue[0].format('YYYY-MM-DD HH:mm:ss'),
-            end:  rangeTimeValue[1].format('YYYY-MM-DD HH:mm:ss'),
+            begin:  form.getFieldValue("begin").format('YYYY-MM-DD HH:mm:ss'),
+            end:  form.getFieldValue("begin").format('YYYY-MM-DD HH:mm:ss'),
+            last: form.getFieldValue("last"),
             isauto: this.state.isauto,     //?
 
             count: c,
@@ -191,6 +222,7 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
         console.log("update paper");
         console.log(values);
 
+        location.reload();
     }
 
     handleDeletePaper = (pid) => {
@@ -198,33 +230,42 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
         this.props.dispatch({type:'teacherpaper/delete', payload: pid});
     }
 
-    handleDelete = (pid) => {
+    handleDelete = (qid) => {
 
         const{form} = this.props;
-        const rangeTimeValue =  form.getFieldValue("range-time-picker");
+
+        const list = this.props.paperlist;
 
 
-        var c = Number(this.state.count_t) - 1;
-        var qid_old = this.state.qid_t;
-        var score_old = this.state.score_t;
+        var c = Number(list[this.state.index].count) - 1;
+        var qid_old = list[this.state.index].qid;
+        var score_old = list[this.state.index].score;
 
-        var index;
-        for(var i = 0; i < this.props.paperlist.length; i++){
-            if(this.props.paperlist[i].pid == pid){
-                index = i;
+
+        var qindex;
+        var i;
+        for(i = 0; i < Number(list[this.state.index].count); i++){
+            console.log("this:",list[this.state.index].qid[i]);
+            console.log("target:",qid);
+            if(list[this.state.index].qid[i] == qid){
+                qindex = i;
                 break;
             }
         }
-
-        qid_old.splice(index,1);
-        score_old.splice(index,1);
+        if(i == Number(list[this.state.index].count)){
+            console.log("no such qid");
+            return;
+        }
+        qid_old.splice(qindex,1);
+        score_old.splice(qindex,1);
 
 
         const values = {
             pid: form.getFieldValue("pid"),
             papername: form.getFieldValue("papername"),
-            begin:  rangeTimeValue[0].format('YYYY-MM-DD HH:mm:ss'),
-            end:  rangeTimeValue[1].format('YYYY-MM-DD HH:mm:ss'),
+            begin:   form.getFieldValue("begin").format('YYYY-MM-DD HH:mm:ss'),
+            end:   form.getFieldValue("end").format('YYYY-MM-DD HH:mm:ss'),
+            last: form.getFieldValue("last"),
             isauto: this.state.isauto,     //?
 
             count: c,
@@ -232,10 +273,14 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
             score: score_old,
 
         }
+
+        console.log(qindex);
+   //     this.setState({question_data: this.state.question_data.splice(qindex,1)})
         this.props.dispatch({type:'teacherpaper/update', payload: values});
         console.log("update paper(delete)");
         console.log(values);
 
+        location.reload();
        // const DelDataSource = this.props.paperlist;
         //DelDataSource.splice(id, 1);
 //
@@ -381,6 +426,10 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
             title: '结束时间',
             dataIndex: 'end',
             key: 'end',
+        }, {
+            title: '持续时间',
+            dataIndex: 'last',
+            key: 'last',
         },  {
             title: '操作',
             key: '操作',
@@ -426,8 +475,12 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
 
         return (
             <Form>
-
-                <Button onClick={()=>this.handleSearch()}>查询所有试卷</Button>
+                <Row type="flex" justify="center">
+                    <Col >
+                        <Button onClick={()=>this.handleSearch()}>查询所有试卷</Button>
+                    </Col>
+                </Row>
+                <br/>
                 <Table rowKey="pid" columns = {columns} dataSource = {this.props.paperlist}/>
 
                 <Form >
@@ -436,7 +489,8 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
                         {
                             getFieldDecorator('pid', {
                                 rules: [
-                                    {required: true, message: '请输入试卷号'}
+                                    {required: true, message: '请输入试卷号'},
+                                    {pattern: /^[0-9]+$/, message: '请输入数字'}
                                 ]
                             })(
 
@@ -458,15 +512,43 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
                         }
                     </FormItem>
 
-                    <FormItem {...formItemLayout} label="考试时间"
+                    <FormItem {...formItemLayout} label="开始时间"
                     >
-                        {getFieldDecorator('range-time-picker', {
+                        {getFieldDecorator('begin', {
                             rules: [
-                                { type: 'array', required: true, message: '请选择时间!' }
+                                { required: true, message: '请选择时间!' }
                             ]
                         })(
-                            <RangePicker  showTime format="YYYY-MM-DD HH:mm:ss" />
+                            <DatePicker  showTime format="YYYY-MM-DD HH:mm:ss" />
                         )}
+                    </FormItem>
+
+                    <FormItem {...formItemLayout} label="结束时间"
+                    >
+                        {getFieldDecorator('end', {
+                            rules: [
+                                { required: true, message: '请选择时间!' }
+                            ]
+                        })(
+                            <DatePicker  showTime format="YYYY-MM-DD HH:mm:ss" />
+                        )}
+                    </FormItem>
+
+
+
+                    <FormItem label="持续时间" {...formItemLayout} hasFeedback>
+                        {
+                            getFieldDecorator('last', {
+                                rules: [
+                                    {required: true, message: '请输入名称'},
+                                    {pattern: /[1-9][0-9]?:[0-9][0-9]:[0-9][0-9]/, message: '请按照格式 hh:mm:ss 如：1:00:00'}
+                                ]
+                            })(
+
+                                <Input placeholder="请按照格式 hh:mm:ss 如：1:00:00" />
+
+                            )
+                        }
                     </FormItem>
 
                     <FormItem {...tailFormItemLayout} >
@@ -480,7 +562,7 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
                     <FormItem {...tailFormItemLayout} >
                         <Button icon="edit" type="primary"
                                 disabled={ this.state.buttonDisable}
-                                onClick={() => this.setModalVisible(true)}>添加题目</Button>
+                                onClick={() => this.setModalVisible(true)}>新增题目</Button>
                     </FormItem>
 
                     <FormItem {...tailFormItemLayout}>
@@ -508,7 +590,7 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
                         </Modal>
                     </FormItem>
 
-                    <Table  columns = {columns_question} dataSource = {this.state.question_data}/>
+                    <Table  rowKey="qid" columns = {columns_question} dataSource = {this.state.question_data}/>
 
                 </Form>
             </Form>

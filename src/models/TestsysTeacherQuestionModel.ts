@@ -47,25 +47,24 @@ const model = {
             return {...st, ...payload.payload};
         },
 
-        updateQuestionInfo(st, payload) {
+        updateSearchInfo(st, payload) {
             return {...st, ...payload.payload};
         },
     },
     effects: {
-        * jumpInsert(payload: {payload: {direction: string}}, {call, put}) {
-            yield put(routerRedux.push('testsys_teacher_question_insert'));
-
+        * jump(payload: {payload: {direction: string}}, {call, put}) {
+            const direction = payload.payload.direction;
+            console.log('jump');
+            switch(direction){
+                case "Insert": yield put(routerRedux.push('/testsys_teacher_question_insert')); break;
+                case "Search": yield put(routerRedux.push('/testsys_teacher_question_search')); break;
+            }
             return;
-        },
 
-        * jumpSearch(payload: {payload: {direction: string}}, {call, put}) {
-            yield put(routerRedux.push('testsys_teacher_question_search'));
-
-            return;
         },
 
         * insert(payload: { payload: QuestionFormData }, {call, put}) {
-            // console.log(payload);
+             console.log(payload);
             const msg = payload.payload;
             const response = yield call(tssFetch, '/testsys_question/insert', 'POST', msg);
             console.log(response);
@@ -77,8 +76,8 @@ const model = {
             return;
         },
 
-        * delete(payload: { payload: {pid:string} }, {call, put}) {     //删除问题
-            // console.log(payload);
+        * delete(payload: { payload: {qid:string} }, {call, put}) {     //删除问题
+            console.log(payload);
             const msg = payload.payload;
             const response = yield call(tssFetch, '/testsys_question/delete', 'POST', msg);
             console.log(response);
@@ -91,7 +90,7 @@ const model = {
         },
 
         * search(payload: { payload: {direction: string, info: string}}, {call, put}) {
-            // console.log(payload);
+             console.log(payload);
             const msg = payload.payload;
             const response = yield call(tssFetch, '/testsys_question/search', 'POST', msg);
             console.log("search question response:"+response);
@@ -111,7 +110,7 @@ const model = {
         },
 
         * update(payload: { payload: QuestionFormData }, {call, put}) {
-            // console.log(payload);
+            console.log(payload);
             const msg = payload.payload;
             const response = yield call(tssFetch, '/testsys_question/update', 'POST', msg);
             console.log(response);

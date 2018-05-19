@@ -1,6 +1,6 @@
 import {Component, FormEvent, ReactNode} from 'react';
 import * as React from 'react';
-import {Popconfirm, Table, Icon, Form, Button, Input, message} from 'antd';
+import {Popconfirm, Table, Icon, Form, Button, Input, message, Row, Col} from 'antd';
 import DvaProps from '../types/DvaProps';
 
 const FormItem = Form.Item;
@@ -27,6 +27,18 @@ interface  QuestiontoEdit{
     qunit_t: string;
 }
 
+const tailFormItemLayout = {
+    wrapperCol: {
+        xs: {
+            span: 24,
+            offset: 0,
+        },
+        sm: {
+            span: 14,
+            offset: 6,
+        },
+    },
+};
 
 export class QuestionSearchForm extends Component<FormProps,  QuestiontoEdit> {
     constructor(props){
@@ -44,44 +56,35 @@ export class QuestionSearchForm extends Component<FormProps,  QuestiontoEdit> {
     componentDidMount() {
     }
 
-    handleSearchQid =() =>{
+
+
+    handleSearch = (direction) => {
         const{form} = this.props;
+        var info;
+        if(direction == "qid"){
+            info =  form.getFieldValue("qid");
+        }
+        else if(direction == "qunit"){
+            info =  form.getFieldValue("qunit");
+        }
+        else if(direction == "qtype"){
+            info =  form.getFieldValue("qtype");
+        }
+        else if(direction == "all"){
+            info =  form.getFieldValue("all");
+        }
+
         const values = {
-            direction: "qid",
-            info: form.getFieldValue("qid"),
+            direction: direction,
+            info:info,
         }
         this.props.dispatch({type:'teacherquestion/search', payload: values});
-        console.log("Search question qid");
+        console.log("Search question: "+direction);
         console.log(values);
 
-    }
 
-    handleSearchQunit =() =>{
-        const{form} = this.props;
-        const values = {
-            direction: "qunit",
-            info: form.getFieldValue("qunit"),
-        }
-        this.props.dispatch({type:'teacherquestion/search', payload: values});
-        console.log("Search question unit");
-        console.log(values);
 
-    }
-
-    handleSearchQtype =() =>{
-        const{form} = this.props;
-        const values = {
-            direction: "qtype",
-            info: form.getFieldValue("qtype"),
-        }
-        this.props.dispatch({type:'teacherquestion/search', payload: values});
-        console.log("Search question type");
-        console.log(values);
-
-    }
-
-    handleSearch = (e: FormEvent<{}>) => {      //无用
-        e.preventDefault();
+        /*e.preventDefault();
         const formProps = this.props.form;
         formProps.validateFieldsAndScroll((err: any, values: QuestionFormData) => {
             if (err) {
@@ -92,15 +95,18 @@ export class QuestionSearchForm extends Component<FormProps,  QuestiontoEdit> {
             this.props.dispatch({type:'teacherquestion/search', payload: values});
             console.log("searchquestion");
             console.log(values);
-        });
+        });*/
     };
 
 
 
     handleDelete = (id) => {
 //        e.preventDefault();
-        console.log("deletequestion:"+id);
-            this.props.dispatch({type:'teacherquestion/delete', payload: id});     //!!!!!!!!
+            console.log("deletequestion:"+id);
+            const values = {
+                qid: id,
+            }
+            this.props.dispatch({type:'teacherquestion/delete', payload: values});     //!!!!!!!!
 
        /*
             const DelDataSource = this.props.questions;
@@ -214,6 +220,23 @@ this.setState({list});*/
 
         return (
             <Form onSubmit={this.handleSearch}>
+
+                    <Row type="flex" justify="center">
+                        <Col span={4}>
+                            <Button icon="copy" type="primary" onClick={()=>this.handleSearch("all")}>搜索全部题目</Button>
+                        </Col>
+                        <Col span={4}>
+                            <Button icon="copy" type="primary" onClick={()=>this.handleSearch("qid")}>按题目号搜索</Button>
+                        </Col>
+                        <Col span={4}>
+                            <Button icon="copy" type="primary" onClick={()=>this.handleSearch("qunit")}>按单元号搜索</Button>
+                        </Col>
+                        <Col span={4}>
+                            <Button icon="copy" type="primary" onClick={()=>this.handleSearch("qtype")}>按题型搜索</Button>
+                        </Col>
+                    </Row>
+                <br/>
+
                 <FormItem label="题目号" {...formItemLayout} hasFeedback>
                     {
                         getFieldDecorator('qid', {
@@ -253,11 +276,7 @@ this.setState({list});*/
                     }
                 </FormItem>
 
-                <FormItem {...formItemLayout}>
-                    <Button icon="copy" type="primary" onClick={()=>this.handleSearchQid()}>按题目号搜索</Button>
-                    <Button icon="copy" type="primary" onClick={()=>this.handleSearchQunit()}>按单元号搜索</Button>
-                    <Button icon="copy" type="primary" onClick={()=>this.handleSearchQtype()}>按题型搜索</Button>
-                </FormItem>
+
 
                 <Table rowKey="qid" columns = {columns} dataSource = {this.props.questions}/>
 
@@ -314,7 +333,7 @@ this.setState({list});*/
                     }
                 </FormItem>
 
-                <FormItem {...formItemLayout}>
+                <FormItem {...tailFormItemLayout}>
                     <Button icon="copy" type="primary" onClick={()=>this.handleUpdate()} >修改</Button>
                 </FormItem>
 

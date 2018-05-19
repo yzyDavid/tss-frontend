@@ -14,6 +14,7 @@ const model = {
             const direction = payload.payload.direction;
             switch(direction){
                 case "user": yield put(routerRedux.push('/user')); break;
+                case "exam": yield put(routerRedux.push('/testsys'));break;
             }
             return;
         }

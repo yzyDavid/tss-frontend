@@ -17,10 +17,13 @@ export class PaperFormData {
     papername: string;
     begin: string;
     end: string;
+    last: string;
     count: string;
     isauto: boolean;
     qid: string[];  //题目
     score: string[];//对应分支
+    punit: string;  //自动生成时才使用
+    pcount: string; //自动生成时才使用
 }
 interface EditState {
     modalVisible: boolean;
@@ -69,12 +72,17 @@ export class PaperInsertForm extends Component<PaperFormProps, EditState> {
 
                 begin:   rangeTimeValue[0].format('YYYY-MM-DD HH:mm:ss'),
                 end:   rangeTimeValue[1].format('YYYY-MM-DD HH:mm:ss'),
+                last: fieldsValue['last'],
 
                 count: this.state.uuid,
                 qid: fieldsValue['nums'],
-                scores: fieldsValue['scores'],
+                score: fieldsValue['score'],
+
+                punit: fieldsValue['paperunit'],
+                pcount: fieldsValue['pcount'],
             };
-            console.log('Received values of form: ', values);
+            console.log("insertpaper");
+            console.log(values);
             this.props.dispatch({type:'teacherpaper/insert', payload: values});
         });
 
@@ -184,7 +192,7 @@ export class PaperInsertForm extends Component<PaperFormProps, EditState> {
                     })(
                         <Input placeholder="问题编号" style={{ width: '55%', marginRight: 8 }} />
                     )}
-                    {getFieldDecorator(`scores[${k}]`, {
+                    {getFieldDecorator(`score[${k}]`, {
                         validateTrigger: ['onChange', 'onBlur'],
                         rules: [{
                             required: true,
@@ -214,7 +222,8 @@ export class PaperInsertForm extends Component<PaperFormProps, EditState> {
                     {
                         getFieldDecorator('pid', {
                             rules: [
-                                {required: true, message: '请输入试卷号'}
+                                {required: true, message: '请输入试卷号'},
+                                {pattern: /^[0-9]+$/, message: '请输入数字'}
                             ]
                         })(
 
@@ -247,12 +256,51 @@ export class PaperInsertForm extends Component<PaperFormProps, EditState> {
                     )}
                 </FormItem>
 
+                <FormItem label="持续时间" {...formItemLayout} hasFeedback>
+                    {
+                        getFieldDecorator('last', {
+                            rules: [
+                                {required: true, message: '请输入名称'},
+                                {pattern: /[1-9][0-9]?:[0-9][0-9]:[0-9][0-9]/, message: '请按照格式 hh:mm:ss 如：1:00:00'}
+                            ]
+                        })(
+
+                            <Input placeholder="请按照格式 hh:mm:ss 如：1:00:00" />
+
+                        )
+                    }
+                </FormItem>
+
+
+
                 <FormItem {...tailFormItemLayout} >
                     {getFieldDecorator('auto', {
                         valuePropName: 'checked',
                     })(
                         <Checkbox value={this.state.isauto}  onChange={()=> this.changeButtonDisable()}>自动生成</Checkbox>
                     )}
+                </FormItem>
+
+                <FormItem label="试卷单元号" {...formItemLayout} hasFeedback>
+                    {
+                        getFieldDecorator('paperunit', {
+
+                        })(
+
+                            <Input  placeholder="如需自动生成试卷，请填写考察单元号" disabled={!this.state.isauto}/>
+                        )
+                    }
+                </FormItem>
+
+                <FormItem label="试卷题目数" {...formItemLayout} hasFeedback>
+                    {
+                        getFieldDecorator('pcount', {
+
+                        })(
+
+                            <Input  placeholder="如需自动生成试卷，请填写题目数量" disabled={!this.state.isauto}/>
+                        )
+                    }
                 </FormItem>
 
                 <FormItem {...tailFormItemLayout} >

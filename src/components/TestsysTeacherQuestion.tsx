@@ -25,14 +25,10 @@ export default class TeacherQuestionPageComponent extends Component<UserProps, U
     formRef: any;
 
 
-    handleInsertClick = (e) => {
-        this.props.dispatch({type:'teacherquestion/jumpInsert', payload: {}});
+    handleClick = (e) => {
+        this.props.dispatch({type:'teacherquestion/jump', payload: {direction: e.direction}});
+        console.log("teacherquestion:"+e.direction);
     };
-
-    handleSearchClick = (e) => {
-        this.props.dispatch({type:'teacherquestion/jumpSearch', payload: {}});
-    };
-
     render() {
 
         const formItemLayout = {
@@ -48,10 +44,10 @@ export default class TeacherQuestionPageComponent extends Component<UserProps, U
         return (
             <div>
                 <FormItem {...formItemLayout}>
-                    <Button icon="copy" type="primary" htmlType="submit" onClick={this.handleInsertClick.bind(this)}>
+                    <Button icon="copy" type="primary" htmlType="submit" onClick={this.handleClick.bind(this, {direction: "Insert"})}>
                         新增题目
                     </Button>
-                    <Button icon="copy" type="primary" htmlType="submit" onClick={this.handleSearchClick.bind(this)}>
+                    <Button icon="copy" type="primary" htmlType="submit" onClick={this.handleClick.bind(this, {direction: "Search"})}>
                         查询题目
                     </Button>
                 </FormItem>
