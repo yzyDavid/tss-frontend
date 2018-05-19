@@ -21,6 +21,10 @@ export default class StudentComponent extends Component<UserProps, UserState> {
     }
     formRef: any;
 
+    handleClick = (e) => {
+        this.props.dispatch({type:'testsys/jump', payload: {direction: e.direction}});
+    };
+
     render() {
 
         const formItemLayout = {
@@ -37,8 +41,8 @@ export default class StudentComponent extends Component<UserProps, UserState> {
         return (
             <div>
                 <FormItem {...formItemLayout}>
-                    <Button icon="copy" type="primary" htmlType="submit">我要答题</Button>
-                    <Button icon="copy" type="primary" htmlType="submit">成绩查询</Button>
+                    <Button icon="copy" type="primary" htmlType="submit" onClick={this.handleClick.bind(this, {direction: "student_paper"})}>我要答题</Button>
+                    <Button icon="copy" type="primary" htmlType="submit" /*onClick={this.handleClick.bind(this, {direction: "student_score"})}*/>成绩查询</Button>
                 </FormItem>
             </div>
 

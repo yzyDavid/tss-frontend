@@ -3,13 +3,14 @@ import {Component} from 'react';
 import {Form, Button, Modal} from 'antd';
 import DvaProps from '../types/DvaProps';
 import NavigationBar from './TssPublicComponents';
-import {WrappedQuestionReviewForm} from "./TestsysStudentQuestionReviewForm";
+import {QuestionFormData, WrappedQuestionReviewForm} from "./TestsysStudentQuestionReviewForm";
 
 interface UserProps extends DvaProps {
     uid: string;
     email: string;
     tel: string;
     intro: string;
+    questions: QuestionFormData[];
 }
 interface UserState {
     modalVisible: boolean;
@@ -40,8 +41,10 @@ export default class TestsysStudentQuestionPageComponent extends Component<UserP
         return (
             <div>
                 <h2>查看题目</h2>
-            <WrappedQuestionReviewForm dispatch={this.props.dispatch}/>
-        </div>
-    );
+                <WrappedQuestionReviewForm
+                    questions = {this.props.questions}
+                    dispatch = {this.props.dispatch}/>
+            </div>
+        );
     }
 }
