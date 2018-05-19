@@ -1,6 +1,6 @@
 import {Component, FormEvent, ReactNode} from 'react';
 import * as React from 'react';
-import {Icon, Form, Button, Input, message, Col} from 'antd';
+import {Icon, Form, Button, Input, message} from 'antd';
 import DvaProps from '../types/DvaProps';
 
 const FormItem = Form.Item;
@@ -14,7 +14,7 @@ export class LoginFormData {
     password: string;
 }
 
-export class LoginForm extends Component<FormProps, LoginFormData> {
+export class PswdForm extends Component<FormProps, LoginFormData> {
     componentDidMount() {
     }
 
@@ -44,42 +44,44 @@ export class LoginForm extends Component<FormProps, LoginFormData> {
         };
         return (
             <Form onSubmit={this.handleSubmit}>
-                <FormItem label="统一身份编号" {...formItemLayout} hasFeedback>
+                <FormItem label="旧密码" {...formItemLayout} hasFeedback>
                     {
-                        getFieldDecorator('uid', {
+                        getFieldDecorator('old', {
                             rules: [
-                                {required: true, message: '请输入学号或教工号'},
-                                {pattern: /^[0-9]+$/, message: '请输入数字'}
+                                {required: true, message: '请输入旧密码'}
                             ]
                         })(
-                            <Input prefix={<Icon type="user" style={{fontSize: 13}}/>}/>
+                            <Input />
                         )
                     }
                 </FormItem>
-                <FormItem label="密码" {...formItemLayout} hasFeedback>
+                <FormItem label="新密码" {...formItemLayout} hasFeedback>
                     {
-                        getFieldDecorator('password', {
+                        getFieldDecorator('new', {
                             rules: [
-                                {required: true, message: '请输入密码'}
+                                {required: true, message: '请输入新密码'}
                             ]
                         })(
-                            <Input prefix={<Icon type="unlock" style={{fontSize: 13}}/>}/>
+                            <Input/>
                         )
                     }
                 </FormItem>
-                <Col offset={8}>
-                    <FormItem {...formItemLayout}>
-                        <Button style={{width: "100px"}} icon="copy" type="primary" htmlType="submit">登录</Button>
-                    </FormItem>
-                </Col>
-                {/*<FormItem {...formItemLayout}>*/}
-                    {/*<Button icon="copy" type="primary" htmlType="submit">登录</Button>*/}
-                {/*</FormItem>*/}
+                <FormItem label="确认新密码" {...formItemLayout} hasFeedback>
+                    {
+                        getFieldDecorator('new2', {
+                            rules: [
+                                {required: true, message: '请确认新密码'}
+                            ]
+                        })(
+                            <Input/>
+                    )
+                    }
+                </FormItem>
             </Form>
         );
     }
 }
 
-const WrappedLoginForm: any = Form.create({})(LoginForm);
+const WrappedPswdForm: any = Form.create({})(PswdForm);
 
-export {WrappedLoginForm};
+export {WrappedPswdForm};

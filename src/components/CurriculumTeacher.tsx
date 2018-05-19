@@ -3,7 +3,7 @@ import {Component} from 'react';
 import {Form, Button, Table, Select, Modal,message} from 'antd';
 import { Router,Route,hashHistory} from 'react-router';
 import DvaProps from '../types/DvaProps';
-import NavigationBar from './TssPublicComponents';
+import {NavigationBar} from './TssPublicComponents';
 
 const columns = [
     {title: '课程号', dataIndex: 'courseNumber', key: 'courseNumber'},

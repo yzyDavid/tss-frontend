@@ -3,7 +3,7 @@ import {Component} from 'react';
 import {Layout, Modal, Breadcrumb,  Table, Button, Input, Select, Form} from 'antd';
 import 'antd/dist/antd.css';
 import {WrappedCourseDetailForm}from './CourseDetailForm';
-import NavigationBar from './TssPublicComponents'
+import {NavigationBar} from './TssPublicComponents'
 import DvaProps from '../types/DvaProps';
 
 
