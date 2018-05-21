@@ -36,6 +36,7 @@ import TestsysStudentQuestionReviewPageComponent from "./components/TestsysStude
 import TestsysTeacherPaperModel from './models/TestsysTeacherPaperModel'
 import TestsysModel from './models/TestsysModel'
 import TestsysTeacherResultModel from './models/TestsysTeacherResultModel'
+import TestsysStudentScoreComponent from "./components/TestsysStudentScore";
 
 
 const {Content} = Layout;
@@ -110,6 +111,11 @@ const TestsysStudentQuestionReviewPage = connect(state => {
     return {...state.userinfo};
 })(TestsysStudentQuestionReviewPageComponent);
 
+const TestsysStudentScorePage = connect(state => {
+    return {...state.userinfo};
+})(TestsysStudentScoreComponent);
+
+
 const TestsysTeacherPaperInsertPage = connect(state => {
     return{...state.teacherpaper}
 })(TestsysTeacherPaperInsertComponent);
@@ -159,6 +165,7 @@ app.router(({history}) => (
                         <Route path="/testsys_student_paper" component={TestsysStudentPaperPage}/>
                         <Route path="/testsys_student_question" component={TestsysStudentQuestionPage}/>
                         <Route path="/testsys_student_question_review" component={TestsysStudentQuestionReviewPage}/>
+                        <Route path="/testsys_student_score" component={TestsysStudentScorePage}/>
 
                         <Route path="/testsys_teacher_paper" component={TestsysTeacherPaperPage}/>
                         <Route path="/testsys_teacher_paper_insert" component={TestsysTeacherPaperInsertPage}/>

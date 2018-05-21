@@ -52,8 +52,8 @@ export default class TeacherPageComponent extends Component<UserProps, UserState
                 <TestTeacherSideBar dispatch={this.props.dispatch} />
                 <Layout style={{ padding: '0 24px 24px' }}>
                     <Breadcrumb style={{ margin: '16px 0' }}>
-                        <Breadcrumb.Item>测试系统</Breadcrumb.Item>
-                    </Breadcrumb>
+                    <Breadcrumb.Item>测试系统</Breadcrumb.Item>
+                </Breadcrumb>
                     <Layout id = "content" style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
                         欢迎!
 

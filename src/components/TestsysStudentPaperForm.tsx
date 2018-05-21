@@ -8,13 +8,15 @@ const { TextArea } = Input;
 
 interface FormProps extends DvaProps {
     form: any;
-    scores: ScoreFormData[];
+    papers: PaperFormData[];
 }
 
-export class ScoreFormData {
+export class PaperFormData {
     pid: string;
     pstatus: boolean;
     pscore: string;
+    ptime: string;
+    plength: string
 }
 
 
@@ -23,26 +25,36 @@ const data =[
         pid:"1",
         pstatus: true,
         pscore: "90",
+        ptime: "Monday 9:00-9:15",
+        plength: "1:30:00",
     },
     {
-        pid:"1",
+        pid:"2",
         pstatus: false,
         pscore: 0,
+        ptime: "Sunday 14:00-9:15",
+        plength: "2:00:00",
     },
 ];
 
-export class ScoreForm extends Component<FormProps, ScoreFormData> {
+export class PaperForm extends Component<FormProps, PaperFormData> {
     componentDidMount() {
     }
 
     constructor(props){
         super(props);
-        this.state = {
-            pid: '1',
-            pstatus: true,
-            pscore: '90',
-        };
+        // this.state = {
+        //     pid: '1',
+        //     pstatus: true,
+        //     pscore: '90',
+        //     ptime: "Monday 9:00-9:15",
+        //     plength: "1:30:00",
+        // };
     }
+
+    handleBeginClick = (pid) => {
+        this.props.dispatch({type:'studentpaper/jumpQuestion', payload: {pid}});
+    };
 
 
     render() {
@@ -66,28 +78,40 @@ export class ScoreForm extends Component<FormProps, ScoreFormData> {
                 title: '状态',
                 dataIndex: 'pstatus',
                 key: 'status',
-                render: (text, record) => (
-                    <div>{record.pstatus==true? "已参加":"尚未参加"}</div>
-                ),
-
             }, {
                 title: '分数',
                 dataIndex: 'pscore',
                 key: 'score',
                 render: (text, record) => (
-                    <div>{record.pscore}</div>
+                    <div>{record.score}</div>
                 ),
-            },
+            }, {
+                title: '开始时间',
+                dataIndex: 'ptime',
+                key: 'time',
+            }, {
+                title: '时长',
+                dataIndex: 'plength',
+                key: 'length',
+            }, {
+                title: '',
+                key: 'action',
+                render: (text, record) => (
+                    <div>
+                        <Button icon="copy"  type="primary" htmlType="submit" onClick={this.handleBeginClick.bind(record.pid)}>开始答题</Button>
+                    </div>
+                )
+            }
         ];
 
         return (
             <div>
                 <Table rowKey="pid" columns = {columns} dataSource = {data}/>
-            </div>
-        );
+        </div>
+    );
     }
 }
 
-const WrappedScoreDisplayForm: any = Form.create({})(ScoreForm);
+const WrappedPaperDisplayForm: any = Form.create({})(PaperForm);
 
-export {WrappedScoreDisplayForm};
+export {WrappedPaperDisplayForm};

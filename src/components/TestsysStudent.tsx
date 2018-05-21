@@ -3,6 +3,7 @@ import {Component} from 'react';
 import {Form, Button, Modal} from 'antd';
 import DvaProps from '../types/DvaProps';
 import NavigationBar from './TssPublicComponents';
+import Breadcrumb from "antd/es/breadcrumb/Breadcrumb";
 
 interface UserProps extends DvaProps {
     uid: string;
@@ -22,6 +23,7 @@ export default class StudentComponent extends Component<UserProps, UserState> {
     formRef: any;
 
     handleClick = (e) => {
+        console.log("StudentComponent"+this.state);
         this.props.dispatch({type:'testsys/jump', payload: {direction: e.direction}});
     };
 
