@@ -2,7 +2,6 @@ import * as React from 'react';
 import {Component} from 'react';
 import {Form, Button,  Upload,Icon} from 'antd';
 import DvaProps from '../types/DvaProps';
-import {WrappedInfoEditForm} from './InfoEditForm';
 import NavigationBar from './ForumNavigation';
 
 interface UserProps extends DvaProps {

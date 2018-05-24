@@ -33,24 +33,35 @@ export default class SearchPage extends Component<SearchProps>{
     };
 
     handleChange=(e)=>{
-
-        var reader = new FileReader();
+    //    var flag = false;
+  //      var reader = new FileReader();
         //this.props.dispatch({type:'forumUser/changePhoto', payload:e.target.files[0]})
-        reader.readAsArrayBuffer(e.target.files[0]);
+//        reader.readAsArrayBuffer(e.target.files[0]);
        // console.log(e.target.files[0]);
-        var flag=false;
-        let temp;
+       //  var flag=false;
+       //  let temp;
 
-        reader.onload = function(e){
-            console.log("读取成功");
-            console.log(reader.result.byteLength);
-            temp =  new Uint8Array(reader.result);
+        var promise =  new Promise(function(resolve, reject) {
+            let reader = new FileReader();
+            reader.readAsArrayBuffer(e.target.files[0]);
+            reader.onload = function() {
+                resolve(reader.result)
+            }
+        });
+        // reader.onload = function(e){
+        //     console.log("读取成功");
+        //     console.log(reader.result.byteLength);
+        //     temp =  new Uint8Array(reader.result);
+        //     flag = true;
+        //     return temp;
+        //
+        // };
+        var temp;
+        promise.then(function(successLoad){
+           // console.log(successLoad)
 
-            return temp;
-
-        };
-
-
+            temp = successLoad;
+        });
 
     };
 

@@ -1,7 +1,7 @@
 import dva, {connect} from 'dva';
-import {Router, Route, Switch, routerRedux, browserHistory} from 'dva/router';
+import {Router, Route, Switch,  browserHistory} from 'dva/router';
 import * as React from 'react';
-import {Layout, message} from 'antd';
+import {Layout} from 'antd';
 
 import ForumHomePageComponent from './components/ForumHomePage';
 import './index.css';
@@ -26,9 +26,7 @@ import SearchComponent from "./components/ForumSearchPage"
 import AllBoardComponent from "./components/ForumAllBoard"
 import ForumMailModel from "./models/forumMailModel"
 import ForumUserModel from "./models/forumUserModel"
-import {Simulate} from "react-dom/test-utils";
 
-import input = Simulate.input;
 
 const {Content} = Layout;
 
