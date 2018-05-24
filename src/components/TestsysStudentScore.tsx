@@ -10,6 +10,7 @@ interface UserProps extends DvaProps {
     email: string;
     tel: string;
     intro: string;
+    scores: any[];
 }
 interface UserState {
     modalVisible: boolean;
@@ -22,7 +23,8 @@ export default class TestsysStudentScoreComponent extends Component<UserProps, U
             <div>
                 <h2>查询成绩</h2>
                 <WrappedScoreDisplayForm
-                    dispatch={this.props.dispatch}/>
+                    dispatch={this.props.dispatch}
+                    scores={this.props.scores}/>
             </div>
     );
     }

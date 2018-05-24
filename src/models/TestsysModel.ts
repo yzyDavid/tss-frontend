@@ -39,8 +39,8 @@ const model = {
                 case "Teacher_question": yield put(routerRedux.push('/testsys_teacher_question')); break;
                 case "Teacher_paper": yield put(routerRedux.push('/testsys_teacher_paper')); break;
                 case "Teacher_result": yield put(routerRedux.push('/testsys_teacher_result')); break;
-                case "student_paper": yield put(routerRedux.push('/testsys_student_paper')); break;
-                case "student_score": yield put(routerRedux.push('/testsys_student_score')); break;
+                // case "student_paper": yield put(routerRedux.push('/testsys_student_paper')); break;
+                // case "student_score": yield put(routerRedux.push('/testsys_student_score')); break;
             }
             return;
 

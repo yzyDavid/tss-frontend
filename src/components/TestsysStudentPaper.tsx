@@ -15,6 +15,7 @@ interface UserProps extends DvaProps {
     tel: string;
     intro: string;
     papers: any[];
+    pids: string[];
 }
 interface UserState {
     modalVisible: boolean;
@@ -75,6 +76,7 @@ export default class StudentPaperPageComponent extends Component<UserProps, User
                 <WrappedPaperDisplayForm
                     dispatch={this.props.dispatch}
                     papers={this.props.papers}
+                    pids={this.props.pids}
                     uid={this.props.uid}/>
             </div>
 

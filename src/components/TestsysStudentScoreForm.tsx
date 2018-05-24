@@ -18,18 +18,6 @@ export class ScoreFormData {
 }
 
 
-const data =[
-    {
-        pid:"1",
-        pstatus: true,
-        pscore: "90",
-    },
-    {
-        pid:"1",
-        pstatus: false,
-        pscore: 0,
-    },
-];
 
 export class ScoreForm extends Component<FormProps, ScoreFormData> {
     componentDidMount() {
@@ -82,7 +70,7 @@ export class ScoreForm extends Component<FormProps, ScoreFormData> {
 
         return (
             <div>
-                <Table rowKey="pid" columns = {columns} dataSource = {data}/>
+                <Table rowKey="pid" columns = {columns} dataSource = {this.props.scores}/>
             </div>
         );
     }

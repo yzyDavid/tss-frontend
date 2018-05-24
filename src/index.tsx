@@ -103,15 +103,15 @@ const TestsysTeacherQuestionSearchPage = connect(state => {
 
 
 const TestsysStudentPaperPage = connect(state => {
-    return {...state.testsysstudent};
+    return {...state.testsys_student};
 })(TestsysStudentPaperPageComponent);
 
 const TestsysStudentQuestionReviewPage = connect(state => {
-    return {...state.testsysstudent};
+    return {...state.testsys_student};
 })(TestsysStudentQuestionReviewPageComponent);
 
 const TestsysStudentScorePage = connect(state => {
-    return {...state.testsysstudent};
+    return {...state.testsys_student};
 })(TestsysStudentScoreComponent);
 
 

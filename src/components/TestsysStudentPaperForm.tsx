@@ -8,6 +8,7 @@ const { TextArea } = Input;
 
 interface FormProps extends DvaProps {
     form: any;
+    pids: string[];
     papers: PaperFormData[];
     uid: string;
 }
@@ -33,11 +34,17 @@ export class PaperForm extends Component<FormProps, PaperFormData> {
         //     ptime: "Monday 9:00-9:15",
         //     plength: "1:30:00",
         // };
+        for(var i=0;i<this.props.pids.length;i++) {
+            this.props.dispatch({type:'testsys_student/getpaper', payload: {qid: this.props.pids[i], uid: this.props.form.uid}});
+        }
+        // for(var i=0;i<this.props.papers.length;i++) {
+        // }
     }
 
     handleBeginClick = (pid) => {
-        console.log("getpaper: "+pid.pid);
-        this.props.dispatch({type:'testsysstudent/getpaper', payload: {pid: pid, sid: this.props.form.uid}});
+        console.log("getqids: "+pid);
+        const values = {pid: pid, sid: this.props.form.uid};
+        this.props.dispatch({type:'testsys_student/getquestions', payload: values});
     };
 
 
@@ -82,7 +89,7 @@ export class PaperForm extends Component<FormProps, PaperFormData> {
                 key: 'action',
                 render: (text, record) => (
                     <div>
-                        <Button icon="copy"  type="primary" htmlType="submit" onClick={this.handleBeginClick.bind(record.pid)}>开始答题</Button>
+                        <Button icon="copy"  type="primary" htmlType="submit" onClick={()=>this.handleBeginClick(record.pid)}>开始答题</Button>
                     </div>
                 )
             }

@@ -23,8 +23,7 @@ export default class StudentComponent extends Component<UserProps, UserState> {
     formRef: any;
 
     handleClick = (e) => {
-        console.log("StudentComponent"+this.state);
-        this.props.dispatch({type:'testsys/jump', payload: {direction: e.direction}});
+        this.props.dispatch({type:'testsys_student/jump', payload: {direction: e.direction}});
     };
 
     render() {

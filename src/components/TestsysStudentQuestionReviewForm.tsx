@@ -53,7 +53,7 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
         // this.timeToken = setInterval(() => time = new Date().toUTCString(), 1000);
         const{form} = this.props;
         setInterval(function(){
-            form.setFieldsValue();
+            form.setFieldValue('time');
             time = new Date().toUTCString();
             }, 1000);
     }
@@ -64,7 +64,7 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
         console.log(this.state);
         console.log(this.props);
         for(var i=0;i<this.props.qids.length;i++) {
-            this.props.dispatch({type:"testsysstudent/getquestion", payload: {qid: this.props.qids[i], uid: this.props.form.uid}});
+            this.props.dispatch({type:'testsys_student/getquestion', payload: {qid: this.props.qids[i], uid: this.props.form.uid}});
         }
         for(var i=0;i<this.props.questions.length;i++) {
             switch(this.props.questions[i].qtype) {
@@ -90,12 +90,12 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
         console.log("handle save");
         for (var i = 0; i < myAns.length; i++) {
             console.log("qid "+myAns[i].id+": "+myAns[i].myanswer);
-        };
+        }
     };
 
     handleSubmit = () => {
         this.handleSave();
-        this.props.dispatch({type:"testsysstudent/submit", payload: {myAns:myAns, uid:this.props.uid}});
+        this.props.dispatch({type:'testsys_student/submit', payload: {myAns:myAns, uid:this.props.uid}});
         console.log("handle submit");
     };
 
@@ -224,9 +224,15 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
 
         return (
             <div>
-                {/*<Card style={{ width: 300 }}>*/}
-                    {/*<p>剩余时间 - {time}</p>*/}
-                {/*</Card>*/}
+                <FormItem>
+                    {
+                        getFieldDecorator("time", {
+                            rules: []
+                        })(
+                            <div></div>
+                        )
+                    }
+                </FormItem>
                 <List bordered dataSource={[`剩余时间 - ${time}`]} renderItem={item => (<List.Item>{item}</List.Item>)}/>
                 <Tabs defaultActiveKey="1">
                     <TabPane tab="判断题" key="1">
