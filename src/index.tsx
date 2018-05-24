@@ -27,6 +27,8 @@ import NavigationBar from './components/TssPublicComponents'
 import {log} from "util";
 import CourseTableComponent from "./components/CourseTable";
 import ManageTimeComponent from "./components/ManageTime";
+import PlanComponent from "./components/Plan";
+import ManagerSelectionComponent from "./components/SelectionManager";
 
 const {Content} = Layout;
 
@@ -100,6 +102,16 @@ const CourseTable = connect(state => {
 const ManageTime = connect(state =>{
     return{};
 })(ManageTimeComponent)
+
+const Plan = connect(state => {
+    return {};
+})(PlanComponent)
+
+const ManSelect = connect(state =>{
+    const {dataSource} = state.courseinfo;
+    return {dataSource: dataSource};
+})(ManagerSelectionComponent)
+
 app.router(({history}) => (
         <Router history={history}>
             <Layout>
@@ -119,6 +131,8 @@ app.router(({history}) => (
                         <Route path="/curriculumManage" component={CurriculumManagePage}/>
                         <Route path="/courseTable" component={CourseTable}/>
                         <Route path="/manageTime" component = {ManageTime}/>
+                        <Route path="/plan" component = {Plan}/>
+                        <Route path="/manSelect" component = {ManSelect}/>
                     </Switch>
                 </Content>
                 <TssFooter/>

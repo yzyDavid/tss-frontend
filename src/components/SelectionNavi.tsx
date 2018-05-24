@@ -42,7 +42,7 @@ var data = [{
     courseNumber: 20102,
     courseTitle: '数据结构基础',
     teacher: 'Mike',
-    brief: 'eee',
+    brief: '重点介绍算法设计、算法描述和相应C程序编码，并给出相应的数据结构应用实例',
     credit: 3.0,
     semester: '春夏',
 }, {

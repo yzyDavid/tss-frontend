@@ -99,8 +99,22 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
 
         const Block2 = (props) => {
             if(props.level === 'student' ){
-                return (
-                    <JumpButton {...this.button2_stu} onClick={this.handleClick.bind(this, {direction: "selection"})} />
+                const menu = (
+                    <Menu>
+                        <Menu.Item key = "selection">
+                            <a onClick={this.handleClick.bind(this, {direction: "selection"})}>选课</a>
+                        </Menu.Item>
+                        <Menu.Item key = "courseTable">
+                            <a onClick={this.handleClick.bind(this, {direction: "courseTable"})}>查看课表</a>
+                        </Menu.Item>
+                    </Menu>
+                )
+                return(
+                    <Dropdown overlay={menu}>
+                        <div>
+                            <JumpButton {...this.button2_stu} />
+                        </div>
+                    </Dropdown>
                 );
             }
             else {
@@ -111,6 +125,9 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
                         </Menu.Item>
                         <Menu.Item key="manageTime">
                             <a onClick = {this.handleClick.bind(this, {direction: "manageTime"})}>补退选时间</a>
+                        </Menu.Item>
+                        <Menu.Item key="manSelect">
+                            <a onClick = {this.handleClick.bind(this, {direction: "manSelect"})}>手动选课</a>
                         </Menu.Item>
                     </Menu>
                 );
@@ -127,7 +144,7 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
         const Block3 = (props) => {
             if(props.level === 'student'){
                 return (
-                    <JumpButton {...this.button3_stu} onClick={this.handleClick.bind(this, {direction: "user"})} />
+                    <JumpButton {...this.button3_stu} onClick={this.handleClick.bind(this, {direction: "plan"})} />
                 );
             }
             else if(props.level === 'teacher'){
