@@ -90,7 +90,7 @@ const model = {
         },
 
         * search(payload: { payload: {direction: string, info: string}}, {call, put}) {
-             console.log(payload);
+            console.log(payload);
             const msg = payload.payload;
             const response = yield call(tssFetch, '/testsys_question/search', 'POST', msg);
             console.log("search question response:"+response);

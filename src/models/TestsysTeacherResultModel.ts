@@ -17,6 +17,10 @@ const model = {
         ...state,
         level: 'manager',
 
+        resultlist:[
+
+        ],
+
     },
     reducers: {
         saveSession(st) {
@@ -27,7 +31,10 @@ const model = {
         },
         updateSession(st, payload) {
             return {...st, ...payload.payload};
-        }
+        },
+        updateSearchInfo(st, payload) {
+            return {...st, ...payload.payload};
+        },
     },
     effects: {
         * jump(payload: {payload: {direction: string}}, {call, put}) {
@@ -85,16 +92,35 @@ const model = {
             return;
         },
 
-        * search(payload: { payload: ResultFormData }, {call, put}) {
-            // console.log(payload);
+        // * search(payload: { payload: ResultFormData }, {call, put}) {
+        //     // console.log(payload);
+        //     const msg = payload.payload;
+        //     const response = yield call(tssFetch, '/testsys_result/search', 'POST', msg);
+        //     console.log(response);
+        //     if (response.status === 400) {
+        //         message.error('查询失败');
+        //         return;
+        //     };
+        //     //?datasource
+        //
+        //     return;
+        // },
+        * search(payload: { payload: {queryType:number, id:string} }, {call, put}) {
+            console.log(payload);
             const msg = payload.payload;
             const response = yield call(tssFetch, '/testsys_result/search', 'POST', msg);
             console.log(response);
             if (response.status === 400) {
                 message.error('查询失败');
                 return;
-            };
+            }
             //?datasource
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            yield put({
+                type: 'updateSearchInfo',
+                payload: {resultlist:body.resultlist}
+            });
 
             return;
         },

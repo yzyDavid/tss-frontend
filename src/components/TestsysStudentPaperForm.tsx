@@ -9,6 +9,7 @@ const { TextArea } = Input;
 interface FormProps extends DvaProps {
     form: any;
     papers: PaperFormData[];
+    uid: string;
 }
 
 export class PaperFormData {
@@ -18,24 +19,6 @@ export class PaperFormData {
     ptime: string;
     plength: string
 }
-
-
-const data =[
-    {
-        pid:"1",
-        pstatus: true,
-        pscore: "90",
-        ptime: "Monday 9:00-9:15",
-        plength: "1:30:00",
-    },
-    {
-        pid:"2",
-        pstatus: false,
-        pscore: 0,
-        ptime: "Sunday 14:00-9:15",
-        plength: "2:00:00",
-    },
-];
 
 export class PaperForm extends Component<FormProps, PaperFormData> {
     componentDidMount() {
@@ -53,7 +36,8 @@ export class PaperForm extends Component<FormProps, PaperFormData> {
     }
 
     handleBeginClick = (pid) => {
-        this.props.dispatch({type:'studentpaper/jumpQuestion', payload: {pid}});
+        console.log("getpaper: "+pid.pid);
+        this.props.dispatch({type:'testsysstudent/getpaper', payload: {pid: pid, sid: this.props.form.uid}});
     };
 
 
@@ -106,7 +90,7 @@ export class PaperForm extends Component<FormProps, PaperFormData> {
 
         return (
             <div>
-                <Table rowKey="pid" columns = {columns} dataSource = {data}/>
+                <Table rowKey="pid" columns = {columns} dataSource = {this.props.papers}/>
         </div>
     );
     }

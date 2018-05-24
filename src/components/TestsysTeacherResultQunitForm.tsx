@@ -60,7 +60,11 @@ export class ResultSearchQunitForm extends Component<studentProp,  ResultList> {
                 message.error('信息填写不合法');
                 return;
             }
-            this.props.dispatch({type:'teacherresult/search', payload: values});
+            // this.props.dispatch({type:'teacherresult/search', payload: values});
+            const{form} = this.props;
+            const qunit = form.getFieldValue("qunit");
+            console.log("tr/search: "+qunit);
+            this.props.dispatch({type:'teacherresult/search', payload: {quertType:3, id:qunit}});
         });
     };
 

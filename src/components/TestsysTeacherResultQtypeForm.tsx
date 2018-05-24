@@ -60,7 +60,11 @@ export class ResultSearchQtypeForm extends Component<studentProp,  ResultList> {
                 message.error('信息填写不合法');
                 return;
             }
-            this.props.dispatch({type:'teacherresult/search', payload: values});
+            // this.props.dispatch({type:'teacherresult/search', payload: values});
+            const{form} = this.props;
+            const qtype = form.getFieldValue("qtype");
+            console.log("tr/search: "+qtype);
+            this.props.dispatch({type:'teacherresult/search', payload: {quertType:2, id:qtype}});
         });
     };
 

@@ -11,6 +11,7 @@ interface UserProps extends DvaProps {
     tel: string;
     intro: string;
     questions: QuestionFormData[];
+    qids: string[];
 }
 interface UserState {
     modalVisible: boolean;
@@ -23,6 +24,8 @@ export default class TestsysStudentQuestionPageComponent extends Component<UserP
         this.state = {
             modalVisible: false
         };
+        console.log(this.state);
+        console.log(this.props);
     }
     formRef: any;
 
@@ -42,8 +45,10 @@ export default class TestsysStudentQuestionPageComponent extends Component<UserP
             <div>
                 <h2>查看题目</h2>
                 <WrappedQuestionReviewForm
+                    dispatch = {this.props.dispatch}
                     questions = {this.props.questions}
-                    dispatch = {this.props.dispatch}/>
+                    qids = {this.props.qids}
+                    uid = {this.props.uid} />
             </div>
         );
     }

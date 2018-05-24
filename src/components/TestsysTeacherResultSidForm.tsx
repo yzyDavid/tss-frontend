@@ -66,7 +66,11 @@ export class ResultSearchSidForm extends Component<studentProp,  ResultList> {
                 message.error('信息填写不合法');
                 return;
             }
-            this.props.dispatch({type:'teacherresult/search', payload: values});
+            // this.props.dispatch({type:'teacherresult/search', payload: values});
+            const{form} = this.props;
+            const sid = form.getFieldValue("sid");
+            console.log("tr/search: "+sid);
+            this.props.dispatch({type:'teacherresult/search', payload: {quertType:0, id:sid}});
         });
     };
 

@@ -16,7 +16,10 @@ const TabPane = Tabs.TabPane;
 
 interface FormProps extends DvaProps {
     form: any;
-    questions: QuestionFormData[];
+    // questions: QuestionFormData[];
+    qids: string[];
+    questions: any[];
+    uid: string;
 }
 
 export class QuestionFormData {
@@ -28,57 +31,54 @@ export class QuestionFormData {
     qunit: string;
 }
 
-const data = [
-    {
-        qid: "1",
-        question: "Is monkey an animal?",
-        qtype: "Judge",
-        qanswer: "yes",
-        qmyanswer: "",
-        qunit: "1",
-    },
-    {
-        qid: "4",
-        question: "Is apple an animal?",
-        qtype: "Judge",
-        qanswer: "no",
-        qmyanswer: "",
-        qunit: "2",
-    },
-];
+interface questionState {
+    time: string;
+}
+
 let j_questions: any[] = [];
 let s_questions: any[] = [];
 let f_questions: any[] = [];
 
 let myAns: any[] = [];
-let time: string = "1:30:00";
+let time: string = "";
 
-export class QuestionReviewForm extends Component<FormProps, QuestionFormData> {
+export class QuestionReviewForm extends Component<FormProps, questionState> {
     componentDidMount() {
     }
 
-    timeToken: Timer;
+    interval() {
+        this.setState({ time: new Date().toUTCString()});
+    }
     start() {
-        console.log(time);
-        this.timeToken = setInterval(() => time = new Date().toUTCString(), 1000);
+        // this.timeToken = setInterval(() => time = new Date().toUTCString(), 1000);
+        const{form} = this.props;
+        setInterval(function(){
+            form.setFieldsValue();
+            time = new Date().toUTCString();
+            }, 1000);
     }
 
     constructor(props){
         super(props);
-        // for(let entry of this.props.questions) {
-        //     switch (entry.qtype) {
-        //         case 'j':
-        //             j_questions.push(entry);
-        //             break;
-        //         case 's':
-        //             s_questions.push(entry);
-        //             break;
-        //         case 'f':
-        //             f_questions.push(entry);
-        //             break;
-        //     }
-        // }
-        this.start();
+
+        console.log(this.state);
+        console.log(this.props);
+        for(var i=0;i<this.props.qids.length;i++) {
+            this.props.dispatch({type:"testsysstudent/getquestion", payload: {qid: this.props.qids[i], uid: this.props.form.uid}});
+        }
+        for(var i=0;i<this.props.questions.length;i++) {
+            switch(this.props.questions[i].qtype) {
+                case '1':
+                    j_questions.push(this.props.questions[i]);
+                    break;
+                case '2':
+                    s_questions.push(this.props.questions[i]);
+                    break;
+                case '3':
+                    f_questions.push(this.props.questions[i]);
+                    break;
+            }
+        }
     }
 
 
@@ -95,7 +95,7 @@ export class QuestionReviewForm extends Component<FormProps, QuestionFormData> {
 
     handleSubmit = () => {
         this.handleSave();
-        this.props.dispatch({type:"studentquestion/submit", payload: myAns});
+        this.props.dispatch({type:"testsysstudent/submit", payload: {myAns:myAns, uid:this.props.uid}});
         console.log("handle submit");
     };
 
@@ -116,11 +116,14 @@ export class QuestionReviewForm extends Component<FormProps, QuestionFormData> {
         console.log("handle update: "+qid);
     };
 
-    confirmText = (e) => {
-        let hint: string = "";
-
-        return {hint}+"Submit?";
-    };
+    // confirmText = (e) => {
+    //     let hint: string = "";
+    //     let diff: number = data.length - myAns.length;
+    //     if(diff)
+    //         hint = (diff==1)?" question":" questions"+" are not answered.\n";
+    //     console.log(diff);
+    //     return {hint}+"Submit?";
+    // };
 
     render() {
         const {getFieldDecorator} = this.props.form;
@@ -221,39 +224,28 @@ export class QuestionReviewForm extends Component<FormProps, QuestionFormData> {
 
         return (
             <div>
-                <Card style={{ width: 300 }}>
-                    <p>剩余时间 - {time}</p>
-                </Card>
+                {/*<Card style={{ width: 300 }}>*/}
+                    {/*<p>剩余时间 - {time}</p>*/}
+                {/*</Card>*/}
+                <List bordered dataSource={[`剩余时间 - ${time}`]} renderItem={item => (<List.Item>{item}</List.Item>)}/>
                 <Tabs defaultActiveKey="1">
                     <TabPane tab="判断题" key="1">
-                        <Table rowKey="qid" columns = {columns_j} dataSource = {data}/>
-                        <Button onClick={()=>this.handleSave()}>保存</Button>
-                        <span className="ant-divider" />
-                        <Popconfirm title="Submit?" onConfirm={() => this.handleSubmit()}>
-                            <Button>提交</Button>
-                        </Popconfirm>
-                        <span className="ant-divider" />
+                        <Table rowKey="qid" columns = {columns_j} dataSource = {j_questions}/>
                     </TabPane>
                     <TabPane tab="选择题" key="2">
-                        <Table rowKey="qid" columns = {columns_s} dataSource = {data}/>
-                        <Button onClick={()=>this.handleSave()}>保存</Button>
-                        <span className="ant-divider" />
-                        <Popconfirm title="Submit?" onConfirm={() => this.handleSubmit()}>
-                            <Button>提交</Button>
-                        </Popconfirm>
-                        <span className="ant-divider" />
+                        <Table rowKey="qid" columns = {columns_s} dataSource = {s_questions}/>
                     </TabPane>
                     <TabPane tab="填空题" key="3">
-                        <Table rowKey="qid" columns = {columns_f} dataSource = {data}/>
-                        <Button onClick={()=>this.handleSave()}>保存</Button>
-                        <span className="ant-divider" />
-                        <Popconfirm title={this.confirmText} onConfirm={() => this.handleSubmit()}>
-                            <Button>提交</Button>
-                        </Popconfirm>
-                        <span className="ant-divider" />
+                        <Table rowKey="qid" columns = {columns_f} dataSource = {f_questions}/>
                     </TabPane>
                 </Tabs>
 
+                <Button onClick={()=>this.handleSave()}>保存</Button>
+                <span className="ant-divider" />
+                <Popconfirm title="Submit?" onConfirm={() => this.handleSubmit()}>
+                    <Button>提交</Button>
+                </Popconfirm>
+                <span className="ant-divider" />
             </div>
         );
     }

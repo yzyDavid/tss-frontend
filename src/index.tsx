@@ -30,13 +30,14 @@ import UserInfoModel from './models/userInfoModel';
 import TestsysTeacherQuestionModel from './models/TestsysTeacherQuestionModel';
 
 import TestsysStudentPaperPageComponent from "./components/TestsysStudentPaper";
-import TestsysStudentQuestionPageComponent from "./components/TestsysStudentQuestion";
 import TestsysStudentQuestionReviewPageComponent from "./components/TestsysStudentQuestionReview";
 
 import TestsysTeacherPaperModel from './models/TestsysTeacherPaperModel'
 import TestsysModel from './models/TestsysModel'
 import TestsysTeacherResultModel from './models/TestsysTeacherResultModel'
 import TestsysStudentScoreComponent from "./components/TestsysStudentScore";
+import TestsysStudentModel from './models/TestsysStudentModel'
+
 
 
 const {Content} = Layout;
@@ -52,6 +53,8 @@ app.model(TestsysTeacherQuestionModel);
 app.model(TestsysTeacherPaperModel);
 app.model(TestsysModel);
 app.model(TestsysTeacherResultModel);
+app.model(TestsysStudentModel);
+
 
 const HomePage = connect(state => {
     return {}
@@ -100,19 +103,15 @@ const TestsysTeacherQuestionSearchPage = connect(state => {
 
 
 const TestsysStudentPaperPage = connect(state => {
-    return {...state.userinfo};
+    return {...state.testsysstudent};
 })(TestsysStudentPaperPageComponent);
 
-const TestsysStudentQuestionPage = connect(state => {
-    return {...state.userinfo};
-})(TestsysStudentQuestionPageComponent);
-
 const TestsysStudentQuestionReviewPage = connect(state => {
-    return {...state.userinfo};
+    return {...state.testsysstudent};
 })(TestsysStudentQuestionReviewPageComponent);
 
 const TestsysStudentScorePage = connect(state => {
-    return {...state.userinfo};
+    return {...state.testsysstudent};
 })(TestsysStudentScoreComponent);
 
 
@@ -163,7 +162,6 @@ app.router(({history}) => (
                         <Route path="/testsys_teacher_question_search" component={TestsysTeacherQuestionSearchPage}/>
 
                         <Route path="/testsys_student_paper" component={TestsysStudentPaperPage}/>
-                        <Route path="/testsys_student_question" component={TestsysStudentQuestionPage}/>
                         <Route path="/testsys_student_question_review" component={TestsysStudentQuestionReviewPage}/>
                         <Route path="/testsys_student_score" component={TestsysStudentScorePage}/>
 

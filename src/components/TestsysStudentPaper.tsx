@@ -5,11 +5,16 @@ import DvaProps from '../types/DvaProps';
 import NavigationBar from './TssPublicComponents';
 import {WrappedPaperDisplayForm} from "./TestsysStudentPaperForm";
 
+class HomePageProps implements DvaProps {
+    public dispatch: any;
+}
+
 interface UserProps extends DvaProps {
     uid: string;
     email: string;
     tel: string;
     intro: string;
+    papers: any[];
 }
 interface UserState {
     modalVisible: boolean;
@@ -31,10 +36,6 @@ export default class StudentPaperPageComponent extends Component<UserProps, User
     handleOk(e){
         if(!this.formRef.handleSubmit(e)) this.setModalVisible(false);
     }
-
-    handleBeginClick = (e) => {
-        this.props.dispatch({type:'studentpaper/jumpQuestion', payload: {}});
-    };
 
     render() {
 
@@ -72,7 +73,9 @@ export default class StudentPaperPageComponent extends Component<UserProps, User
                     {/*</Col>*/}
                 {/*</Row>*/}
                 <WrappedPaperDisplayForm
-                    dispatch={this.props.dispatch}/>
+                    dispatch={this.props.dispatch}
+                    papers={this.props.papers}
+                    uid={this.props.uid}/>
             </div>
 
     );

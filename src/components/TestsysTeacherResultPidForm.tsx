@@ -66,7 +66,10 @@ export class ResultSearchPidForm extends Component<studentProp,  ResultList> {
                 message.error('信息填写不合法');
                 return;
             }
-            this.props.dispatch({type:'teacherresult/search', payload: values});
+            const{form} = this.props;
+            const pid = form.getFieldValue("pid");
+            console.log("tr/search: "+pid);
+            this.props.dispatch({type:'teacherresult/search', payload: {quertType:1, id:pid}});
         });
     };
 
