@@ -20,8 +20,10 @@ interface SearchProps extends DvaProps {
 
 export default class SearchPage extends Component<SearchProps>{
 
-
-    constructor(props) {
+    state={
+        reader: new FileReader()
+    };
+    constructor(props){
         super(props);
 
     }
@@ -34,16 +36,18 @@ export default class SearchPage extends Component<SearchProps>{
 
 
 
-    test(filedata){
-        console.log(filedata)
+    test(){
+        const temp = new Uint8Array(this.state.reader.result);
+        this.props.dispatch({type:'forumUser/changePhoto', payload:temp})
     }
 
     handleChange=(e)=>{
 
-        var reader = new FileReader();
-        reader.readAsArrayBuffer(e.target.files[0]);
-        reader.onload = function (e) {
-
+        //var reader =  new FileReader();
+        this.state.reader.readAsArrayBuffer(e.target.files[0]);
+        this.state.reader.onload = function (e) {
+            console.log("OK");
+               // return this.result;
         };
 
        // console.log(e.target.files[0]);
@@ -53,7 +57,7 @@ export default class SearchPage extends Component<SearchProps>{
         // var promise =  new Promise(function(resolve, reject) {
         //     let reader = new FileReader();
         //     reader.readAsArrayBuffer(e.target.files[0]);
-        //     reader.onload = function() {
+          //     reader.onload = function() {
         //         resolve(reader.result)
         //     }
         // }).then(function(successLoad){
@@ -89,7 +93,7 @@ export default class SearchPage extends Component<SearchProps>{
                     {/*<input onClick= {this.uploadFiles.bind(this)}  type="button" value="上传" />*/}
                 </Form>
 
-
+                <Button onClick={this.test.bind(this)}>上传</Button>
 
 
                 {/*<div>*/}

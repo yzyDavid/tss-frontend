@@ -1,6 +1,13 @@
 import {routerRedux} from 'dva/router';
 import {tssFetch} from '../utils/tssFetch';
 import * as React from 'react'
+
+
+export class DataForm {
+    data: any;
+
+}
+
 const model = {
     namespace: 'forumUser',
     state: {
@@ -18,9 +25,8 @@ const model = {
     effects: {
         *changePhoto(payload: {payload:any}, {call, put}) {
             const msg = payload.payload;
-            var data = new FormData();
-            data.append('file', msg);
-            console.log("发送");
+            const data = new DataForm();
+            data.data =msg;
             const response = yield call(tssFetch, '/test/userPicUpload', 'POST', data);
             // yield put(routerRedux.push({
             //     pathname: "/board="+msg,
