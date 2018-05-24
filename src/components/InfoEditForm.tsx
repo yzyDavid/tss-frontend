@@ -1,7 +1,8 @@
 import {Component, FormEvent} from 'react';
 import * as React from 'react';
-import {Icon, Form, Input, message} from 'antd';
+import {Icon, Form, Input, message, Button, Upload} from 'antd';
 import DvaProps from '../types/DvaProps';
+
 
 const FormItem = Form.Item;
 const {TextArea} = Input;
@@ -18,10 +19,14 @@ class InfoEditFormData {
     email: string;
     tel: string;
     intro: string;
+    // previewVisible: boolean;
+    // previewImage: string;
+    fileList: any;
 }
 
 export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
     componentDidMount() {
+        this.beforeUpload = this.beforeUpload.bind(this);
     };
 
     handleSubmit = (e: FormEvent<{}>) => {
@@ -33,8 +38,10 @@ export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
                 flag = true;
                 return;
             }
-            this.props.dispatch({type:'user/modify', payload: values});
+            this.props.dispatch({type: 'userinfo/modify', payload: {...values, uid: this.props.uid}});
+            console.log('Value:', values);
         });
+        // if(this.state.fileList)this.props.dispatch({type:'userinfo/modifyPhoto', payload: {file: this.state.fileList, uid: this.props.uid}});
         return flag;
     };
 
@@ -44,6 +51,20 @@ export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
             tel: this.props.tel,
             intro: this.props.intro
         });
+    };
+    normFile = (e) => {
+        console.log('Upload event:', e);
+        if (Array.isArray(e)) {
+            return e;
+        }
+        return e && e.fileList;
+    };
+    handleChange = (info) => {
+        info.fileList.slice(-1);
+    };
+    beforeUpload = (file) => {
+        this.setState({fileList: file});
+        return false;
     };
 
     render() {
@@ -60,8 +81,8 @@ export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
         };
         return (
             <Form onSubmit={this.handleSubmit}>
-                <FormItem label="学号" {...formItemLayout}>
-                    <span className="ant-form-text" > {this.props.uid} </span>
+                <FormItem label="学号或教工号" {...formItemLayout}>
+                    <span className="ant-form-text"> {this.props.uid} </span>
                 </FormItem>
                 <FormItem label="E-mail" {...formItemLayout} hasFeedback>
                     {
@@ -71,15 +92,15 @@ export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
                             ],
                             initialValue: this.props.email
                         })(
-                            <Input prefix={<Icon type="mail" style={{fontSize: 13}}/>} />
+                            <Input prefix={<Icon type="mail" style={{fontSize: 13}}/>}/>
                         )
                     }
                 </FormItem>
                 <FormItem label="Telephone" {...formItemLayout} hasFeedback>
                     {
-                        getFieldDecorator('tel', {
+                        getFieldDecorator('telephone', {
                             rules: [
-                                {message: "请输入数字", pattern: /^[0-9]+$/, }
+                                {message: "请输入数字", pattern: /^[0-9]+$/,}
                             ],
                             initialValue: this.props.tel
                         })(
@@ -92,9 +113,25 @@ export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
                         getFieldDecorator('intro', {
                             initialValue: this.props.intro
                         })(
-                            <TextArea autosize={{ minRows: 2, maxRows: 6 }} />
+                            <TextArea autosize={{minRows: 2, maxRows: 6}}/>
                         )
                     }
+                </FormItem>
+                <FormItem>
+                    {getFieldDecorator('upload', {
+                        valuePropName: 'fileList',
+                        getValueFromEvent: this.normFile,
+                    })(
+                        <Upload beforeUpload={this.beforeUpload} name="logo" action="/photo" method="post"
+                                listType="picture" onChange={this.handleChange}
+                                {...getFieldDecorator('upload', {
+                                    valuePropName: 'fileList',
+                                })}
+                        >
+                            <Button type="ghost">
+                                <Icon type="upload"/> 点击上传
+                            </Button>
+                        </Upload>)}
                 </FormItem>
             </Form>
         );

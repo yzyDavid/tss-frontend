@@ -3,7 +3,7 @@ import {Component} from 'react';
 import {Form, Button, Modal} from 'antd';
 import DvaProps from '../types/DvaProps';
 import {WrappedInfoEditForm} from './InfoEditForm';
-import NavigationBar from './TssPublicComponents';
+import NavigationBar from './ForumNavigation';
 
 interface UserProps extends DvaProps {
     uid: string;

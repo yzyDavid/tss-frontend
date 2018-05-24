@@ -6,6 +6,7 @@ const model = {
     },
     reducers: {
         updateUserInfo(st, payload) {
+
             return {...st, ...payload.payload};
         }
     },

@@ -1,7 +1,7 @@
 import {Component, FormEvent, ReactNode} from 'react';
 import * as React from 'react';
-import {Icon, Form, Button, Input, message} from 'antd';
-import DvaProps from '../models/DvaProps';
+import {Icon, Form, Button, Input, message, Col} from 'antd';
+import DvaProps from '../types/DvaProps';
 
 const FormItem = Form.Item;
 
@@ -67,9 +67,14 @@ export class LoginForm extends Component<FormProps, LoginFormData> {
                         )
                     }
                 </FormItem>
-                <FormItem {...formItemLayout}>
-                    <Button icon="copy" type="primary" htmlType="submit"  >登录</Button>
-                </FormItem>
+                <Col offset={8}>
+                    <FormItem {...formItemLayout}>
+                        <Button style={{width: "100px"}} icon="copy" type="primary" htmlType="submit">登录</Button>
+                    </FormItem>
+                </Col>
+                {/*<FormItem {...formItemLayout}>*/}
+                {/*<Button icon="copy" type="primary" htmlType="submit">登录</Button>*/}
+                {/*</FormItem>*/}
             </Form>
         );
     }

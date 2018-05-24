@@ -1,18 +1,25 @@
 import {Component} from 'react';
 import * as React from 'react';
-import { ForumLoginForm} from './ForumLogin';
-import DvaProps from '../models/DvaProps';
-import "./css/HomePage.css"
+import {Col, Card, Layout} from 'antd'
+import {WrappedLoginForm} from './LoginForm';
+import DvaProps from '../types/DvaProps';
+import { TssFooter, TssHeader} from "./ForumNavigation";
+
 class HomePageProps implements DvaProps {
     public dispatch: any;
 }
+const {Content} = Layout;
 
-export default class HomePageComponent extends Component<HomePageProps> {
+export default class HomePageComponent extends Component<HomePageProps, {}> {
     render() {
         return (
-            <div style={{position: "fixed", left: screen.width/2 - 150}}  className="forum-login-component">
-                <h2 style={{textAlign:"center"}}>用户登录</h2>
-
+            <div>
+                <h2>用户登录</h2>
+                <Col span={8} offset={8}>
+                    <Card title="Login">
+                        <WrappedLoginForm dispatch={this.props.dispatch} />
+                    </Card>
+                </Col>
             </div>
         );
     }

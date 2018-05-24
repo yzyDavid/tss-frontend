@@ -2,12 +2,17 @@ import {tssFetch} from '../utils/tssFetch';
 import {message} from 'antd';
 
 const model = {
-    namespace: 'userinfo',
+    namespace: 'ForumUserInfo',
     state: {
-        uid: '3152222222',
-        email: 'haha@qq.com',
-        tel: '23333',
-        intro: 'hhhhh',
+        userInfo:{
+            "photo":"https://wx3.sinaimg.cn/mw690/91e4a538gy1frcbj13o5oj20ku0kuta5.jpg",
+            "UserName":"我是用户名",
+            "email":"8678@163.com",
+            "tel":"98465848",
+            "postNum":3123,
+            "description":"这个人什么也没说",
+
+        }
     },
     reducers: {
         updateUserInfo(st, payload) {

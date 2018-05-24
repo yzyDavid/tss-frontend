@@ -1,69 +1,115 @@
 import * as React from 'react';
 import {Component} from 'react';
-import {Form, Button, Modal} from 'antd';
+import {Form, Button,  Upload,Icon} from 'antd';
 import DvaProps from '../types/DvaProps';
 import {WrappedInfoEditForm} from './InfoEditForm';
-import NavigationBar from './TssPublicComponents';
+import NavigationBar from './ForumNavigation';
 
 interface UserProps extends DvaProps {
-    uid: string;
-    email: string;
-    tel: string;
-    intro: string;
+    userInfo:any
 }
-interface UserState {
-    modalVisible: boolean;
-}
+
 const FormItem = Form.Item;
 
-export default class ForumUserPageComponent extends Component<UserProps, UserState> {
+export default class ForumUserPageComponent extends Component<UserProps> {
+
+    state = {
+        previewVisible: false,
+        previewImage: '',
+        fileList: [{
+            uid: -1,
+            name: 'xxx.png',
+            status: 'done',
+            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+        }],
+    };
+
     constructor(props){
         super(props);
-        this.state = {
-            modalVisible: false
-        };
+
     }
-    formRef: any;
-    setModalVisible(modalVisible) {
-        if(this.formRef && modalVisible === true) this.formRef.refresh();
-        this.setState({ modalVisible: modalVisible });
+
+    handleCancel = () => this.setState({ previewVisible: false });
+
+    handlePreview = (file) => {
+        this.setState({
+            previewImage: file.url || file.thumbUrl,
+            previewVisible: true,
+        });
     };
-    handleOk(e){
-        if(!this.formRef.handleSubmit(e)) this.setModalVisible(false);
+
+
+    handleChange1 = ({ fileList }) => this.setState({ fileList });
+
+
+    getBase64(img, callback) {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => callback(reader.result));
+        reader.readAsDataURL(img);
+    }
+    handleChange = (info,) => {
+
+        if(info.file.status ==="error"){
+            this.props.dispatch({type:'forumUser/changePhoto', payload:info})
+        }
+
+    };
+
+     beforeUpload(file) {
+        const isJPG = file.type === 'image/png';
+        if (!isJPG) {
+
+        }
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+
+        }
+        return isJPG && isLt2M;
     }
     render() {
-        return (
-            <div>
-                <NavigationBar current={"userinfo"} dispatch={this.props.dispatch}/>
-                <br/>
-                <div>
-                    <FormItem label="学号" labelCol={{ span: 8, offset: 3 }} wrapperCol={{ span: 10 }}>
-                        <span className="ant-form-text" >{this.props.uid}</span>
-                    </FormItem>
-                    <FormItem label="e-mail" labelCol={{ span: 8, offset: 3 }} wrapperCol={{ span: 10 }}>
-                        <span className="ant-form-text">{this.props.email}</span>
-                    </FormItem>
-                    <FormItem label="电话" labelCol={{ span: 8, offset: 3 }} wrapperCol={{ span: 10 }}>
-                        <span className="ant-form-text">{this.props.tel}</span>
-                    </FormItem>
-                    <FormItem label="简介" labelCol={{ span: 8, offset: 3 }} wrapperCol={{ span: 10 }}>
-                        <span className="ant-form-text" style={{whiteSpace: "pre-wrap"}}>{this.props.intro}</span>
-                    </FormItem>
-                    <FormItem wrapperCol={{ span: 12, offset: 11 }}>
-                        <Button icon="edit" type="primary" onClick={() => this.setModalVisible(true)}>编辑</Button>
-                        <Modal
-                            title="修改个人信息"
-                            wrapClassName="vertical-center-modal"
-                            visible={this.state.modalVisible}
-                            onOk={(e) => this.handleOk(e)}
-                            onCancel={() => this.setModalVisible(false)}
-                        >
-                            <WrappedInfoEditForm  wrappedComponentRef={(inst) => this.formRef = inst} dispatch={this.props.dispatch} uid={this.props.uid} email={this.props.email} tel={this.props.tel} intro={this.props.intro}/>
-                        </Modal>
-                    </FormItem>
+        const { previewVisible, previewImage, fileList } = this.state;
+        return <div>
+            <NavigationBar current={""} dispatch={this.props.dispatch}/>
+            <div style={{marginLeft: 200, marginRight: 200, marginTop: 10}}>
+                <div style={{marginLeft: "45%"}}>
+                    <img height="100" width="100" src={this.props.userInfo.photo}></img>
+
+                </div>
+                <div style={{marginLeft: "40%", marginTop: 20, fontSize: 22}}>
+                    <div><Icon
+                        type="user"/>&nbsp;用户名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{this.props.userInfo.UserName}
+                    </div>
+                    <div style={{marginTop: 10}}><Icon
+                        type="mail"/>&nbsp;E-mail:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{this.props.userInfo.email}
+                    </div>
+                    <div style={{marginTop: 10}}><Icon
+                        type="mobile"/>&nbsp;Tel:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{this.props.userInfo.tel}
+                    </div>
+                    <div style={{marginTop: 10}}><Icon
+                        type="line-chart"/>&nbsp;发帖统计:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{this.props.userInfo.postNum}</div>
+                    <div style={{marginTop: 10}}><Icon
+                        type="info"/>&nbsp;个人简介:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{this.props.userInfo.description}</div>
+                    <div style={{marginTop: 10}}><a>查看发帖纪录</a></div>
+                    <div style={{marginTop: 10}}><a>给Ta私信</a></div>
+                </div>
+                <div style={{marginLeft: "45%", marginTop: 20}}>
+                    <Upload
+
+                        action=""
+                        listType="picture"
+
+                        // onPreview={this.handlePreview}
+                        onChange={this.handleChange}
+                        // showUploadList={false}
+                        // action="//jsonplaceholder.typicode.com/posts/"
+                        // beforeUpload={this.beforeUpload}
+                        // onChange={this.handleChange}
+                    >
+                        <Button type="primary"><Icon type="edit"/>更换头像</Button>
+                    </Upload>
+
                 </div>
             </div>
-
-        );
+        </div>;
     }
 }

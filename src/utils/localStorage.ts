@@ -14,7 +14,8 @@ const loadSession = (state: GlobalState): GlobalState => {
 };
 
 const getAuthTokenFromLocalStorage = () => {
-    console.log(sessionStorageKey);
+
+    // return localStorage.getItem(sessionStorageKey) ||'no such token';
     return JSON.parse(localStorage.getItem(sessionStorageKey) || '{"token": ""}').token;
 };
 
