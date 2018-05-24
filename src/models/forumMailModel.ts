@@ -2,7 +2,7 @@ import {routerRedux} from 'dva/router';
 import {tssFetch} from '../utils/tssFetch';
 
 const model = {
-    namespace: 'ForumMail',
+    namespace: 'mail',
     state: {
 
         input: [{

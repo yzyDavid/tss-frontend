@@ -8,7 +8,7 @@ export class ReplyFormData {
 }
 
 const model = {
-    namespace: 'ForumTopic',
+    namespace: 'topic',
     state: {
         allstate:{
             "boardName":"软件工程",

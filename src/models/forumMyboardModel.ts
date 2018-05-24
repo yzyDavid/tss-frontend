@@ -2,7 +2,7 @@ import {routerRedux} from 'dva/router';
 import {tssFetch} from '../utils/tssFetch';
 
 const model = {
-    namespace: 'ForumMyBoard',
+    namespace: 'myboard',
     state: {
         uid:'sunjian',
         list: [{

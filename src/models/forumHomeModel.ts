@@ -2,7 +2,7 @@ import {routerRedux} from 'dva/router';
 import {tssFetch} from '../utils/tssFetch';
 
 const model = {
-    namespace: 'ForumHome',
+    namespace: 'forumhome',
     state: {
 
         HotList : [{

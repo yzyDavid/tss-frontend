@@ -2,7 +2,7 @@ import {routerRedux} from 'dva/router';
 import {tssFetch} from '../utils/tssFetch';
 import * as React from 'react'
 const model = {
-    namespace: 'ForumUser',
+    namespace: 'forumUser',
     state: {
 
         list: {
@@ -20,8 +20,7 @@ const model = {
             const msg = payload.payload;
             var data = new FormData();
             data.append('file', msg);
-            console.log("发送")
-            const response = yield call(tssFetch, '/userPicUpload', 'POST', data);
+            const response = yield call(tssFetch, '/userPicUpload', 'GET', data);
             // yield put(routerRedux.push({
             //     pathname: "/board="+msg,
             // }));

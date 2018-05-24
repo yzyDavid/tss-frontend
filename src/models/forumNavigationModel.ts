@@ -1,7 +1,7 @@
 import {routerRedux} from 'dva/router';
 
 const model = {
-    namespace: 'ForumNavigation',
+    namespace: 'navigation',
     state: {
     },
     reducers: {
