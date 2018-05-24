@@ -10,7 +10,7 @@ import NavigationPageComponent from './components/NavigationPage';
 import UserPageComponent from './components/UserPage';
 import UserManagePageComponent from './components/UserManagePage';
 import NavigationModel from './models/forumNavigationModel';
-import UserInfoModel from './models/userInfoModel';
+import UserInfoModel from './models/forumUserInfoModel';
 import ForumUserPageComponent from './components/ForumUserPage'
 import MyPostPageComponent from './components/ForumMyPostPage'
 import ReplyPageComponent from './components/ForumReplyPage'

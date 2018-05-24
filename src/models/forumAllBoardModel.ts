@@ -27,7 +27,7 @@ const model = {
         },
 
         *getData({payload},{call,put}){
-             const response = yield call(tssFetch, '/section/info', 'GET', {});
+             const response = yield call(tssFetch, '/section/info', 'POST', {});
              const jsonBody = yield call(response.text.bind(response));
              const body = JSON.parse(jsonBody);
              yield put({type: 'updateAllBoardInfo', payload: {list:body}});

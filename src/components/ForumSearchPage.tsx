@@ -23,6 +23,7 @@ export default class SearchPage extends Component<SearchProps>{
 
     constructor(props) {
         super(props);
+
     }
 
     uploadFiles=(e)=>{
@@ -32,8 +33,31 @@ export default class SearchPage extends Component<SearchProps>{
     };
 
     handleChange=(e)=>{
-        this.props.dispatch({type:'forumUser/changePhoto', payload:e.target.files[0]})
+
+        var reader = new FileReader();
+        //this.props.dispatch({type:'forumUser/changePhoto', payload:e.target.files[0]})
+        reader.readAsArrayBuffer(e.target.files[0]);
+       // console.log(e.target.files[0]);
+        var flag=false;
+        let temp;
+
+        reader.onload = function(e){
+            console.log("读取成功");
+            console.log(reader.result.byteLength);
+            temp =  new Uint8Array(reader.result);
+
+            return temp;
+
+        };
+
+
+
     };
+
+
+
+
+
     render(){
 
         let replylist = new Array();
@@ -51,7 +75,7 @@ export default class SearchPage extends Component<SearchProps>{
                 <h3>选择一个文件:</h3>
                 <Form >
 
-                    <input type="file"   name="uploadFile" onChange={this.handleChange}/>
+                    <input type="file"   name="uploadFile" onChange={this.handleChange.bind(this)}/>
                     {/*<input onClick= {this.uploadFiles.bind(this)}  type="button" value="上传" />*/}
                 </Form>
 
