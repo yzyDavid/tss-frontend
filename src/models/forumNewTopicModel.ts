@@ -2,7 +2,7 @@ import {routerRedux} from 'dva/router';
 import {tssFetch} from '../utils/tssFetch';
 
 const model = {
-    namespace: 'newtopic',
+    namespace: 'ForumNewTopic',
     state: {
         boardInfo:{
             "boardName": "软件工程-XXX",

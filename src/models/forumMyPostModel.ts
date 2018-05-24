@@ -2,7 +2,7 @@ import {routerRedux} from 'dva/router';
 import {tssFetch} from '../utils/tssFetch';
 
 const model = {
-    namespace: 'mypost',
+    namespace: 'ForumMyPost',
     state: {
         postList: {
             "userName":"用户名",

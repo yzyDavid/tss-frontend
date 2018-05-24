@@ -2,7 +2,7 @@ import {routerRedux} from 'dva/router';
 import any = jasmine.any;
 
 const model = {
-    namespace: 'search',
+    namespace: 'ForumSearch',
     state: {
         data:{
             "key": '数据结构',
