@@ -42,7 +42,7 @@ export default class NavigationBar extends Component<BarProps>{
     componentDidMount() {
     };
     handleClick(e) {
-        if(e.key !== this.props.current)this.props.dispatch({type:'navigation/jump', payload: {direction: e.key}});
+        if(e.key !== this.props.current)this.props.dispatch({type:'ForumNavigation/jump', payload: {direction: e.key}});
     };
     render() {
         return (
