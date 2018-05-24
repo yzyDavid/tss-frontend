@@ -47,7 +47,7 @@ const model = {
                 type: 'updateCourseInfo',
                 //payload: {data:body.data}
                 payload: {dataSource:[
-                        {key: 1, courseNumber: '00011', courseTitle: '线性代数', courseAddress: '东一103', courseTime: '16:30-18:30', semester: '春夏', credit: 3.5},
+                        {key: 1, courseNumber: '20102', courseTitle: '数据结构基础', courseAddress: '东一103', courseTime: '16:30-18:30', semester: '春夏', credit: 3},
                         {key: 2, courseNumber: '00022', courseTitle: '微积分', courseAddress: '东二201', courseTime: '16:30-18:30', semester: '夏', credit: 4.5}
                     ]}
             });
