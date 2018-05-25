@@ -9,10 +9,20 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 const columns = [
-    {title: '课程号', dataIndex: 'courseNumber', key: 'courseNumber'},
+    {title: '课程号', dataIndex: 'classId', key: 'classId'},
     {title: '课程名称', dataIndex: 'courseName', key: 'courseName'},
-    {title: '学期', dataIndex: 'semester', key: 'semester'},
-    {title: '上课时间', dataIndex: 'courseTime', key: 'courseTime'},
+    {title: '上课时间', dataIndex: 'typeName', key: 'typeName', render: (text)=>{
+            var timeB, timeA;
+            if(!text)
+                timeA = ' ';
+            else {
+                timeB= text.toString();
+                timeA = timeB.substring(0,3)+ ' ' + timeB.substring(4,5)+ '~' + timeB.substring(timeB.length-1,timeB.length);
+            }
+            return (
+                <label>{timeA}</label>
+            );
+        }},
 ];
 const waring1  = function() { message.error('不存在该教室，请重新选择');};
 const waring2  = function() { message.error('未选择需要查看的教室');};
@@ -23,7 +33,6 @@ interface ManualSchedulingProps extends DvaProps {
     buildingData: any;
     classroomData: any;
 }
-
 interface ViewState {
     item2State: boolean;
     item3State: boolean;
@@ -39,20 +48,18 @@ export class CurriculumData {
     courseTime: string;
     courseAddress: string;
 }
-
 export class ClassroomFormData {
     campusId: any;
     buildingId: any;
     classroomId: any;
 }
 
-var initData = [{key: 1, courseNumber: '', courseName: '', semester: '',  courseTime: ''},];
-var classroomInitData =[{key: 1, id: -1, name: ""},];
-var buildingInitData = [{key: 1, id: -1, name: ""},];
+var initData = [{key: 1, classId: -1, courseName: '', typeName: ''},];
+var classroomInitData =[{key: 1, id: -1, name: ''},];
+var buildingInitData = [{key: 1, id: -1, name: ''},];
 var selectedValue = {campusId: 0,buildingId: 0, classroomId: 0};
 var buildingsChildren = [<Option key={-1}>请选择校区</Option>,];
 var classroomsChildren = [<Option key={-1}>请选择建筑物</Option>,];
-
 
 class SearchForm extends Component<ManualSchedulingProps,ViewState> {
     constructor(props){
@@ -129,14 +136,14 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
                 else
                 {
                     waring1();
-                    initData = [{key: 1, courseNumber: '', courseName: '', semester: '',  courseTime: ''},];
+                    initData = [{key: 1, classId: -1, courseName: '', typeName: ''},];
                     selectedValue = {campusId: 0,buildingId: 0, classroomId: 0};
                     this.setState({item2State: false, item3State: false,item1Reset: false, item2Reset: false, });
                 }
             else
             {
                 waring2();
-                initData = [{key: 1, courseNumber: '', courseName: '', semester: '',  courseTime: ''},];
+                initData = [{key: 1, classId: -1, courseName: '', typeName: ''},];
                 selectedValue = {campusId: 0,buildingId: 0, classroomId: 0};
                 this.setState({item2State: false, item3State: false,item1Reset: false, item2Reset: false, });
             }
@@ -147,6 +154,7 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
         const {getFieldDecorator} = this.props.form;
         classroomInitData = this.props.classroomData;
         buildingInitData = this.props.buildingData;
+        initData = this.props.dataSource;
 
         if(this.state.item1Reset){
             for (let i = buildingsChildren.length ; i >0; i--) {
