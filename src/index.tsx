@@ -13,6 +13,7 @@ import CourseInfoModel from './models/CourseInfoModel';
 import UserInfoModel from './models/userInfoModel';
 import CurriculumTeacherModel from './models/CurriculumTeacherModel'
 import CurriculumManageModel from './models/CurriculumManageModel'
+import AutoSchedulingModel from './models/AutoSchedulingModel'
 
 import NavigationPageComponent from './components/NavigationPage';
 import UserPageComponent from './components/UserPage';
@@ -37,6 +38,7 @@ app.model(FreeClassroomInfoModel);
 app.model(CourseInfoModel);
 app.model(CurriculumTeacherModel);
 app.model(CurriculumManageModel);
+app.model(AutoSchedulingModel);
 
 const HomePage = connect(state => {
     return {}
@@ -56,7 +58,10 @@ const UserManagePage = connect(state => {
 })(UserManagePageComponent);
 
 const AutoSchedulingPage = connect(state => {
-    return {};
+    const dataSource = state.autoscheduling.dataSource;
+    const totalCourse = state.autoscheduling.totalCourse;
+    //console.log(state.autoscheduling.dataSource);
+    return {dataSource: dataSource, totalCourse: totalCourse};
 })(AutoSchedulingComponent);
 
 const ManualSchedulingPage = connect(state => {
