@@ -15,7 +15,7 @@ const model = {
     namespace: 'login',
     state: {
         ...state,
-        level: 'manager'
+        type: '2'
     },
     reducers: {
         saveSession(st) {
@@ -42,7 +42,7 @@ const model = {
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
             // console.log(body);
-            yield put({type: 'updateSession', payload: {uid: body.uid, password: msg.password, token: body.token}}); // level 添加用户身份 学生？教师？管理员？
+            yield put({type: 'updateSession', payload: {uid: body.uid, password: msg.password, token: body.token, type: body.type}});
             message.success('登录成功');
             yield put(routerRedux.push('/navi'));
             yield put({type: 'saveSession'});

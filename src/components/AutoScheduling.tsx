@@ -3,8 +3,9 @@ import {Component, FormEvent} from 'react';
 import {Redirect} from 'react-router';
 import {Icon, Form, Input, Button, Table} from 'antd';
 import DvaProps from '../types/DvaProps';
-import NavigationBar from './TssPublicComponents';
 import {ClassroomFormData} from "./CurriculumManage";
+import {NavigationBar} from './TssPublicComponents';
+
 
 const FormItem = Form.Item;
 const {TextArea} = Input;

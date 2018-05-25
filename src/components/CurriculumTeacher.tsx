@@ -3,7 +3,7 @@ import {Component} from 'react';
 import {Form, Button, Table} from 'antd';
 import { Router,Route,hashHistory} from 'react-router';
 import DvaProps from '../types/DvaProps';
-import NavigationBar from './TssPublicComponents';
+import {NavigationBar} from './TssPublicComponents';
 
 const FormItem = Form.Item;
 

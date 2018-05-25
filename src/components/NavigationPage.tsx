@@ -1,12 +1,16 @@
 import * as React from 'react';
 import {Component} from 'react';
 import {Redirect} from 'react-router';
-import {Button, Card, message, Row, Col, Dropdown, Menu} from 'antd';
+import {Button, Card, message, Row, Col, Dropdown, Menu, Modal, Layout} from 'antd';
 import DvaProps from '../types/DvaProps';
+import {WrappedPswdForm} from './PswdEditForm'
+import {TssFooter, TssHeader} from "./TssPublicComponents";
+
 
 interface NaviProps extends DvaProps {
     uid: string;
     level: string;
+    pswdShow: boolean;
 }
 
 const JumpButton = (props) => {
@@ -20,7 +24,8 @@ const JumpButton = (props) => {
             </div>
         </Button>
     );
-}
+};
+const {Content} = Layout;
 
 export default class NavigationPageComponent extends Component<NaviProps, {}> {
     handleClick = (e) => {
@@ -29,18 +34,33 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
 
     button1 = {
         btnName: "个人信息",
-        src: require("src/img/User.png"),
+        src: require("" +
+            "src/img/User.png"),
     };
 
     button2 = {
-        btnName: "信息管理",
+        btnName: "课程管理",
         src: require("src/img/Bookmark.png"),
     };
 
+    button2_stu = {
+        btnName: "选课系统",
+        src: require("src/img/Bookmark.png"),
+    }
+
     button3 = {
+<<<<<<< HEAD
         btnName: "排课系统",
+=======
+        btnName: "院系管理",
+>>>>>>> master
         src: require("src/img/Calendar.png"),
     };
+
+    button3_stu = {
+        btnName: "培养方案",
+        src: require("src/img/Book.png"),
+    }
 
     button4 = {
         btnName: "学生论坛",
@@ -61,7 +81,7 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
         console.log(this.props.level);
 
         const Block1 = (props) => {
-            if(props.level === 'student' || props.level === 'teacher'){
+            if(props.level === '1' || props.level === '2'){
                 return (
                     <JumpButton {...this.button1} onClick={this.handleClick.bind(this, {direction: "user"})} />
                 );
@@ -87,9 +107,9 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
         };
 
         const Block2 = (props) => {
-            if(props.level === 'student' || props.level === 'teacher'){
+            if(props.level === 'student' ){
                 return (
-                    <JumpButton {...this.button2} onClick={this.handleClick.bind(this, {direction: "user"})} />
+                    <JumpButton {...this.button2_stu} onClick={this.handleClick.bind(this, {direction: "selection"})} />
                 );
             }
             else {
@@ -113,7 +133,7 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
         const Block3 = (props) => {
             if(props.level === 'student'){
                 return (
-                    <JumpButton {...this.button3} onClick={this.handleClick.bind(this, {direction: "user"})} />
+                    <JumpButton {...this.button3_stu} onClick={this.handleClick.bind(this, {direction: "user"})} />
                 );
             }
             else if(props.level === 'teacher'){
@@ -165,10 +185,10 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
                             <Block1 level={this.props.level} />
                         </Col>
                         <Col span={4} offset={2}>
-                            <Block2 level={this.props.level} />
+                            <JumpButton {...this.button2} onClick={this.handleClick.bind(this, {direction: "courseManage"})}/>
                         </Col>
                         <Col span={4} offset={2}>
-                            <Block3 level={this.props.level} />
+                            <JumpButton {...this.button3} onClick={this.handleClick.bind(this, {direction: "deptManage"})}/>
                         </Col>
                     </Row>
                     <p />

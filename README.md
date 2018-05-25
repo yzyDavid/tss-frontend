@@ -6,6 +6,10 @@ ZJU Software Engineering course project, Teaching Service System.
 
 init app with `create-react-app` cli tool, ts-scripts cmdline arg.
 
+```sh
+create-react-app . --scripts-version=react-scripts-ts
+```
+
 ## Usage
 
 Libraries to use:
@@ -23,7 +27,7 @@ yarn install  # install dependencies
 yarn start  # start dev server
 yarn build  # build a release version
 
-# replacing yarn with coresponding npm commands is OK.
+# replacing yarn with coresponding npm commands is FORBIDDEN!!!
 ```
 
 Check whether `yarn build` pass and format code with WebStorm before commit.

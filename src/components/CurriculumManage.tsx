@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Component} from 'react';
 import {Form, Button, message, Select, Table} from 'antd';;
 import DvaProps from '../types/DvaProps';
-import NavigationBar from './TssPublicComponents';
+import {NavigationBar} from './TssPublicComponents';
 import {browserHistory, routerRedux} from 'dva/router';
 
 const FormItem = Form.Item;
