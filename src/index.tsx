@@ -20,6 +20,7 @@ import DeptManagePageComponent from './components/DeptManagePage';
 
 import { TssFooter, TssHeader } from './components/TssPublicComponents';
 import HomePageComponent from './components/HomePage';
+import NavigationPageComponent from './configs/NavigationPage';
 
 
 

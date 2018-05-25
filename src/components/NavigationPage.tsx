@@ -49,11 +49,7 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
     }
 
     button3 = {
-<<<<<<< HEAD
         btnName: "排课系统",
-=======
-        btnName: "院系管理",
->>>>>>> master
         src: require("src/img/Calendar.png"),
     };
 
