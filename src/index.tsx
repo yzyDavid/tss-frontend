@@ -16,14 +16,20 @@ import AutoSchedulingModel from './models/AutoSchedulingModel'
 import CourseModel from './models/courseModel';
 import PswdModel from './models/pswdModel';
 import DeptModel from './models/deptModel';
-import DeptManagePageComponent from './components/DeptManagePage';
 
+import DeptManagePageComponent from './components/DeptManagePage';
 import { TssFooter, TssHeader } from './components/TssPublicComponents';
 import HomePageComponent from './components/HomePage';
-import NavigationPageComponent from './configs/NavigationPage';
-
-
-
+import NavigationPageComponent from './components/NavigationPage';
+import UserPageComponent from './components/UserPage';
+import UserManagePageComponent from './components/UserManagePage';
+import AutoSchedulingComponent from './components/AutoScheduling';
+import ManualSchedulingPageComponent from './components/ManualScheduling';
+import ManualSchModifyPageComponent from './components/ManualSchModify';
+import CourseManagePageComponent from './components/CourseManagePage';
+import ClassroomManagePageComponent from './components/ClassroomManagePage';
+import CurriculumTeacherPageComponent from './components/CurriculumTeacher';
+import CurriculumManagePageComponent from './components/CurriculumManage';
 
 const {Content} = Layout;
 
@@ -77,6 +83,22 @@ const ManualSchModifyPage = connect(state => {
     const dataSource = state.freeclassroominfo.dataSource;
     return {dataSource: dataSource, courseInfo:  state.freeclassroominfo.selectedCourseInfo};
 })(ManualSchModifyPageComponent);
+
+const ClassroomManagePage = connect(state => {
+
+})(ClassroomManagePageComponent);
+
+const CurriculumTeacherPage = connect(state => {
+    const {dataSource} = state.curriculumteacher;
+    return {dataSource: dataSource};
+})(CurriculumTeacherPageComponent);
+
+const CurriculumManagePage = connect(state => {
+    const dataSource = state.curriculummanage.dataSource;
+    const buildingData = state.curriculummanage.buildingData;
+    const classroomData = state.curriculummanage.classroomData;
+    return {dataSource: dataSource, buildingData: buildingData, classroomData: classroomData};
+})(CurriculumManagePageComponent);
 
 const CourseManagePage = connect(state => {
     return {...state.course, pswdShow: state.pswd.show};

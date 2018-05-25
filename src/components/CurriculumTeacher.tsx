@@ -8,12 +8,23 @@ import {NavigationBar} from './TssPublicComponents';
 const FormItem = Form.Item;
 
 const columns = [
-    {title: '课程号', dataIndex: 'courseNumber', key: 'courseNumber'},
+    {title: '课程号', dataIndex: 'classId', key: 'classId'},
     {title: '课程名称', dataIndex: 'courseName', key: 'courseName'},
-    {title: '学期', dataIndex: 'semester', key: 'semester'},
-    {title: '校区', dataIndex: 'campus', key: 'campus'},
-    {title: '上课时间', dataIndex: 'courseTime', key: 'courseTime'},
-    {title: '上课地点', dataIndex: 'courseAddress', key: 'courseAddress'},
+    {title: '上课时间', dataIndex: 'typeName', key: 'typeName', render: (text)=>{
+            var timeB, timeA;
+            if(!text)
+                timeA = ' ';
+            else {
+                timeB= text.toString();
+                timeA = timeB.substring(0,3)+ ' ' + timeB.substring(4,5)+ '~' + timeB.substring(timeB.length-1,timeB.length);
+            }
+            return (
+                <label>{timeA}</label>
+            );
+        }},
+    {title: '校区', dataIndex: 'campusName', key: 'campusName'},
+    {title: '教学楼', dataIndex: 'buildingName', key: 'buildingName'},
+    {title: '教室', dataIndex: 'classroomName', key: 'classroomName'},
     ];
 
 interface CurriculumTeacherProps extends DvaProps {

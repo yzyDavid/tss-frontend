@@ -9,8 +9,8 @@ const model = {
         dataSource: [
             {key: 1, courseNumber: '1', courseName: '1', semester: '', campus: '', courseTime: '', courseAddress: ''},
             ],
-        buildingData: ['',],
-        classroomData: ['',],
+        buildingData: [{key:1, id: -1 , name:'',},],
+        classroomData: [{key:1, id: -1 , name:'',},],
     },
     reducers: {
         updateCurriculumManageInfo(st, payload) {
@@ -27,91 +27,93 @@ const model = {
         setup({dispatch, history}) {
             return history.listen(({pathname}) => {
                 if (pathname === '/curriculumManage') {
-                    dispatch({ type: 'curriculumManage', payload: {campus: ''} });
+                    dispatch({ type: 'curriculumManage', payload: {campusId: -1} });
                 }
             });
         }
     },
     effects: {
         * curriculumManage(payload: { payload: ClassroomFormData }, {call, put})  {
-            console.log(payload.payload);
-            const msg = payload.payload;
-            // //const tssFetch = (url: string, method: httpMethod, payload: string | object)
-            // //返回一个js对象
-            //const response = yield call(tssFetch, '/classroom/info', 'GET', msg);
-           // if(response.status === 400) {
-            //    message.error('查询空闲教室信息失败');
-            //    return;
-            //}
-           // const jsonBody = yield call(response.text.bind(response));
-            //将字符串转换为json对象
-            //const body = JSON.parse(jsonBody);
-            yield put({
-                type: 'updateCurriculumManageInfo',
-                //payload: {data:body.data}
-                payload: {dataSource:[
-                        {key: 1, courseNumber: '00011', courseName: '线性代数', semester: '春夏', courseTime: '周一第1~2节'},
-                        {key: 2, courseNumber: '00022', courseName: '大学物理', semester: '春夏', courseTime: '周一第3~4节',}
-                    ]}
-            });
+            //console.log(payload.payload);
+            if(payload.payload.campusId<0)
+            {
+                yield put({
+                    type: 'updateCurriculumManageInfo',
+                    //payload: {data:body.data}
+                    payload: {dataSource:[
+                            {key: 1, courseNumber: '1', courseName: '1', semester: '', campus: '', courseTime: '', courseAddress: ''},]}
+                });
+            }
+            else
+            {
+                const response = yield call(tssFetch, '/campuses/'+payload.payload.campusId+'/buildings', 'GET');
+                if (response.status === 400) {
+                    message.error('无该校区');
+                    return;
+                }
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                console.log(body);
+
+                // yield put({
+                //     type: 'updateCurriculumManageInfo',
+                //     //payload: {data:body.data}
+                //     payload: {dataSource:[
+                //             {key: 1, courseNumber: '00011', courseName: '线性代数', semester: '春夏', courseTime: '周一第1~2节'},
+                //             {key: 2, courseNumber: '00022', courseName: '大学物理', semester: '春夏', courseTime: '周一第3~4节',}
+                //         ]}
+                // });
+            }
             return;
         },
 
         * getBuilding(payload: { payload: ClassroomFormData }, {call, put})  {
             //console.log('this is the getBuilding');
-            console.log(payload.payload);
-            const msg = payload.payload;
-            if(payload.payload.campus === "紫金港校区")
-                yield put({
-                    type: 'updateBuildingData',
-                    //payload: {data:body.data}
-                    payload: { buildingData:['东一','东二']}
-                });
-            else
-                yield put({
-                    type: 'updateBuildingData',
-                    //payload: {data:body.data}
-                    payload: { buildingData:['教一','教二']}
-                });
-            // //const tssFetch = (url: string, method: httpMethod, payload: string | object)
-            // //返回一个js对象
-            //const response = yield call(tssFetch, '/classroom/info', 'GET', msg);
-            // if(response.status === 400) {
-            //    message.error('查询空闲教室信息失败');
-            //    return;
-            //}
-            // const jsonBody = yield call(response.text.bind(response));
-            //将字符串转换为json对象
-            //const body = JSON.parse(jsonBody);
+            //console.log(payload.payload);
+            const response = yield call(tssFetch, '/campuses/'+payload.payload.campusId+'/buildings', 'GET');
+            if (response.status === 400) {
+                message.error('无该校区');
+                return;
+            }
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            let buildings = [{key:1, id: -1 , name:''},];
+            buildings.pop();
+            for(let i = 0; i<body.length;i++)
+            {
+                buildings.push({key: i+1, id: body[i].id , name: body[i].name});
+            }
+            yield put({
+                type: 'updateBuildingData',
+                payload: { buildingData:buildings}
+            });
             return;
         },
 
         * getClassroom(payload: { payload: ClassroomFormData }, {call, put})  {
-            //console.log('this is the getClassroom');
             console.log(payload.payload);
-            const msg = payload.payload;
-            // //const tssFetch = (url: string, method: httpMethod, payload: string | object)
-            // //返回一个js对象
-            //const response = yield call(tssFetch, '/classroom/info', 'GET', msg);
-            // if(response.status === 400) {
-            //    message.error('查询空闲教室信息失败');
-            //    return;
-            //}
-            // const jsonBody = yield call(response.text.bind(response));
-            //将字符串转换为json对象
-            //const body = JSON.parse(jsonBody);
-            if(payload.payload.building === "东一")
-                yield put({
-                    type: 'updateClassroomData',
-                    //payload: {data:body.data}
-                    payload: { classroomData:['202','203']}
-                });
-            else
-                yield put({
-                    type: 'updateClassroomData',
-                    //payload: {data:body.data}
-                    payload: { classroomData:['512','516']}
-                });
+            const response = yield call(tssFetch, '/buildings/'+payload.payload.buildingId+'/classrooms', 'GET');
+            if (response.status === 400) {
+                message.error('无该建筑物');
+                return;
+            }
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            //console.log(body);
+            let classrooms = [{key:1, id: -1 , name:''},];
+            if(body.length>0)
+            {
+                classrooms.pop();
+                for(let i = 0; i<body.length;i++)
+                {
+                    classrooms.push({key: i+1, id: body[i].id , name: body[i].name});
+                }
+            }
+            yield put({
+                type: 'updateClassroomData',
+                payload: { classroomData:classrooms}
+            });
+
             return;
         },
     }

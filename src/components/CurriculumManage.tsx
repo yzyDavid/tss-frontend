@@ -41,14 +41,18 @@ export class CurriculumData {
 }
 
 export class ClassroomFormData {
-    campus: any;
-    building: any;
-    classroom: any;
+    campusId: any;
+    buildingId: any;
+    classroomId: any;
 }
 
 var initData = [{key: 1, courseNumber: '', courseName: '', semester: '',  courseTime: ''},];
+var classroomInitData =[{key: 1, id: -1, name: ""},];
+var buildingInitData = [{key: 1, id: -1, name: ""},];
+var selectedValue = {campusId: 0,buildingId: 0, classroomId: 0};
+var buildingsChildren = [<Option key={-1}>请选择校区</Option>,];
+var classroomsChildren = [<Option key={-1}>请选择建筑物</Option>,];
 
-var selectedValue = {campus: '',building: '', classroom: ''};
 
 class SearchForm extends Component<ManualSchedulingProps,ViewState> {
     constructor(props){
@@ -69,7 +73,7 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
         if(values)
         {
             this.setState({item2State:true});
-            selectedValue.campus = values;
+            selectedValue.campusId = values;
             this.props.dispatch({type: 'curriculummanage/getBuilding', payload: selectedValue});
             if(!this.state.item1Reset)
                 this.setState({item1Reset:true});
@@ -82,13 +86,13 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
             if(values)
             {
                 this.setState({item3State:true,item2Reset:true});
-                selectedValue.building = values;
+                selectedValue.buildingId = values;
                 this.props.dispatch({type: 'curriculummanage/getClassroom', payload: selectedValue});
                 if(this.state.item1Reset)
                     this.setState({item1Reset:false});
             }
             else {
-                selectedValue = {campus: '',building: '', classroom: ''};
+                selectedValue = {campusId: 0,buildingId: 0, classroomId: 0};
                 this.setState({item2State: false, item3State: false,item1Reset: false, item2Reset: false, });
             }
         }
@@ -99,11 +103,11 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
         {
             if(values)
             {
-                selectedValue.classroom = values;
+                selectedValue.classroomId = values;
                 this.setState({item2Reset: false});
             }
             else {
-                selectedValue = {campus: '',building: '', classroom: ''};
+                selectedValue = {campusId: 0,buildingId: 0, classroomId: 0};
                 this.setState({item2State: false, item3State: false,item1Reset: false, item2Reset: false, });
             }
         }
@@ -126,14 +130,14 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
                 {
                     waring1();
                     initData = [{key: 1, courseNumber: '', courseName: '', semester: '',  courseTime: ''},];
-                    selectedValue = {campus: '',building: '', classroom: ''};
+                    selectedValue = {campusId: 0,buildingId: 0, classroomId: 0};
                     this.setState({item2State: false, item3State: false,item1Reset: false, item2Reset: false, });
                 }
             else
             {
                 waring2();
                 initData = [{key: 1, courseNumber: '', courseName: '', semester: '',  courseTime: ''},];
-                selectedValue = {campus: '',building: '', classroom: ''};
+                selectedValue = {campusId: 0,buildingId: 0, classroomId: 0};
                 this.setState({item2State: false, item3State: false,item1Reset: false, item2Reset: false, });
             }
          });
@@ -141,6 +145,26 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
 
     render() {
         const {getFieldDecorator} = this.props.form;
+        classroomInitData = this.props.classroomData;
+        buildingInitData = this.props.buildingData;
+
+        if(this.state.item1Reset){
+            for (let i = buildingsChildren.length ; i >0; i--) {
+                buildingsChildren.pop();
+            }
+            for (let i = 0; i < buildingInitData.length; i++) {
+                buildingsChildren.push(<Option key={ buildingInitData[i].id}>{buildingInitData[i].name}</Option>);
+            }
+        }
+        if(this.state.item2Reset ){
+            for (let i = classroomsChildren.length ; i >0; i--) {
+                classroomsChildren.pop();
+            }
+            if(classroomInitData[0].id>0)
+                for (let i = 0; i < classroomInitData.length; i++) {
+                    classroomsChildren.push(<Option key={classroomInitData[i].id}>{classroomInitData[i].name}</Option>);
+                }
+        }
 
         return (
             <div>
@@ -148,30 +172,27 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
                     <FormItem
                         label="校区" >
                         {getFieldDecorator('campus', {})(
-                            <Select  style={{width: 200}} onChange={this.handleChange1}>
-                                <Option value="玉泉校区">玉泉校区</Option>
-                                <Option value="紫金港校区">紫金港校区</Option>
-                                <Option value="西溪校区">西溪校区</Option>
-                                <Option value="华家池校区">华家池校区</Option>
-                                <Option value="之江校区">之江校区</Option>
-                                <Option value="舟山校区">舟山校区</Option>
+                            <Select  style={{width: 200}} onChange={this.handleChange1} >
+                                <Option value= {1} >玉泉校区</Option>
+                                <Option value= {21}>紫金港校区</Option>
+                                {/*<Option value="西溪校区">西溪校区</Option>*/}
+                                {/*<Option value="华家池校区">华家池校区</Option>*/}
+                                {/*<Option value="之江校区">之江校区</Option>*/}
+                                {/*<Option value="舟山校区">舟山校区</Option>*/}
                             </Select>
                         )}
                     </FormItem>
                     <FormItem label="教学楼">
                         {getFieldDecorator('building', {})(
                             <Select  disabled={!(this.state.item2State)} style={{width: 200}} onChange={this.handleChange2}>
-                                <Option value={this.props.buildingData[0]}>{this.props.buildingData[0]}</Option>
-                                <Option value={this.props.buildingData[1]}>{this.props.buildingData[1]}</Option>
-                                <Option value=''></Option>
+                                {buildingsChildren}
                             </Select>
                         )}
                     </FormItem>
                     <FormItem label="教室">
                         {getFieldDecorator('classroom', {})(
                             <Select  disabled={!(this.state.item3State)} style={{width: 200}} onChange={this.handleChange3}>
-                                <Option value={this.props.classroomData[0]}>{this.props.classroomData[0]}</Option>
-                                <Option value={this.props.classroomData[1]}>{this.props.classroomData[1]}</Option>
+                                {classroomsChildren}
                             </Select>
                         )}
                     </FormItem>
@@ -181,12 +202,6 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
                         htmlType="submit"
                         onClick={this.handleSubmit}>选择
                     </Button>
-                    {/*<Button*/}
-                        {/*style={{marginLeft:20}}*/}
-                        {/*type="primary"*/}
-                        {/*htmlType="submit"*/}
-                        {/*onClick={this.handleSubmit}>重置*/}
-                    {/*</Button>*/}
                 </Form>
                 <Table
                     style={{width: "100%", background: "#ffffff"}}
