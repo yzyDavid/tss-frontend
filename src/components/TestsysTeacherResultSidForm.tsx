@@ -70,7 +70,7 @@ export class ResultSearchSidForm extends Component<studentProp,  ResultList> {
             const{form} = this.props;
             const sid = form.getFieldValue("sid");
             console.log("tr/search: "+sid);
-            this.props.dispatch({type:'teacherresult/search', payload: {quertType:0, id:sid}});
+            this.props.dispatch({type:'teacherresult/search', payload: {QueryType:0, Sid:sid, Pid:null, Qtype:null, Qunit:null}});
         });
     };
 

@@ -105,7 +105,7 @@ const model = {
         //
         //     return;
         // },
-        * search(payload: { payload: {queryType:number, id:string} }, {call, put}) {
+        * search(payload: { payload: {QueryType:number, Sid:string, Pid:string, Qtype:string, Qunit:string, } }, {call, put}) {
             console.log(payload);
             const msg = payload.payload;
             const response = yield call(tssFetch, '/testsys_result/search', 'POST', msg);

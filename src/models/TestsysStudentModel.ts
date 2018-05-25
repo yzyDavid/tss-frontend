@@ -123,7 +123,14 @@ const model = {
                     // break;
                 case "student_score":
                     yield put(routerRedux.push('/testsys_student_score'));
-                    const response1 = yield call(tssFetch, '/testsys_student/getscorelist', 'POST', {uid:model.state.uid});
+                    const values = {
+                        QueryType: 0,
+                        Sid: null,
+                        Pid: null,
+                        Qtype: null,
+                        Qunit: null,
+                    };
+                    const response1 = yield call(tssFetch, '/testsys_result/search', 'POST', values);
                     console.log("student/score response: "+response1);
                     if (response1.status === 400) {
                         message.error('更新失败');
