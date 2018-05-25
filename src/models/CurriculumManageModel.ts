@@ -7,7 +7,7 @@ const model = {
     namespace: 'curriculummanage',
     state: {
         dataSource: [
-            {key: 1, courseNumber: '1', courseName: '1', semester: '', campus: '', courseTime: '', courseAddress: ''},
+            {key: 1, classId: '', courseName: '', typeName: ''},
             ],
         buildingData: [{key:1, id: -1 , name:'',},],
         classroomData: [{key:1, id: -1 , name:'',},],
@@ -41,7 +41,7 @@ const model = {
                     type: 'updateCurriculumManageInfo',
                     //payload: {data:body.data}
                     payload: {dataSource:[
-                            {key: 1, courseNumber: '1', courseName: '1', semester: '', campus: '', courseTime: '', courseAddress: ''},]}
+                            {key: 1, classId: '', courseName: '', typeName: ''},]}
                 });
             }
             else
@@ -58,10 +58,6 @@ const model = {
                 yield put({
                     type: 'updateCurriculumManageInfo',
                     payload: { dataSource: body }
-                    // payload: {dataSource:[
-                    //         {key: 1, courseNumber: '00011', courseName: '线性代数', semester: '春夏', courseTime: '周一第1~2节'},
-                    //         {key: 2, courseNumber: '00022', courseName: '大学物理', semester: '春夏', courseTime: '周一第3~4节',}
-                    //     ]}
                 });
             }
             return;
