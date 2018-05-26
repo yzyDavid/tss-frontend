@@ -131,7 +131,7 @@ export default class StudentSelectionComponent extends Component<UserProps, User
             dataIndex: 'semester'
         },{
             title: "选课",
-            render: (text,index)=>(<a onClick={()=>{this.props.dispatch({type: "selectCourse/showAll", payload: {courseId: data[index].courseNumber}})}}>选课</a>)
+            render: (text,record,index)=>(<a onClick={()=>{this.props.dispatch({type: "selectCourse/showAll", payload: {courseId: data[index].courseNumber}})}}>选课</a>)
         }];
 
         return(

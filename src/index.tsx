@@ -17,7 +17,7 @@ import CourseModel from './models/courseModel';
 import PswdModel from './models/pswdModel';
 import DeptModel from './models/deptModel';
 import SelectionModel from './models/SelectionModel';
-import StuListModel from './models/SelectionModel';
+import StuListModel from './models/StuListModel';
 import DeptManagePageComponent from './components/DeptManagePage';
 import { TssFooter, TssHeader } from './components/TssPublicComponents';
 import HomePageComponent from './components/HomePage';
@@ -36,6 +36,8 @@ import PlanComponent from './components/Plan'
 import ManagerSelectionComponent from './components/SelectionManager';
 import StudentSelectionComponent from './components/SelectionStudent';
 import ClassSelectionComponent from './components/SelectionClass';
+import StudentListComponent from './components/StudentList';
+
 
 const {Content} = Layout;
 
@@ -54,7 +56,8 @@ app.model(AutoSchedulingModel);
 app.model(CourseModel);
 app.model(PswdModel);
 app.model(DeptModel);
-app.model(SelectionModel)
+app.model(SelectionModel);
+app.model(StuListModel);
 
 const HomePage = connect(state => {
     return {}
@@ -134,10 +137,14 @@ const StuSelectPage = connect(state =>{
     return {dataSource: dataSource}
 })(StudentSelectionComponent)
 
-
 const ClassSelectPage = connect(state =>{
     return {};
 })(ClassSelectionComponent)
+
+const StuListPage = connect(state =>{
+    const {dataSource} = state.studentList;
+    return {dataSource: dataSource};
+})(StudentListComponent)
 app.router(({history}) => (
         <Router history={history}>
             <Layout>
@@ -160,7 +167,8 @@ app.router(({history}) => (
                         <Route path="/manageTime" component={ManageTimePage}/>
                         <Route path="/manSelect" component={ManSelectPage}/>
                         <Route path="/stuSelect" component={StuSelectPage}/>
-                        <Route path="/classSelect" component={ClassSelectionComponent}/>
+                        <Route path="/classSelect/:courseId" component={ClassSelectPage}/>
+                        <Route path="/stuList/:classId" component={StuListPage}/>
                     </Switch>
                 </Content>
             <TssFooter/>

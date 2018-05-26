@@ -23,18 +23,6 @@ interface UserState {
     courseIndex: number
 }
 
-const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-        console.log()
-    },
-    getCheckboxProps: record => ({
-        disabled: record.name === 'Disabled User', // Column configuration not to be checked
-        name: record.name,
-    }),
-
-};
-
 var data = [{
     key: '1',
     classId: 1111,
@@ -102,7 +90,7 @@ export default class ClassSelectionComponent extends Component<UserProps, UserSt
                         <Breadcrumb.Item>选课系统</Breadcrumb.Item>
                     </Breadcrumb>
                     <div style={{ padding: 24, background: '#fff', minHeight: 780 }}>
-                        <Table dataSource={data} rowSelection={rowSelection} columns={columns}>
+                        <Table dataSource={data} columns={columns}>
 
                         </Table>
                     </div>

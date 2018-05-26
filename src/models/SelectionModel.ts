@@ -24,28 +24,21 @@ const model = {
                     dispatch({ type: 'courseInfo', payload: {key: 1, courseNumber: '', courseTitle: '', courseAddress: '', courseTime: ''} });
                 }
                 if (pathname === '/stuSelect'){
-                    dispatch({type: 'showAll', payload: {courseId: 1}})
+                    dispatch({type: 'showAll', payload: {courseId: -1}})
                 }
             });
         }
     },
     effects: {
         * showAll(payload: { payload: {payload: {courseId: number}}}, {call, put}) {
-            const value = payload.payload.toString();
-            console.log(payload.payload);
+            var value = payload.payload["courseId"].toString();
+            console.log(payload.payload["courseId"]);
             //fetch the data of the case and add to the query
-            yield put(routerRedux.push({pathname:'/manualSchModify/'+value,query: payload.payload,}));
+            if(value!="-1")
+            yield put(routerRedux.push({pathname:'/classSelect/'+value,query: payload.payload,}));
             return;
         },
 
-        * modifyCourseInfo(payload: { payload: CourseInfo}, {call, put})
-        {
-            const value = payload.payload.courseNumber.toString();
-            //console.log(payload.payload);
-            //fetch the data of the case and add to the query
-            yield put(routerRedux.push({pathname:'/manualSchModify/'+value,query: payload.payload,}));
-            return;
-        },
     }
 };
 

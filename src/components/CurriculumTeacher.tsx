@@ -18,15 +18,15 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
     constructor(props,context) {
         super(props,context);
         console.log(props.location.query);
-        this.props.dispatch({type: 'curriculumteacher/curriculumTeacher', payload: {teacherId: '123'}});
+       // this.props.dispatch({type: 'curriculumteacher/curriculumTeacher', payload: {teacherId: '123'}});
         //initData = this.props.dataSource;
     }
 
     render() {
         const columns = [
-            {title: '课程号', dataIndex: 'classId', key: 'classId',  render: (text, record, index) => <a onClick={()=>{this.props.dispatch({type:"curriculumteacher/showList", payload: {classId: 'aaa'}});console.log("daf")}}>{text}</a>},
+            {title: '课程号', dataIndex: 'classId', key: 'classId'},
             {title: '课程名称', dataIndex: 'courseName', key: 'courseName'},
-            {title: '上课时间', dataIndex: 'typeName', key: 'typeName', render: (text)=>{
+            {title: '上课时间', dataIndex: 'courseTime', key: 'courseTime', render: (text)=>{
                     var timeB, timeA;
                     if(!text)
                         timeA = ' ';
@@ -41,6 +41,10 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
             {title: '校区', dataIndex: 'campusName', key: 'campusName'},
             {title: '教学楼', dataIndex: 'buildingName', key: 'buildingName'},
             {title: '教室', dataIndex: 'classroomName', key: 'classroomName'},
+            {
+                title: "查看",
+                render: (text,record,index)=>(<a onClick={()=>{this.props.dispatch({type: "curriculumteacher/showList", payload: {courseId: this.props.dataSource[index].classId}})}}>学生名单</a>)
+            }
 
         ];
         return (

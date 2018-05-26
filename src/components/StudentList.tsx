@@ -30,7 +30,7 @@ export default class StudentListComponent extends Component<StudentListProps>{
             dataIndex: "name",
         },{
             title: "学号",
-            dataIndex: "",
+            dataIndex: "id",
         },{
             title: "专业",
             dataIndex: "major"
