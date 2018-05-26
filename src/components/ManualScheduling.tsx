@@ -11,6 +11,7 @@ const Option = Select.Option;
 const columns = [
     {title: '课程号', dataIndex: 'courseNumber', key: 'courseNumber'},
     {title: '课程名称', dataIndex: 'courseTitle', key: 'courseTitle'},
+    {title: '未安排课时', dataIndex: 'courseHour', key: 'courseHour'},
     {title: '上课地点', dataIndex: 'courseAddress', key: 'courseAddress'},
     {title: '上课时间', dataIndex: 'courseTime', key: 'courseTime'}
 ];
@@ -37,18 +38,18 @@ export class CourseInfo {
 }
 
 var initData = [
-    {key: 1, courseNumber: '00001', courseTitle: '线性代数', courseAddress: '3150100001', courseTime: '16:30-18:30'},
-    {key: 2, courseNumber: '00002', courseTitle: '微积分', courseAddress: '3150100002', courseTime: '16:30-18:30'},
-    {key: 3, courseNumber: '00003', courseTitle: '大学英语', courseAddress: '3150100003', courseTime: '16:30-18:30'},
-    {key: 4, courseNumber: '00004', courseTitle: '大学物理（甲）', courseAddress: '3150100004', courseTime: '16:30-18:30'},
-    {key: 5, courseNumber: '00005', courseTitle: '微积分', courseAddress: '3150100005', courseTime: '16:30-18:30'},
-    {key: 6, courseNumber: '00006', courseTitle: '大学物理（甲）', courseAddress: '3150100006', courseTime: '16:30-18:30'},
-    {key: 7, courseNumber: '00007', courseTitle: '大学英语', courseAddress: '3150100007', courseTime: '16:30-18:30'},
-    {key: 8, courseNumber: '00008', courseTitle: '线性代数', courseAddress: '3150100008', courseTime: '16:30-18:30'},
-    {key: 9, courseNumber: '00009', courseTitle: '大学物理（甲）', courseAddress: '3150100009', courseTime: '16:30-18:30'},
-    {key: 10, courseNumber: '00010', courseTitle: '微积分', courseAddress: '3150100010', courseTime: '16:30-18:30'},
-    {key: 11, courseNumber: '00011', courseTitle: '大学英语', courseAddress: '3150100011', courseTime: '16:30-18:30'},
-    {key: 12, courseNumber: '00012', courseTitle: '线性代数', courseAddress: '3150100012', courseTime: '16:30-18:30'},
+    {key: 1, courseNumber: '00001', courseTitle: '线性代数', courseHour: '0', courseAddress: '东教学楼01', courseTime: '16:30-18:30'},
+    {key: 2, courseNumber: '00002', courseTitle: '微积分', courseHour: '2', courseAddress: '东教学路02', courseTime: '16:30-18:30'},
+    {key: 3, courseNumber: '00003', courseTitle: '大学英语', courseHour: '0', courseAddress: '东教学路03', courseTime: '16:30-18:30'},
+    {key: 4, courseNumber: '00004', courseTitle: '大学物理（甲）', courseHour: '3', courseAddress: '东教学路04', courseTime: '16:30-18:30'},
+    {key: 5, courseNumber: '00005', courseTitle: '微积分', courseHour: '2', courseAddress: '东教学楼05', courseTime: '16:30-18:30'},
+    {key: 6, courseNumber: '00006', courseTitle: '大学物理（甲）', courseHour: '0', courseAddress: '东教学路06', courseTime: '16:30-18:30'},
+    {key: 7, courseNumber: '00007', courseTitle: '大学英语', courseHour: '3', courseAddress: '东教学楼07', courseTime: '16:30-18:30'},
+    {key: 8, courseNumber: '00008', courseTitle: '线性代数', courseHour: '5', courseAddress: '东教学楼08', courseTime: '16:30-18:30'},
+    {key: 9, courseNumber: '00009', courseTitle: '大学物理（甲）', courseHour: '0', courseAddress: '东教学楼09', courseTime: '16:30-18:30'},
+    {key: 10, courseNumber: '00010', courseTitle: '微积分', courseHour: '0', courseAddress: '东教学楼10', courseTime: '16:30-18:30'},
+    {key: 11, courseNumber: '00011', courseTitle: '大学英语', courseHour: '0', courseAddress: '东教学楼11', courseTime: '16:30-18:30'},
+    {key: 12, courseNumber: '00012', courseTitle: '线性代数', courseHour: '0', courseAddress: '东教学楼12', courseTime: '16:30-18:30'},
 ];
 var selectedValue;
 
@@ -69,10 +70,8 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
             if (err) {
                 return;
             }
-            console.log(values);
+            //console.log(values);
             this.props.dispatch({type: 'courseinfo/courseInfo', payload: values});
-            initData=this.props.dataSource;
-            console.log(this.props.dataSource);
             this.setState({refresh:true});
         });
     }
@@ -86,7 +85,7 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
         const {getFieldDecorator} = this.props.form;
         return (
             <div>
-                <Form layout={"inline"} onSubmit={this.handleSubmit1}>
+                <Form layout={"inline"} onSubmit={this.handleSubmit1} style={{textAlign: 'center'}}>
                     <FormItem
                         label="校区" >
                         {getFieldDecorator('campus', {})(
@@ -113,7 +112,7 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
                         onClick={this.handleSubmit1}>搜索
                     </Button>
                     <Button
-                        style={{marginLeft:100}}
+                        style={{marginLeft:10}}
                         icon="edit"
                         type="primary"
                         htmlType="submit"
@@ -145,7 +144,7 @@ export default class ManualSchedulingComponent extends Component<ManualSchedulin
     }
 
     render() {
-
+        initData=this.props.dataSource;
         return (
             <div>
                 <NavigationBar current={"course"} dispatch={this.props.dispatch}/>

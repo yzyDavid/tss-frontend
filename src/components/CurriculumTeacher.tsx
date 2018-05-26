@@ -1,17 +1,30 @@
 import * as React from 'react';
 import {Component} from 'react';
-import {Form, Button, Table, Select, Modal,message} from 'antd';
+import {Form, Button, Table} from 'antd';
 import { Router,Route,hashHistory} from 'react-router';
 import DvaProps from '../types/DvaProps';
 import {NavigationBar} from './TssPublicComponents';
 
+const FormItem = Form.Item;
+
 const columns = [
-    {title: '课程号', dataIndex: 'courseNumber', key: 'courseNumber'},
+    {title: '课程号', dataIndex: 'classId', key: 'classId'},
     {title: '课程名称', dataIndex: 'courseName', key: 'courseName'},
-    {title: '学期', dataIndex: 'semester', key: 'semester'},
-    {title: '校区', dataIndex: 'campus', key: 'campus'},
-    {title: '上课时间', dataIndex: 'courseTime', key: 'courseTime'},
-    {title: '上课地点', dataIndex: 'courseAddress', key: 'courseAddress'},
+    {title: '上课时间', dataIndex: 'typeName', key: 'typeName', render: (text)=>{
+            var timeB, timeA;
+            if(!text)
+                timeA = ' ';
+            else {
+                timeB= text.toString();
+                timeA = timeB.substring(0,3)+ ' ' + timeB.substring(4,5)+ '~' + timeB.substring(timeB.length-1,timeB.length);
+            }
+            return (
+                <label>{timeA}</label>
+            );
+        }},
+    {title: '校区', dataIndex: 'campusName', key: 'campusName'},
+    {title: '教学楼', dataIndex: 'buildingName', key: 'buildingName'},
+    {title: '教室', dataIndex: 'classroomName', key: 'classroomName'},
     ];
 
 interface CurriculumTeacherProps extends DvaProps {
@@ -23,7 +36,7 @@ interface CurriculumTeacherProps extends DvaProps {
 export default class CurriculumTeacher extends Component<CurriculumTeacherProps> {
     constructor(props,context) {
         super(props,context);
-        //console.log(props.location.query);
+        console.log(props.location.query);
         this.props.dispatch({type: 'curriculumteacher/curriculumTeacher', payload: {teacherId: '123'}});
         //initData = this.props.dataSource;
     }
@@ -32,13 +45,22 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
         return (
             <div>
                 <NavigationBar current={"list"} dispatch={this.props.dispatch}/>
-                <br/>
+                <Form layout={"inline"} style={{textAlign: 'center',fontSize: 'larger'}}>
+                    <FormItem
+                         label="教师号：310001">{this.props.location.query}</FormItem>
+                    <FormItem
+                        label="教师姓名：张三">{this.props.location.query}</FormItem>
+                </Form>
                 <div>
                     <Table
                         style={{width: "100%", background: "#ffffff"}}
                         columns={columns}
                         dataSource={this.props.dataSource}/>
                 </div>
+                <Form layout={"inline"} style={{textAlign: 'center'}}>
+                    <FormItem>
+                    <Button  type="primary" style={{fontSize: 'large'}}>打印</Button></FormItem>
+                </Form>
             </div>
         );
     }

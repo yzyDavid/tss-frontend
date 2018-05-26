@@ -7,7 +7,7 @@ const model = {
     namespace: 'curriculumteacher',
     state: {
         dataSource: [
-            {key: 1, courseNumber: '', courseName: '', semester: '', campus: '', courseTime: '', courseAddress: ''},
+            {key: 1, classId:'', courseName: '', type:'', campusName:'', buildingName:'', classroomName:''},
             ]
     },
     reducers: {
@@ -26,24 +26,20 @@ const model = {
     },
     effects: {
         * curriculumTeacher(payload: { payload: {teacherId: string} }, {call, put})  {
+            // console.log(payload);
             const msg = payload.payload;
-            // //const tssFetch = (url: string, method: httpMethod, payload: string | object)
-            // //返回一个js对象
-            //const response = yield call(tssFetch, '/classroom/info', 'GET', msg);
-           // if(response.status === 400) {
-            //    message.error('查询空闲教室信息失败');
-            //    return;
-            //}
-           // const jsonBody = yield call(response.text.bind(response));
-            //将字符串转换为json对象
-            //const body = JSON.parse(jsonBody);
+            const response = yield call(tssFetch, '/teachers/root/schedule', 'GET');
+            //console.log(response);
+            if (response.status === 400) {
+                message.error('教师信息错误');
+                return;
+            }
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            console.log(body);
             yield put({
                 type: 'updateCurriculumTeacherInfo',
-                //payload: {data:body.data}
-                payload: {dataSource:[
-                        {key: 1, courseNumber: '00011', courseName: '线性代数', semester: '春夏', campus: '紫金港校区', courseTime: '周一第一二节', courseAddress: '东一102'},
-                        {key: 2, courseNumber: '00022', courseName: '线性代数', semester: '春夏', campus: '紫金港校区', courseTime: '周一第一二节', courseAddress: '东一102'}
-                    ]}
+                payload: {dataSource:body}
             });
             return;
         },

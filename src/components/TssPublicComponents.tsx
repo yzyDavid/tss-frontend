@@ -79,11 +79,11 @@ export class NavigationBar extends Component<BarProps>{
                         <Menu.Item key="userManage">管理用户信息</Menu.Item>
                     </MenuItemGroup>
                 </SubMenu>
-                <Menu.Item key="courseManage">
-                    <Icon type="book" />课程管理
+                <Menu.Item key="course">
+                    <Icon type="book" />信息管理
                 </Menu.Item>
-                <Menu.Item key="deptManage">
-                    <Icon type="calendar" />院系管理
+                <Menu.Item key="list">
+                    <Icon type="calendar" />排课系统
                 </Menu.Item>
                 <Menu.Item key="alipay">
                     <a href="http://www.alipay.com/" target="_blank"><Icon type="message" />
