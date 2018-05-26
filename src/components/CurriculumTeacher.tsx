@@ -7,25 +7,6 @@ import {NavigationBar} from './TssPublicComponents';
 
 const FormItem = Form.Item;
 
-const columns = [
-    {title: '课程号', dataIndex: 'classId', key: 'classId'},
-    {title: '课程名称', dataIndex: 'courseName', key: 'courseName'},
-    {title: '上课时间', dataIndex: 'typeName', key: 'typeName', render: (text)=>{
-            var timeB, timeA;
-            if(!text)
-                timeA = ' ';
-            else {
-                timeB= text.toString();
-                timeA = timeB.substring(0,3)+ ' ' + timeB.substring(4,5)+ '~' + timeB.substring(timeB.length-1,timeB.length);
-            }
-            return (
-                <label>{timeA}</label>
-            );
-        }},
-    {title: '校区', dataIndex: 'campusName', key: 'campusName'},
-    {title: '教学楼', dataIndex: 'buildingName', key: 'buildingName'},
-    {title: '教室', dataIndex: 'classroomName', key: 'classroomName'},
-    ];
 
 interface CurriculumTeacherProps extends DvaProps {
     form: any;
@@ -42,11 +23,32 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
     }
 
     render() {
+        const columns = [
+            {title: '课程号', dataIndex: 'classId', key: 'classId',  render: (text, record, index) => <a onClick={()=>{this.props.dispatch({type:"curriculumteacher/showList", payload: {classId: 'aaa'}});console.log("daf")}}>{text}</a>},
+            {title: '课程名称', dataIndex: 'courseName', key: 'courseName'},
+            {title: '上课时间', dataIndex: 'typeName', key: 'typeName', render: (text)=>{
+                    var timeB, timeA;
+                    if(!text)
+                        timeA = ' ';
+                    else {
+                        timeB= text.toString();
+                        timeA = timeB.substring(0,3)+ ' ' + timeB.substring(4,5)+ '~' + timeB.substring(timeB.length-1,timeB.length);
+                    }
+                    return (
+                        <label>{timeA}</label>
+                    );
+                }},
+            {title: '校区', dataIndex: 'campusName', key: 'campusName'},
+            {title: '教学楼', dataIndex: 'buildingName', key: 'buildingName'},
+            {title: '教室', dataIndex: 'classroomName', key: 'classroomName'},
+
+        ];
         return (
             <div>
                 <NavigationBar current={"list"} dispatch={this.props.dispatch}/>
                 <Form layout={"inline"} style={{textAlign: 'center',fontSize: 'larger'}}>
                     <FormItem
+
                          label="教师号：310001">{this.props.location.query}</FormItem>
                     <FormItem
                         label="教师姓名：张三">{this.props.location.query}</FormItem>
@@ -61,6 +63,7 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
                     <FormItem>
                     <Button  type="primary" style={{fontSize: 'large'}}>打印</Button></FormItem>
                 </Form>
+                {/*<button onClick={()=>{this.props.dispatch({type: "curriculumteacher/curriculumTeacher", payload: "bbb"});}}>daf</button>*/}
             </div>
         );
     }

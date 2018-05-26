@@ -16,6 +16,8 @@ import AutoSchedulingModel from './models/AutoSchedulingModel'
 import CourseModel from './models/courseModel';
 import PswdModel from './models/pswdModel';
 import DeptModel from './models/deptModel';
+import SelectionModel from './models/SelectionModel';
+import StuListModel from './models/SelectionModel';
 import DeptManagePageComponent from './components/DeptManagePage';
 import { TssFooter, TssHeader } from './components/TssPublicComponents';
 import HomePageComponent from './components/HomePage';
@@ -33,6 +35,7 @@ import ManageTimeComponent from './components/ManageTime';
 import PlanComponent from './components/Plan'
 import ManagerSelectionComponent from './components/SelectionManager';
 import StudentSelectionComponent from './components/SelectionStudent';
+import ClassSelectionComponent from './components/SelectionClass';
 
 const {Content} = Layout;
 
@@ -51,6 +54,7 @@ app.model(AutoSchedulingModel);
 app.model(CourseModel);
 app.model(PswdModel);
 app.model(DeptModel);
+app.model(SelectionModel)
 
 const HomePage = connect(state => {
     return {}
@@ -126,10 +130,14 @@ const ManSelectPage = connect(state =>{
 })(ManagerSelectionComponent)
 
 const StuSelectPage = connect(state =>{
-    const {dataSource} = state.courseinfo;
+    const {dataSource} = state.selectCourse;
     return {dataSource: dataSource}
 })(StudentSelectionComponent)
 
+
+const ClassSelectPage = connect(state =>{
+    return {};
+})(ClassSelectionComponent)
 app.router(({history}) => (
         <Router history={history}>
             <Layout>
@@ -152,6 +160,7 @@ app.router(({history}) => (
                         <Route path="/manageTime" component={ManageTimePage}/>
                         <Route path="/manSelect" component={ManSelectPage}/>
                         <Route path="/stuSelect" component={StuSelectPage}/>
+                        <Route path="/classSelect" component={ClassSelectionComponent}/>
                     </Switch>
                 </Content>
             <TssFooter/>

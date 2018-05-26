@@ -152,6 +152,7 @@ export default class ManualSchedulingComponent extends Component<ManualSchedulin
                 <div>
                     <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource}/>
                 </div>
+
             </div>
 
         );

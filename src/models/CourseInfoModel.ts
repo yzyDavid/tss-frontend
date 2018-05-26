@@ -10,7 +10,7 @@ const model = {
         dataSource: [
             {key: 1, courseNumber: '00001', courseTitle: '线性代数', courseAddress: '3150100001', courseTime: '16:30-18:30', semester: '秋冬', credit: 2},
             {key: 2, courseNumber: '00002', courseTitle: '微积分', courseAddress: '3150100002', courseTime: '16:30-18:30', semester: '秋', credit: 3},
-            ]
+        ]
     },
     reducers: {
         updateCourseInfo(st, payload) {
@@ -63,14 +63,14 @@ const model = {
             return;
         },
 
-       * modifyCourseInfo(payload: { payload: CourseInfo}, {call, put})
-       {
-           const value = payload.payload.courseNumber.toString();
-           //console.log(payload.payload);
-           //fetch the data of the case and add to the query
-           yield put(routerRedux.push({pathname:'/manualSchModify/'+value,query: payload.payload,}));
-           return;
-       },
+        * modifyCourseInfo(payload: { payload: CourseInfo}, {call, put})
+        {
+            const value = payload.payload.courseNumber.toString();
+            //console.log(payload.payload);
+            //fetch the data of the case and add to the query
+            yield put(routerRedux.push({pathname:'/manualSchModify/'+value,query: payload.payload,}));
+            return;
+        },
     }
 };
 
