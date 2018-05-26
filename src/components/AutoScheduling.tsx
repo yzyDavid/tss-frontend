@@ -3,7 +3,7 @@ import {Component} from 'react';
 import {Redirect} from 'react-router';
 import {Button, Form} from 'antd';
 import DvaProps from '../types/DvaProps';
-import NavigationBar from './TssPublicComponents';
+import {NavigationBar} from './TssPublicComponents';
 
 interface NaviProps extends DvaProps {
     uid: string;

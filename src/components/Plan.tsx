@@ -7,7 +7,7 @@ import DvaProps from '../types/DvaProps';
 
 const { Column } = Table;
 
-interface CourseProps extends DvaProps{
+interface PlanProps extends DvaProps{
     uid: string;
 }
 
@@ -55,7 +55,7 @@ const data = [{
 
 ];
 
-export default class CourseTableComponent extends Component<CourseProps>{
+export default class PlanComponent extends Component<PlanProps>{
     constructor(props) {
         super(props)
     }
@@ -76,11 +76,10 @@ export default class CourseTableComponent extends Component<CourseProps>{
         }];
         return(
             <div>
-               <NavigationBar current={'courseTable'} dispatch={this.props.dispatch}/>
+               <NavigationBar current={'plan'} dispatch={this.props.dispatch}/>
                 <div style={{ padding: 24, background: '#fff', minHeight: 780 }}>
                     <Table dataSource={data} columns={columns}>
                     </Table>
-                    <Button type="primary" >打印课表</Button>
                 </div>
 
             </div>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Component} from 'react';
 import 'antd/dist/antd.css';
-import NavigationBar from './TssPublicComponents'
+import {NavigationBar} from './TssPublicComponents'
 import DvaProps from '../types/DvaProps';
 import {Form, DatePicker, TimePicker, Layout, Button, Modal} from 'antd'
 
