@@ -13,6 +13,7 @@ import CourseInfoModel from './models/CourseInfoModel';
 import UserInfoModel from './models/userInfoModel';
 import CurriculumTeacherModel from './models/CurriculumTeacherModel'
 import CurriculumManageModel from './models/CurriculumManageModel'
+import ClassroomManageModel from './models/ClassroomManageModel'
 import NavigationPageComponent from './components/NavigationPage';
 import UserPageComponent from './components/UserPage';
 import UserManagePageComponent from './components/UserManagePage';
@@ -40,6 +41,7 @@ app.model(FreeClassroomInfoModel);
 app.model(CourseInfoModel);
 app.model(CurriculumTeacherModel);
 app.model(CurriculumManageModel);
+app.model(ClassroomManageModel);
 
 const HomePage = connect(state => {
     return {}
@@ -78,7 +80,8 @@ const ManualSchModifyPage = connect(state => {
 })(ManualSchModifyPageComponent);
 
 const ClassroomManagePage = connect(state => {
-    return {};
+    const {dataSource} = state.classroommanage;
+    return {dataSource:dataSource};
 })(ClassroomManagePageComponent);
 
 const CurriculumTeacherPage = connect(state => {
