@@ -55,7 +55,7 @@ export default class StudentSelectionComponent extends Component<UserProps, User
         this.state = {
             modalVisible: false,
             courseIndex: 0,
-            searchIndex: "",
+            searchIndex: "课程名",
             refresh: false,
         }
     }
@@ -71,10 +71,10 @@ export default class StudentSelectionComponent extends Component<UserProps, User
         this.setState({ modalVisible: modalVisible });
     };
     handleSearch = (value, searchIndex)=>{
-        //console.log({value,searchIndex})
+        console.log({value,searchIndex})
         this.props.dispatch({type: "selectCourse/search", payload: {value,searchIndex}});
         data = this.props.dataSource
-        console.log(this.props.dataSource)
+        //console.log(this.props.dataSource)
         this.setState({refresh: true})
     }
 
@@ -147,7 +147,7 @@ export default class StudentSelectionComponent extends Component<UserProps, User
                             </Modal>
                         </Form>
                         <br/>
-                        <Table dataSource={data} rowSelection={rowSelection} columns={columns}>
+                        <Table dataSource={this.props.dataSource} rowSelection={rowSelection} columns={columns}>
 
                         </Table>
                     </div>

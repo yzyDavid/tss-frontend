@@ -53,6 +53,9 @@ export default class ClassSelectionComponent extends Component<UserProps, UserSt
         //console.log(course)
         this.props.dispatch({type:"selectCourse/select",payload:course["classId"]});
     };
+    dismiss(course){
+        this.props.dispatch({type:"selectCourse/dismiss",payload:course["classId"]})
+    }
 
     componentDidMount(){
 
@@ -73,7 +76,7 @@ export default class ClassSelectionComponent extends Component<UserProps, UserSt
             render: (record)=>(
                 <span>
                     <a onClick={()=>this.select(record)}>选课/</a>
-                    <a>退选</a>
+                    <a onClick={()=>this.dismiss(record)}>退选</a>
                 </span>
             )
         }];

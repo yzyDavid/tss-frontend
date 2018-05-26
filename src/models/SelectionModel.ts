@@ -8,8 +8,7 @@ const model = {
     namespace: 'selectCourse',
     state: {
         dataSource: [
-            {key: 1, courseNumber: '00001', courseTitle: '线性代数', courseAddress: '3150100001', courseTime: '16:30-18:30', semester: '秋冬', credit: 2},
-            {key: 2, courseNumber: '00002', courseTitle: '微积分', courseAddress: '3150100002', courseTime: '16:30-18:30', semester: '秋', credit: 3},
+            {key: 1, id: '00001', year: "2018", semester: "SECOND", capacity: 100, numStudent: 0},
         ]
     },
     reducers: {
@@ -44,6 +43,7 @@ const model = {
         * search(payload: { payload: {payload: {value: string, searchIndex: string}}}, {call, put}){
             var value = payload.payload["value"];
             var index = payload.payload["searchIndex"];
+            console.log(payload.payload["value"])
             if(index=="教师")
             {
                 const response = yield call(tssFetch, '/classes/action/search-by-teacher/'+value, 'GET' );
@@ -62,11 +62,13 @@ const model = {
             else if(index=="课程名"){
                 const response = yield call(tssFetch, '/classes/action/search-by-course/'+value, 'GET');
                 if(response.status === 401) {
+                    console.log("error")
                     message.error("不存在该课程");
                     return;
                 }
                 const jsonBody = yield call(response.text.bind(response));
                 const body = JSON.parse(jsonBody);
+                console.log("success")
                 // message.success(body.status);
                 yield put({
                     type: 'updateCourseInfo',
@@ -87,6 +89,11 @@ const model = {
             else{
                 console.log("选课成功");
             }
+        },
+        * dismiss(payload: {payload: {payload: {courseId: number}}},{call,put}){
+          var value = payload.payload.toString();
+          console.log("删除"+value+"中...");
+          
         }
     }
 };
