@@ -49,6 +49,10 @@ export default class ClassSelectionComponent extends Component<UserProps, UserSt
             courseIndex: 1
         }
     }
+    select(course){
+        //console.log(course)
+        this.props.dispatch({type:"selectCourse/select",payload:course["classId"]});
+    };
 
     componentDidMount(){
 
@@ -66,10 +70,9 @@ export default class ClassSelectionComponent extends Component<UserProps, UserSt
             dataIndex: 'location'
         },{
             title:"操作",
-            render: (text, record)=>(
+            render: (record)=>(
                 <span>
-                    <a>选课</a>
-                    /
+                    <a onClick={()=>this.select(record)}>选课/</a>
                     <a>退选</a>
                 </span>
             )

@@ -26,6 +26,9 @@ const model = {
                 if (pathname === '/stuSelect'){
                     dispatch({type: 'showAll', payload: {courseId: -1}})
                 }
+                if (pathname === '/stuSelect'){
+                    dispatch({type: 'search', payload: {value: "", searchIndex: ""}})
+                }
             });
         }
     },
@@ -38,7 +41,53 @@ const model = {
             yield put(routerRedux.push({pathname:'/classSelect/'+value,query: payload.payload,}));
             return;
         },
-
+        * search(payload: { payload: {payload: {value: string, searchIndex: string}}}, {call, put}){
+            var value = payload.payload["value"];
+            var index = payload.payload["searchIndex"];
+            if(index=="教师")
+            {
+                const response = yield call(tssFetch, '/classes/action/search-by-teacher/'+value, 'GET' );
+                if(response.status === 401) {
+                    message.error("不存在该课程");
+                    return;
+                }
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                // message.success(body.status);
+                yield put({
+                    type: 'updateCourseInfo',
+                    payload: {dataSource: body}
+                });
+            }
+            else if(index=="课程名"){
+                const response = yield call(tssFetch, '/classes/action/search-by-course/'+value, 'GET');
+                if(response.status === 401) {
+                    message.error("不存在该课程");
+                    return;
+                }
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                // message.success(body.status);
+                yield put({
+                    type: 'updateCourseInfo',
+                    payload: {dataSource: body}
+                });
+            }
+        },
+        * select(payload: { payload: {payload: {courseId: number}}},{call,put}){
+            var value = payload.payload.toString();
+            console.log("选择了："+value)
+            const response = yield call(tssFetch, '/classes/action/select/'+value, 'GET');
+            if(response.status === 401) {
+                message.error("不存在该课程");
+                return;
+            }
+            //const jsonBody = yield call(response.text.bind(response));
+            //const body = JSON.parse(jsonBody);
+            else{
+                console.log("选课成功");
+            }
+        }
     }
 };
 

@@ -40,44 +40,11 @@ const rowSelection = {
 
 var data = [{
     key: '1',
-    courseNumber: 20102,
-    courseName: '数据结构基础',
-    teacher: 'Mike',
-    brief: '重点介绍算法设计、算法描述和相应C程序编码，并给出相应的数据结构应用实例',
-    credit: 3.0,
-    semester: '春夏',
-}, {
-    key: '2',
-    courseNumber: 20104,
-    courseName: '软件工程',
-    teacher: 'Mary',
-    brief: 'ddd',
-    credit: 2.0,
-    semester: '春',
-}, {
-    key: '3',
-    courseNumber: 20106,
-    courseName: '计算机网络',
-    teacher: 'Joe',
-    brief: 'ccc',
-    credit: 3.5,
-    semester: '夏',
-},{
-    key: '4',
-    courseNumber: 20109,
-    courseName: '人工智能',
-    teacher: 'Kathy',
-    brief: 'bbb',
-    credit: 3.5,
-    semester: '夏',
-},{
-    key: '5',
-    courseNumber: 20111,
-    courseName: 'B/S体系设计',
-    teacher: 'Steve',
-    brief: 'aaa',
-    credit: 4,
-    semester: '春夏',
+    id: 20102,
+    year: '2011',
+    semester: 'SECOND',
+    capacity: 1,
+    numStudent: 2
 }
 
 ];
@@ -89,7 +56,7 @@ export default class StudentSelectionComponent extends Component<UserProps, User
             modalVisible: false,
             courseIndex: 0,
             searchIndex: "",
-            refresh: false
+            refresh: false,
         }
     }
 
@@ -98,14 +65,14 @@ export default class StudentSelectionComponent extends Component<UserProps, User
         if(this.formRef && modalVisible === true) this.formRef.refresh();
         this.setState({ modalVisible: modalVisible, courseIndex: index });
         console.log(index);
-        console.log(data[index].courseName);
+        console.log(data[index].id);
     }
     setModalVisible(modalVisible) {
         this.setState({ modalVisible: modalVisible });
     };
     handleSearch = (value, searchIndex)=>{
         //console.log({value,searchIndex})
-        this.props.dispatch({type: "courseinfo/courseInfo", payload: {value,searchIndex}});
+        this.props.dispatch({type: "selectCourse/search", payload: {value,searchIndex}});
         data = this.props.dataSource
         console.log(this.props.dataSource)
         this.setState({refresh: true})
@@ -118,20 +85,26 @@ export default class StudentSelectionComponent extends Component<UserProps, User
     render(){
         const columns = [{
             title: "课程编号",
-            dataIndex: "courseNumber",
+            dataIndex: "id",
         },{
-            title: "课程名称",
-            dataIndex: "courseName",
+            title: "学年",
+            dataIndex: "year",
             render: (text, record, index) => <a onClick={()=>this.ChooseCourse(index, true)}>{text}</a>
-        },{
-            title: "学分",
-            dataIndex: "credit"
         },{
             title: "学期",
             dataIndex: 'semester'
         },{
+
+        },{
+            title: "容量",
+            dataIndex: "capacity"
+        },{
+            title: "已选",
+            dataIndex: "numStudent"
+        },
+        {
             title: "选课",
-            render: (text,record,index)=>(<a onClick={()=>{this.props.dispatch({type: "selectCourse/showAll", payload: {courseId: data[index].courseNumber}})}}>选课</a>)
+            render: (text,record,index)=>(<a onClick={()=>{this.props.dispatch({type: "selectCourse/showAll", payload: {courseId: data[index].id}})}}>选课</a>)
         }];
 
         return(
@@ -170,7 +143,7 @@ export default class StudentSelectionComponent extends Component<UserProps, User
                                 onOk={() => this.setModalVisible(false)}
 
                             >
-                                <WrappedCourseDetailForm  wrappedComponentRef={(inst) => this.formRef = inst} dispatch={this.props.dispatch} name={data[this.state.courseIndex].courseName} id={data[this.state.courseIndex].courseNumber} teacher={data[this.state.courseIndex].teacher} brief={data[this.state.courseIndex].brief}/>
+                                <WrappedCourseDetailForm  wrappedComponentRef={(inst) => this.formRef = inst} dispatch={this.props.dispatch} id={data[this.state.courseIndex].id} />
                             </Modal>
                         </Form>
                         <br/>
