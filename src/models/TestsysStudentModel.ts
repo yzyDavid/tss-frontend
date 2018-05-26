@@ -9,6 +9,7 @@ const model = {
     namespace: 'testsys_student',
     state: {
         uid: "",
+        pid: -1,
         pids: [],
         papers: [
             {
@@ -162,7 +163,7 @@ const model = {
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
             yield put({
-                type: 'updateQidList',
+                type: 'updatePaperList',
                 payload: {papers: body.papers}
             });
             return;
@@ -183,7 +184,7 @@ const model = {
             const body = JSON.parse(jsonBody);
             yield put({
                 type: 'updateQidList',
-                payload: {qids: body.qids}
+                payload: {pid: msg.pid, qids: body.qids}
             });
             return;
         },
@@ -207,7 +208,19 @@ const model = {
             return;
         },
 
-        * submit(payload: {payload: {myAns: any[], uid: string}}, {call, put}) {
+        * save(payload: {payload: {myAns: string[], myQids: string[], pid: string}}, {call, put}) {
+            console.log("sq/save: "+payload.payload);
+            const msg = payload.payload;
+            const response = yield call(tssFetch, '/testsys_student/save', 'POST', msg);
+            console.log("sq/question response: "+response);
+            if (response.status === 400) {
+                message.error('更新失败');
+                return;
+            }
+            return;
+        },
+
+        * submit(payload: {payload: any}, {call, put}) {
             console.log("sq/submit: "+payload.payload);
             const msg = payload.payload;
             const response = yield call(tssFetch, '/testsys_student/submit', 'POST', msg);
@@ -216,6 +229,7 @@ const model = {
                 message.error('更新失败');
                 return;
             }
+            yield put(routerRedux.push('/testsys_student_paper'));
             return;
         }
     },

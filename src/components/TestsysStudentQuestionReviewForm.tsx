@@ -20,6 +20,7 @@ interface FormProps extends DvaProps {
     qids: string[];
     questions: any[];
     uid: string;
+    pid: string;
 }
 
 export class QuestionFormData {
@@ -83,19 +84,23 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
 
 
     handleSave = () => {
-        //check unanswered
-        // const values = {
-        //
-        // };
+        let values: any = {
+            myAns:[],
+            myQids:[],
+            pid: this.props.pid,
+        };
         console.log("handle save");
         for (var i = 0; i < myAns.length; i++) {
             console.log("qid "+myAns[i].id+": "+myAns[i].myanswer);
+            values.myAns.push(myAns[i].myanswer);
+            values.myQids.push(myAns[i].id);
         }
+        this.props.dispatch({type:'testsys_student/save', payload: values});
     };
 
     handleSubmit = () => {
         this.handleSave();
-        this.props.dispatch({type:'testsys_student/submit', payload: {myAns:myAns, uid:this.props.uid}});
+        this.props.dispatch({type:'testsys_student/submit', payload: {}});
         console.log("handle submit");
     };
 

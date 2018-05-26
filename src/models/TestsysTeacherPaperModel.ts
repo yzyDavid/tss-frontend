@@ -87,6 +87,7 @@ const model = {
         * insert(payload: { payload: PaperFormData }, {call, put}) {
             // console.log(payload);
             const msg = payload.payload;
+            console.log(msg);
             const response = yield call(tssFetch, '/testsys_paper/insert', 'POST', msg);
             console.log(response);
             if (response.status === 400) {
