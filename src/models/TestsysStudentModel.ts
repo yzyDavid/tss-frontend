@@ -107,7 +107,7 @@ const model = {
             switch(direction){
                 case "student_paper":
                     yield put(routerRedux.push('/testsys_student_paper'));
-                    const response = yield call(tssFetch, '/testsys_student/getpaperlist', 'POST', {uid:model.state.uid});
+                    const response = yield call(tssFetch, '/testsys_student/getpaperlist', 'POST', {});
                     console.log("student/paper response: "+response);
                     if (response.status === 400) {
                         message.error('更新失败');
@@ -128,8 +128,8 @@ const model = {
                         QueryType: 0,
                         Sid: null,
                         Pid: null,
-                        Qtype: null,
-                        Qunit: null,
+                        QType: null,
+                        QUnit: null,
                     };
                     const response1 = yield call(tssFetch, '/testsys_result/search', 'POST', values);
                     console.log("student/score response: "+response1);
@@ -151,8 +151,8 @@ const model = {
         },
 
         * getpaper(payload: {payload: {pid: string, uid: string}}, {call, put}) {
-            const msg = payload.payload;
-            console.log("sp/paper: "+payload);
+            const msg = {Pid: payload.payload.pid};
+            console.log("sp/paper: "+msg);
             const response = yield call(tssFetch, '/testsys_student/getpaper', 'POST', msg);
             console.log("sq/paper response: "+response);
             if (response.status === 400) {
@@ -171,7 +171,8 @@ const model = {
 
         * getquestions(payload: {payload: {pid: string, uid: string}}, {call, put}) {
             yield put(routerRedux.push('/testsys_student_question_review'));
-            const msg = payload.payload;
+            // const msg = payload.payload;
+            const msg = {Pid: payload.payload.pid};
             console.log("sp/paper: "+payload);
             const response = yield call(tssFetch, '/testsys_student/getquestions', 'POST', msg);
             console.log("sq/paper response: "+response);
@@ -184,14 +185,14 @@ const model = {
             const body = JSON.parse(jsonBody);
             yield put({
                 type: 'updateQidList',
-                payload: {pid: msg.pid, qids: body.qids}
+                payload: {pid: msg.Pid, qids: body.qids}
             });
             return;
         },
 
         * getquestion(payload: {payload: {qid: string, uid: string}}, {call, put}) {
             console.log("sq/question: "+payload);
-            const msg = payload.payload;
+            const msg = {direction: "qid", info: payload.payload.qid};
             const response = yield call(tssFetch, '/testsys_student/getquestion', 'POST', msg);
             console.log("sq/question response: "+response);
             if (response.status === 400) {
@@ -208,7 +209,7 @@ const model = {
             return;
         },
 
-        * save(payload: {payload: {myAns: string[], myQids: string[], pid: string}}, {call, put}) {
+        * save(payload: {payload: {Ans: string[], Qid: string[], Pid: string}}, {call, put}) {
             console.log("sq/save: "+payload.payload);
             const msg = payload.payload;
             const response = yield call(tssFetch, '/testsys_student/save', 'POST', msg);
@@ -220,9 +221,9 @@ const model = {
             return;
         },
 
-        * submit(payload: {payload: any}, {call, put}) {
+        * submit(payload: {payload: {pid: string}}, {call, put}) {
             console.log("sq/submit: "+payload.payload);
-            const msg = payload.payload;
+            const msg = {Pid:payload.payload.pid};
             const response = yield call(tssFetch, '/testsys_student/submit', 'POST', msg);
             console.log("sq/question response: "+response);
             if (response.status === 400) {

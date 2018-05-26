@@ -64,7 +64,7 @@ export class ResultSearchQtypeForm extends Component<studentProp,  ResultList> {
             const{form} = this.props;
             const qtype = form.getFieldValue("qtype");
             console.log("tr/search: "+qtype);
-            this.props.dispatch({type:'teacherresult/search', payload: {QueryType:2, Sid:null, Pid:null, Qtype:qtype, Qunit:null}});
+            this.props.dispatch({type:'teacherresult/search', payload: {QueryType:2, Sid:null, Pid:null, QType:qtype, QUnit:null}});
         });
     };
 

@@ -69,7 +69,7 @@ export class ResultSearchPidForm extends Component<studentProp,  ResultList> {
             const{form} = this.props;
             const pid = form.getFieldValue("pid");
             console.log("tr/search: "+pid);
-            this.props.dispatch({type:'teacherresult/search', payload: {QueryType:1, Sid:null, Pid:pid, Qtype:null, Qunit:null}});
+            this.props.dispatch({type:'teacherresult/search', payload: {QueryType:1, Sid:null, Pid:pid, QType:null, QUnit:null}});
         });
     };
 
