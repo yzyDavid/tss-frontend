@@ -59,8 +59,8 @@ var initData = [{key: 1, courseNumber: ' ', courseName: ' ', restCourseTime: ' '
 //
 // const AutoSelectButton: any = Form.create({})(LoadButton);
 
-export  default class AutoSchedulingComponent extends Component<AutoSchProps, {}> {
-constructor(props) {
+export default class AutoSchedulingComponent extends Component<AutoSchProps, {}> {
+    constructor(props) {
         super(props);
     }
 
@@ -68,17 +68,17 @@ constructor(props) {
         e.preventDefault();
         console.log('handleClick');
         this.props.dispatch({type: 'autoscheduling/restCourseInfo', payload: {}});
-        initData=this.props.dataSource;
-        initNum=this.props.totalCourse;
+        initData = this.props.dataSource;
+        initNum = this.props.totalCourse;
     }
 
     render() {
-        initData=this.props.dataSource;
-        initNum=this.props.totalCourse;
+        initData = this.props.dataSource;
+        initNum = this.props.totalCourse;
         return (
             <div>
                 <NavigationBar current={"list"} dispatch={this.props.dispatch}/>
-                <Form layout={"inline"} style={{textAlign:"center",background: "#ffffff",fontSize:"large"}}>
+                <Form layout={"inline"} style={{textAlign: "center", background: "#ffffff", fontSize: "large"}}>
                     <br/>
                     <Button
                         icon="edit"
@@ -95,14 +95,14 @@ constructor(props) {
                     <br/>
                     <FormItem>
                         <Table
-                            style={{ width: "100%"}}
+                            style={{width: "100%"}}
                             columns={columns}
                             dataSource={initData}/>
                     </FormItem>
                     <br/>
                 </Form>
                 {/*<AutoSelectButton/>*/}
-                </div>
+            </div>
             // </div>
         );
     }

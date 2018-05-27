@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Component} from 'react';
 import {Form, Button, Modal, Row, Col} from 'antd';
 import DvaProps from '../types/DvaProps';
-import NavigationBar from './TssPublicComponents';
+import {NavigationBar} from './TssPublicComponents';
 import {WrappedPaperDisplayForm} from "./TestsysStudentPaperForm";
 
 class HomePageProps implements DvaProps {
