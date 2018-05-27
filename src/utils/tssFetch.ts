@@ -25,7 +25,7 @@ const tssFetch = (url: string, method: httpMethod, payload: string | object): Pr
                 'Content-Type': 'application/json',
                 'X-Auth-Token': auth
             }
-        });
+                    });
     }
 };
 

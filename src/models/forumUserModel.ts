@@ -4,7 +4,7 @@ import * as React from 'react'
 
 
 export class DataForm {
-    data: any;
+    data: string;
 
 }
 
@@ -27,10 +27,13 @@ const model = {
             const msg = payload.payload;
             const data = new DataForm();
             data.data =msg;
-            const response = yield call(tssFetch, '/test/userPicUpload', 'POST', data);
+            console.log(data.data);
+            const response = yield call(tssFetch, '/test/string', 'POST', data);
             // yield put(routerRedux.push({
             //     pathname: "/board="+msg,
             // }));
+            const jsonBody = yield call(response.text.bind(response));
+            console.log(jsonBody);
             return;
 
         },

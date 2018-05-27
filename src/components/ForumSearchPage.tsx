@@ -37,14 +37,17 @@ export default class SearchPage extends Component<SearchProps>{
 
 
     test(){
-        const temp = new Uint8Array(this.state.reader.result);
-        this.props.dispatch({type:'forumUser/changePhoto', payload:temp})
+        const  data =this.state.reader.result;
+        //const temp = new String(this.state.reader.result).toString();
+        //console.log(this.state.reader.result)
+        this.props.dispatch({type:'forumUser/changePhoto', payload:data})
     }
 
     handleChange=(e)=>{
 
         //var reader =  new FileReader();
-        this.state.reader.readAsArrayBuffer(e.target.files[0]);
+        this.state.reader.readAsBinaryString(e.target.files[0]);
+       // this.state.reader.readAsArrayBuffer();
         this.state.reader.onload = function (e) {
             console.log("OK");
                // return this.result;

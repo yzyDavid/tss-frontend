@@ -125,7 +125,7 @@ export default class BoardPageComponent extends Component<BoardProps>{
                             <Button type="primary" size="large" onClick={this.PostNewTopic}>发布新帖</Button>
                         </div>
                         <div style={{float:"right"}}>
-                            <Button type="primary" size="large">管理本版</Button>
+                            <Button type="primary" size="large">管理公告</Button>
                         </div>
 
                     </div>
