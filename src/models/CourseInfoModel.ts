@@ -59,7 +59,6 @@ const model = {
 
         * modifyCourseInfo(payload: { payload: number }, {call, put}) {
             const value = payload.payload;
-            //console.log(payload.payload);
             //fetch the data of the case and add to the query
             yield put({
                 type: 'getClassInfo',
@@ -69,8 +68,6 @@ const model = {
        },
 
         * getClassInfo(payload: { payload: number }, {call, put}) {
-            //const value = payload.payload;
-            console.log(payload.payload);
             const response = yield call(tssFetch, '/classes/'+payload.payload, 'GET');
             if (response.status === 400) {
                 message.error('课程信息错误');
@@ -78,7 +75,7 @@ const model = {
             }
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
-            console.log(body);
+            //console.log(body);
             yield put({
                 type: 'updateClassInfo',
                 payload: {clazzInfo:body}

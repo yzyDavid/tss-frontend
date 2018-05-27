@@ -19,10 +19,7 @@ var initData = [
 
         ];
 var initClassInfo = {courseId:'', courseName:'', numLessonsLeft:'',numLessonsEachWeek:''};
-// var initCourseArrangement = [
-//     {key: 1, classroomAddress: '', classroomTime: ''},
-//     {key: 2, classroomAddress: '', classroomTime: ''},
-// ];
+
 var confirmData = {classroomAddress: '', classroomTime: '', classroomCapacity: ''};
 
 interface ManualSchModifyProps extends DvaProps {
@@ -177,7 +174,6 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
     constructor(props,context) {
         super(props,context);
         initClassInfo = this.props.clazzInfo;
-        //initCourseArrangement = this.props.clzzArangeInfo;
         this.handleSubmit1 = this.handleSubmit1.bind(this);
         this.handleSubmit2 = this.handleSubmit2.bind(this);
     }
@@ -193,27 +189,51 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
     };
 
     render() {
-        //initCourseArrangement = this.props.courseInfo;
         initClassInfo = this.props.clazzInfo;
-        console.log(initClassInfo);
-        //if(initCourseArrangement[0].classroomAddress.length<1)
+        if(initClassInfo.courseId)
+        {
             return (
                 <div>
                     <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
                     <Form  layout={"inline"} style={{textAlign: 'center'}}>
-                        <FormItem
-                            label="课号：" >{this.props.location.query}</FormItem>
-                        {/*<FormItem*/}
-                            {/*label="课程名称：" >{this.props.location.query.courseName}</FormItem>*/}
-                        {/*<FormItem*/}
-                            {/*label="未安排课时" >{this.props.location.query.numLessonsLeft}</FormItem>*/}
+                        <FormItem label="课程号：" >{initClassInfo.courseId}</FormItem>
+                        <FormItem label="课程名称：" >{initClassInfo.courseName}</FormItem>
+                        <FormItem label="未安排课时" >{initClassInfo.numLessonsLeft}</FormItem>
                     </Form><div/>
                     <div/>
-                        <div>
+                    <div>
                         <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource}/>
                     </div>
                 </div>
             );
+        }else
+            return (
+                <div>
+                    <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
+                    <div/>
+                    <div>
+                        <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource}/>
+                    </div>
+                </div>
+            );
+        //if(initCourseArrangement[0].classroomAddress.length<1)
+        //     return (
+        //         <div>
+        //             <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
+        //             <Form  layout={"inline"} style={{textAlign: 'center'}}>
+        //                 <FormItem
+        //                     label="课程号：" >{this.props.location.query}</FormItem>
+        //                 {/*<FormItem*/}
+        //                     {/*label="课程名称：" >{this.props.location.query.courseName}</FormItem>*/}
+        //                 {/*<FormItem*/}
+        //                     {/*label="未安排课时" >{this.props.location.query.numLessonsLeft}</FormItem>*/}
+        //             </Form><div/>
+        //             <div/>
+        //                 <div>
+        //                 <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource}/>
+        //             </div>
+        //         </div>
+        //     );
         /*else if(initCourseArrangement[1].classroomAddress.length<1)
             return (
                 <div>
