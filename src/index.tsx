@@ -3,7 +3,6 @@ import {Router, Route, Switch, routerRedux, browserHistory} from 'dva/router';
 import * as React from 'react';
 import {Layout, message} from 'antd';
 
-
 import TestsysHomePageComponent from './components/TestsysHomePage';
 import TestsysTeacherPageComponent from './components/TestsysTeacher';
 import TestsysStudentPageComponent from './components/TestsysStudent';
@@ -18,7 +17,6 @@ import TestsysTeacherResultSidComponent from './components/TestsysTeacherResultS
 import TestsysTeacherResultPidComponent from './components/TestsysTeacherResultPid'
 import TestsysTeacherResultQtypeComponent from './components/TestsysTeacherResultQtype'
 import TestsysTeacherResultQunitComponent from './components/TestsysTeacherResultQunit'
-
 
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
@@ -40,7 +38,6 @@ import TestsysStudentScoreComponent from "./components/TestsysStudentScore";
 import TestsysStudentModel from './models/TestsysStudentModel'
 
 
-
 import CurriculumTeacherModel from './models/CurriculumTeacherModel'
 import CurriculumManageModel from './models/CurriculumManageModel'
 import ClassroomManageModel from './models/ClassroomManageModel'
@@ -52,7 +49,7 @@ import SelectionModel from './models/SelectionModel';
 import StuListModel from './models/StuListModel';
 
 import DeptManagePageComponent from './components/DeptManagePage';
-import { TssFooter, TssHeader } from './components/TssPublicComponents';
+import {TssFooter, TssHeader} from './components/TssPublicComponents';
 import HomePageComponent from './components/HomePage';
 import NavigationPageComponent from './components/NavigationPage';
 import UserPageComponent from './components/UserPage';
@@ -71,7 +68,6 @@ import ManagerSelectionComponent from './components/SelectionManager';
 import StudentSelectionComponent from './components/SelectionStudent';
 import ClassSelectionComponent from './components/SelectionClass';
 import StudentListComponent from './components/StudentList';
-
 
 import ForumHomePageComponent from './components/ForumHomePage';
 import ForumNavigationModel from './models/forumNavigationModel';
@@ -116,13 +112,11 @@ app.model(TestsysModel);
 app.model(TestsysTeacherResultModel);
 app.model(TestsysStudentModel);
 
-
 app.model(FreeClassroomInfoModel);
 app.model(CourseInfoModel);
 app.model(CurriculumTeacherModel);
 app.model(CurriculumManageModel);
 app.model(ClassroomManageModel);
-
 
 app.model(ForumNavigationModel);
 app.model(ForumMyBoardModel);
@@ -155,12 +149,12 @@ const UserManagePage = connect(state => {
 })(UserManagePageComponent);
 
 
-const TestsysHomePage = connect (state => {
-    return{}
+const TestsysHomePage = connect(state => {
+    return {}
 })(TestsysHomePageComponent);
 
 const TestsysTeacherPage = connect(state => {
-    return{}
+    return {}
 })(TestsysTeacherPageComponent);
 
 const TestsysStudentPage = connect(state => {
@@ -172,7 +166,7 @@ const TestsysTeacherQuestionPage = connect(state => {
 })(TestsysTeacherQuestionPageComponent);
 
 const TestsysTeacherPaperPage = connect(state => {
-    return{...state.teacherpaper}
+    return {...state.teacherpaper}
 })(TestsysTeacherPaperPageComponent);
 
 const TestsysTeacherQuestionInsertPage = connect(state => {
@@ -198,11 +192,11 @@ const TestsysStudentScorePage = connect(state => {
 
 
 const TestsysTeacherPaperInsertPage = connect(state => {
-    return{...state.teacherpaper}
+    return {...state.teacherpaper}
 })(TestsysTeacherPaperInsertComponent);
 
 const TestsysTeacherPaperSearchPage = connect(state => {
-    return{...state.teacherpaper}
+    return {...state.teacherpaper}
 })(TestsysTeacherPaperSearchComponent);
 
 const TestsysTeacherResultPage = connect(state => {
@@ -226,11 +220,9 @@ const TestsysTeacherResultQunitPage = connect(state => {
 })(TestsysTeacherResultQunitComponent);
 
 
-
 const AutoSchedulingPage = connect(state => {
     const dataSource = state.autoscheduling.dataSource;
     const totalCourse = state.autoscheduling.totalCourse;
-    //console.log(state.autoscheduling.dataSource);
     return {dataSource: dataSource, totalCourse: totalCourse};
 })(AutoSchedulingComponent);
 
@@ -241,13 +233,12 @@ const ManualSchedulingPage = connect(state => {
 
 const ManualSchModifyPage = connect(state => {
     const dataSource = state.freeclassroominfo.dataSource;
-    return {dataSource: dataSource, courseInfo:  state.freeclassroominfo.selectedCourseInfo};
+    return {dataSource: dataSource, courseInfo: state.freeclassroominfo.selectedCourseInfo};
 })(ManualSchModifyPageComponent);
 
 const ClassroomManagePage = connect(state => {
     const {dataSource} = state.classroommanage;
-    return {dataSource:dataSource};
-
+    return {dataSource: dataSource};
 })(ClassroomManagePageComponent);
 
 const CurriculumTeacherPage = connect(state => {
@@ -263,7 +254,7 @@ const CurriculumManagePage = connect(state => {
 })(CurriculumManagePageComponent);
 
 const SetSchedulingTimePage = connect(state => {
-    return{};
+    return {};
 })(SetSchedulingTimeComponent);
 
 const CourseManagePage = connect(state => {
@@ -275,34 +266,32 @@ const DeptManagePage = connect(state => {
 })(DeptManagePageComponent);
 
 
-const ManageTimePage = connect(state =>{
-    return{};
-})(ManageTimeComponent)
+const ManageTimePage = connect(state => {
+    return {};
+})(ManageTimeComponent);
 
 const PlanPage = connect(state => {
     return {};
-})(PlanComponent)
+})(PlanComponent);
 
-const ManSelectPage = connect(state =>{
+const ManSelectPage = connect(state => {
     const {dataSource} = state.courseinfo;
     return {dataSource: dataSource};
-})(ManagerSelectionComponent)
+})(ManagerSelectionComponent);
 
-const StuSelectPage = connect(state =>{
+const StuSelectPage = connect(state => {
     const {dataSource} = state.selectCourse;
     return {dataSource: dataSource}
-})(StudentSelectionComponent)
+})(StudentSelectionComponent);
 
-const ClassSelectPage = connect(state =>{
+const ClassSelectPage = connect(state => {
     return {};
-})(ClassSelectionComponent)
+})(ClassSelectionComponent);
 
-const StuListPage = connect(state =>{
+const StuListPage = connect(state => {
     const {dataSource} = state.studentList;
     return {dataSource: dataSource};
-})(StudentListComponent)
-
-
+})(StudentListComponent);
 
 const ForumTopicPage = connect(state => {
     const data = state.topic.allstate;
@@ -316,56 +305,52 @@ const ForumReplyPage = connect(state => {
 
 const ForumSearchPage = connect(state => {
     const data = state.search.data;
-    return {boardList:data}
+    return {boardList: data}
 })(SearchComponent);
 
 const ForumAllBoardPage = connect(state => {
     const data = state.allboard.list;
-    return {boardList:data};
+    return {boardList: data};
 })(AllBoardComponent);
-
 
 const ForumHomePage = connect(state => {
     const dataSource = state.allboard.uid;
     const mylist = state.myboard.list;
     const hot = state.forumhome.HotList;
     const latest = state.forumhome.LatestList;
-    return {uid: dataSource,alllist :state.allboard.list,mylist:mylist,hot:hot,latest:latest };
+    return {uid: dataSource, alllist: state.allboard.list, mylist: mylist, hot: hot, latest: latest};
 })(ForumHomePageComponent);
 
 const ForumUserPage = connect(state => {
     const data = state.ForumUserInfo.userInfo;
-    return {userInfo:data};
+    return {userInfo: data};
 })(ForumUserPageComponent);
 
 const ForumMyPostPage = connect(state => {
     const data = state.mypost.postList;
-    return{postList :data};
+    return {postList: data};
 })(MyPostPageComponent);
-
 
 const ForumLetterPage = connect(state => {
     const data = state.mail.input;
-    return {allstate:data}
+    return {allstate: data}
 })(LetterPageComponent);
 
 const ForumNewTopicPage = connect(state => {
-    const data= {boardName: state.board.boardState.BoardName,boardID:state.board.boardState.BoardID};
-    return {topicBoardInfo:data}
+    const data = {boardName: state.board.boardState.BoardName, boardID: state.board.boardState.BoardID};
+    return {topicBoardInfo: data}
 })(NewTopicPageComponent);
 
 const ForumBoardPage = connect(state => {
     const data = state.board.boardState;
 
-    return { boardinfo:data}
+    return {boardinfo: data}
 })(BoardPageComponent);
-
 
 const ScoreUploadPage = connect(state => {
     const {uid, level} = state.login;
     return {uid: uid};
 })(scoreUploadComponent);
-
 
 const ApplyModifyPage = connect(state => {
     const {uid, level} = state.login;
@@ -375,7 +360,7 @@ const ApplyModifyPage = connect(state => {
 app.router(({history}) => (
         <Router history={history}>
             <Layout>
-                <TssHeader />
+                <TssHeader/>
                 <Content style={{minHeight: '600px'}}>
                     <Switch>
                         <Route path="/" exact component={HomePage}/>
@@ -403,10 +388,9 @@ app.router(({history}) => (
                         <Route path="/testsys_teacher_result_qtype" component={TestsysTeacherResultQtypePage}/>
                         <Route path="/testsys_teacher_result_qunit" component={TestsysTeacherResultQunitPage}/>
 
-
-                        <Route path="/autoScheduling" component={AutoSchedulingPage} />
-                        <Route path="/manualScheduling" component={ManualSchedulingPage} />
-                        <Route path="/manualSchModify/:name" component={ManualSchModifyPage} />
+                        <Route path="/autoScheduling" component={AutoSchedulingPage}/>
+                        <Route path="/manualScheduling" component={ManualSchedulingPage}/>
+                        <Route path="/manualSchModify/:name" component={ManualSchModifyPage}/>
                         <Route path="/classroomManage" component={ClassroomManagePage}/>
                         <Route path="/curriculumTeacher" component={CurriculumTeacherPage}/>
                         <Route path="/curriculumManage" component={CurriculumManagePage}/>
@@ -420,9 +404,9 @@ app.router(({history}) => (
                         <Route path="/classSelect/:courseId" component={ClassSelectPage}/>
                         <Route path="/stuList/:classId" component={StuListPage}/>
 
-                        <Route exact path="/home"  component={ForumHomePage}/>
+                        <Route exact path="/home" component={ForumHomePage}/>
                         <Route exact path="/userinfo" component={ForumUserPage}/>
-                        <Route  path="/uid=:uid" component={ForumUserPage}/>
+                        <Route path="/uid=:uid" component={ForumUserPage}/>
                         <Route exact path="/userarticle" component={ForumUserPage}/>
                         <Route exact path="/mypost" component={ForumMyPostPage}/>
                         <Route exact path="/privateLetter" component={ForumLetterPage}/>
@@ -438,7 +422,7 @@ app.router(({history}) => (
 
                     </Switch>
                 </Content>
-            <TssFooter/>
+                <TssFooter/>
             </Layout>
         </Router>
     )
