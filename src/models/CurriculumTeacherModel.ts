@@ -7,7 +7,7 @@ const model = {
     namespace: 'curriculumteacher',
     state: {
         dataSource: [
-            {classId:'asd', courseName: 'aaa', typeName: "MON_1_2", type:'bb', campusName:'cc', buildingName:'ddd', classroomName:'ss'},
+            {classId:'asd', courseName: 'aaa', type: "MON_1_2", campusName:'cc', buildingName:'ddd', classroomName:'ss'},
             //{key: 1, classId:'', courseName: '', type:'', campusName:'', buildingName:'', classroomName:''}
             ]
     },
