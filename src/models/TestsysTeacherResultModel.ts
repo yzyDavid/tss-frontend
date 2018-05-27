@@ -21,6 +21,17 @@ const model = {
 
         ],
 
+        paperresult:[{
+            qid: '10',
+            avg: '90'
+            ,
+        }, {
+            qid: '11',
+            avg: '93'
+        },{
+            qid: '15',
+            avg: '71'
+        }],
     },
     reducers: {
         saveSession(st) {
@@ -105,7 +116,7 @@ const model = {
         //
         //     return;
         // },
-        * search(payload: { payload: {QueryType:number, Sid:string, Pid:string, QType:string, QUnit:string, } }, {call, put}) {
+        * search(payload: { payload: {type:number, sid:string, pid:string, qtype:string, qunit:string, } }, {call, put}) {
             console.log(payload);
             const msg = payload.payload;
             const response = yield call(tssFetch, '/testsys_result/search', 'POST', msg);

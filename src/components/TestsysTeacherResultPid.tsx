@@ -4,11 +4,15 @@ import {WrappedResultSearchPidForm} from './TestsysTeacherResultPidForm';
 import DvaProps from '../types/DvaProps';
 import TestTeacherSideBar from './TestTeacherSideBar'
 import { Layout, Breadcrumb} from 'antd';
-class HomePageProps implements DvaProps {
+
+export class ResultPidProps implements DvaProps {
     public dispatch: any;
+
+    qid: string[];  //题目
+    avg: string[];
 }
 
-export default class TestsysTeacherResultPidComponent extends Component<HomePageProps, {}> {
+export default class TestsysTeacherResultPidComponent extends Component<ResultPidProps, {}> {
     render() {
         return (
             <Layout>
@@ -18,7 +22,8 @@ export default class TestsysTeacherResultPidComponent extends Component<HomePage
                         <Breadcrumb.Item>按试卷号查询成绩</Breadcrumb.Item>
                     </Breadcrumb>
                     <Layout id = "content" style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-                        <WrappedResultSearchPidForm dispatch={this.props.dispatch}/>
+                        <WrappedResultSearchPidForm qid = {this.props.qid}
+                                                        avg = {this.props.avg} dispatch={this.props.dispatch}/>
 
                     </Layout>
                 </Layout>
