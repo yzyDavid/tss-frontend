@@ -99,6 +99,7 @@ const app = dva({
     history: browserHistory
 });
 
+app.model(PswdModel);
 app.model(LoginModel);
 app.model(NavigationModel);
 app.model(UserInfoModel);
