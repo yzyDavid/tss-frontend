@@ -8,7 +8,6 @@ import draftToHtml from 'draftjs-to-html';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import { Pagination,Button} from "antd";
 import NavigationBar from './ForumNavigation';
-import {isBoolean} from "util";
 
 
 
@@ -20,8 +19,9 @@ interface TopicProps extends DvaProps{
 
 
 export class ReplyFormData {
-    quoteIndex: string;
+    tid:string;
     text: string;
+    quoteIndex: string;
 }
 
 export default class TopicPageComponent extends Component<TopicProps>{
@@ -61,6 +61,7 @@ export default class TopicPageComponent extends Component<TopicProps>{
     postReply =(e)=>{
 
        var postData = new ReplyFormData;
+       postData.tid = this.props.allstate.topicID;
        postData.quoteIndex = this.state.replyNum.toString();
        postData.text =  draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())).toString();
        this.props.dispatch({type:'topic/postReply', payload:postData})

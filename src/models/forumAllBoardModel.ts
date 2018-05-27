@@ -6,8 +6,8 @@ const model = {
     state: {
 
         list: {
-            "ids":["303","404"],
-            "names":["test1","test2"]
+            "boardIDs":["303","404"],
+            "boardNames":["fail","fail"]
         }
     },
     reducers: {
@@ -27,7 +27,7 @@ const model = {
         },
 
         *getData({payload},{call,put}){
-             const response = yield call(tssFetch, '/section/info', 'POST', {});
+             const response = yield call(tssFetch, '/section/info', 'GET', {});
              const jsonBody = yield call(response.text.bind(response));
              const body = JSON.parse(jsonBody);
              yield put({type: 'updateAllBoardInfo', payload: {list:body}});

@@ -42,6 +42,10 @@ const model = {
         * postReply(payload: {payload:any}, {call, put}) {
             const msg = payload.payload;
             console.log(msg);
+            const response = yield call(tssFetch, '/test/string', 'POST', msg);
+            const jsonBody = yield call(response.text.bind(response));
+
+            location.reload();
 
             return ;
         },

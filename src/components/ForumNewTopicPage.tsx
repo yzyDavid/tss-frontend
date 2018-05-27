@@ -18,6 +18,11 @@ export default class NewTopicPageComponent extends Component<NewTopicProps>{
     uploadImageCallBack(){
 
     }
+
+    postNewTopic=(e)=>{
+
+    };
+
     render(){
         return(
             <BrowserFrame>
@@ -45,7 +50,7 @@ export default class NewTopicPageComponent extends Component<NewTopicProps>{
                     </div >
 
                 </div>
-                <div style={{marginTop:20,marginLeft:window.innerWidth/2-10,marginBottom:20}}><Button type="primary" size="large">发布</Button></div>
+                <div style={{marginTop:20,marginLeft:window.innerWidth/2-10,marginBottom:20}}><Button type="primary" size="large" onClick={this.postNewTopic}>发布</Button></div>
             </BrowserFrame>
 
         )

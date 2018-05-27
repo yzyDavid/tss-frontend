@@ -34,9 +34,9 @@ interface AllBoardProps extends DvaProps {
     render(){
 
         let replylist = new Array();
-        for(var i=0; i<this.props.boardList.ids.length;i++){
-            var boardID = this.props.boardList.ids[i];
-            var boardName = this.props.boardList.names[i];
+        for(var i=0; i<this.props.boardList.boardIDs.length;i++){
+            var boardID = this.props.boardList.boardIDs[i];
+            var boardName = this.props.boardList.boardNames[i];
             replylist.push(    <div>
                 <Button type="primary" style={{width:160,float:"left",marginLeft:20,marginTop:20}}  onClick={this.goToBoard.bind(this,boardID)}>{boardName}</Button>
             </div>)

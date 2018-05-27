@@ -4,7 +4,7 @@ import DvaProps from "../models/DvaProps";
 import BrowserFrame from './ForumBrowserFrame';
 import NavigationBar from './ForumNavigation';
 
-import { Table, Icon, Switch, Pagination, Form ,Button,} from 'antd';
+import { Table, Icon, Modal, Pagination, Form ,Button,} from 'antd';
 const FormItem = Form.Item;
 
 interface BoardProps extends DvaProps{
@@ -14,9 +14,8 @@ interface BoardProps extends DvaProps{
 export default class BoardPageComponent extends Component<BoardProps>{
     state = {
 
-        selectedRowKeys: [],
+        selectedRowKeys:[],
         rowSelection: undefined,
-
 
     };
 
@@ -26,13 +25,7 @@ export default class BoardPageComponent extends Component<BoardProps>{
          this.setState({ selectedRowKeys: selectedRowKeys});
 
     };
-    handleRowSelectionChange = (enable) => {
-        this.setState({ rowSelection: enable ? { onChange:  this.onSelectChange} : undefined });
-        console.log("start");
-        console.log(this.state.rowSelection);
 
-        console.log("end");
-    };
 
 
     PostNewTopic = () => {
