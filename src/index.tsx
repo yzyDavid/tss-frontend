@@ -96,6 +96,10 @@ import AllBoardComponent from "./components/ForumAllBoard"
 import ForumMailModel from "./models/forumMailModel"
 import ForumUserModel from "./models/forumUserModel"
 
+import scoreUploadComponent from './components/ScoreUpload';
+import applyModifyComponent from './components/ApplyModify';
+import scoreManagerComponent from './components/ScoreManager';
+
 const {Content} = Layout;
 
 const app = dva({
@@ -357,6 +361,16 @@ const ForumBoardPage = connect(state => {
 })(BoardPageComponent);
 
 
+const ScoreUploadPage = connect(state => {
+    const {uid, level} = state.login;
+    return {uid: uid};
+})(scoreUploadComponent);
+
+
+const ApplyModifyPage = connect(state => {
+    const {uid, level} = state.login;
+    return {uid: uid};
+})(applyModifyComponent);
 
 app.router(({history}) => (
         <Router history={history}>
@@ -418,6 +432,9 @@ app.router(({history}) => (
                         <Route exact path="/allboard" component={ForumAllBoardPage}/>
                         <Route path="/board=:boardid" component={ForumBoardPage}/>
                         <Route path="/topic=:topicid" component={ForumTopicPage}/>
+                        <Route path="/scoreUpload" component={ScoreUploadPage}/>
+                        <Route path="/applyModify" component={ApplyModifyPage}/>
+                        <Route path="/scoreManager" component={scoreManagerComponent}/>
 
                     </Switch>
                 </Content>
