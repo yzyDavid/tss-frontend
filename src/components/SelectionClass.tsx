@@ -50,11 +50,11 @@ export default class ClassSelectionComponent extends Component<UserProps, UserSt
         }
     }
     select(course){
-        //console.log(course)
-        this.props.dispatch({type:"selectCourse/select",payload:course["classId"]});
+        console.log(course)
+        this.props.dispatch({type:"selectClass/select",payload:course["classId"]});
     };
     dismiss(course){
-        this.props.dispatch({type:"selectCourse/dismiss",payload:course["classId"]})
+        this.props.dispatch({type:"selectClass/dismiss",payload:course["classId"]})
     }
 
     componentDidMount(){

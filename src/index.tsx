@@ -18,6 +18,7 @@ import PswdModel from './models/pswdModel';
 import DeptModel from './models/deptModel';
 import SelectionModel from './models/SelectionModel';
 import StuListModel from './models/StuListModel';
+import SelectionClassModel from './models/SelectionClassModel';
 import DeptManagePageComponent from './components/DeptManagePage';
 import { TssFooter, TssHeader } from './components/TssPublicComponents';
 import HomePageComponent from './components/HomePage';
@@ -38,7 +39,6 @@ import StudentSelectionComponent from './components/SelectionStudent';
 import ClassSelectionComponent from './components/SelectionClass';
 import StudentListComponent from './components/StudentList';
 
-
 const {Content} = Layout;
 
 const app = dva({
@@ -58,6 +58,7 @@ app.model(PswdModel);
 app.model(DeptModel);
 app.model(SelectionModel);
 app.model(StuListModel);
+app.model(SelectionClassModel);
 
 const HomePage = connect(state => {
     return {}
@@ -134,7 +135,7 @@ const ManSelectPage = connect(state =>{
 
 const StuSelectPage = connect(state =>{
     const {dataSource} = state.selectCourse;
-    return {dataSource: dataSource}
+    return {dataSource: dataSource, global: state.login}
 })(StudentSelectionComponent)
 
 const ClassSelectPage = connect(state =>{

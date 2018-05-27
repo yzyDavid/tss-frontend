@@ -11,47 +11,7 @@ interface CourseProps extends DvaProps{
     uid: string;
 }
 
-const data = [{
-    key: '1',
-    id: 20102,
-    name: '数据结构基础',
-    teacher: 'Mike',
-    brief: '重点介绍算法设计、算法描述和相应C程序编码，并给出相应的数据结构应用实例',
-    credit: 3.0,
-    semester: '春夏',
-}, {
-    key: '2',
-    id: 20104,
-    name: '软件工程',
-    teacher: 'Mary',
-    brief: 'ddd',
-    credit: 2.0,
-    semester: '春',
-}, {
-    key: '3',
-    id: 20106,
-    name: '计算机网络',
-    teacher: 'Joe',
-    brief: 'ccc',
-    credit: 3.5,
-    semester: '夏',
-},{
-    key: '4',
-    id: 20109,
-    name: '人工智能',
-    teacher: 'Kathy',
-    brief: 'bbb',
-    credit: 3.5,
-    semester: '夏',
-},{
-    key: '5',
-    id: 20111,
-    name: 'B/S体系设计',
-    teacher: 'Steve',
-    brief: 'aaa',
-    credit: 4,
-    semester: '春夏',
-}
+const data = [
 
 ];
 
@@ -66,13 +26,16 @@ export default class CourseTableComponent extends Component<CourseProps>{
             dataIndex: "id",
         },{
             title: "课程名称",
-            dataIndex: "name",
+            dataIndex: "courseName",
         },{
-            title: "学分",
-            dataIndex: "credit"
+            title: "上课时间",
+            dataIndex: "timeSlot"
         },{
             title: "学期",
             dataIndex: 'semester'
+        },{
+            title: "学分",
+            dataIndex: 'credit'
         }];
         return(
             <div>

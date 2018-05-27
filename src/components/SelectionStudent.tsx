@@ -6,6 +6,7 @@ import {WrappedCourseDetailForm}from './CourseDetailForm';
 import {NavigationBar} from './TssPublicComponents'
 import DvaProps from '../types/DvaProps';
 import {type} from "os";
+import GlobalState from "../types/globalState";
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -16,7 +17,8 @@ const Search = Input.Search;
 
 interface UserProps extends DvaProps {
     form: any;
-    dataSource: any
+    dataSource: any;
+    global: GlobalState;
 }
 
 interface UserState {
@@ -25,29 +27,19 @@ interface UserState {
     searchIndex: any;
     refresh: boolean
 }
+//
+// const rowSelection = {
+//     onChange: (selectedRowKeys, selectedRows) => {
+//         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+//         console.log()
+//     },
+//     getCheckboxProps: record => ({
+//         disabled: record.name === 'Disabled User', // Column configuration not to be checked
+//         name: record.name,
+//     }),
+//
+// };
 
-const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-        console.log()
-    },
-    getCheckboxProps: record => ({
-        disabled: record.name === 'Disabled User', // Column configuration not to be checked
-        name: record.name,
-    }),
-
-};
-
-var data = [{
-    key: '1',
-    id: 20102,
-    year: '2011',
-    semester: 'SECOND',
-    capacity: 1,
-    numStudent: 2
-}
-
-];
 
 export default class StudentSelectionComponent extends Component<UserProps, UserState>{
     constructor(props){
@@ -65,7 +57,7 @@ export default class StudentSelectionComponent extends Component<UserProps, User
         if(this.formRef && modalVisible === true) this.formRef.refresh();
         this.setState({ modalVisible: modalVisible, courseIndex: index });
         console.log(index);
-        console.log(data[index].id);
+        console.log(this.props.dataSource[index].id);
     }
     setModalVisible(modalVisible) {
         this.setState({ modalVisible: modalVisible });
@@ -73,8 +65,6 @@ export default class StudentSelectionComponent extends Component<UserProps, User
     handleSearch = (value, searchIndex)=>{
         console.log({value,searchIndex})
         this.props.dispatch({type: "selectCourse/search", payload: {value,searchIndex}});
-        data = this.props.dataSource
-        //console.log(this.props.dataSource)
         this.setState({refresh: true})
     }
 
@@ -85,26 +75,29 @@ export default class StudentSelectionComponent extends Component<UserProps, User
     render(){
         const columns = [{
             title: "课程编号",
-            dataIndex: "id",
+            dataIndex: "courseId",
+        },{
+            title: "课程名称",
+            dataIndex: "courseName",
+            render: (text, record, index) => <a onClick={()=>this.ChooseCourse(index, true)}>{text}</a>
         },{
             title: "学年",
             dataIndex: "year",
-            render: (text, record, index) => <a onClick={()=>this.ChooseCourse(index, true)}>{text}</a>
         },{
             title: "学期",
             dataIndex: 'semester'
         },{
-
+            title: "时间",
+            dataIndex: 'timeSlot'
         },{
             title: "容量",
             dataIndex: "capacity"
         },{
             title: "已选",
             dataIndex: "numStudent"
-        },
-        {
+        },{
             title: "选课",
-            render: (text,record,index)=>(<a onClick={()=>{this.props.dispatch({type: "selectCourse/showAll", payload: {courseId: data[index].id}})}}>选课</a>)
+            render: (text,record,index)=>(<a onClick={()=>{this.props.dispatch({type: "selectCourse/showAll", payload: {courseId: this.props.dataSource[index].id}})}}>选课</a>)
         }];
 
         return(
@@ -143,11 +136,11 @@ export default class StudentSelectionComponent extends Component<UserProps, User
                                 onOk={() => this.setModalVisible(false)}
 
                             >
-                                <WrappedCourseDetailForm  wrappedComponentRef={(inst) => this.formRef = inst} dispatch={this.props.dispatch} id={data[this.state.courseIndex].id} />
+                                <WrappedCourseDetailForm  wrappedComponentRef={(inst) => this.formRef = inst} dispatch={this.props.dispatch} id={this.props.dataSource[this.state.courseIndex].courseId} name={this.props.dataSource[this.state.courseIndex].courseName} credit={this.props.dataSource[this.state.courseIndex]} brief={this.props.dataSource[this.state.courseIndex].brief} />
                             </Modal>
                         </Form>
                         <br/>
-                        <Table dataSource={this.props.dataSource} rowSelection={rowSelection} columns={columns}>
+                        <Table dataSource={this.props.dataSource} columns={columns}>
 
                         </Table>
                     </div>

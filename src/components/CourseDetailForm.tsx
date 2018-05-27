@@ -9,13 +9,13 @@ interface FormProps extends DvaProps {
     form: any;
     name: string;
     id: number;
-    teacher: string;
+    credit: number;
     brief: string;
 }
 class CourseInfo{
     name: string;
     id: number;
-    teacher: string;
+    credit: number;
     brief: string;
 }
 
@@ -25,7 +25,7 @@ export class CourseDetailForm extends Component<FormProps,CourseInfo>{
         this.props.form.setFieldsValue({
             name: this.props.name,
             id: this.props.id,
-            teacher: this.props.teacher,
+            credit: this.props.credit,
             brief: this.props.brief,
         });
     }
@@ -38,8 +38,8 @@ export class CourseDetailForm extends Component<FormProps,CourseInfo>{
                 <FormItem label="课程号">
                     <span className="ant-form-text"> {this.props.id}</span>
                 </FormItem>
-                <FormItem label="开课老师">
-                    <span className="ant-form-text"> {this.props.teacher}</span>
+                <FormItem label="学分">
+                    <span className="ant-form-text"> {this.props.credit}</span>
                 </FormItem>
                 <FormItem label="课程简介">
                     <span className="ant-form-text"> {this.props.brief}</span>

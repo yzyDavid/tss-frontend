@@ -18,69 +18,30 @@ interface ManSelectionProps extends DvaProps{
 }
 
 interface ManSelectionState {
-
+    modalVisible: boolean;
+    courseIndex: number;
+    searchIndex: any;
+    refresh: boolean
 }
 
-const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-    },
-    getCheckboxProps: record => ({
-        disabled: record.name === 'Disabled User', // Column configuration not to be checked
-        name: record.name,
-    }),
-
-};
 
 var data = [{
     key: '1',
-    courseNumber: 20102,
-    courseTitle: '数据结构基础',
-    teacher: 'Mike',
-    brief: '重点介绍算法设计、算法描述和相应C程序编码，并给出相应的数据结构应用实例',
-    credit: 3.0,
-    semester: '春夏',
-}, {
-    key: '2',
-    courseNumber: 20104,
-    courseTitle: '软件工程',
-    teacher: 'Mary',
-    brief: 'ddd',
-    credit: 2.0,
-    semester: '春',
-}, {
-    key: '3',
-    courseNumber: 20106,
-    courseTitle: '计算机网络',
-    teacher: 'Joe',
-    brief: 'ccc',
-    credit: 3.5,
-    semester: '夏',
-},{
-    key: '4',
-    courseNumber: 20109,
-    courseTitle: '人工智能',
-    teacher: 'Kathy',
-    brief: 'bbb',
-    credit: 3.5,
-    semester: '夏',
-},{
-    key: '5',
-    courseNumber: 20111,
-    courseTitle: 'B/S体系设计',
-    teacher: 'Steve',
-    brief: 'aaa',
-    credit: 4,
-    semester: '春夏',
-}
-
-];
+    id: 20102,
+    year: '2011',
+    semester: 'SECOND',
+    capacity: 1,
+    numStudent: 2
+}];
 
 export default class ManagerSelectionComponent extends Component<ManSelectionProps, ManSelectionState>{
     constructor(props){
         super(props);
         this.state = {
-
+            modalVisible: false,
+            courseIndex: 0,
+            searchIndex: "课程名",
+            refresh: false,
         }
         this.handleSubmit1 = this.handleSubmit1.bind(this)
     }
@@ -89,7 +50,7 @@ export default class ManagerSelectionComponent extends Component<ManSelectionPro
         if(this.formRef && modalVisible === true) this.formRef.refresh();
         this.setState({ modalVisible: modalVisible, courseIndex: index });
         console.log(index);
-        console.log(data[index].courseTitle);
+        console.log(data[index].id);
     }
     handleSubmit1 = (e) => {
         const formProps = this.props.form;
@@ -98,28 +59,37 @@ export default class ManagerSelectionComponent extends Component<ManSelectionPro
                 return;
             }
             console.log(values);
-            this.props.dispatch({type: 'courseinfo/courseInfo', payload: values});
+            this.props.dispatch({type: 'course/courseInfo', payload: values});
             data=this.props.dataSource;
             console.log(this.props.dataSource);
             this.setState({refresh:true});
         });
     }
     render(){
-       // const {getFieldDecorator} = this.props.form
         const columns = [{
-            title: "课程代码",
-            dataIndex: "courseNumber",
+            title: "课程编号",
+            dataIndex: "id",
         },{
-            title: "课程名称",
-            dataIndex: "courseTitle",
-           // render: (text, record, index) => <a onClick={()=>this.ChooseCourse(index, true)}>{text}</a>
-        },{
-            title: "学分",
-            dataIndex: "credit"
+            title: "学年",
+            dataIndex: "year",
+            render: (text, record, index) => <a onClick={()=>this.ChooseCourse(index, true)}>{text}</a>
         },{
             title: "学期",
             dataIndex: 'semester'
-        }];
+        },{
+
+        },{
+            title: "容量",
+            dataIndex: "capacity"
+        },{
+            title: "已选",
+            dataIndex: "numStudent"
+        },
+            {
+                title: "选课",
+                render: (text,record,index)=>(<a onClick={()=>{this.props.dispatch({type: "selectCourse/showAll", payload: {courseId: data[index].id}})}}>选课</a>)
+            }];
+
         return(
             <div>
                 <NavigationBar current={"ManSelect"} dispatch={this.props.dispatch}/>
@@ -143,7 +113,7 @@ export default class ManagerSelectionComponent extends Component<ManSelectionPro
                             />
                         </FormItem>
                     </Form>
-                    <Table dataSource={data} rowSelection={rowSelection} columns={columns}>
+                    <Table dataSource={data} columns={columns}>
 
                     </Table>
                 </div>

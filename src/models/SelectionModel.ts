@@ -1,6 +1,5 @@
 import {httpMethod, tssFetch} from '../utils/tssFetch';
 import {message} from 'antd';
-import {CourseFormData,CourseInfo} from '../components/ManualScheduling';
 import {Router, Route, Switch, routerRedux, browserHistory} from 'dva/router';
 import {log} from "util";
 
@@ -8,7 +7,7 @@ const model = {
     namespace: 'selectCourse',
     state: {
         dataSource: [
-            {key: 1, id: '00001', year: "2018", semester: "SECOND", capacity: 100, numStudent: 0},
+            {key: 1, courseId: '00001', courseName: "My Plan",year: "2018", semester: "SECOND", timeSlot: "SUN_3_5", capacity: 100, numStudent: 0},
         ]
     },
     reducers: {
@@ -60,7 +59,7 @@ const model = {
                 });
             }
             else if(index=="课程名"){
-                const response = yield call(tssFetch, '/classes/action/search-by-course/'+value, 'GET');
+                const response = yield call(tssFetch, '/classes/search/findByCourse_NameAndYearAndSemester?courseName='+value, 'GET');
                 if(response.status === 401) {
                     console.log("error")
                     message.error("不存在该课程");
@@ -69,10 +68,11 @@ const model = {
                 const jsonBody = yield call(response.text.bind(response));
                 const body = JSON.parse(jsonBody);
                 console.log("success")
+                console.log(body["classes"])
                 // message.success(body.status);
                 yield put({
                     type: 'updateCourseInfo',
-                    payload: {dataSource: body}
+                    payload: {dataSource: body["classes"]}
                 });
             }
         },
