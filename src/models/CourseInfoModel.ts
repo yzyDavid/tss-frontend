@@ -10,7 +10,7 @@ const model = {
         dataSource: [
             {id :'',courseId:'', courseName:'', numLessonsLeft:'',  courseAddress:'',  courseTime:''},
         ],
-        clazzInfo:{courseId:'', courseName:'', numLessonsLeft:'',numLessonsEachWeek:'',arrangements:[{},]}
+        clazzInfo:{courseId:'', courseName:'', numLessonsLeft:'',numLessonsEachWeek:'',arrangements:[{buildingName:'',classroomId:'', type:''},]}
     },
     reducers: {
         updateCourseInfo(st, payload) {
@@ -18,6 +18,10 @@ const model = {
         },
         updateClassInfo(st, payload) {
             return {...st, ...payload.payload};
+        },
+        updateClassArrangeInfo(st, payload) {
+            var clazzInfo = {...st.clazzInfo,...payload.payload};
+            return {...st, clazzInfo};
         },
     },
     subscriptions: {
@@ -79,6 +83,29 @@ const model = {
             yield put({
                 type: 'updateClassInfo',
                 payload: {clazzInfo:body}
+            });
+            return;
+        },
+
+        * deleteClassArrange(payload: { payload: number }, {call, put}) {
+            console.log('delectedCourseInfo ');
+            // console.log(payload.payload);
+            // const msg = payload.payload;
+            // // //const tssFetch = (url: string, method: httpMethod, payload: string | object)
+            // // //返回一个js对象
+            // const response = yield call(tssFetch, '/classroom/info', 'GET', msg);
+            // if(response.status === 400) {
+            //     message.error('查询空闲教室信息失败');
+            //     return;
+            // }
+            // const jsonBody = yield call(response.text.bind(response));
+            // //将字符串转换为json对象
+            // const body = JSON.parse(jsonBody);
+            yield put({
+                type: 'updateClassArrangeInfo',
+                //payload: {data:body.data}
+                payload: { arrangements:[
+                    {buildingName:'123',classroomId:'456', type:'789'},{buildingName:'456',classroomId:'789', type:'000'}]}
             });
             return;
         },
