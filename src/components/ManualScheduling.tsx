@@ -2,15 +2,17 @@ import * as React from 'react';
 import {Component} from 'react';
 import {Form, Button, Input, Select, Table} from 'antd';;
 import DvaProps from '../types/DvaProps';
-import NavigationBar from './TssPublicComponents';
+import {NavigationBar} from './TssPublicComponents';
 import FreeClassroomFormData from "./ManualSchModify";
 import {browserHistory, routerRedux} from 'dva/router';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const columns = [
-    {title: '课程号', dataIndex: 'courseNumber', key: 'courseNumber'},
-    {title: '课程名称', dataIndex: 'courseTitle', key: 'courseTitle'},
+    {title: '课号', dataIndex: 'id', key: 'id'},
+    {title: '课程名称', dataIndex: 'courseName', key: 'courseName'},
+    {title: '课程号', dataIndex: 'courseId', key: 'courseId'},
+    {title: '未安排课时', dataIndex: 'numLessonsLeft', key: 'numLessonsLeft'},
     {title: '上课地点', dataIndex: 'courseAddress', key: 'courseAddress'},
     {title: '上课时间', dataIndex: 'courseTime', key: 'courseTime'}
 ];
@@ -25,32 +27,12 @@ interface ViewState {
 }
 
 export class CourseFormData {
-    campus: string;
     courseName: string;
 }
 
-export class CourseInfo {
-    courseNumber: string;
-    courseTitle: string;
-    courseAddress: string;
-    courseTime: string;
-}
-
-var initData = [
-    {key: 1, courseNumber: '00001', courseTitle: '线性代数', courseAddress: '3150100001', courseTime: '16:30-18:30'},
-    {key: 2, courseNumber: '00002', courseTitle: '微积分', courseAddress: '3150100002', courseTime: '16:30-18:30'},
-    {key: 3, courseNumber: '00003', courseTitle: '大学英语', courseAddress: '3150100003', courseTime: '16:30-18:30'},
-    {key: 4, courseNumber: '00004', courseTitle: '大学物理（甲）', courseAddress: '3150100004', courseTime: '16:30-18:30'},
-    {key: 5, courseNumber: '00005', courseTitle: '微积分', courseAddress: '3150100005', courseTime: '16:30-18:30'},
-    {key: 6, courseNumber: '00006', courseTitle: '大学物理（甲）', courseAddress: '3150100006', courseTime: '16:30-18:30'},
-    {key: 7, courseNumber: '00007', courseTitle: '大学英语', courseAddress: '3150100007', courseTime: '16:30-18:30'},
-    {key: 8, courseNumber: '00008', courseTitle: '线性代数', courseAddress: '3150100008', courseTime: '16:30-18:30'},
-    {key: 9, courseNumber: '00009', courseTitle: '大学物理（甲）', courseAddress: '3150100009', courseTime: '16:30-18:30'},
-    {key: 10, courseNumber: '00010', courseTitle: '微积分', courseAddress: '3150100010', courseTime: '16:30-18:30'},
-    {key: 11, courseNumber: '00011', courseTitle: '大学英语', courseAddress: '3150100011', courseTime: '16:30-18:30'},
-    {key: 12, courseNumber: '00012', courseTitle: '线性代数', courseAddress: '3150100012', courseTime: '16:30-18:30'},
-];
+var initData = [{id: '', courseId:'', courseName:'', numLessonsLeft:'',  courseAddress:'',  courseTime:''},];
 var selectedValue;
+var dt = new Date();
 
 class SearchForm extends Component<ManualSchedulingProps,ViewState> {
     constructor(props){
@@ -69,37 +51,30 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
             if (err) {
                 return;
             }
-            console.log(values);
+            //console.log(values);
             this.props.dispatch({type: 'courseinfo/courseInfo', payload: values});
-            initData=this.props.dataSource;
-            console.log(this.props.dataSource);
             this.setState({refresh:true});
         });
     }
 
     handleSubmit2 = (e) => {
         e.preventDefault();
-        this.props.dispatch({type:'courseinfo/modifyCourseInfo',payload:selectedValue});
+        this.props.dispatch({type:'courseinfo/modifyCourseInfo',payload:selectedValue.id});
     }
 
     render() {
-        const {getFieldDecorator} = this.props.form;
+        const {getFieldDecorator} = this.props.form
+        //console.log(dt);
         return (
             <div>
-                <Form layout={"inline"} onSubmit={this.handleSubmit1}>
+                <Form layout={"inline"} onSubmit={this.handleSubmit1} style={{textAlign: 'center'}}>
                     <FormItem
-                        label="校区" >
-                        {getFieldDecorator('campus', {})(
-                            <Select style={{width: 200}}>
-                                <Option value="玉泉校区">玉泉校区</Option>
-                                <Option value="紫金港校区">紫金港校区</Option>
-                                <Option value="西溪校区">西溪校区</Option>
-                                <Option value="华家池校区">华家池校区</Option>
-                                <Option value="之江校区">之江校区</Option>
-                                <Option value="舟山校区">舟山校区</Option>
-                            </Select>
-                        )}
+                        label="年份: " >{dt.getFullYear()}
                     </FormItem>
+                    <FormItem
+                        label="学期" >第一学期
+                    </FormItem>
+                    <br/>
                     <FormItem label="课程名称">
                         {
                             getFieldDecorator('courseName', { })(
@@ -113,7 +88,7 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
                         onClick={this.handleSubmit1}>搜索
                     </Button>
                     <Button
-                        style={{marginLeft:100}}
+                        style={{marginLeft:10}}
                         icon="edit"
                         type="primary"
                         htmlType="submit"
@@ -123,6 +98,7 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
                 <Table
                     style={{width: "100%", background: "#ffffff"}}
                     columns={columns}
+                    rowKey = "id"
                     rowSelection={{
                         type: 'radio',
                         onSelect(record, selected, selectedRows) {
@@ -145,7 +121,7 @@ export default class ManualSchedulingComponent extends Component<ManualSchedulin
     }
 
     render() {
-
+        initData=this.props.dataSource;
         return (
             <div>
                 <NavigationBar current={"course"} dispatch={this.props.dispatch}/>

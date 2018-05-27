@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Component} from 'react';
 import {Form, Button, Select, message, Input} from 'antd';
 import DvaProps from '../types/DvaProps';
-import NavigationBar from './TssPublicComponents';
+import {NavigationBar} from './TssPublicComponents';
 import { connect } from 'dva';
 
 interface ClassroomCreateProps extends DvaProps {
@@ -108,7 +108,7 @@ class SearchForm extends Component<ClassroomCreateProps> {
                     </FormItem>
                 </Form>
             </div>
-            );
+        );
     }
 }
 

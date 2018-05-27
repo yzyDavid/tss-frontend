@@ -2,7 +2,7 @@
 import {Component} from 'react';
 import {Form, Button, Select, Table, Popconfirm} from 'antd';
 import DvaProps from '../types/DvaProps';
-import NavigationBar from './TssPublicComponents';
+import {NavigationBar} from './TssPublicComponents';
 import { connect } from 'dva';
 
 interface ClassroomManageProps extends DvaProps {

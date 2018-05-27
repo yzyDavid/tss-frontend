@@ -7,10 +7,10 @@ const model = {
     namespace: 'curriculummanage',
     state: {
         dataSource: [
-            {key: 1, courseNumber: '', courseName: '', semester: '', campus: '', courseTime: '', courseAddress: ''},
+            {id: 1, classId: '', courseName: '', typeName: ''},
             ],
-        buildingData: ['',],
-        classroomData: ['',],
+        buildingData: [{key:1, id: -1 , name:'',},],
+        classroomData: [{key:1, id: -1 , name:'',},],
     },
     reducers: {
         updateCurriculumManageInfo(st, payload) {
@@ -27,76 +27,89 @@ const model = {
         setup({dispatch, history}) {
             return history.listen(({pathname}) => {
                 if (pathname === '/curriculumManage') {
-                    dispatch({ type: 'curriculumManage', payload: {teacherId: ''} });
+                    dispatch({ type: 'curriculumManage', payload: {campusId: -1} });
                 }
             });
         }
     },
     effects: {
-        * curriculumManage(payload: { payload: {teacherId: string} }, {call, put})  {
-            const msg = payload.payload;
-            // //const tssFetch = (url: string, method: httpMethod, payload: string | object)
-            // //返回一个js对象
-            //const response = yield call(tssFetch, '/classroom/info', 'GET', msg);
-           // if(response.status === 400) {
-            //    message.error('查询空闲教室信息失败');
-            //    return;
-            //}
-           // const jsonBody = yield call(response.text.bind(response));
-            //将字符串转换为json对象
-            //const body = JSON.parse(jsonBody);
-            yield put({
-                type: 'updateCurriculumManageInfo',
-                //payload: {data:body.data}
-                payload: {dataSource:[
-                        {key: 1, courseNumber: '00011', courseName: '线性代数', semester: '春夏', courseTime: '周一第一二节'},
-                        {key: 2, courseNumber: '00022', courseName: '线性代数', semester: '春夏', courseTime: '周一第一二节',}
-                    ]}
-            });
+        * curriculumManage(payload: { payload: ClassroomFormData }, {call, put})  {
+            //console.log(payload.payload);
+            if(payload.payload.campusId<0)
+            {
+                yield put({
+                    type: 'updateCurriculumManageInfo',
+                    //payload: {data:body.data}
+                    payload: {dataSource:[
+                            {id: 1, classId: '', courseName: '', typeName: ''},]}
+                });
+            }
+            else
+            {
+                const response = yield call(tssFetch, '/classrooms/'+23+'/time-slots', 'GET');
+                if (response.status === 400) {
+                    message.error('无该校区');
+                    return;
+                }
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                console.log(body);
+
+                yield put({
+                    type: 'updateCurriculumManageInfo',
+                    payload: { dataSource: body }
+                });
+            }
             return;
         },
 
         * getBuilding(payload: { payload: ClassroomFormData }, {call, put})  {
             //console.log('this is the getBuilding');
             //console.log(payload.payload);
-            const msg = payload.payload;
-            // //const tssFetch = (url: string, method: httpMethod, payload: string | object)
-            // //返回一个js对象
-            //const response = yield call(tssFetch, '/classroom/info', 'GET', msg);
-            // if(response.status === 400) {
-            //    message.error('查询空闲教室信息失败');
-            //    return;
-            //}
-            // const jsonBody = yield call(response.text.bind(response));
-            //将字符串转换为json对象
-            //const body = JSON.parse(jsonBody);
+            const response = yield call(tssFetch, '/campuses/'+payload.payload.campusId+'/buildings', 'GET');
+            if (response.status === 400) {
+                message.error('无该校区');
+                return;
+            }
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            let buildings = [{key:1, id: -1 , name:''},];
+            buildings.pop();
+            for(let i = 0; i<body.length;i++)
+            {
+                buildings.push({key: i+1, id: body[i].id , name: body[i].name});
+            }
             yield put({
                 type: 'updateBuildingData',
-                //payload: {data:body.data}
-                payload: { buildingData:['building1','building2']}
+                payload: { buildingData:buildings}
             });
             return;
         },
 
         * getClassroom(payload: { payload: ClassroomFormData }, {call, put})  {
-            //console.log('this is the getClassroom');
             //console.log(payload.payload);
-            const msg = payload.payload;
-            // //const tssFetch = (url: string, method: httpMethod, payload: string | object)
-            // //返回一个js对象
-            //const response = yield call(tssFetch, '/classroom/info', 'GET', msg);
-            // if(response.status === 400) {
-            //    message.error('查询空闲教室信息失败');
-            //    return;
-            //}
-            // const jsonBody = yield call(response.text.bind(response));
-            //将字符串转换为json对象
-            //const body = JSON.parse(jsonBody);
+            const response = yield call(tssFetch, '/buildings/'+payload.payload.buildingId+'/classrooms', 'GET');
+            if (response.status === 400) {
+                message.error('无该建筑物');
+                return;
+            }
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            //console.log(body);
+            let classrooms = [{key:1, id: -1 , name:''},];
+            if(body.length>0)
+            {
+                classrooms.pop();
+                for(let i = 0; i<body.length;i++)
+                {
+                    classrooms.push({key: i+1, id: body[i].id , name: body[i].name});
+                }
+            }
             yield put({
                 type: 'updateClassroomData',
-                //payload: {data:body.data}
-                payload: { classroomData:['202','203']}
+                payload: { classroomData:classrooms}
             });
+
             return;
         },
     }

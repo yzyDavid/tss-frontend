@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Component} from 'react';
 import {Layout, Modal, Breadcrumb, Icon, Table, Button, Input, Select, Form} from 'antd';
 import 'antd/dist/antd.css';
-import NavigationBar from './TssPublicComponents'
+import {NavigationBar} from './TssPublicComponents'
 import DvaProps from '../types/DvaProps';
 
 const { Column } = Table;
@@ -16,7 +16,7 @@ const data = [{
     id: 20102,
     name: '数据结构基础',
     teacher: 'Mike',
-    brief: 'eee',
+    brief: '重点介绍算法设计、算法描述和相应C程序编码，并给出相应的数据结构应用实例',
     credit: 3.0,
     semester: '春夏',
 }, {
@@ -76,11 +76,13 @@ export default class CourseTableComponent extends Component<CourseProps>{
         }];
         return(
             <div>
-               <NavigationBar current={'selection'} dispatch={this.props.dispatch}/>
+               <NavigationBar current={'courseTable'} dispatch={this.props.dispatch}/>
                 <div style={{ padding: 24, background: '#fff', minHeight: 780 }}>
                     <Table dataSource={data} columns={columns}>
                     </Table>
+                    <Button type="primary" >打印课表</Button>
                 </div>
+
             </div>
 
         );
