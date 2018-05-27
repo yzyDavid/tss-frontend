@@ -152,7 +152,7 @@ const model = {
         },
 
         * getpaper(payload: {payload: {pid: string, uid: string}}, {call, put}) {
-            const msg = {Pid: payload.payload.pid};
+            const msg = {pid: payload.payload.pid};
             console.log("sp/paper: "+msg);
             const response = yield call(tssFetch, '/testsys_student/getpaper', 'POST', msg);
             console.log("sq/paper response: "+response);
@@ -173,7 +173,7 @@ const model = {
         * getquestions(payload: {payload: {pid: string, uid: string}}, {call, put}) {
             yield put(routerRedux.push('/testsys_student_question_review'));
             // const msg = payload.payload;
-            const msg = {Pid: payload.payload.pid};
+            const msg = {pid: payload.payload.pid};
             console.log("sp/paper: "+payload);
             const response = yield call(tssFetch, '/testsys_student/getquestions', 'POST', msg);
             console.log("sq/paper response: "+response);
@@ -186,7 +186,7 @@ const model = {
             const body = JSON.parse(jsonBody);
             yield put({
                 type: 'updateQidList',
-                payload: {pid: msg.Pid, qids: body.qids}
+                payload: {pid: msg.pid, qids: body.qids}
             });
             return;
         },
@@ -210,7 +210,7 @@ const model = {
             return;
         },
 
-        * save(payload: {payload: {Ans: string[], Qid: string[], Pid: string}}, {call, put}) {
+        * save(payload: {payload: {ans: string[], qid: string[], pid: string}}, {call, put}) {
             console.log("sq/save: "+payload.payload);
             const msg = payload.payload;
             const response = yield call(tssFetch, '/testsys_student/save', 'POST', msg);
@@ -224,7 +224,7 @@ const model = {
 
         * submit(payload: {payload: {pid: string}}, {call, put}) {
             console.log("sq/submit: "+payload.payload);
-            const msg = {Pid:payload.payload.pid};
+            const msg = {pid:payload.payload.pid};
             const response = yield call(tssFetch, '/testsys_student/submit', 'POST', msg);
             console.log("sq/question response: "+response);
             if (response.status === 400) {
