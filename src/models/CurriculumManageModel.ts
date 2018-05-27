@@ -53,7 +53,7 @@ const model = {
                 }
                 const jsonBody = yield call(response.text.bind(response));
                 const body = JSON.parse(jsonBody);
-                console.log(body);
+                //console.log(body);
 
                 yield put({
                     type: 'updateCurriculumManageInfo',
@@ -87,7 +87,7 @@ const model = {
         },
 
         * getClassroom(payload: { payload: ClassroomFormData }, {call, put})  {
-            console.log(payload.payload);
+            //console.log(payload.payload);
             const response = yield call(tssFetch, '/buildings/'+payload.payload.buildingId+'/classrooms', 'GET');
             if (response.status === 400) {
                 message.error('无该建筑物');

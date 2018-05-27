@@ -198,7 +198,9 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
 
     render() {
         initCourseArrangement = this.props.courseInfo;
-        if(initCourseArrangement[0].classroomAddress.length<1)
+
+
+        //if(initCourseArrangement[0].classroomAddress.length<1)
             return (
                 <div>
                     <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
@@ -216,7 +218,7 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
                     </div>
                 </div>
             );
-        else if(initCourseArrangement[1].classroomAddress.length<1)
+        /*else if(initCourseArrangement[1].classroomAddress.length<1)
             return (
                 <div>
                     <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
@@ -294,7 +296,7 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
                         <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource}/>
                     </div>
                 </div>
-            );
+            );*/
     }
 }
 
