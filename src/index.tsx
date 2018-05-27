@@ -36,12 +36,23 @@ import TestsysModel from './models/TestsysModel'
 import TestsysTeacherResultModel from './models/TestsysTeacherResultModel'
 import TestsysStudentScoreComponent from "./components/TestsysStudentScore";
 import TestsysStudentModel from './models/TestsysStudentModel'
-
+import ForumReplyListModel from './models/forumReplyListModel'
+import ForumHomeModel from './models/forumHomeModel'
+import ForumBoardMOdel from './models/forumBoardModel'
 
 import CurriculumTeacherModel from './models/CurriculumTeacherModel'
 import CurriculumManageModel from './models/CurriculumManageModel'
 import ClassroomManageModel from './models/ClassroomManageModel'
 import AutoSchedulingModel from './models/AutoSchedulingModel'
+import ForumNavigationModel from './models/forumNavigationModel';
+import ForumUserInfoModel from './models/forumUserInfoModel';
+import ForumSearchModel from './models/forumSearchModel'
+import ForumAllBoardModel from './models/forumAllBoardModel'
+import ForumMyPostModel from './models/forumMyPostModel'
+import ForumMyBoardModel from './models/forumMyboardModel'
+import ForumTopicModel from './models/forumTopicModel'
+import ForumMailModel from "./models/forumMailModel"
+import ForumUserModel from "./models/forumUserModel"
 import CourseModel from './models/courseModel';
 import PswdModel from './models/pswdModel';
 import DeptModel from './models/deptModel';
@@ -68,30 +79,16 @@ import ManagerSelectionComponent from './components/SelectionManager';
 import StudentSelectionComponent from './components/SelectionStudent';
 import ClassSelectionComponent from './components/SelectionClass';
 import StudentListComponent from './components/StudentList';
-
 import ForumHomePageComponent from './components/ForumHomePage';
-import ForumNavigationModel from './models/forumNavigationModel';
-import ForumUserInfoModel from './models/forumUserInfoModel';
 import ForumUserPageComponent from './components/ForumUserPage'
 import MyPostPageComponent from './components/ForumMyPostPage'
 import ReplyPageComponent from './components/ForumReplyPage'
 import NewTopicPageComponent from './components/ForumNewTopicPage'
 import LetterPageComponent from './components/ForumMailPage'
-import ForumSearchModel from './models/forumSearchModel'
-import ForumAllBoardModel from './models/forumAllBoardModel'
-import ForumMyPostModel from './models/forumMyPostModel'
-import ForumMyBoardModel from './models/forumMyboardModel'
-import ForumTopicModel from './models/forumTopicModel'
 import BoardPageComponent from './components/ForumBoardPage'
 import TopicPageComponent from './components/ForumTopicPage'
-import ForumReplyListModel from './models/forumReplyListModel'
-import ForumHomeModel from './models/forumHomeModel'
-import ForumBoardMOdel from './models/forumBoardModel'
 import SearchComponent from "./components/ForumSearchPage"
 import AllBoardComponent from "./components/ForumAllBoard"
-import ForumMailModel from "./models/forumMailModel"
-import ForumUserModel from "./models/forumUserModel"
-
 import scoreUploadComponent from './components/ScoreUpload';
 import applyModifyComponent from './components/ApplyModify';
 import scoreManagerComponent from './components/ScoreManager';
@@ -105,7 +102,7 @@ const app = dva({
 app.model(LoginModel);
 app.model(NavigationModel);
 app.model(UserInfoModel);
-
+app.model(AutoSchedulingModel);
 app.model(TestsysTeacherQuestionModel);
 app.model(TestsysTeacherPaperModel);
 app.model(TestsysModel);
