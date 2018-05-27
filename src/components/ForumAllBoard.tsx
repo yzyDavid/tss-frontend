@@ -26,7 +26,7 @@ export default class AllBoard extends Component<AllBoardProps>{
     }
 
     goToBoard = (e) => {
-        this.props.dispatch({type:'allboard/goToBoard', payload:e.toString()})
+        this.props.dispatch({type:'ForumAllBoard/goToBoard', payload:e.toString()})
     };
 
 
