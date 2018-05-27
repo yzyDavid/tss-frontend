@@ -26,7 +26,7 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
         const columns = [
             {title: '课程号', dataIndex: 'classId', key: 'classId'},
             {title: '课程名称', dataIndex: 'courseName', key: 'courseName'},
-            {title: '上课时间', dataIndex: 'typeName', key: 'typeName', render: (text)=>{
+            {title: '上课时间', dataIndex: 'type', key: 'type', render: (text)=>{
                     var timeB, timeA;
                     if(!text)
                         timeA = ' ';

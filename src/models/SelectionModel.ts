@@ -1,6 +1,5 @@
 import {httpMethod, tssFetch} from '../utils/tssFetch';
 import {message} from 'antd';
-import {CourseFormData,CourseInfo} from '../components/ManualScheduling';
 import {Router, Route, Switch, routerRedux, browserHistory} from 'dva/router';
 import {log} from "util";
 
