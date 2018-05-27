@@ -85,15 +85,15 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
 
     handleSave = () => {
         let values: any = {
-            Ans:[],
-            Qid:[],
-            Pid: this.props.pid,
+            ans:[],
+            qid:[],
+            pid: this.props.pid,
         };
         console.log("handle save");
         for (var i = 0; i < myAns.length; i++) {
             console.log("qid "+myAns[i].id+": "+myAns[i].myanswer);
-            values.Ans.push(myAns[i].myanswer);
-            values.Qid.push(myAns[i].id);
+            values.ans.push(myAns[i].myanswer);
+            values.qid.push(myAns[i].id);
         }
         this.props.dispatch({type:'testsys_student/save', payload: values});
     };

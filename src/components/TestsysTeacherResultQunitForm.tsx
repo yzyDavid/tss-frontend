@@ -8,6 +8,8 @@ const { TextArea } = Input;
 
 interface studentProp extends DvaProps {
     form:any;
+    qid: string[];
+    avg: string[];
 }
 
 export class ResultFormData {
@@ -64,7 +66,7 @@ export class ResultSearchQunitForm extends Component<studentProp,  ResultList> {
             const{form} = this.props;
             const qunit = form.getFieldValue("qunit");
             console.log("tr/search: "+qunit);
-            this.props.dispatch({type:'teacherresult/search', payload: {QueryType:3, Sid:null, Pid:null,  QType:null, QUnit:qunit}});
+            this.props.dispatch({type:'teacherresult/search', payload: {type:3, sid:null, pid:null,  qtype:null, qunit:qunit}});
         });
     };
 
@@ -149,7 +151,7 @@ export class ResultSearchQunitForm extends Component<studentProp,  ResultList> {
                 </FormItem>
 
 
-                <Table columns = {columns} dataSource = {this.state.results}/>
+                <Table columns = {columns} rowKey="qid" dataSource = {this.state.results}/>
             </Form>
 
 
