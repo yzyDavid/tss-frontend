@@ -8,8 +8,7 @@ const model = {
     namespace: 'courseinfo',
     state: {
         dataSource: [
-            {key: 1, courseNumber: '00001', courseTitle: '线性代数', courseAddress: '3150100001', courseTime: '16:30-18:30', semester: '秋冬', credit: 2},
-            {key: 2, courseNumber: '00002', courseTitle: '微积分', courseAddress: '3150100002', courseTime: '16:30-18:30', semester: '秋', credit: 3},
+            {key: 1, classId :'',courseName:'', courseId:'',  numLessonsLeft:'',  courseAddress:'',  courseTime:''},
         ]
     },
     reducers: {
@@ -23,21 +22,18 @@ const model = {
                 if (pathname === '/manualScheduling') {
                     dispatch({ type: 'courseInfo', payload: {key: 1, campus: '', courseName: ''} });
                 }
-                if (pathname === '/selection') {
-                    dispatch({ type: 'courseInfo', payload: {key: 1, courseNumber: '', courseTitle: '', courseAddress: '', courseTime: ''} });
-                }
             });
         }
     },
     effects: {
         * courseInfo(payload: { payload: CourseFormData}, {call, put}) {
             //console.log((!payload.payload.campus));
-            console.log(payload.payload["value"]);
+            //console.log(payload.payload);
             if((!payload.payload.campus)||(!payload.payload.courseName))
                 yield put({
                     type: 'updateCourseInfo',
                     payload: {dataSource:[
-                            {key: 1, courseNumber: '', courseTitle: '', courseAddress: '', courseTime: ''}]}});
+                            {key: 1, classId :'',courseName:'', courseId:'',  numLessonsLeft:'',  courseAddress:'',  courseTime:''},]}});
             else
             {
                 //const msg = payload.payload;
@@ -55,22 +51,22 @@ const model = {
                     type: 'updateCourseInfo',
                     //payload: {data:body.data}
                     payload: {dataSource:[
-                            {key: 1, courseNumber: '00011', courseTitle: '微积分Ⅰ', courseAddress: '东一201', courseTime: '周一第1~2节'},
-                            {key: 2, courseNumber: '00012', courseTitle: '微积分Ⅱ', courseAddress: '东二302', courseTime: '周三第3~4节'}
+                            {key: 1, classId :'12301',courseName:" Data Struct", courseId:'20011',  numLessonsLeft:'3',  courseAddress:'东教学楼01',  courseTime:'mon_1_2'},
+                            {key: 2, classId :'22301',courseName: "Data Struct2", courseId:'22011',  numLessonsLeft:'4',  courseAddress:'东教学楼02',  courseTime:'mon_2_2'},
                         ]}
                 });
             }
             return;
         },
 
-        * modifyCourseInfo(payload: { payload: CourseInfo}, {call, put})
-        {
-            const value = payload.payload.courseNumber.toString();
-            //console.log(payload.payload);
-            //fetch the data of the case and add to the query
-            yield put(routerRedux.push({pathname:'/manualSchModify/'+value,query: payload.payload,}));
-            return;
-        },
+       * modifyCourseInfo(payload: { payload: CourseInfo}, {call, put})
+       {
+           const value = payload.payload.classId;
+           //console.log(payload.payload);
+           //fetch the data of the case and add to the query
+           yield put(routerRedux.push({pathname:'/manualSchModify/'+value,query: payload.payload.classId,}));
+           return;
+       },
     }
 };
 
