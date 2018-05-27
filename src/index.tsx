@@ -18,6 +18,7 @@ import PswdModel from './models/pswdModel';
 import DeptModel from './models/deptModel';
 import SelectionModel from './models/SelectionModel';
 import StuListModel from './models/StuListModel';
+
 import DeptManagePageComponent from './components/DeptManagePage';
 import { TssFooter, TssHeader } from './components/TssPublicComponents';
 import HomePageComponent from './components/HomePage';
@@ -27,6 +28,7 @@ import UserManagePageComponent from './components/UserManagePage';
 import AutoSchedulingComponent from './components/AutoScheduling';
 import ManualSchedulingPageComponent from './components/ManualScheduling';
 import ManualSchModifyPageComponent from './components/ManualSchModify';
+import SetSchedulingTimeComponent from './components/SetSchedulingTime'
 import CourseManagePageComponent from './components/CourseManagePage';
 import ClassroomManagePageComponent from './components/ClassroomManagePage';
 import CurriculumTeacherPageComponent from './components/CurriculumTeacher';
@@ -37,7 +39,6 @@ import ManagerSelectionComponent from './components/SelectionManager';
 import StudentSelectionComponent from './components/SelectionStudent';
 import ClassSelectionComponent from './components/SelectionClass';
 import StudentListComponent from './components/StudentList';
-
 
 const {Content} = Layout;
 
@@ -110,6 +111,10 @@ const CurriculumManagePage = connect(state => {
     return {dataSource: dataSource, buildingData: buildingData, classroomData: classroomData};
 })(CurriculumManagePageComponent);
 
+const SetSchedulingTimePage = connect(state => {
+    return{};
+})(SetSchedulingTimeComponent);
+
 const CourseManagePage = connect(state => {
     return {...state.course, pswdShow: state.pswd.show};
 })(CourseManagePageComponent);
@@ -161,6 +166,7 @@ app.router(({history}) => (
                         <Route path="/classroomManage" component={ClassroomManagePage}/>
                         <Route path="/curriculumTeacher" component={CurriculumTeacherPage}/>
                         <Route path="/curriculumManage" component={CurriculumManagePage}/>
+                        <Route path="/setSchedulingTime" component={SetSchedulingTimePage}/>
                         <Route path="/courseManage" component={CourseManagePage}/>
                         <Route path="/deptManage" component={DeptManagePage}/>
                         <Route path="/plan" component={PlanPage}/>

@@ -45,6 +45,7 @@ var initData = [
     {key: 2, classId :'12001',courseName: "Data Struct2", courseId:'22011',  numLessonsLeft:'4',  courseAddress:'东教学楼02',  courseTime:'mon_2_2'},
 ];
 var selectedValue;
+var dt = new Date();
 
 class SearchForm extends Component<ManualSchedulingProps,ViewState> {
     constructor(props){
@@ -75,23 +76,30 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
     }
 
     render() {
-        const {getFieldDecorator} = this.props.form;
+        const {getFieldDecorator} = this.props.form
+        console.log(dt);
         return (
             <div>
                 <Form layout={"inline"} onSubmit={this.handleSubmit1} style={{textAlign: 'center'}}>
                     <FormItem
-                        label="校区" >
-                        {getFieldDecorator('campus', {})(
-                            <Select style={{width: 200}}>
-                                <Option value="玉泉校区">玉泉校区</Option>
-                                <Option value="紫金港校区">紫金港校区</Option>
-                                <Option value="西溪校区">西溪校区</Option>
-                                <Option value="华家池校区">华家池校区</Option>
-                                <Option value="之江校区">之江校区</Option>
-                                <Option value="舟山校区">舟山校区</Option>
-                            </Select>
-                        )}
+                        label="年份: " >{dt.getFullYear()}
+                        {/*{getFieldDecorator('year', {})(*/}
+                            {/*<Select style={{width: 200}}>*/}
+                                {/*<Option value="2017">2017</Option>*/}
+                                {/*<Option value="2018">2018</Option>*/}
+                            {/*</Select>*/}
+                        {/*)}*/}
                     </FormItem>
+                    <FormItem
+                        label="学期" >第一学期
+                        {/*{getFieldDecorator('semester', {})(*/}
+                            {/*<Select style={{width: 200}}>*/}
+                                {/*<Option value="春夏">春夏</Option>*/}
+                                {/*<Option value="秋冬">秋冬</Option>*/}
+                            {/*</Select>*/}
+                        {/*)}*/}
+                    </FormItem>
+                    <br/>
                     <FormItem label="课程名称">
                         {
                             getFieldDecorator('courseName', { })(
