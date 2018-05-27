@@ -119,14 +119,7 @@ const model = {
         * search(payload: { payload: {type:number, sid:string, pid:string, qtype:string, qunit:string, } }, {call, put}) {
             console.log(payload);
             const msg = payload.payload;
-            const values = {
-                type: payload.payload.QueryType,
-                sid: payload.payload.Sid,
-                pid: payload.payload.Pid,
-                qtype: payload.payload.QType,
-                qunit: payload.payload.QUnit,
-            };
-            const response = yield call(tssFetch, '/testsys_result/search', 'POST', values);
+            const response = yield call(tssFetch, '/testsys_result/search', 'POST', msg);
             console.log(response);
             if (response.status === 400) {
                 message.error('查询失败');
