@@ -1,7 +1,6 @@
 import {httpMethod, tssFetch} from '../utils/tssFetch';
 import {message} from 'antd';
 import {FreeClassroomFormData} from '../components/ManualSchModify';
-import {CourseInfo} from '../components/ManualScheduling';
 
 const model = {
     namespace: 'freeclassroominfo',
@@ -56,16 +55,16 @@ const model = {
             return;
         },
 
-        * getSelectedCourseInfo(payload: { payload: CourseInfo }, {call, put}) {
+        * getSelectedCourseInfo(payload: { payload: number }, {call, put}) {
             //console.log(payload.payload);
-            const response = yield call(tssFetch, '/'+payload.payload.courseId, 'GET');
-            if (response.status === 400) {
-                message.error('无该校区');
-                return;
-            }
-            const jsonBody = yield call(response.text.bind(response));
-            const body = JSON.parse(jsonBody);
-            console.log(body);
+            // const response = yield call(tssFetch, '/'+payload.payload, 'GET');
+            // if (response.status === 400) {
+            //     message.error('无该校区');
+            //     return;
+            // }
+            // const jsonBody = yield call(response.text.bind(response));
+            // const body = JSON.parse(jsonBody);
+            // console.log(body);
             // let buildings = [{key:1, id: -1 , name:''},];
             // buildings.pop();
             // for(let i = 0; i<body.length;i++)
@@ -79,7 +78,7 @@ const model = {
             // });
             return;
         },
-        * deleteCourseInfo1(payload: { payload: CourseInfo }, {call, put}) {
+        * deleteCourseInfo1(payload: { payload: number }, {call, put}) {
             // console.log('selectedCourseInfo ');
             // console.log(payload.payload);
             // const msg = payload.payload;
@@ -103,7 +102,7 @@ const model = {
             });
             return;
         },
-        * deleteCourseInfo2(payload: { payload: CourseInfo }, {call, put}) {
+        * deleteCourseInfo2(payload: { payload: number }, {call, put}) {
             // console.log('selectedCourseInfo ');
             // console.log(payload.payload);
             // const msg = payload.payload;

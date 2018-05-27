@@ -87,7 +87,10 @@ const ManualSchedulingPage = connect(state => {
 
 const ManualSchModifyPage = connect(state => {
     const dataSource = state.freeclassroominfo.dataSource;
-    return {dataSource: dataSource, courseInfo:  state.freeclassroominfo.selectedCourseInfo};
+    const clazzInfo = state.courseinfo.clazzInfo;
+    console.log(clazzInfo);
+    //courseInfo:  state.freeclassroominfo.selectedCourseInfo
+    return {dataSource: dataSource, claszzInfo: clazzInfo};
 })(ManualSchModifyPageComponent);
 
 const ClassroomManagePage = connect(state => {
@@ -119,7 +122,6 @@ const CourseManagePage = connect(state => {
 const DeptManagePage = connect(state => {
     return {...state.dept, pswdShow: state.pswd.show};
 })(DeptManagePageComponent);
-
 
 const ManageTimePage = connect(state =>{
     return{};

@@ -16,25 +16,20 @@ const columns = [
 
 var initData = [
             {key: 1, classroomAddress: '', classroomTime: '', classroomCapacity: ''},
-            // {key: 1, classroomAddress: '东一102', classroomTime: '16:30-18:30', classroomCapacity: '100'},
-            // {key: 2, classroomAddress: '东二202', classroomTime: '16:30-18:30', classroomCapacity: '50'},
-            // {key: 3, classroomAddress: '西一223', classroomTime: '16:30-18:30', classroomCapacity: '100'},
-            // {key: 4, classroomAddress: '西二308', classroomTime: '16:30-18:30', classroomCapacity: '200'},
-            // {key: 5, classroomAddress: '东一105', classroomTime: '16:30-18:30', classroomCapacity: '150'},
+
         ];
-
-var initCourseArrangement = [
-    {key: 1, classroomAddress: '', classroomTime: ''},
-    {key: 2, classroomAddress: '', classroomTime: ''},
-];
-
+var initClassInfo = {courseId:'', courseName:'', numLessonsLeft:'',numLessonsEachWeek:''};
+// var initCourseArrangement = [
+//     {key: 1, classroomAddress: '', classroomTime: ''},
+//     {key: 2, classroomAddress: '', classroomTime: ''},
+// ];
 var confirmData = {classroomAddress: '', classroomTime: '', classroomCapacity: ''};
 
 interface ManualSchModifyProps extends DvaProps {
     form: any;
     dataSource: any;
     location: any;
-    courseInfo: any;
+    clazzInfo: any;
 }
 
 interface ViewState {
@@ -55,6 +50,7 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
             refresh : false,
             modalState: false,
         }
+        //initClassInfo = this.props.classInfo;
         this.handleSubmit1 = this.handleSubmit1.bind(this);
         this.handleSubmit2 = this.handleSubmit2.bind(this);
         this.handleOk = this.handleOk.bind(this);
@@ -87,10 +83,9 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
         this.setState({modalState: false,});
     };
 
-
     render() {
         const {getFieldDecorator} = this.props.form;
-        initData=this.props.dataSource;
+        initData = this.props.dataSource;
         return (
             <div>
                 <Form layout={"inline"} onSubmit={this.handleSubmit1.bind(this)} style={{textAlign: 'center'}}>
@@ -181,7 +176,8 @@ const WrappedSearchForm: any = Form.create({})(SearchForm);
 export default class ManualSchModifyComponent extends Component<ManualSchModifyProps> {
     constructor(props,context) {
         super(props,context);
-        initCourseArrangement = this.props.courseInfo;
+        initClassInfo = this.props.clazzInfo;
+        //initCourseArrangement = this.props.clzzArangeInfo;
         this.handleSubmit1 = this.handleSubmit1.bind(this);
         this.handleSubmit2 = this.handleSubmit2.bind(this);
     }
@@ -197,20 +193,20 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
     };
 
     render() {
-        initCourseArrangement = this.props.courseInfo;
-
-
+        //initCourseArrangement = this.props.courseInfo;
+        initClassInfo = this.props.clazzInfo;
+        console.log(initClassInfo);
         //if(initCourseArrangement[0].classroomAddress.length<1)
             return (
                 <div>
                     <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
                     <Form  layout={"inline"} style={{textAlign: 'center'}}>
                         <FormItem
-                            label="课程号：" >{this.props.location.query.courseNumber}</FormItem>
-                        <FormItem
-                            label="课程名称：" >{this.props.location.query.courseTitle}</FormItem>
-                        <FormItem
-                            label="未安排课时" >{this.props.location.query.courseTime}</FormItem>
+                            label="课号：" >{this.props.location.query}</FormItem>
+                        {/*<FormItem*/}
+                            {/*label="课程名称：" >{this.props.location.query.courseName}</FormItem>*/}
+                        {/*<FormItem*/}
+                            {/*label="未安排课时" >{this.props.location.query.numLessonsLeft}</FormItem>*/}
                     </Form><div/>
                     <div/>
                         <div>
