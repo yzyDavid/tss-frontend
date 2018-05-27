@@ -12,6 +12,7 @@ import CourseInfoModel from './models/CourseInfoModel';
 import UserInfoModel from './models/userInfoModel';
 import CurriculumTeacherModel from './models/CurriculumTeacherModel'
 import CurriculumManageModel from './models/CurriculumManageModel'
+import ClassroomManageModel from './models/ClassroomManageModel'
 import AutoSchedulingModel from './models/AutoSchedulingModel'
 import CourseModel from './models/courseModel';
 import PswdModel from './models/pswdModel';
@@ -52,12 +53,7 @@ app.model(FreeClassroomInfoModel);
 app.model(CourseInfoModel);
 app.model(CurriculumTeacherModel);
 app.model(CurriculumManageModel);
-app.model(AutoSchedulingModel);
-app.model(CourseModel);
-app.model(PswdModel);
-app.model(DeptModel);
-app.model(SelectionModel);
-app.model(StuListModel);
+app.model(ClassroomManageModel);
 
 const HomePage = connect(state => {
     return {}
@@ -65,16 +61,15 @@ const HomePage = connect(state => {
 
 const NavigationPage = connect(state => {
     const {uid, level} = state.login;
-    return {level: level, uid: uid, pswdShow: state.pswd.show};
+    return {level: level, uid: uid}
 })(NavigationPageComponent);
 
 const UserPage = connect(state => {
-    // 到时候可以把userinfo中的data,show去掉
-    return {...state.userinfo, pswdShow: state.pswd.show};
+    return {...state.userinfo};
 })(UserPageComponent);
 
 const UserManagePage = connect(state => {
-    return {...state.userinfo, pswdShow: state.pswd.show};
+    return {};
 })(UserManagePageComponent);
 
 const AutoSchedulingPage = connect(state => {
@@ -95,6 +90,8 @@ const ManualSchModifyPage = connect(state => {
 })(ManualSchModifyPageComponent);
 
 const ClassroomManagePage = connect(state => {
+    const {dataSource} = state.classroommanage;
+    return {dataSource:dataSource};
 
 })(ClassroomManagePageComponent);
 

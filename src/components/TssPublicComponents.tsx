@@ -56,7 +56,7 @@ interface BarProps extends DvaProps {
     current: string;
 }
 
-export class NavigationBar extends Component<BarProps>{
+export class NavigationBar extends Component<BarProps> {
     constructor(props){
         super(props);
         this.handleClick = this.handleClick.bind(this);
