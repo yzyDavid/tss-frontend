@@ -18,12 +18,14 @@ class scoreManagerComponent extends Component<ScoreProps,{}>{
         this.scores = []
         this.uids = []
         this.cids = []
+        this.ids = []
         this.reasons = []
         this.score = null
         this.uid = null
         this.cid = null
         this.tid = null
         this.reason=null
+        this.id = null
         
 
     }
@@ -38,6 +40,7 @@ class scoreManagerComponent extends Component<ScoreProps,{}>{
                var i = 0
                for(i=0;i<obj['cids'].length;i++)
                {
+                  _this.ids.push(obj['ids'][i])
                   _this.reasons.push(obj['reasons'][i])
                   _this.scores.push(obj['scores'][i])
                   _this.uids.push(obj['uids'][i])
@@ -48,6 +51,7 @@ class scoreManagerComponent extends Component<ScoreProps,{}>{
                if(_this.uids.length > 0)
                {
                   _this.num = i
+                  _this.id = _this.ids[0]
                   _this.uid = _this.uids[0]
                   _this.cid = _this.cids[0]
                   _this.reason = _this.reasons[0]
@@ -66,7 +70,7 @@ class scoreManagerComponent extends Component<ScoreProps,{}>{
     handleSubmit(res)
     {
        var _this = this
-       tssFetch("/grade/processmodify","POST",  {"uids":_this.uid, "cids":_this.cid, "score":_this.score, "process":res})        
+       tssFetch("/grade/processmodify","POST",  {"id": _this.id, "uids":_this.uid, "cids":_this.cid, "score":_this.score, "agree":res})        
     }
 
     nextPage()
@@ -78,6 +82,7 @@ class scoreManagerComponent extends Component<ScoreProps,{}>{
         }
 
         this.page = this.page + 1
+        this.id = this.ids[this.page]
         this.uid = this.uids[this.page]
         this.cid = this.cids[this.page]
         this.score = this.scores[this.page]

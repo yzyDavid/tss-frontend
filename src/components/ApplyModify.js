@@ -22,9 +22,8 @@ class applyModifyComponent extends Component<ScoreProps,{}>{
         this.score = ""
         this.reason = ""
         this.state = {class:["","","","","","","",""], cid:["","","","","","","",""]}
-        this.year = ""
-        this.semester = "S"
-
+        this.year = "2015"
+        this.semester = "FIRST"
     }
 
   
@@ -67,7 +66,7 @@ class applyModifyComponent extends Component<ScoreProps,{}>{
     {
 
         var state = this.state
-        var identity = {"uid":this.uid, "semester":"S"}
+        var identity = {"uid":this.uid, "semester":this.semester, "year":this.year}
         this.semester= e.target.value
         var _this=this
         tssFetch("/grade/getallclass", 'POST',  identity)
@@ -95,7 +94,7 @@ class applyModifyComponent extends Component<ScoreProps,{}>{
     {
 
         var state = this.state
-        var identity = {"uid":"123456", "semester":this.state.semester}
+        var identity = {"uid":this.props.uid, "semester":this.state.semester, "year":e.target.value}
         this.year = e.target.value
         tssFetch("/grade/getallclass", 'POST',  identity)
         .then(function(res)
@@ -152,21 +151,21 @@ class applyModifyComponent extends Component<ScoreProps,{}>{
                              <tbody>
                                 <tr>
 
-                                     <td><h2>学年</h2></td>
+                                     <td><h3>学年</h3></td>
                                     <td><select onBlur={this.changeYear.bind(this)}>
-                                            <option>2015学年</option>
-                                            <option>2016学年</option>
-                                            <option>2017学年</option>  
-                                            <option>2018学年</option>
+                                         <option value="2015">2015学年</option>
+                                        <option value="2016">2016学年</option>
+                                        <option value="2017">2017学年</option>  
+                                        <option value="2018">2018学年</option>
                                          </select></td>
 
-                                    <td><h2>学期</h2></td>
+                                    <td><h3>学期</h3></td>
                                     <td><select onBlur={this.changeSemester.bind(this)}>
-                                        <option>第一学期</option>
-                                        <option>第二学期</option>
+                                        <option value="FIRST">第一学期</option>
+                                        <option value="SECOND">第二学期</option>
                                         </select></td>
 
-                                     <td><h2>课程</h2></td>
+                                     <td><h3>课程</h3></td>
                                      <td><select width="100px"  onBlur={this.changeClass.bind(this)}>}
                                              <option>{this.state.class[0]+"("+this.state.cid[0]+")"}</option>
                                              <option>{this.state.class[1]+"("+this.state.cid[1]+")"}</option>

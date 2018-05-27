@@ -30,10 +30,10 @@ export default class scoreUploadComponent extends Component<ScoreProps,{}>{
                       class:["","","","","","","",""],
                       cid:["","","","","","",""]}
 
-        this.uid = this.props.uid //JSON.parse(localStorage.getItem("fuck"))['uid']
+        this.uid = this.props.uid 
         console.log(this.props)
-        this.semester = "S"
-        this.year = "2015学年"
+        this.semester = "FIRST"
+        this.year = "2015"
     }
 
 
@@ -63,7 +63,7 @@ export default class scoreUploadComponent extends Component<ScoreProps,{}>{
     {
 
         var state = this.state
-        var identity = {"uid": this.uid, "semester":e.target.value}
+        var identity = {"uid": this.uid, "semester":e.target.value, "year": this.year}
         this.semester = e.target.value
         console.log(JSON.stringify(identity))
         var _this = this
@@ -89,14 +89,13 @@ export default class scoreUploadComponent extends Component<ScoreProps,{}>{
             }
             )
         })
-
     }
 
     changeYear(e)
     {
 
         var state = this.state
-        var identity = {"uid": this.uid, "semester":this.semester}
+        var identity = {"uid": this.uid, "semester":this.semester, "year":e.target.value}
         this.year = e.target.value
         console.log(JSON.stringify(identity))
         var _this = this
@@ -207,7 +206,7 @@ export default class scoreUploadComponent extends Component<ScoreProps,{}>{
         var permission = 0
 
 
-        identity = {"uid":this.uid, "cid":this.cid}
+        identity = {"cid":this.cid}
         tssfetch("/grade/getclassstudentscore", "GET", identity) 
         .then(function(res)
         {
@@ -244,16 +243,16 @@ export default class scoreUploadComponent extends Component<ScoreProps,{}>{
                 <tr>
                     <td><h2>学年</h2></td>
                     <td><select onBlur={this.changeYear.bind(this)}>
-                        <option>2015学年</option>
-                        <option>2016学年</option>
-                        <option>2017学年</option>  
-                        <option>2018学年</option>
+                        <option value="2015">2015学年</option>
+                        <option value="2016">2016学年</option>
+                        <option value="2017">2017学年</option>  
+                        <option value="2018">2018学年</option>
                         </select></td>
 
                     <td><h2>学期</h2></td>
                     <td><select onBlur={this.changeSemester.bind(this)}>
-                        <option value= 'S'>第一学期</option>
-                        <option value= 'S'>第二学期</option>
+                        <option value= 'FIRST'>第一学期</option>
+                        <option value= 'SECOND'>第二学期</option>
                         </select></td>
 
                     <td><h2>课程名</h2></td>
