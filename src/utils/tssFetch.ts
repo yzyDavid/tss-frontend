@@ -6,8 +6,8 @@ type httpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'HEAD';
 const tssFetch = (url: string, method: httpMethod, payload: string | object): Promise<Response> => {
     console.log('tssFetch');
     const auth: string = getAuthTokenFromLocalStorage();
-
     if (method !== 'GET' && method !== 'HEAD') {
+        console.log("aa", payload);
         return fetch(apiBaseUrl + url, {
             method: method,
             headers: {
