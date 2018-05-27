@@ -19,14 +19,14 @@
             background-color:rgba(0,206,238,0.2);
 }
 
-h2 {
+#scoreh2 {
 float: left;
 margin: 40px 30px 30px 200px
 }
 
 
 
-select{
+#scoreselect{
 	margin: 40px 30px 30px 10px;
 	font-size:15px;
 	font-family: italic;

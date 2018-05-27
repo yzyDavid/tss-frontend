@@ -151,7 +151,7 @@ class applyModifyComponent extends Component<ScoreProps,{}>{
                              <tbody>
                                 <tr>
 
-                                     <td><h3>学年</h3></td>
+                                     <td><h3 className="scoreh3">学年</h3></td>
                                     <td><select onBlur={this.changeYear.bind(this)}>
                                          <option value="2015">2015学年</option>
                                         <option value="2016">2016学年</option>
@@ -159,13 +159,13 @@ class applyModifyComponent extends Component<ScoreProps,{}>{
                                         <option value="2018">2018学年</option>
                                          </select></td>
 
-                                    <td><h3>学期</h3></td>
+                                    <td><h3 className="scoreh3">学期</h3></td>
                                     <td><select onBlur={this.changeSemester.bind(this)}>
                                         <option value="FIRST">第一学期</option>
                                         <option value="SECOND">第二学期</option>
                                         </select></td>
 
-                                     <td><h3>课程</h3></td>
+                                     <td><h3 className="scoreh3">课程</h3></td>
                                      <td><select width="100px"  onBlur={this.changeClass.bind(this)}>}
                                              <option>{this.state.class[0]+"("+this.state.cid[0]+")"}</option>
                                              <option>{this.state.class[1]+"("+this.state.cid[1]+")"}</option>
@@ -185,11 +185,11 @@ class applyModifyComponent extends Component<ScoreProps,{}>{
 
                     <tr>
                         <td>
-                                <h3>学生编号:</h3>
+                                <h3 className="scoreh3">学生编号:</h3>
                                 <input onBlur={this.changeStu.bind(this)}></input>
                         </td>
                         <td>
-                                <h3>新成绩:</h3>
+                                <h3 className="scoreh3">新成绩:</h3>
                                 <input onBlur={this.changeScore.bind(this)}></input>
                         </td>
 
@@ -206,8 +206,8 @@ class applyModifyComponent extends Component<ScoreProps,{}>{
             <table align="center">
              <tbody>
                <tr>
-                 <td><button><Link to='/navi' id="nav">返回</Link></button></td>
-                 <td><button onClick={this.handleSubmit.bind(this)}>提交</button></td>
+                 <td><button className="scoreButton"><Link to='/navi' id="nav">返回</Link></button></td>
+                 <td><button className="scoreButton" onClick={this.handleSubmit.bind(this)}>提交</button></td>
                </tr>
              </tbody>
            </table>

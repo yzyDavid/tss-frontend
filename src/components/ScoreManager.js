@@ -97,7 +97,6 @@ class scoreManagerComponent extends Component<ScoreProps,{}>{
         return (
 
         <div>
-        
 
             <h1 align="center">成绩修改申请表</h1>
             <table id="applyTable" align="center" line-height="20px" border="solid #ccc 1px"  cellPadding="15px" margin="0px auto" width="50%">
@@ -106,11 +105,11 @@ class scoreManagerComponent extends Component<ScoreProps,{}>{
 
                     <tr>
                         <td>
-                                <h3>学生编号:</h3>
+                                <h3 className="scoreh3">学生编号:</h3>
                                 <div>{this.uid}</div>
                         </td>
                         <td>
-                                <h3>新成绩:</h3>
+                                <h3 className="scoreh3">新成绩:</h3>
                                 <div>{this.score}</div>
                         </td>
 
@@ -118,7 +117,7 @@ class scoreManagerComponent extends Component<ScoreProps,{}>{
             
                     <tr>
                         <td colspan="2">
-                                <h3>课程编号:</h3>
+                                <h3 className="scoreh3">课程编号:</h3>
                                 <div>{this.cid}</div>
                         </td>
     
@@ -136,10 +135,10 @@ class scoreManagerComponent extends Component<ScoreProps,{}>{
             <table align="center">
              <tbody>
                <tr>
-                 <td><button onClick={this.handleSubmit.bind(this,true)}>同意</button></td>
-                 <td><button onClick={this.handleSubmit.bind(this,false)}>拒绝</button></td>
-                 <td><button onClick={this.nextPage.bind(this)}>下一个</button></td>
-                 <td><button><Link to='/navi' id="nav">返回</Link></button></td>
+                 <td><button className="scoreButton" onClick={this.handleSubmit.bind(this,true)}>同意</button></td>
+                 <td><button className="scoreButton" onClick={this.handleSubmit.bind(this,false)}>拒绝</button></td>
+                 <td><button className="scoreButton" onClick={this.nextPage.bind(this)}>下一个</button></td>
+                 <td><button className="scoreButton"><Link to='/navi' id="nav">返回</Link></button></td>
                 
                </tr>
              </tbody>
