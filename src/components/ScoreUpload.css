@@ -1,0 +1,37 @@
+.scoreTable{
+	width:"100%";
+	border:"0px";
+	margin:"auto";
+	contenteditable:"true";
+	Align: "right";
+}
+
+
+.scoreHead{
+	 text-shadow: 1px 1px 1px #568F23;
+            color: #fff;
+            background-color:  #1E90FF;
+}
+
+.oddLine{
+	text-shadow: 1px 1px 1px #fff;
+            color: #666;
+            background-color:rgba(0,206,238,0.2);
+}
+
+h2 {
+float: left;
+margin: 40px 30px 30px 200px
+}
+
+
+
+select{
+	margin: 40px 30px 30px 10px;
+	font-size:15px;
+	font-family: italic;
+	width:120px;
+	height:40px;
+	float: left;
+}
+
