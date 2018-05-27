@@ -7,7 +7,7 @@ const model = {
     namespace: 'curriculummanage',
     state: {
         dataSource: [
-            {key: 1, classId: '', courseName: '', typeName: ''},
+            {id: 1, classId: '', courseName: '', typeName: ''},
             ],
         buildingData: [{key:1, id: -1 , name:'',},],
         classroomData: [{key:1, id: -1 , name:'',},],
@@ -41,19 +41,19 @@ const model = {
                     type: 'updateCurriculumManageInfo',
                     //payload: {data:body.data}
                     payload: {dataSource:[
-                            {key: 1, classId: '', courseName: '', typeName: ''},]}
+                            {id: 1, classId: '', courseName: '', typeName: ''},]}
                 });
             }
             else
             {
-                const response = yield call(tssFetch, '/classrooms/'+1+'/time-slots', 'GET');
+                const response = yield call(tssFetch, '/classrooms/'+23+'/time-slots', 'GET');
                 if (response.status === 400) {
                     message.error('无该校区');
                     return;
                 }
                 const jsonBody = yield call(response.text.bind(response));
                 const body = JSON.parse(jsonBody);
-                //console.log(body);
+                console.log(body);
 
                 yield put({
                     type: 'updateCurriculumManageInfo',

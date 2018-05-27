@@ -26,7 +26,7 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
         const columns = [
             {title: '课程号', dataIndex: 'classId', key: 'classId'},
             {title: '课程名称', dataIndex: 'courseName', key: 'courseName'},
-            {title: '上课时间', dataIndex: 'courseTime', key: 'courseTime', render: (text)=>{
+            {title: '上课时间', dataIndex: 'typeName', key: 'typeName', render: (text)=>{
                     var timeB, timeA;
                     if(!text)
                         timeA = ' ';
@@ -60,6 +60,7 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
                 <div>
                     <Table
                         style={{width: "100%", background: "#ffffff"}}
+                        rowKey = 'classId'
                         columns={columns}
                         dataSource={this.props.dataSource}/>
                 </div>

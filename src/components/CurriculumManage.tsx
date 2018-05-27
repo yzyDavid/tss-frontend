@@ -54,7 +54,7 @@ export class ClassroomFormData {
     classroomId: any;
 }
 
-var initData = [{key: 1, classId: -1, courseName: '', typeName: ''},];
+var initData = [{id: 1, classId: 1, courseName: '', typeName: ''},];
 
 var classroomInitData =[{key: 1, id: -1, name: ''},];
 var buildingInitData = [{key: 1, id: -1, name: ''},];
@@ -137,14 +137,14 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
                 else
                 {
                     waring1();
-                    initData = [{key: 1, classId: -1, courseName: '', typeName: ''},];
+                    initData = [{id: 1,classId: -1, courseName: '', typeName: ''},];
                     selectedValue = {campusId: 0,buildingId: 0, classroomId: 0};
                     this.setState({item2State: false, item3State: false,item1Reset: false, item2Reset: false, });
                 }
             else
             {
                 waring2();
-                initData = [{key: 1, classId: -1, courseName: '', typeName: ''},];
+                initData = [{id: 1,classId: -1, courseName: '', typeName: ''},];
                 selectedValue = {campusId: 0,buildingId: 0, classroomId: 0};
                 this.setState({item2State: false, item3State: false,item1Reset: false, item2Reset: false, });
             }
@@ -356,6 +356,7 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
 
                 <Table
                     style={{width: "100%", background: "#ffffff"}}
+                    rowKey = "id"
                     columns={columns}
                     className = "table"
                     dataSource={initData}/>
