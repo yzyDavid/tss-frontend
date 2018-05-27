@@ -125,12 +125,13 @@ const model = {
                 case "student_score":
                     yield put(routerRedux.push('/testsys_student_score'));
                     const values = {
-                        QueryType: 0,
-                        Sid: null,
-                        Pid: null,
-                        QType: null,
-                        QUnit: null,
+                        type: 0,
+                        sid: null,
+                        pid: "233",
+                        qtype: null,
+                        qunit: null,
                     };
+                    console.log("dispatch:"+values);
                     const response1 = yield call(tssFetch, '/testsys_result/search', 'POST', values);
                     console.log("student/score response: "+response1);
                     if (response1.status === 400) {

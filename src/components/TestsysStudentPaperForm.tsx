@@ -34,9 +34,9 @@ export class PaperForm extends Component<FormProps, PaperFormData> {
         //     ptime: "Monday 9:00-9:15",
         //     plength: "1:30:00",
         // };
-        for(var i=0;i<this.props.pids.length;i++) {
-            this.props.dispatch({type:'testsys_student/getpaper', payload: {qid: this.props.pids[i], uid: this.props.form.uid}});
-        }
+  //      for(var i=0;i<this.props.pids.length;i++) {
+ //           this.props.dispatch({type:'testsys_student/getpaper', payload: {qid: this.props.pids[i], uid: this.props.form.uid}});
+   //     }
         // for(var i=0;i<this.props.papers.length;i++) {
         // }
     }
