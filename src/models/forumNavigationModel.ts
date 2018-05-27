@@ -14,11 +14,11 @@ const model = {
         * jump(payload: {payload: {direction: string}}, {call, put}) {
             const direction = payload.payload.direction;
             switch(direction){
-                case "userinfo": yield put(routerRedux.push('/userinfo')); break;
-                case "home": yield put(routerRedux.push('/home')); break;
-                case "Reply": yield put(routerRedux.push('/reply')); break;
-                case "PrivateLetter": yield put(routerRedux.push('/privateLetter')); break;
-                case "mypost" : yield put(routerRedux.push('/mypost')); break;
+                case "userinfo": yield put(routerRedux.push('/forum/userinfo')); break;
+                case "home": yield put(routerRedux.push('/forum/home')); break;
+                case "Reply": yield put(routerRedux.push('/forum/reply')); break;
+                case "PrivateLetter": yield put(routerRedux.push('/forum/privateLetter')); break;
+                case "mypost" : yield put(routerRedux.push('/forum/mypost')); break;
 
             }
             return;

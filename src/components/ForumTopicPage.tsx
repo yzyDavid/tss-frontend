@@ -141,7 +141,7 @@ export default class TopicPageComponent extends Component<TopicProps>{
                 {/*<div dangerouslySetInnerHTML={{__html: draftToHtml(this.props.testreply)}} />*/}
 
                 <NavigationBar current={""} dispatch={this.props.dispatch}/>
-                <div style={{marginLeft:200,marginTop:10,fontSize:20}}><a href={"//localhost:3000/#/board="+this.props.allstate.boardID}>{this.props.allstate.boardName}</a></div>
+                <div style={{marginLeft:200,marginTop:10,fontSize:20}}><a href={"//localhost:3000/#/forum/board="+this.props.allstate.boardID}>{this.props.allstate.boardName}</a></div>
                 <Pagination style={{marginTop:20,marginLeft:200,marginBottom:20}} showQuickJumper defaultCurrent={this.props.allstate.currentPage} total={this.props.allstate.totalPage*10} onChange={this.onPageChange}/>
                 <div style={{marginLeft:200, marginRight:200,marginBottom:20,
                     backgroundColor: "rgb(255,255,255)",fontSize:30,borderStyle:"solid",
@@ -159,7 +159,7 @@ export default class TopicPageComponent extends Component<TopicProps>{
                 }
 
                 <Pagination style={{marginLeft:200,marginBottom:20,}} showQuickJumper defaultCurrent={this.props.allstate.currentPage} total={this.props.allstate.totalPage*10} onChange={this.onPageChange}/>
-                <div style={{marginLeft:200,marginTop:10,fontSize:20,marginBottom:20}}><a href={"//localhost:3000/#/board="+this.props.allstate.boardID}>{this.props.allstate.boardName}</a></div>
+                <div style={{marginLeft:200,marginTop:10,fontSize:20,marginBottom:20}}><a href={"//localhost:3000/#/forum/board="+this.props.allstate.boardID}>{this.props.allstate.boardName}</a></div>
 
                 <div style={{marginBottom:20,marginLeft:200,marginRight:200,backgroundColor: "rgb(255,255,255)",height:300}}>
                     {quoteZone}

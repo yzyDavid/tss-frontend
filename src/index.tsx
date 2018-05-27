@@ -265,18 +265,18 @@ app.router(({history}) => (
                         <Route path="/classSelect/:courseId" component={ClassSelectPage}/>
                         <Route path="/stuList/:classId" component={StuListPage}/>
 
-                        <Route exact path="/home"  component={ForumHomePage}/>
-                        <Route exact path="/userinfo" component={ForumUserPage}/>
-                        <Route  path="/uid=:uid" component={ForumUserPage}/>
-                        <Route exact path="/userarticle" component={ForumUserPage}/>
-                        <Route exact path="/mypost" component={ForumMyPostPage}/>
-                        <Route exact path="/privateLetter" component={ForumLetterPage}/>
-                        <Route exact path="/reply" component={ForumReplyPage}/>
-                        <Route exact path="/search" component={ForumSearchPage}/>
-                        <Route exact path="/newpost" component={ForumNewTopicPage}/>
-                        <Route exact path="/allboard" component={ForumAllBoardPage}/>
-                        <Route path="/board=:boardid" component={ForumBoardPage}/>
-                        <Route path="/topic=:topicid" component={ForumTopicPage}/>
+                        <Route exact path="/forum/home"  component={ForumHomePage}/>
+                        <Route exact path="/forum/userinfo" component={ForumUserPage}/>
+                        <Route  path="/forum/uid=:uid" component={ForumUserPage}/>
+                        <Route exact path="/forum/userarticle" component={ForumUserPage}/>
+                        <Route exact path="/forum/mypost" component={ForumMyPostPage}/>
+                        <Route exact path="/forum/privateLetter" component={ForumLetterPage}/>
+                        <Route exact path="/forum/reply" component={ForumReplyPage}/>
+                        <Route exact path="/forum/search" component={ForumSearchPage}/>
+                        <Route exact path="/forum/newpost" component={ForumNewTopicPage}/>
+                        <Route exact path="/forum/allboard" component={ForumAllBoardPage}/>
+                        <Route path="/forum/board=:boardid" component={ForumBoardPage}/>
+                        <Route path="/forum/topic=:topicid" component={ForumTopicPage}/>
 
                     </Switch>
                 </Content>

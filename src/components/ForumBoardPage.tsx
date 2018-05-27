@@ -47,7 +47,7 @@ export default class BoardPageComponent extends Component<BoardProps>{
                 title: '标题',
                 dataIndex: 'title',
                 key: 'title',
-                render: (text, record) => <a   href={"//localhost:3000/#/topic="+record.id}> {text}</a>,width:300,
+                render: (text, record) => <a   href={"//localhost:3000/#/forum/topic="+record.id}> {text}</a>,width:300,
             }, {
                 title: '作者',
                 dataIndex: 'author',
@@ -73,7 +73,7 @@ export default class BoardPageComponent extends Component<BoardProps>{
                 title: '标题',
                 dataIndex: 'title',
                 key: 'title',
-                render: (text, record) => <a  style={{float:"left"}} href={"//localhost:3000/#/topic="+record.id}> {text}</a>,width:300,
+                render: (text, record) => <a  style={{float:"left"}} href={"//localhost:3000/#/forum/topic="+record.id}> {text}</a>,width:300,
             }, {
                 title: '作者',
                 dataIndex: 'author',
