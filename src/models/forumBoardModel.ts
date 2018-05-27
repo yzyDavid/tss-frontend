@@ -80,7 +80,7 @@ const model = {
             //console.log(payload.payload.boardid);
             yield put({type: 'updateBoardInfo', payload: {BoardId :payload.payload.boardid}});
             yield put(routerRedux.push({
-                pathname: '/board='+payload.payload.boardid,
+                pathname: '/forum/board='+payload.payload.boardid,
             }));
 
             return ;
@@ -89,7 +89,7 @@ const model = {
         *newtopic(payload:{},{put}){
 
             yield put(routerRedux.push({
-                pathname: '/newpost',
+                pathname: '/forum/newpost',
             }));
             return;
         },

@@ -37,8 +37,8 @@ export default class ReplyPageComponent extends Component<ReplyListProps>{
                                 <div style={{fontSize:22,borderStyle:"solid",marginTop:15,borderWidth:1,backgroundColor:"rgb(255,255,255)"}}>
                                     <div style={{marginLeft:20,marginTop:10,marginBottom:10}}>
                                         {reply.time}:&nbsp;&nbsp;
-                                        <a href={"//localhost:3000/#/uid="+reply.uid}>{reply.name}</a>在帖子
-                                        <a href={"//localhost:3000/#/topic="+reply.topicID}>{reply.title}</a>
+                                        <a href={"//localhost:3000/#/forum/uid="+reply.uid}>{reply.name}</a>在帖子
+                                        <a href={"//localhost:3000/#/forum/topic="+reply.topicID}>{reply.title}</a>
                                         中回复了你
                                     </div>
                                 </div>

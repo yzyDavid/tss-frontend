@@ -37,9 +37,9 @@ export default class MyPostPageComponent extends Component<MyPostProps>{
                                 <div style={{fontSize:22,borderStyle:"solid",marginTop:10,borderWidth:1,backgroundColor:"rgb(255,255,255)"}}>
                                     <div style={{marginLeft:20,marginTop:10,marginBottom:10}}>
                                         {post.time}:&nbsp;&nbsp;在
-                                        <a href={"//localhost:3000/#/board="+post.boardID}>{post.boardName}</a>
+                                        <a href={"//localhost:3000/#/forum/board="+post.boardID}>{post.boardName}</a>
                                         发表了
-                                        <a href={"//localhost:3000/#/topic="+post.topicID}>{"《"+post.title+"》"}</a>
+                                        <a href={"//localhost:3000/#/forum/topic="+post.topicID}>{"《"+post.title+"》"}</a>
                                     </div>
                                 </div>
                             )

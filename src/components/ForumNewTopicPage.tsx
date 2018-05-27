@@ -30,7 +30,7 @@ export default class NewTopicPageComponent extends Component<NewTopicProps>{
 
                 <div style={{marginLeft:300,fontSize:15,marginTop:10}}>
                     新帖版面：
-                    <a href={"//localhost:3000/#/board="+this.props.topicBoardInfo.boardID}>{this.props.topicBoardInfo.boardName}</a>
+                    <a href={"//localhost:3000/#/forum/board="+this.props.topicBoardInfo.boardID}>{this.props.topicBoardInfo.boardName}</a>
                 </div>
                 <div style={{marginLeft:300, fontSize:25,marginTop:10}}>标题</div>
                 <div style={{marginLeft:300, marginRight:300,marginTop:10,marginBottom:10}}><Input placeholder="请输入标题" /></div>

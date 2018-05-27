@@ -309,16 +309,16 @@ const ForumSearchPage = connect(state => {
 })(SearchComponent);
 
 const ForumAllBoardPage = connect(state => {
-    const data = state.allboard.list;
-    return {boardList: data};
+    const data = state.ForumAllBoard.list;
+    return {boardList:data};
 })(AllBoardComponent);
 
 const ForumHomePage = connect(state => {
-    const dataSource = state.allboard.uid;
+    const dataSource = state.ForumAllBoard.uid;
     const mylist = state.myboard.list;
     const hot = state.forumhome.HotList;
     const latest = state.forumhome.LatestList;
-    return {uid: dataSource, alllist: state.allboard.list, mylist: mylist, hot: hot, latest: latest};
+    return {uid: dataSource,alllist :state.ForumAllBoard.list,mylist:mylist,hot:hot,latest:latest };
 })(ForumHomePageComponent);
 
 const ForumUserPage = connect(state => {
@@ -330,6 +330,7 @@ const ForumMyPostPage = connect(state => {
     const data = state.mypost.postList;
     return {postList: data};
 })(MyPostPageComponent);
+
 
 const ForumLetterPage = connect(state => {
     const data = state.mail.input;

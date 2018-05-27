@@ -2,7 +2,7 @@ import {routerRedux} from 'dva/router';
 import {tssFetch} from '../utils/tssFetch';
 import * as React from 'react'
 const model = {
-    namespace: 'allboard',
+    namespace: 'ForumAllBoard',
     state: {
 
         list: {
