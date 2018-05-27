@@ -19,7 +19,6 @@ import PswdModel from './models/pswdModel';
 import DeptModel from './models/deptModel';
 import SelectionModel from './models/SelectionModel';
 import StuListModel from './models/StuListModel';
-
 import DeptManagePageComponent from './components/DeptManagePage';
 import { TssFooter, TssHeader } from './components/TssPublicComponents';
 import HomePageComponent from './components/HomePage';
@@ -29,7 +28,6 @@ import UserManagePageComponent from './components/UserManagePage';
 import AutoSchedulingComponent from './components/AutoScheduling';
 import ManualSchedulingPageComponent from './components/ManualScheduling';
 import ManualSchModifyPageComponent from './components/ManualSchModify';
-import SetSchedulingTimeComponent from './components/SetSchedulingTime'
 import CourseManagePageComponent from './components/CourseManagePage';
 import ClassroomManagePageComponent from './components/ClassroomManagePage';
 import CurriculumTeacherPageComponent from './components/CurriculumTeacher';
@@ -41,18 +39,22 @@ import StudentSelectionComponent from './components/SelectionStudent';
 import ClassSelectionComponent from './components/SelectionClass';
 import StudentListComponent from './components/StudentList';
 
+
 import ForumHomePageComponent from './components/ForumHomePage';
 import ForumNavigationModel from './models/forumNavigationModel';
 import ForumUserInfoModel from './models/forumUserInfoModel';
 import ForumUserPageComponent from './components/ForumUserPage'
 import MyPostPageComponent from './components/ForumMyPostPage'
 import ReplyPageComponent from './components/ForumReplyPage'
+import NewTopicPageComponent from './components/ForumNewTopicPage'
+import LetterPageComponent from './components/ForumMailPage'
 import ForumSearchModel from './models/forumSearchModel'
 import ForumAllBoardModel from './models/forumAllBoardModel'
 import ForumMyPostModel from './models/forumMyPostModel'
 import ForumMyBoardModel from './models/forumMyboardModel'
 import ForumTopicModel from './models/forumTopicModel'
 import BoardPageComponent from './components/ForumBoardPage'
+import TopicPageComponent from './components/ForumTopicPage'
 import ForumReplyListModel from './models/forumReplyListModel'
 import ForumHomeModel from './models/forumHomeModel'
 import ForumBoardMOdel from './models/forumBoardModel'
@@ -60,7 +62,6 @@ import SearchComponent from "./components/ForumSearchPage"
 import AllBoardComponent from "./components/ForumAllBoard"
 import ForumMailModel from "./models/forumMailModel"
 import ForumUserModel from "./models/forumUserModel"
-
 
 const {Content} = Layout;
 
@@ -76,6 +77,7 @@ app.model(CourseInfoModel);
 app.model(CurriculumTeacherModel);
 app.model(CurriculumManageModel);
 app.model(ClassroomManageModel);
+
 
 app.model(ForumNavigationModel);
 app.model(ForumMyBoardModel);
@@ -142,10 +144,6 @@ const CurriculumManagePage = connect(state => {
     return {dataSource: dataSource, buildingData: buildingData, classroomData: classroomData};
 })(CurriculumManagePageComponent);
 
-const SetSchedulingTimePage = connect(state => {
-    return{};
-})(SetSchedulingTimeComponent);
-
 const CourseManagePage = connect(state => {
     return {...state.course, pswdShow: state.pswd.show};
 })(CourseManagePageComponent);
@@ -184,6 +182,10 @@ const StuListPage = connect(state =>{
 
 
 
+const ForumTopicPage = connect(state => {
+    const data = state.topic.allstate;
+    return {allstate: data};
+})(TopicPageComponent);
 
 const ForumReplyPage = connect(state => {
     const data = state.replyList.replylist;
@@ -219,6 +221,17 @@ const ForumMyPostPage = connect(state => {
     return{postList :data};
 })(MyPostPageComponent);
 
+
+const ForumLetterPage = connect(state => {
+    const data = state.mail.input;
+    return {allstate:data}
+})(LetterPageComponent);
+
+const ForumNewTopicPage = connect(state => {
+    const data= {boardName: state.board.boardState.BoardName,boardID:state.board.boardState.BoardID};
+    return {topicBoardInfo:data}
+})(NewTopicPageComponent);
+
 const ForumBoardPage = connect(state => {
     const data = state.board.boardState;
 
@@ -243,7 +256,6 @@ app.router(({history}) => (
                         <Route path="/classroomManage" component={ClassroomManagePage}/>
                         <Route path="/curriculumTeacher" component={CurriculumTeacherPage}/>
                         <Route path="/curriculumManage" component={CurriculumManagePage}/>
-                        <Route path="/setSchedulingTime" component={SetSchedulingTimePage}/>
                         <Route path="/courseManage" component={CourseManagePage}/>
                         <Route path="/deptManage" component={DeptManagePage}/>
                         <Route path="/plan" component={PlanPage}/>
@@ -258,15 +270,17 @@ app.router(({history}) => (
                         <Route  path="/uid=:uid" component={ForumUserPage}/>
                         <Route exact path="/userarticle" component={ForumUserPage}/>
                         <Route exact path="/mypost" component={ForumMyPostPage}/>
+                        <Route exact path="/privateLetter" component={ForumLetterPage}/>
                         <Route exact path="/reply" component={ForumReplyPage}/>
                         <Route exact path="/search" component={ForumSearchPage}/>
+                        <Route exact path="/newpost" component={ForumNewTopicPage}/>
                         <Route exact path="/allboard" component={ForumAllBoardPage}/>
                         <Route path="/board=:boardid" component={ForumBoardPage}/>
-
+                        <Route path="/topic=:topicid" component={ForumTopicPage}/>
 
                     </Switch>
                 </Content>
-            <TssFooter/>
+                <TssFooter/>
             </Layout>
         </Router>
     )
