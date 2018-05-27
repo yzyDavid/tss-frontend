@@ -47,12 +47,12 @@ export default class ForumHomePageComponent extends Component<ForumHomeProps>{
             title: '版面',
             dataIndex: 'board',
             key: 'board',
-            render: (text,record) => <a  href={"//localhost:3000/#/board="+record.boardid}>{text}</a>,width:150,
+            render: (text,record) => <a  href={"//localhost:3000/#/forum/board="+record.boardid}>{text}</a>,width:150,
         }, {
             title: '标题',
             dataIndex: 'title',
             key: 'title',
-            render: (text,record) => <a  href={"//localhost:3000/#/topic="+record.topicid}>{text}</a>,width:400,
+            render: (text,record) => <a  href={"//localhost:3000/#/forum/topic="+record.topicid}>{text}</a>,width:400,
         }, {
             title: '作者',
             dataIndex: 'author',

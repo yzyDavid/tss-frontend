@@ -83,7 +83,7 @@ const model = {
         * gotoAllBoard(payload: {payload:{}}, {call, put}) {
 
             yield put(routerRedux.push({
-                pathname: "/allboard",
+                pathname: "/forum/allboard",
             }));
 
             return ;
