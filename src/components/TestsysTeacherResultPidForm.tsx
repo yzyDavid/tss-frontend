@@ -8,10 +8,11 @@ const { TextArea } = Input;
 
 interface studentProp extends DvaProps {
     form:any;
+    qid: string[];  //题目
+    avg: string[];
 }
 
 export class ResultFormData {
-    id: string;
     qid: string;
     avg: string;
 
@@ -38,20 +39,17 @@ export class ResultSearchPidForm extends Component<studentProp,  ResultList> {
             end: '2018-04-30 16:30:00',
             modalVisible: false,
 
-            results :[{
-                id: '1',
+            results :[/*{
                 qid: '10',
                 avg: '90'
                 ,
             }, {
-                id: '2',
                 qid: '11',
                 avg: '93'
             },{
-                id: '3',
                 qid: '10',
                 avg: '71'
-            }]
+            }*/ ]
         };
     }
 
@@ -69,8 +67,13 @@ export class ResultSearchPidForm extends Component<studentProp,  ResultList> {
             const{form} = this.props;
             const pid = form.getFieldValue("pid");
             console.log("tr/search: "+pid);
-            this.props.dispatch({type:'teacherresult/search', payload: {QueryType:1, Sid:null, Pid:pid, QType:null, QUnit:null}});
+            this.props.dispatch({type:'teacherresult/search', payload: {type:1, sid:null, pid:pid, qtype:null, qunit:null}});
         });
+
+        console.log(this.props.qid);
+     //   for(var i = 0; i < this.props.qid.length; i++)
+   //             this.state.results[i] = {qid: this.props.qid[i], avg: this.props.avg[i]};
+
     };
 
 
@@ -165,7 +168,7 @@ export class ResultSearchPidForm extends Component<studentProp,  ResultList> {
                 </FormItem>
 
 
-                <Table columns = {columns} dataSource = {this.state.results}/>
+                <Table columns = {columns} rowKey = "qid" dataSource = {this.state.results}/>
             </Form>
 
 
