@@ -83,13 +83,11 @@ const model = {
         scores: [
             {
                 pid:"1",
-                pstatus: true,
-                pscore: "90",
+                score: "90",
             },
             {
                 pid:"3",
-                pstatus: false,
-                pscore: 0,
+                score: 0,
             },
         ],
     },

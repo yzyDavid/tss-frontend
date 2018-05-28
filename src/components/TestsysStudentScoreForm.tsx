@@ -13,8 +13,7 @@ interface FormProps extends DvaProps {
 
 export class ScoreFormData {
     pid: string;
-    pstatus: boolean;
-    pscore: string;
+    score: string;
 }
 
 
@@ -27,8 +26,7 @@ export class ScoreForm extends Component<FormProps, ScoreFormData> {
         super(props);
         this.state = {
             pid: '1',
-            pstatus: true,
-            pscore: '90',
+            score: '90',
         };
     }
 
@@ -51,19 +49,19 @@ export class ScoreForm extends Component<FormProps, ScoreFormData> {
                 dataIndex: 'pid',
                 key: 'pid',
             }, {
-                title: '状态',
-                dataIndex: 'pstatus',
-                key: 'status',
-                render: (text, record) => (
-                    <div>{record.pstatus==true? "已参加":"尚未参加"}</div>
-                ),
+                // title: '状态',
+                // dataIndex: 'pstatus',
+                // key: 'status',
+                // render: (text, record) => (
+                //     <div>{record.pstatus==true? "已参加":"尚未参加"}</div>
+                // ),
 
             }, {
                 title: '分数',
-                dataIndex: 'pscore',
+                dataIndex: 'score',
                 key: 'score',
                 render: (text, record) => (
-                    <div>{record.pscore}</div>
+                    <div>{record.score}</div>
                 ),
             },
         ];
