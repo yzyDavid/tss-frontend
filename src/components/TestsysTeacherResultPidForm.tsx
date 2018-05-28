@@ -8,13 +8,12 @@ const { TextArea } = Input;
 
 interface studentProp extends DvaProps {
     form:any;
-    qid: string[];  //题目
-    avg: string[];
+
+    paperresult: {qid:string, avg: string}[];
 }
 
-export class ResultFormData {
-    qid: string;
-    avg: string;
+export class ResultFormData {       //无用
+   // paperresult: {qid:string, avg: string}[];
 
 }
 
@@ -51,14 +50,6 @@ export class ResultSearchPidForm extends Component<studentProp,  ResultList> {
                 avg: '71'
             }*/ ]
         };
-        for(let i in this.props.qid) {
-            this.state.results.push({
-                qid: this.props.qid[i],
-                avg: this.props.avg[i],
-            });
-            console.log("i:"+i);
-        }
-        console.log(this.state);
     }
 
     componentDidMount() {
@@ -78,7 +69,7 @@ export class ResultSearchPidForm extends Component<studentProp,  ResultList> {
             this.props.dispatch({type:'teacherresult/search', payload: {type:1, sid:null, pid:pid, qtype:null, qunit:null}});
         });
 
-        console.log(this.props.qid);
+
      //   for(var i = 0; i < this.props.qid.length; i++)
    //             this.state.results[i] = {qid: this.props.qid[i], avg: this.props.avg[i]};
 
@@ -118,7 +109,7 @@ export class ResultSearchPidForm extends Component<studentProp,  ResultList> {
         const columns = [{
             title: '题目编号',
             dataIndex: 'qid',
-            key: 'pid',
+            key: 'qid',
             render: text => <a href="#">{text}</a>,
         },   {
             title: '正确率',
@@ -176,7 +167,7 @@ export class ResultSearchPidForm extends Component<studentProp,  ResultList> {
                 </FormItem>
 
 
-                <Table columns = {columns} rowKey = "qid" dataSource = {this.state.results}/>
+                <Table columns = {columns} rowKey = "qid" dataSource = {this.props.paperresult}/>
             </Form>
 
 

@@ -8,8 +8,9 @@ import { Layout, Breadcrumb} from 'antd';
 export class ResultPidProps implements DvaProps {
     public dispatch: any;
 
-    qid: string[];  //题目
-    avg: string[];
+
+    paperresult: {qid:string, avg: string}[];
+
 }
 
 export default class TestsysTeacherResultPidComponent extends Component<ResultPidProps, {}> {
@@ -22,8 +23,8 @@ export default class TestsysTeacherResultPidComponent extends Component<ResultPi
                         <Breadcrumb.Item>按试卷号查询成绩</Breadcrumb.Item>
                     </Breadcrumb>
                     <Layout id = "content" style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-                        <WrappedResultSearchPidForm
-                            qid = {this.props.qid} avg = {this.props.avg}/>
+                        <WrappedResultSearchPidForm paperresult = {this.props.paperresult}
+                                                        dispatch={this.props.dispatch}/>
 
                     </Layout>
                 </Layout>

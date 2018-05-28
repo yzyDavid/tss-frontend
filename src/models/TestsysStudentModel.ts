@@ -5,6 +5,7 @@ import {tssFetch} from "../utils/tssFetch";
 import {message} from "antd";
 import GlobalState from "../types/globalState";
 import {platform} from "os";
+import {parseTwoDigitYear} from "moment";
 
 const model = {
     namespace: 'testsys_student',
@@ -114,7 +115,7 @@ const model = {
         },
         updateScoreList(st, payload) {
             return {...st, ...payload.payload};
-        }
+        },
     },
 
     effects: {

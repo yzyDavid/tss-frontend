@@ -24,7 +24,7 @@ const model = {
         paperresult:[{
             qid: '10',
             avg: '90'
-            ,
+
         }, {
             qid: '11',
             avg: '93'
