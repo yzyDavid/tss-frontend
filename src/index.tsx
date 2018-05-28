@@ -58,6 +58,9 @@ import PswdModel from './models/pswdModel';
 import DeptModel from './models/deptModel';
 import SelectionModel from './models/SelectionModel';
 import StuListModel from './models/StuListModel';
+import ScoreUploadModel from './models/ScoreUploadModel'
+import ApplyModifyModel from './models/ApplyModifyModel'
+import ScoreManagerModel from './models/ScoreManagerModel'
 
 import DeptManagePageComponent from './components/DeptManagePage';
 import {TssFooter, TssHeader} from './components/TssPublicComponents';
@@ -91,7 +94,8 @@ import SearchComponent from "./components/ForumSearchPage"
 import AllBoardComponent from "./components/ForumAllBoard"
 import scoreUploadComponent from './components/ScoreUpload';
 import applyModifyComponent from './components/ApplyModify';
-import scoreManagerComponent from './components/ScoreManager';
+import scoreManagerComponent from './components/ScoreManager'
+import ScoreManager from './components/ScoreManager';
 
 const {Content} = Layout;
 
@@ -127,6 +131,12 @@ app.model(ForumMailModel);
 app.model(ForumUserInfoModel);
 app.model(ForumSearchModel);
 app.model(ForumUserModel);
+
+
+app.model(ScoreUploadModel);
+app.model(ApplyModifyModel);
+app.model(ScoreManagerModel);
+
 
 const HomePage = connect(state => {
     return {}
@@ -341,19 +351,23 @@ const ForumNewTopicPage = connect(state => {
 
 const ForumBoardPage = connect(state => {
     const data = state.board.boardState;
-
     return {boardinfo: data}
 })(BoardPageComponent);
 
 const ScoreUploadPage = connect(state => {
     const {uid, level} = state.login;
-    return {uid: uid};
+    return {uid: uid, _state: state.scoreUpload};
 })(scoreUploadComponent);
 
+
 const ApplyModifyPage = connect(state => {
-    const {uid, level} = state.login;
-    return {uid: uid};
+    const { uid, level } = state.login;
+    return { uid: uid, _state: state.applyModify };
 })(applyModifyComponent);
+
+const ScoreManagerPage = connect(state => {
+    return {  _state: state.scoreManager };
+})(scoreManagerComponent);
 
 app.router(({history}) => (
         <Router history={history}>
@@ -414,9 +428,9 @@ app.router(({history}) => (
                         <Route exact path="/allboard" component={ForumAllBoardPage}/>
                         <Route path="/board=:boardid" component={ForumBoardPage}/>
                         <Route path="/topic=:topicid" component={ForumTopicPage}/>
-                        <Route path="/scoreUpload" component={ScoreUploadPage}/>
-                        <Route path="/applyModify" component={ApplyModifyPage}/>
-                        <Route path="/scoreManager" component={scoreManagerComponent}/>
+                        <Route path="/scoreUpload" component={ScoreUploadPage} />
+                        <Route path="/applyModify" component={ApplyModifyPage} />
+                        <Route path="/scoreManager" component={ScoreManagerPage} />
 
                     </Switch>
                 </Content>
