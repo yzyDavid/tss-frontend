@@ -51,6 +51,14 @@ export class ResultSearchPidForm extends Component<studentProp,  ResultList> {
                 avg: '71'
             }*/ ]
         };
+        for(let i in this.props.qid) {
+            this.state.results.push({
+                qid: this.props.qid[i],
+                avg: this.props.avg[i],
+            });
+            console.log("i:"+i);
+        }
+        console.log(this.state);
     }
 
     componentDidMount() {

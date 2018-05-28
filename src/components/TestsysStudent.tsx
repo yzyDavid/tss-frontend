@@ -22,7 +22,7 @@ export default class StudentComponent extends Component<UserProps, UserState> {
     }
     formRef: any;
 
-    handleClick = (e) => {
+    handleClick = (e) => {;
         this.props.dispatch({type:'testsys_student/jump', payload: {direction: e.direction}});
     };
 
@@ -44,7 +44,6 @@ export default class StudentComponent extends Component<UserProps, UserState> {
                 <FormItem {...formItemLayout}>
                     <Button icon="copy" type="primary" htmlType="submit" onClick={this.handleClick.bind(this, {direction: "student_paper"})}>我要答题</Button>
                     <Button icon="copy" type="primary" htmlType="submit" onClick={this.handleClick.bind(this, {direction: "student_score"})}>成绩查询</Button>
-                    <Button icon="copy" type="primary" htmlType="submit" onClick={this.handleClick.bind(this, {direction: "test"})}>TEST</Button>
                 </FormItem>
             </div>
 

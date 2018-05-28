@@ -124,7 +124,7 @@ const TestsysTeacherPage = connect(state => {
 })(TestsysTeacherPageComponent);
 
 const TestsysStudentPage = connect(state => {
-    return {};
+    return {...state.testsys_student};
 })(TestsysStudentPageComponent);
 
 const TestsysTeacherQuestionPage = connect(state => {

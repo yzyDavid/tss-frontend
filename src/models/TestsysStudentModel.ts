@@ -4,6 +4,7 @@ import {routerRedux} from "dva/router";
 import {tssFetch} from "../utils/tssFetch";
 import {message} from "antd";
 import GlobalState from "../types/globalState";
+import {platform} from "os";
 
 const model = {
     namespace: 'testsys_student',
@@ -12,19 +13,35 @@ const model = {
         pid: -1,
         pids: [],
         papers: [
+            // {
+            //     pid:"1",
+            //     pstatus: true,
+            //     pscore: "90",
+            //     ptime: "Monday 9:00-9:15",
+            //     plength: "1:30:00",
+            // },
+            // {
+            //     pid:"2",
+            //     pstatus: false,
+            //     pscore: 0,
+            //     ptime: "Sunday 14:00-9:15",
+            //     plength: "2:00:00",
+            // },
             {
-                pid:"1",
-                pstatus: true,
-                pscore: "90",
-                ptime: "Monday 9:00-9:15",
-                plength: "1:30:00",
+                pid: "1",
+                begin: "9:00",
+                end: "9:15",
+                last: "1:30:00",
+                count: "5",
+                papername: "Chapter 1 Quiz",
             },
             {
-                pid:"2",
-                pstatus: false,
-                pscore: 0,
-                ptime: "Sunday 14:00-9:15",
-                plength: "2:00:00",
+                pid: "2",
+                begin: "14:00",
+                end: "14:15",
+                last: "2:00:00",
+                count: "6",
+                papername: "Chapter 2 Quiz",
             },
         ],
         qids: [],
@@ -97,7 +114,7 @@ const model = {
         },
         updateScoreList(st, payload) {
             return {...st, ...payload.payload};
-        },
+        }
     },
 
     effects: {

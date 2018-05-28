@@ -22,8 +22,8 @@ export default class TestsysTeacherResultPidComponent extends Component<ResultPi
                         <Breadcrumb.Item>按试卷号查询成绩</Breadcrumb.Item>
                     </Breadcrumb>
                     <Layout id = "content" style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-                        <WrappedResultSearchPidForm qid = {this.props.qid}
-                                                        avg = {this.props.avg} dispatch={this.props.dispatch}/>
+                        <WrappedResultSearchPidForm
+                            qid = {this.props.qid} avg = {this.props.avg}/>
 
                     </Layout>
                 </Layout>
