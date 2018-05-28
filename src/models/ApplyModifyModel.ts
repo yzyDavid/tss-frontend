@@ -83,11 +83,11 @@ const model = {
 
     effects: {
 
-        * change_semester(payload, { call, put }) {
+        * change_semester(payload, { call, put, select }) {
 
-            var identity = payload.payload.identity
-            identity['semester'] = payload.payload.value
-            yield put({ type: 'change_semester_', payload: { value: payload.payload.value } })
+            const year = yield select(state => state.applyModify.year)
+            var identity = { "uid": payload.payload.uid, "semester": payload.payload.semester, "year": year }
+            yield put({ type: 'change_semester_', payload: { value: payload.payload.semester } })
 
             const response = yield call(tssFetch, '/grade/getallclass', 'POST', identity)
             const jsonBody = yield call(response.text.bind(response))
@@ -97,11 +97,11 @@ const model = {
 
         },
 
-        * change_year(payload, { call, put }) {
+        * change_year(payload, { call, put, select }) {
 
-            var identity = payload.payload.identity
-            identity['year'] = payload.payload.value
-            yield put({ type: 'change_year_', payload: { value: payload.payload.value } })
+            const semester = yield select(state => state.applyModify.semester)
+            var identity = { "uid": payload.payload.uid, "semester": semester, "year": payload.payload.year }
+            yield put({ type: 'change_year_', payload: { value: payload.payload.semester } })
 
             const response = yield call(tssFetch, '/grade/getallclass', 'POST', identity)
             const jsonBody = yield call(response.text.bind(response))
@@ -128,7 +128,10 @@ const model = {
                 cid = cid + payload.payload.className[p]
             }
 
+           
+
             var data = { "uid": payload.payload.uid, "cid": cid }
+
             const response = yield tssFetch('/grade/getclassstudent', 'POST', data)
             const jsonBody = yield call(response.text.bind(response))
             const obj = JSON.parse(jsonBody)
@@ -139,11 +142,11 @@ const model = {
 
         *upload(payload, { call, put, select }) {
 
-            const uid = yield select(state => state.uid)
-            const cid = yield select(state => state.cid)
-            const score = yield select(state => state.score)
-            const sid = yield select(state => state.sid)
-            const reason = yield select(state => state.reason)
+            const uid = yield select(state => state.applyModify.uid)
+            const cid = yield select(state => state.applyModify.cid)
+            const score = yield select(state => state.applyModify.score)
+            const sid = yield select(state => state.applyModify.sid)
+            const reason = yield select(state => state.applyModify.reason)
             if (uid === "" || cid === "" || score === "" || score === "" || sid === "" || reason === "")
             {
                 message.error('–≈œ¢»± ß£°')
