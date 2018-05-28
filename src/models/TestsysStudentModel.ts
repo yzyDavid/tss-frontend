@@ -90,6 +90,18 @@ const model = {
                 score: 0,
             },
         ],
+        score_pids: [
+            "1",
+            "3",
+        ],
+        score_scores: [
+            "80",
+            "95"
+        ],
+        score_dates: [
+            "2018-05-01 9:00",
+            "2018-05-02 14:30",
+        ]
     },
 
     reducers: {
@@ -159,7 +171,7 @@ const model = {
                     const body1 = JSON.parse(jsonBody1);
                     yield put({
                         type: 'updateScoreList',
-                        payload: {scores: body1.scores}
+                        payload: {score_pids: body1.pid, score_scores: body1.score, score_dates: body1.date}
                     });
                     return;
                     // break;

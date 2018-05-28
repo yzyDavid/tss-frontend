@@ -8,14 +8,14 @@ const { TextArea } = Input;
 
 interface studentProp extends DvaProps {
     form:any;
-    qid: string[];
-    avg: string[];
+    qids: string[];
+    rates: string[];
 }
 
 export class ResultFormData {
     id: string;
     qid: string;
-    avg: string;
+    rate: string;
 
 }
 
@@ -37,16 +37,16 @@ export class ResultSearchQunitForm extends Component<studentProp,  ResultList> {
             results :[{
                 id: '1',
                 qid: '10',
-                avg: '90'
+                rate: '0.90'
                 ,
             }, {
                 id: '2',
                 qid: '10',
-                avg: '93'
+                rate: '0.93'
             },{
                 id: '3',
                 qid: '10',
-                avg: '70'
+                rate: '0.70'
             }]
         };
     }
@@ -108,8 +108,8 @@ export class ResultSearchQunitForm extends Component<studentProp,  ResultList> {
             render: text => <a href="#">{text}</a>,
         }, {
             title: '正确率',
-            dataIndex: 'avg',
-            key: 'avg',
+            dataIndex: 'rate',
+            key: 'rate',
         }];
 
 

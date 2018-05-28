@@ -9,12 +9,13 @@ const { TextArea } = Input;
 interface studentProp extends DvaProps {
     form:any;
 
-    paperresult: {qid:string, avg: string}[];
+    qids: string[];
+    rates: string[];
 }
 
-export class ResultFormData {       //无用
-   // paperresult: {qid:string, avg: string}[];
-
+export class ResultFormData {
+    qid:string;
+    rate: string;
 }
 
 interface  ResultList{
@@ -50,6 +51,12 @@ export class ResultSearchPidForm extends Component<studentProp,  ResultList> {
                 avg: '71'
             }*/ ]
         };
+        for(let i in this.props.qids) {
+            this.state.results.push({
+                qid: this.props.qids[i],
+                rate: this.props.rates[i],
+            });
+        }
     }
 
     componentDidMount() {
@@ -113,8 +120,8 @@ export class ResultSearchPidForm extends Component<studentProp,  ResultList> {
             render: text => <a href="#">{text}</a>,
         },   {
             title: '正确率',
-            dataIndex: 'avg',
-            key: 'avg',
+            dataIndex: 'rate',
+            key: 'rate',
             /*
             render: (text, record) => (
                 <span>
@@ -167,7 +174,7 @@ export class ResultSearchPidForm extends Component<studentProp,  ResultList> {
                 </FormItem>
 
 
-                <Table columns = {columns} rowKey = "qid" dataSource = {this.props.paperresult}/>
+                <Table columns = {columns} rowKey = "qid" dataSource = {this.state.results}/>
             </Form>
 
 

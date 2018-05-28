@@ -32,6 +32,17 @@ const model = {
             qid: '15',
             avg: '71'
         }],
+
+        qids: [
+            "1",
+            "2",
+            "4",
+        ],
+        rates: [
+            "0.8",
+            "1.0",
+            "0.92",
+        ]
     },
     reducers: {
         saveSession(st) {
@@ -130,7 +141,7 @@ const model = {
             const body = JSON.parse(jsonBody);
             yield put({
                 type: 'updateSearchInfo',
-                payload: {resultlist:body.resultlist}
+                payload: {qids:body.qid, rates:body.rate}
             });
 
             return;

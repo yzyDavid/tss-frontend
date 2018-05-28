@@ -8,15 +8,17 @@ const { TextArea } = Input;
 
 interface studentProp extends DvaProps {
     form:any;
-    qid: string[];
-    avg: string[];
+    qids: string[];
+    rates: string[];
 }
 
 export class ResultFormData {
-    id: string;
-    pid: string;
-    date: string;
-    score: string;
+    // id: string;
+    // pid: string;
+    // date: string;
+    // score: string;
+    qid: string;
+    rate: string;
 
 }
 
@@ -37,24 +39,32 @@ export class ResultSearchSidForm extends Component<studentProp,  ResultList> {
             gpa: '4.5',
             modalVisible: false,
 
-            results :[{
-                id: '1',
-                pid: '10',
-                date: '2018-04-30 16:30:00',
-                score: '90'
-,
-            }, {
-                id: '2',
-                pid: '10',
-                date: '2018-04-24 16:30:00',
-                score: '93'
-            },{
-                id: '3',
-                pid: '10',
-                date: '2018-04-25 16:30:00',
-                score: '70'
-            }]
+            results :[
+//                 {
+//                 id: '1',
+//                 pid: '10',
+//                 date: '2018-04-30 16:30:00',
+//                 score: '90'
+// ,
+//             }, {
+//                 id: '2',
+//                 pid: '10',
+//                 date: '2018-04-24 16:30:00',
+//                 score: '93'
+//             },{
+//                 id: '3',
+//                 pid: '10',
+//                 date: '2018-04-25 16:30:00',
+//                 score: '70'
+//             }
+            ]
         };
+        for(let i in this.props.qids) {
+            this.state.results.push({
+                qid: this.props.qids[i],
+                rate: this.props.rates[i],
+            });
+        }
     }
 
     componentDidMount() {
@@ -108,27 +118,35 @@ export class ResultSearchSidForm extends Component<studentProp,  ResultList> {
         };
 
         const columns = [{
-            title: '试卷编号',
-            dataIndex: 'pid',
-            key: 'pid',
+        //     title: '试卷编号',
+        //     dataIndex: 'pid',
+        //     key: 'pid',
+        //     render: text => <a href="#">{text}</a>,
+        // }, {
+        //     title: '考试日期',
+        //     dataIndex: 'date',
+        //     key: 'date',
+        // },   {
+        //     title: '考试成绩',
+        //     dataIndex: 'score',
+        //     key: 'score',
+        //     /*
+        //     render: (text, record) => (
+        //         <span>
+        //
+        //         <span className="ant-divider" />
+        //             <Button onClick={() => this.handleDetail(record.id)}>点我</Button>
+        //
+        //         </span>
+        //     ),*/
+            title: '题目编号',
+            dataIndex: 'qid',
+            key: 'qid',
             render: text => <a href="#">{text}</a>,
-        }, {
-            title: '考试日期',
-            dataIndex: 'date',
-            key: 'date',
         },   {
-            title: '考试成绩',
-            dataIndex: 'score',
-            key: 'score',
-            /*
-            render: (text, record) => (
-                <span>
-
-                <span className="ant-divider" />
-                    <Button onClick={() => this.handleDetail(record.id)}>点我</Button>
-
-                </span>
-            ),*/
+            title: '正确率',
+            dataIndex: 'rate',
+            key: 'rate',
         }];
 
 
