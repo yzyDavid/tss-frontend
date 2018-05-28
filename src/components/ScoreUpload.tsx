@@ -25,18 +25,15 @@ export default class scoreUploadComponent extends Component<ScoreProps, {}> {
         this.forceUpdate();
     }
 
-
     changeSemester(e) {
         this.props.dispatch({type: "scoreUpload/change_semester", payload: {"value": e.target.value}});
         this.forceUpdate();
     }
 
     changeYear(e) {
-
         this.props.dispatch({type: "scoreUpload/change_year", payload: {"value": e.target.value}});
         this.forceUpdate();
     }
-
 
     changeClass(e) {
         this.props.dispatch({

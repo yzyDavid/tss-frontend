@@ -37,13 +37,13 @@ class applyModifyComponent extends Component<ScoreProps, {}>{
     }
 
     changeSemester(e) {
-        this.props.dispatch({ type: "applyModify/change_semester", payload: { "value": e.target.value } });
+        this.props.dispatch({ type: "applyModify/change_semester", payload: { "uid": this.props.uid, "semester": e.target.value } });
         this.forceUpdate()
     }
 
     changeYear(e) {
 
-        this.props.dispatch({ type: "applyModify/change_year", payload: { "value": e.target.value } });
+        this.props.dispatch({ type: "applyModify/change_year", payload: { "uid": this.props.uid, "year": e.target.value } });
         this.forceUpdate()
     }
 

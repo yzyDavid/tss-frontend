@@ -102,25 +102,26 @@ const model = {
 
     effects: {
 
-        * change_semester(payload, { call, put }) {
-     
-            var identity = payload.payload.identity
-            identity['semester'] = payload.payload.value
-            yield put({ type: 'change_semester_', payload: { value: payload.payload.value } })
-
+        * change_semester(payload, { call, put, select }) {
+            
+            const year = yield select(state => state.scoreUpload.year)
+            var identity = {"uid":payload.payload.uid, "semester":payload.payload.semester, "year":year}
+         
+            yield put({ type: 'change_semester_', payload: { value: payload.payload.semester} })
+            
             const response = yield call(tssFetch, '/grade/getallclass', 'POST', identity)
             const jsonBody = yield call(response.text.bind(response))
             const obj = JSON.parse(jsonBody)
             yield put({ type: 'clear_class', payload: {} })
             yield put({ type: 'set_class', payload: obj })
-
+            
         },
 
-        * change_year(payload, { call, put }) {
+        * change_year(payload, { call, put, select }) {
+            const semester = yield select(state => state.scoreUpload.semester)
+            var identity = { "uid": payload.payload.uid, "semester": semester, "year": payload.payload.year}
 
-            var identity = payload.payload.identity
-            identity['year'] = payload.payload.value
-            yield put({ type: 'change_year_', payload: { value: payload.payload.value } })
+            yield put({ type: 'change_year_', payload: { value: payload.payload.semester } })
 
             const response = yield call(tssFetch, '/grade/getallclass', 'POST', identity)
             const jsonBody = yield call(response.text.bind(response))
@@ -159,7 +160,7 @@ const model = {
 
         *upload(payload, { call, put, select }) {
 
-            var score = yield select(state => state.scores)
+            var score = yield select(state => state.scoreUpload.scores)
 
             for (var p in score) {
                 if (p === "") {
@@ -169,7 +170,7 @@ const model = {
             }
 
             var permission = 0
-            var cid = yield select(state => state.cid)
+            var cid = yield select(state => state.scoreUpload.cid)
             var identity = { "cid": cid }
             const response = yield call(tssFetch, "/grade/getclassstudentscore", "GET", identity)
             const jsonBody = yield call(response.text.bind(response))

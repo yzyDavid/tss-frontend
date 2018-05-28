@@ -85,10 +85,10 @@ const model = {
 
         *submit(payload, { call, put, select }) {
            
-            const id = yield select(state => state.id)
-            const uid = yield select(state => state.uid)
-            const cid = yield select(state => state.cid)
-            const score = yield select(state => state.score)
+            const id = yield select(state => state.scoreManager.id)
+            const uid = yield select(state => state.scoreManager.uid)
+            const cid = yield select(state => state.scoreManager.cid)
+            const score = yield select(state => state.scoreManager.score)
        
             if (id === "" || uid === "" || cid === "" || score === "") {
                 message.error('没有要处理的请求！')
