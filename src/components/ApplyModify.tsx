@@ -3,8 +3,8 @@ import { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { httpMethod, tssFetch } from '../utils/tssFetch';
-import './ScoreUpload.css';
-import './ScoreButton.css';
+import './scoreUpload.css';
+import './scoreButton.css';
 import DvaProps from '../types/DvaProps';
 
 
