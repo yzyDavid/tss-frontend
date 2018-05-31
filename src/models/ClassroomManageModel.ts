@@ -44,7 +44,7 @@ const model = {
             //console.log("total campuses:",campusBody.length);
             for(let i=0;i<campusBody.length;i++){
                 let campusId=campusBody[i].id;
-                //console.log("campus id:",campusId);
+                console.log("campus id:",campusId);
                 let buildingResponse = yield call(tssFetch,`/campuses/${campusId}/buildings`,'GET',msg);
                 let buildingJsonBody = yield call(buildingResponse.text.bind(buildingResponse));
                 let buildingBody = JSON.parse(buildingJsonBody);
@@ -279,7 +279,7 @@ const model = {
         setup({ dispatch, history }){
             return history.listen(({ pathname}) => {
                 if (pathname === '/classroomManage') {
-                    //console.log("enter classroomManage page");
+                    console.log("enter classroomManage page");
                     dispatch({ type: 'fetchClassroomInfo', payload: {campusId:''} });
                 }
             });

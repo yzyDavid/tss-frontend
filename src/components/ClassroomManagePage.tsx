@@ -39,6 +39,7 @@ class SearchForm extends Component<ClassroomManageProps, {}> {
         this.handleSearch = this.handleSearch.bind(this);
         this.handleCreate = this.handleCreate.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.handlePrint = this.handlePrint.bind(this);
     }
 
     handleSearch = (e) => {
@@ -49,7 +50,7 @@ class SearchForm extends Component<ClassroomManageProps, {}> {
             }
             //console.log('Received values of form: ', values.campus);
             // fetch the specific classrooms, identified by campus name
-            this.props.dispatch({type:'classroommanage/fetchSpecific',payload:values.campus});
+            this.props.dispatch({type: 'classroommanage/fetchSpecific', payload: values.campus});
         });
     }
 
@@ -65,6 +66,12 @@ class SearchForm extends Component<ClassroomManageProps, {}> {
         //console.log("in handleDelete");
         //console.log("class to delete:",classToDelete);
         this.props.dispatch({type:'classroommanage/deleteClassroom', payload:`${classToDelete}`});
+    }
+
+    handlePrint = (e) =>{
+        // aha... interesting
+        e.preventDefault();
+        window.print();
     }
 
     columns = [
@@ -91,7 +98,6 @@ class SearchForm extends Component<ClassroomManageProps, {}> {
             title: '操作',
             dataIndex: 'x',
             key: 'x',
-            //render: () => <a >删除</a>
             render:()=> (
                 <Popconfirm title="确认删除?" onConfirm={this.handleDelete}>
                     <a href="">删除</a>
@@ -134,6 +140,13 @@ class SearchForm extends Component<ClassroomManageProps, {}> {
                             type="primary"
                             htmlType="submit"
                             onClick={this.handleCreate}>录入资源</Button>
+                    </FormItem>
+                    <FormItem labelCol={{span: 8, offset: 24}} wrapperCol={{span: 8, offset: 12}}>
+                        <Button
+                            style={{width: "250px"}}
+                            type="primary"
+                            htmlType="submit"
+                            onClick={this.handlePrint}>打印</Button>
                     </FormItem>
                 </Form>
                 <Table style={{width: "100%", background: "#ffffff"}} columns={this.columns} dataSource={this.props.dataSource} rowSelection={rowSelection} className="table"/>
