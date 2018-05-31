@@ -9,8 +9,26 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 const columns = [
-    {title: '课程号', dataIndex: 'classId', key: 'classId'},
-    {title: '课程名称', dataIndex: 'courseName', key: 'courseName'},
+    {title: '课程号', dataIndex: 'classId',
+        filters:[{text: '已安排', value: 'true'}],
+        filterMultiple: false,
+        onFilter: (value, record) => record.classId != null,
+        //onFilter: (value, record) => (record.classId === null),
+        key: 'classId',
+        render: (text)=>{
+            if(text == null)
+                text="无";
+            return (
+                <label>{text}</label>
+            );
+        }},
+    {title: '课程名称', dataIndex: 'courseName', key: 'courseName',render: (text)=>{
+            if(text == null)
+                text="无";
+            return (
+                <label>{text}</label>
+            );
+        }},
     {title: '上课时间', dataIndex: 'typeName', key: 'typeName', render: (text)=>{
             var timeB, timeA;
             if(!text)

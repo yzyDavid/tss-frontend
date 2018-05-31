@@ -13,8 +13,8 @@ const columns = [
     {title: '课程名称', dataIndex: 'courseName', key: 'courseName'},
     {title: '课程号', dataIndex: 'courseId', key: 'courseId'},
     {title: '未安排课时', dataIndex: 'numLessonsLeft', key: 'numLessonsLeft'},
-    {title: '上课地点', dataIndex: 'courseAddress', key: 'courseAddress'},
-    {title: '上课时间', dataIndex: 'courseTime', key: 'courseTime'}
+    // {title: '上课地点', dataIndex: 'courseAddress', key: 'courseAddress'},
+    // {title: '上课时间', dataIndex: 'courseTime', key: 'courseTime'}
 ];
 
 interface ManualSchedulingProps extends DvaProps {
@@ -30,7 +30,7 @@ export class CourseFormData {
     courseName: string;
 }
 
-var initData = [{id: '', courseId:'', courseName:'', numLessonsLeft:'',  courseAddress:'',  courseTime:''},];
+var initData = [{id: '', courseId:'', courseName:'', numLessonsLeft:''},];
 var selectedValue;
 var dt = new Date();
 

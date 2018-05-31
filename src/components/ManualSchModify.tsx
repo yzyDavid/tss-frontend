@@ -18,7 +18,7 @@ var initData = [
     {key: 1, classroomAddress: '', classroomTime: '', classroomCapacity: ''},
 
 ];
-var initClassInfo = {courseId:'', courseName:'', numLessonsLeft:'',numLessonsEachWeek:'',arrangements:[{buildingName:'',classroomId:'', type:''},]};
+var initClassInfo = {courseId:'', courseName:'', numLessonsLeft:'',numLessonsEachWeek:'',arrangements:[{buildingName:'',classroomId:'', typeName:''},]};
 
 var confirmData = {classroomAddress: '', classroomTime: '', classroomCapacity: ''};
 
@@ -69,6 +69,7 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
         e.preventDefault();
         if(confirmData.classroomAddress.length>1)
             this.setState({modalState: true,});
+        this.props.dispatch({type: 'courseinfo/modifyClassArrange', payload: {classroomId: 1, typeName: 'MON_1_2', classId: 10001}});
     };
 
     handleOk() {
@@ -101,13 +102,13 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
                         label="日期" >
                         {getFieldDecorator('classroomDate', {})(
                             <Select style={{width: 200}}>
-                                <Option value="周一">周一</Option>
-                                <Option value="周二">周二</Option>
-                                <Option value="周三">周三</Option>
-                                <Option value="周四">周四</Option>
-                                <Option value="周五">周五</Option>
-                                <Option value="周六">周六</Option>
-                                <Option value="周日">周日</Option>
+                                <Option value="MON">周一</Option>
+                                <Option value="TUE">周二</Option>
+                                <Option value="WED">周三</Option>
+                                <Option value="THU">周四</Option>
+                                <Option value="FRI">周五</Option>
+                                <Option value="SAT">周六</Option>
+                                <Option value="SUN">周日</Option>
                             </Select>
                         )}
                     </FormItem>
@@ -116,13 +117,11 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
                         {getFieldDecorator('classroomTime', {})(
                             <Select style={{width: 200}}>
                                 <Option value="全部">全部</Option>
-                                <Option value="第1,2节">第1,2节</Option>
-                                <Option value="第3,4节">第3,4节</Option>
-                                <Option value="第3,4,5节">第3,4,5节</Option>
-                                <Option value="第6,7,8节">第6,7,8节</Option>
-                                <Option value="第7,8节">第7,8节</Option>
-                                <Option value="第9,10节">第9,10节</Option>
-                                <Option value="第11,12,13节">第11,12,13节</Option>
+                                <Option value="1_2">第1,2节</Option>
+                                <Option value="3_5">第3,4,5节</Option>
+                                <Option value="6_8">第6,7,8节</Option>
+                                <Option value="9_10">第9,10节</Option>
+                                <Option value="11_13">第11,12,13节</Option>
                             </Select>
                         )}
                     </FormItem>
@@ -183,7 +182,7 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
 
     handleSubmit1 = (e: FormEvent<{}>) => {
         e.preventDefault();
-        this.props.dispatch({type: 'courseinfo/deleteClassArrange', payload: 1});
+        this.props.dispatch({type: 'courseinfo/deleteClassArrange', payload: initClassInfo.arrangements[0]});
         this.setState({refresh:true});
     };
     handleSubmit2 = (e: FormEvent<{}>) => {
@@ -194,6 +193,7 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
 
     render() {
         initClassInfo = this.props.clazzInfo;
+
         if(initClassInfo.courseId)
         {
             if(initClassInfo.arrangements.length == 1)
@@ -210,7 +210,7 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
                             <FormItem
                                 label="地点" >{initClassInfo.arrangements[0].buildingName+initClassInfo.arrangements[0].classroomId}</FormItem>
                             <FormItem
-                                label="时间" >{initClassInfo.arrangements[0].type}</FormItem>
+                                label="时间" >{initClassInfo.arrangements[0].typeName}</FormItem>
                             <FormItem>
                                 <Button
                                     style={{marginLeft: 20}}
@@ -240,7 +240,7 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
                             <FormItem
                                 label="地点" >{initClassInfo.arrangements[0].buildingName+initClassInfo.arrangements[0].classroomId}</FormItem>
                             <FormItem
-                                label="时间" >{initClassInfo.arrangements[0].type}</FormItem>
+                                label="时间" >{initClassInfo.arrangements[0].typeName}</FormItem>
                             <FormItem>
                                 <Button
                                     style={{marginLeft: 20}}
@@ -255,7 +255,7 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
                             <FormItem
                                 label="地点" >{initClassInfo.arrangements[1].buildingName+initClassInfo.arrangements[0].classroomId}</FormItem>
                             <FormItem
-                                label="时间" >{initClassInfo.arrangements[1].type}</FormItem>
+                                label="时间" >{initClassInfo.arrangements[1].typeName}</FormItem>
                             <FormItem>
                                 <Button
                                     style={{marginLeft: 20}}

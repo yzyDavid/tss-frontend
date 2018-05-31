@@ -8,7 +8,6 @@ const model = {
     state: {
         dataSource: [
             {classId:'asd', courseName: 'aaa', type: "MON_1_2", campusName:'cc', buildingName:'ddd', classroomName:'ss'},
-            //{key: 1, classId:'', courseName: '', type:'', campusName:'', buildingName:'', classroomName:''}
             ]
     },
     reducers: {
@@ -20,7 +19,7 @@ const model = {
         setup({dispatch, history}) {
             return history.listen(({pathname}) => {
                 if (pathname === '/curriculumTeacher') {
-                    dispatch({ type: 'curriculumTeacher', payload: {teacherId: ''} });
+                    dispatch({ type: 'curriculumTeacher', payload: {teacherId: '',year: -1, semester: ''} });
                 }
                 if (pathname === '/curriculumTeacher') {
                     dispatch({ type: 'showList', payload: {classId: ''} });
@@ -29,19 +28,19 @@ const model = {
         }
     },
     effects: {
-        * curriculumTeacher(payload: { payload: {teacherId: string} }, {call, put})  {
-            const response = yield call(tssFetch, '/teachers/root/schedule', 'GET');
-            //console.log(response);
-            if (response.status === 400) {
-                message.error('教师信息错误');
-                return;
-            }
-            const jsonBody = yield call(response.text.bind(response));
-            const body = JSON.parse(jsonBody);
-            yield put({
-                type: 'updateCurriculumTeacherInfo',
-                payload: {dataSource:body}
-            });
+        * curriculumTeacher(payload: { payload: {teacherId: string, year: number, semester: string} }, {call, put})  {
+            console.log(payload.payload);
+            // const response = yield call(tssFetch, '/teachers/root/schedule', 'GET');
+            // if (response.status === 400) {
+            //     message.error('教师信息错误');
+            //     return;
+            // }
+            // const jsonBody = yield call(response.text.bind(response));
+            // const body = JSON.parse(jsonBody);
+            // yield put({
+            //     type: 'updateCurriculumTeacherInfo',
+            //     payload: {dataSource:body}
+            // });
             return;
         },
 

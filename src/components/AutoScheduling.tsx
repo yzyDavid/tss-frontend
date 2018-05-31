@@ -19,6 +19,7 @@ const columns = [
 interface AutoSchProps extends DvaProps {
     dataSource: any;
     totalCourse: any;
+    schedulingTime: any;
 }
 
 // interface loadingState {
@@ -26,6 +27,7 @@ interface AutoSchProps extends DvaProps {
 // }
 var initNum = "正在排课......";
 var initData = [{key: 1, courseNumber: ' ', courseName: ' ', restCourseTime: ' '},];
+var arrangeTime = {year: -1, semester: ''};
 
 // class LoadButton extends Component<AutoSchProps,loadingState>{
 //     constructor(props){
@@ -75,11 +77,18 @@ constructor(props) {
     render() {
         initData=this.props.dataSource;
         initNum=this.props.totalCourse;
+        arrangeTime=this.props.schedulingTime;
         return (
             <div>
                 <NavigationBar current={"list"} dispatch={this.props.dispatch}/>
-                <Form layout={"inline"} style={{textAlign:"center",background: "#ffffff",fontSize:"large"}}>
-                    <br/>
+                <Form layout={"inline"} style={{textAlign:"center",fontSize:"large", marginTop: '20px'}}>
+                    <FormItem
+                        label="目前排课年份: ">{arrangeTime.year}</FormItem>
+                    <FormItem
+                        label="目前排课学期:">{arrangeTime.semester}</FormItem>
+                </Form>
+                <br/>
+                <Form layout={"inline"} style={{textAlign:"center",background: "#ffffff",fontSize:"large", paddingTop: '50px'}}>
                     <Button
                         icon="edit"
                         type="primary"

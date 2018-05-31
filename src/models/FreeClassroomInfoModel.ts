@@ -28,11 +28,7 @@ const model = {
     },
     effects: {
         * freeClassroomInfo(payload: { payload: FreeClassroomFormData }, {call, put}) {
-            // console.log('freeClass ');
-            // console.log(payload.payload);
-            //const msg = payload.payload;
-            // // //const tssFetch = (url: string, method: httpMethod, payload: string | object)
-            // // //返回一个js对象
+            //console.log(payload.payload);
             // const response = yield call(tssFetch, '/classroom/info', 'GET', msg);
             // if(response.status === 400) {
             //     message.error('查询空闲教室信息失败');

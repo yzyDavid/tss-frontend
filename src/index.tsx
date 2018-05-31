@@ -55,6 +55,7 @@ app.model(CourseInfoModel);
 app.model(CurriculumTeacherModel);
 app.model(CurriculumManageModel);
 app.model(ClassroomManageModel);
+app.model(AutoSchedulingModel);
 
 const HomePage = connect(state => {
     return {}
@@ -76,8 +77,8 @@ const UserManagePage = connect(state => {
 const AutoSchedulingPage = connect(state => {
     const dataSource = state.autoscheduling.dataSource;
     const totalCourse = state.autoscheduling.totalCourse;
-    //console.log(state.autoscheduling.dataSource);
-    return {dataSource: dataSource, totalCourse: totalCourse};
+    const schedulingTime = state.autoscheduling.schedulingTime;
+    return {dataSource: dataSource, totalCourse: totalCourse, schedulingTime: schedulingTime};
 })(AutoSchedulingComponent);
 
 const ManualSchedulingPage = connect(state => {

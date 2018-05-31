@@ -20,7 +20,7 @@ interface ViewState {
 
 export class SchedulingTime {
     year: number;
-    semester: number;
+    semester: any;
 }
 
 var selectedValue = {year: -1, semester: 1};
@@ -45,7 +45,7 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
             if (err) {
                 return;
             }
-            //console.log(values);
+            console.log(values);
             selectedValue = values;
             this.props.dispatch({type: 'autoscheduling/setSchedulingInfo', payload: values});
             this.setState({refresh:true, modalState: true});
@@ -69,6 +69,7 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
                         label="年份: " >
                         {getFieldDecorator('year', {})(
                             <Select style={{width: 200}}>
+                                <Option value="2017">2017</Option>
                                 <Option value="2018">2018</Option>
                                 <Option value="2019">2019</Option>
                                 <Option value="2020">2020</Option>
@@ -81,8 +82,8 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
                         label="学期" >
                         {getFieldDecorator('semester', {})(
                             <Select style={{width: 200}}>
-                                <Option value="1">第一学期</Option>
-                                <Option value="2">第二学期</Option>
+                                <Option value="FIRST">第一学期</Option>
+                                <Option value="SECOND">第二学期</Option>
                             </Select>
                         )}
                     </FormItem>
@@ -92,12 +93,12 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
                         htmlType="submit"
                         onClick={this.handleSubmit1}>选择
                     </Button>
-                    <Modal title="修改成功" visible={this.state.modalState}
+                    <Modal title="设置成功" visible={this.state.modalState}
                            onOk={this.handleOk} onCancel={this.handleCancel}>
                         <br/>
                         <p> 选中年份: {selectedValue.year}</p>
                         <br/>
-                        <p> 选中学期: 第{selectedValue.semester}学期</p>
+                        <p> 选中学期: {selectedValue.semester}</p>
                         <br/>
                     </Modal>
                 </Form>
