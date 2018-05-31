@@ -146,7 +146,7 @@ const model = {
                     const body = JSON.parse(jsonBody);
                     yield put({
                         type: 'updatePaperList',
-                        payload: {pids: body.pids}
+                        payload: {papers: body.paperlist}
                     });
                     return;
                     // break;
