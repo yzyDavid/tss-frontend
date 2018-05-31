@@ -135,21 +135,26 @@ const model = {
 
             var flag = 0
             var cid = ""
-            for (var p in payload.paylaod.className) {
-                if (payload.payload.className[p] === "(") {
+            const name = payload.payload.classname
+           
+            for (var p in name) {
+
+                console.log(p)
+                if (name[p] === "(") {
                     flag = 1
                     continue
                 }
                 else
                     if (flag === 0)
                         continue
-                if (payload.payload.className[p] === ")")
+                if (name[p] === ")")
                     break
-                cid = cid + payload.payload.className[p]
+                cid = cid + name[p]
             }
 
+            console.log("aaaa",cid)
             var data = { "uid": payload.payload.uid, "cid": cid }
-            const response = yield tssFetch('/grade/getclassstudent', 'POST', data)
+            const response = yield call(tssFetch, '/grade/getclassstudent', 'POST', data)
             const jsonBody = yield call(response.text.bind(response))
             const obj = JSON.parse(jsonBody)
 
