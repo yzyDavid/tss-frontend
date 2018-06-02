@@ -46,37 +46,38 @@ const model = {
             },
         ],
         qids: [],
+        startTime: "",
         questions: [
             {
                 qid: "1",
                 question: "Is monkey an animal?",
                 qtype: "1",
-                qanswer: "yes",
-                qmyanswer: "",
+                // qanswer: "yes",
+                // qmyanswer: "",
                 qunit: "1",
             },
             {
                 qid: "4",
                 question: "Is apple an animal?",
                 qtype: "1",
-                qanswer: "no",
-                qmyanswer: "",
+                // qanswer: "no",
+                // qmyanswer: "",
                 qunit: "2",
             },
             {
                 qid: "5",
                 question: "Which is an animal?\nA.monkey B.apple",
                 qtype: "2",
-                qanswer: "A",
-                qmyanswer: "",
+                // qanswer: "A",
+                // qmyanswer: "",
                 qunit: "2",
             },
             {
                 qid: "6",
                 question: "What is an apple?",
                 qtype: "3",
-                qanswer: "fruit",
-                qmyanswer: "",
+                // qanswer: "fruit",
+                // qmyanswer: "",
                 qunit: "2",
             },
         ],
@@ -114,11 +115,14 @@ const model = {
         updateSession(st, payload) {
             return {...st, ...payload.payload};
         },
-        updateQidList(st, payload) {
-            return {...st, ...payload.payload};
-        },
-        updateQuestionList(st, payload) {
-            return {...st, ...payload.payload};
+        // updateQidList(st, payload) {
+        //     return {...st, ...payload.payload};
+        // },
+        // updateQuestionList(st, payload) {
+        //     return {...st, ...payload.payload};
+        // },
+        updateQuestionsList(st, payload) {
+            return {...st, ...payload.payload}
         },
         updatePaperList(st, payload) {
             return {...st, ...payload.payload};
@@ -203,7 +207,7 @@ const model = {
             // const msg = payload.payload;
             const msg = {pid: payload.payload.pid};
             console.log("sp/paper: "+payload);
-            const response = yield call(tssFetch, '/testsys_student/getquestions', 'POST', msg);
+            const response = yield call(tssFetch, '/testsys_student/getquestion', 'POST', msg);
             console.log("sq/paper response: "+response);
             if (response.status === 400) {
                 message.error('更新失败');
@@ -213,30 +217,30 @@ const model = {
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
             yield put({
-                type: 'updateQidList',
-                payload: {pid: msg.pid, qids: body.qids}
+                type: 'updateQuestionsList',
+                payload: {pid: body.pid, startTime: body.starttime, questions: body.questioninfo}
             });
             return;
         },
 
-        * getquestion(payload: {payload: {qid: string, uid: string}}, {call, put}) {
-            console.log("sq/question: "+payload);
-            const msg = {direction: "qid", info: payload.payload.qid};
-            const response = yield call(tssFetch, '/testsys_student/getquestion', 'POST', msg);
-            console.log("sq/question response: "+response);
-            if (response.status === 400) {
-                message.error('更新失败');
-                return;
-            }
-            //?datasource
-            const jsonBody = yield call(response.text.bind(response));
-            const body = JSON.parse(jsonBody);
-            yield put({
-                type: 'updateQuestionList',
-                payload: {questions: body.questions}
-            });
-            return;
-        },
+        // * getquestion(payload: {payload: {qid: string, uid: string}}, {call, put}) {
+        //     console.log("sq/question: "+payload);
+        //     const msg = {direction: "qid", info: payload.payload.qid};
+        //     const response = yield call(tssFetch, '/testsys_student/getquestion', 'POST', msg);
+        //     console.log("sq/question response: "+response);
+        //     if (response.status === 400) {
+        //         message.error('更新失败');
+        //         return;
+        //     }
+        //     //?datasource
+        //     const jsonBody = yield call(response.text.bind(response));
+        //     const body = JSON.parse(jsonBody);
+        //     yield put({
+        //         type: 'updateQuestionList',
+        //         payload: {questions: body.questions}
+        //     });
+        //     return;
+        // },
 
         * save(payload: {payload: {ans: string[], qid: string[], pid: string}}, {call, put}) {
             console.log("sq/save: "+payload.payload);
