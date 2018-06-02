@@ -47,7 +47,8 @@ const model = {
         ],
         qids: [],
         startTime: "",
-        questions: [
+        questions: {
+            j_questions: [
             {
                 qid: "1",
                 question: "Is monkey an animal?",
@@ -64,6 +65,8 @@ const model = {
                 qmyanswer: "",
                 qunit: "2",
             },
+            ],
+            s_questions: [
             {
                 qid: "5",
                 question: "Which is an animal?\nA.monkey B.apple",
@@ -72,6 +75,8 @@ const model = {
                 qmyanswer: "",
                 qunit: "2",
             },
+            ],
+            f_questions: [
             {
                 qid: "6",
                 question: "What is an apple?",
@@ -80,29 +85,32 @@ const model = {
                 qmyanswer: "",
                 qunit: "2",
             },
-        ],
+            ],
+        },
         scores: [
             {
                 pid:"1",
-                score: "90",
+                score: "80",
+                date: "2018-05-01 9:00",
             },
             {
                 pid:"3",
-                score: 0,
+                score: "95",
+                date: "2018-05-01 14:30",
             },
         ],
-        score_pids: [
-            "1",
-            "3",
-        ],
-        score_scores: [
-            "80",
-            "95"
-        ],
-        score_dates: [
-            "2018-05-01 9:00",
-            "2018-05-02 14:30",
-        ]
+        // score_pids: [
+        //     "1",
+        //     "3",
+        // ],
+        // score_scores: [
+        //     "80",
+        //     "95"
+        // ],
+        // score_dates: [
+        //     "2018-05-01 9:00",
+        //     "2018-05-02 14:30",
+        // ]
     },
 
     reducers: {
@@ -172,9 +180,18 @@ const model = {
                     //?datasource
                     const jsonBody1 = yield call(response1.text.bind(response1));
                     const body1 = JSON.parse(jsonBody1);
+                    let scores: any[] = [];
+                    for(let i in body1.pid) {
+                        scores.push({
+                            pid: body1.pid[i],
+                            score: body1.score[i],
+                            date: body1.date[i]
+                        });
+                    }
                     yield put({
                         type: 'updateScoreList',
-                        payload: {score_pids: body1.pid, score_scores: body1.score, score_dates: body1.date}
+                        // payload: {score_pids: body1.pid, score_scores: body1.score, score_dates: body1.date}
+                        payload: {scores: scores}
                     });
                     yield put(routerRedux.push('/testsys_student_score'));
                     return;
@@ -215,9 +232,25 @@ const model = {
             //?datasource
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
+            let j_questions: any[] = [];
+            let s_questions: any[] = [];
+            let f_questions: any[] = [];
+            for(let entry of body.questioninfo) {
+                switch(entry.qtype) {
+                    case '1':
+                        j_questions.push(entry);
+                        break;
+                    case '2':
+                        s_questions.push(entry);
+                        break;
+                    case '3':
+                        f_questions.push(entry);
+                        break;
+                }
+            }
             yield put({
                 type: 'updateQuestionsList',
-                payload: {pid: body.pid, startTime: body.starttime, questions: body.questioninfo}
+                payload: {pid: body.pid, startTime: body.starttime, questions: {j_questions, s_questions, f_questions}}
             });
             yield put(routerRedux.push('/testsys_student_question_review'));
             return;

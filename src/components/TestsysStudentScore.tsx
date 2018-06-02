@@ -10,9 +10,10 @@ interface UserProps extends DvaProps {
     email: string;
     tel: string;
     intro: string;
-    score_pids: string[];
-    score_scores: string[];
-    score_dates: string[];
+    scores: any[];
+    // score_pids: string[];
+    // score_scores: string[];
+    // score_dates: string[];
 }
 interface UserState {
     modalVisible: boolean;
@@ -26,9 +27,10 @@ export default class TestsysStudentScoreComponent extends Component<UserProps, U
                 <h2>查询成绩</h2>
                 <WrappedScoreDisplayForm
                     dispatch={this.props.dispatch}
-                    pids={this.props.score_pids}
-                    scores={this.props.score_scores}
-                    dates={this.props.score_dates}/>
+                    // pids={this.props.score_pids}
+                    // scores={this.props.score_scores}
+                    // dates={this.props.score_dates}/>
+                    scores={this.props.scores} />
             </div>
     );
     }

@@ -9,9 +9,10 @@ const { TextArea } = Input;
 interface FormProps extends DvaProps {
     form: any;
 
-    pids: string[];
-    scores: string[];
-    dates: string[];
+    // pids: string[];
+    // scores: string[];
+    // dates: string[];
+    scores: any[];
 }
 
 export class ScoreFormData {
@@ -32,24 +33,24 @@ export class ScoreForm extends Component<FormProps, ScoreList> {
 
     constructor(props){
         super(props);
-        this.state = {
-            scores: [{
-                pid: "10",
-                score: "90",
-                date: "2018-05-01",
-            }, {
-                pid: "11",
-                score: "92",
-                date: "2018-05-02",
-            }],
-        };
-        for(let i in this.props.pids) {
-            this.state.scores.push({
-                pid: this.props.pids[i],
-                score: this.props.scores[i],
-                date: this.props.dates[i],
-            });
-        }
+        // this.state = {
+        //     scores: [{
+        //         pid: "10",
+        //         score: "90",
+        //         date: "2018-05-01",
+        //     }, {
+        //         pid: "11",
+        //         score: "92",
+        //         date: "2018-05-02",
+        //     }],
+        // };
+        // for(let i in this.props.pids) {
+        //     this.state.scores.push({
+        //         pid: this.props.pids[i],
+        //         score: this.props.scores[i],
+        //         date: this.props.dates[i],
+        //     });
+        // }
     }
 
     render() {
@@ -88,7 +89,7 @@ export class ScoreForm extends Component<FormProps, ScoreList> {
 
         return (
             <div>
-                <Table rowKey="pid" columns = {columns} dataSource = {this.state.scores}/>
+                <Table rowKey="pid" columns = {columns} dataSource = {this.props.scores}/>
             </div>
         );
     }

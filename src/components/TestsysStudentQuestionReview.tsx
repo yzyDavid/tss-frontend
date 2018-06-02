@@ -11,7 +11,8 @@ interface UserProps extends DvaProps {
     email: string;
     tel: string;
     intro: string;
-    questions: QuestionFormData[];
+    // questions: QuestionFormData[];
+    questions: any;
     qids: string[];
     pid: string;
     startTime: string;

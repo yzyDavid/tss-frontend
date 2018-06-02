@@ -16,9 +16,9 @@ const TabPane = Tabs.TabPane;
 
 interface FormProps extends DvaProps {
     form: any;
-    questions: QuestionFormData[];
+    // questions: QuestionFormData[];
     // qids: string[];
-    // questions: any[];
+    questions: any;
     uid: string;
     pid: string;
     startTime: string;
@@ -38,9 +38,9 @@ interface questionState {
     time: string;
 }
 
-let j_questions: any[] = [];
-let s_questions: any[] = [];
-let f_questions: any[] = [];
+// let j_questions: any[] = [];
+// let s_questions: any[] = [];
+// let f_questions: any[] = [];
 
 let myAns: any[] = [];
 let time: string = "";
@@ -69,22 +69,22 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
         // for(var i=0;i<this.props.qids.length;i++) {
         //     this.props.dispatch({type:'testsys_student/getquestion', payload: {qid: this.props.qids[i], uid: this.props.form.uid}});
         // }
-        j_questions = [];
-        s_questions = [];
-        f_questions = [];
-        for(var i=0;i<this.props.questions.length;i++) {
-            switch(this.props.questions[i].qtype) {
-                case '1':
-                    j_questions.push(this.props.questions[i]);
-                    break;
-                case '2':
-                    s_questions.push(this.props.questions[i]);
-                    break;
-                case '3':
-                    f_questions.push(this.props.questions[i]);
-                    break;
-            }
-        }
+        // j_questions = [];
+        // s_questions = [];
+        // f_questions = [];
+        // for(var i=0;i<this.props.questions.length;i++) {
+        //     switch(this.props.questions[i].qtype) {
+        //         case '1':
+        //             j_questions.push(this.props.questions[i]);
+        //             break;
+        //         case '2':
+        //             s_questions.push(this.props.questions[i]);
+        //             break;
+        //         case '3':
+        //             f_questions.push(this.props.questions[i]);
+        //             break;
+        //     }
+        // }
     }
 
 
@@ -246,13 +246,13 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
                 <List bordered dataSource={[`剩余时间 - ${time}`]} renderItem={item => (<List.Item>{item}</List.Item>)}/>
                 <Tabs defaultActiveKey="1">
                     <TabPane tab="判断题" key="1">
-                        <Table rowKey="qid" columns = {columns_j} dataSource = {j_questions}/>
+                        <Table rowKey="qid" columns = {columns_j} dataSource = {this.props.questions.j_questions}/>
                     </TabPane>
                     <TabPane tab="选择题" key="2">
-                        <Table rowKey="qid" columns = {columns_s} dataSource = {s_questions}/>
+                        <Table rowKey="qid" columns = {columns_s} dataSource = {this.props.questions.s_questions}/>
                     </TabPane>
                     <TabPane tab="填空题" key="3">
-                        <Table rowKey="qid" columns = {columns_f} dataSource = {f_questions}/>
+                        <Table rowKey="qid" columns = {columns_f} dataSource = {this.props.questions.f_questions}/>
                     </TabPane>
                 </Tabs>
 
