@@ -69,6 +69,7 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
         // for(var i=0;i<this.props.qids.length;i++) {
         //     this.props.dispatch({type:'testsys_student/getquestion', payload: {qid: this.props.qids[i], uid: this.props.form.uid}});
         // }
+
         // j_questions = [];
         // s_questions = [];
         // f_questions = [];
@@ -85,6 +86,7 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
         //             break;
         //     }
         // }
+
     }
 
 
@@ -95,6 +97,7 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
             pid: this.props.pid,
         };
         console.log("handle save");
+        console.log("pid save:"+this.props.pid);
         for (var i = 0; i < myAns.length; i++) {
             console.log("qid "+myAns[i].id+": "+myAns[i].myanswer);
             values.ans.push(myAns[i].myanswer);

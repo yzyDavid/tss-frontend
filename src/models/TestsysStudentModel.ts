@@ -149,7 +149,7 @@ const model = {
                     const response = yield call(tssFetch, '/testsys_student/getpaperlist', 'POST', {});
                     console.log("student/paper response: "+response);
                     if (response.status === 400) {
-                        message.error('更新失败');
+                        message.error('无法读取试卷列表');
                         return;
                     }
                     //?datasource
@@ -163,6 +163,7 @@ const model = {
                     return;
                     // break;
                 case "student_score":
+
                     const values = {
                         type: 0,
                         sid: null,
@@ -174,7 +175,7 @@ const model = {
                     const response1 = yield call(tssFetch, '/testsys_result/search', 'POST', values);
                     console.log("student/score response: "+response1);
                     if (response1.status === 400) {
-                        message.error('更新失败');
+                        message.error('无法读取学生成绩');
                         return;
                     }
                     //?datasource
@@ -193,6 +194,7 @@ const model = {
                         // payload: {score_pids: body1.pid, score_scores: body1.score, score_dates: body1.date}
                         payload: {scores: scores}
                     });
+
                     yield put(routerRedux.push('/testsys_student_score'));
                     return;
                     // break;
@@ -226,7 +228,7 @@ const model = {
             const response = yield call(tssFetch, '/testsys_student/getquestions', 'POST', msg);
             console.log("sq/paper response: "+response);
             if (response.status === 400) {
-                message.error('更新失败');
+                message.error('已参加过该考试！');
                 return;
             }
             //?datasource
@@ -281,7 +283,7 @@ const model = {
             const response = yield call(tssFetch, '/testsys_student/save', 'POST', msg);
             console.log("sq/question response: "+response);
             if (response.status === 400) {
-                message.error('更新失败');
+                message.error('无法保存试卷');
                 return;
             }
             return;
@@ -293,7 +295,7 @@ const model = {
             const response = yield call(tssFetch, '/testsys_student/submit', 'POST', msg);
             console.log("sq/question response: "+response);
             if (response.status === 400) {
-                message.error('更新失败');
+                message.error('无法提交试卷');
                 return;
             }
             yield put(routerRedux.push('/testsys_student_paper'));
