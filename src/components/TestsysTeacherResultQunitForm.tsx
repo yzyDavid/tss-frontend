@@ -134,22 +134,7 @@ export class ResultSearchQunitForm extends Component<studentProp,  ResultList> {
 
                 <FormItem {...formItemLayout}>
                     <Button icon="copy" type="primary" htmlType="submit">搜索</Button>
-                    <Modal
-                        title="编辑试卷"
-                        wrapClassName="vertical-center-modal"
-                        visible={this.state.modalVisible}
-                        onCancel={() => this.setModalVisible(false)}
-                    >
 
-                        <Form>
-
-                            <FormItem {...formItemLayout}>
-
-                            </FormItem>
-
-                        </Form>
-
-                    </Modal>
                 </FormItem>
 
 

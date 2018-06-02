@@ -143,7 +143,7 @@ const model = {
             console.log(payload);
             const msg = payload.payload;
             const response = yield call(tssFetch, '/testsys_result/search', 'POST', msg);
-            console.log(response);
+
             if (response.status === 400) {
                 message.error('查询失败');
                 return;
@@ -153,6 +153,8 @@ const model = {
             const body = JSON.parse(jsonBody);
             let presult: any[] = [];
             let qresult: any[] = [];
+            console.log(body);
+
             for(let i in body.pid) {
                 presult.push({
                     pid: body.pid[i],
@@ -160,12 +162,15 @@ const model = {
                     date: body.date[i]
                 });
             }
-            for(let i of body.questions) {
+
+            for(let i in body.questions) {
                 qresult.push({
-                    qid: i.qid,
-                    rate: (i.answerednum==0? 0.0:i.correct/i.answerednum).toString(),
+                    qid: body.questions[i].qid,
+                    rate: (body.questions[i].answerednum==0? 0.0:body.questions[i].correct/body.questions[i].answerednum).toString(),
                 });
             }
+
+
             yield put({
                 type: 'updateSearchInfo',
                 payload: {presult: presult, qresult: qresult}
