@@ -8,8 +8,9 @@ const { TextArea } = Input;
 
 interface studentProp extends DvaProps {
     form:any;
-    qids: string[];
-    rates: string[];
+    // qids: string[];
+    // rates: string[];
+    results: any[];
 }
 
 export class ResultFormData {
@@ -59,12 +60,12 @@ export class ResultSearchSidForm extends Component<studentProp,  ResultList> {
 //             }
             ]
         };
-        for(let i in this.props.qids) {
-            this.state.results.push({
-                qid: this.props.qids[i],
-                rate: this.props.rates[i],
-            });
-        }
+        // for(let i in this.props.qids) {
+        //     this.state.results.push({
+        //         qid: this.props.qids[i],
+        //         rate: this.props.rates[i],
+        //     });
+        // }
     }
 
     componentDidMount() {
@@ -118,35 +119,35 @@ export class ResultSearchSidForm extends Component<studentProp,  ResultList> {
         };
 
         const columns = [{
-        //     title: '试卷编号',
-        //     dataIndex: 'pid',
-        //     key: 'pid',
-        //     render: text => <a href="#">{text}</a>,
-        // }, {
-        //     title: '考试日期',
-        //     dataIndex: 'date',
-        //     key: 'date',
-        // },   {
-        //     title: '考试成绩',
-        //     dataIndex: 'score',
-        //     key: 'score',
-        //     /*
-        //     render: (text, record) => (
-        //         <span>
-        //
-        //         <span className="ant-divider" />
-        //             <Button onClick={() => this.handleDetail(record.id)}>点我</Button>
-        //
-        //         </span>
-        //     ),*/
-            title: '题目编号',
-            dataIndex: 'qid',
-            key: 'qid',
+            title: '试卷编号',
+            dataIndex: 'pid',
+            key: 'pid',
             render: text => <a href="#">{text}</a>,
+        }, {
+            title: '考试日期',
+            dataIndex: 'date',
+            key: 'date',
         },   {
-            title: '正确率',
-            dataIndex: 'rate',
-            key: 'rate',
+            title: '考试成绩',
+            dataIndex: 'score',
+            key: 'score',
+            /*
+            render: (text, record) => (
+                <span>
+
+                <span className="ant-divider" />
+                    <Button onClick={() => this.handleDetail(record.id)}>点我</Button>
+
+                </span>
+            ),*/
+        //     title: '题目编号',
+        //     dataIndex: 'qid',
+        //     key: 'qid',
+        //     render: text => <a href="#">{text}</a>,
+        // },   {
+        //     title: '正确率',
+        //     dataIndex: 'rate',
+        //     key: 'rate',
         }];
 
 
@@ -190,7 +191,7 @@ export class ResultSearchSidForm extends Component<studentProp,  ResultList> {
                 </FormItem>
 
 
-                <Table columns = {columns} rowKey="qid" dataSource = {this.state.results}/>
+                <Table columns = {columns} rowKey="pid" dataSource = {this.props.results}/>
             </Form>
 
 

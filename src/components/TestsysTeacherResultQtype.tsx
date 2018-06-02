@@ -6,8 +6,10 @@ import TestTeacherSideBar from './TestTeacherSideBar'
 import { Layout, Breadcrumb} from 'antd';
 class HomePageProps implements DvaProps {
     public dispatch: any;
-    qids: string[];
-    rates: string[];
+    // qids: string[];
+    // rates: string[];
+    qresult: any[];
+
 }
 
 export default class TestsysTeacherResultQtypecomponent extends Component<HomePageProps, {}> {
@@ -21,8 +23,7 @@ export default class TestsysTeacherResultQtypecomponent extends Component<HomePa
                     </Breadcrumb>
                     <Layout id = "content" style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
                         <WrappedResultSearchQtypeForm
-                            qids={this.props.qids}
-                            rates={this.props.rates}/>
+                            results={this.props.qresult}/>
 
                     </Layout>
                 </Layout>

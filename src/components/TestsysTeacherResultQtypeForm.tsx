@@ -8,8 +8,9 @@ const { TextArea } = Input;
 
 interface studentProp extends DvaProps {
     form:any;
-    qids: string[];
-    rates: string[];
+    // qids: string[];
+    // rates: string[];
+    results: any[];
 }
 
 export class ResultFormData {
@@ -30,32 +31,32 @@ interface  ResultList{
 export class ResultSearchQtypeForm extends Component<studentProp,  ResultList> {
     constructor(props){
         super(props);
-        this.state = {
-            qtype: '0',
-            modalVisible: false,
-
-            results :[{
-                id: '1',
-                qid: '10',
-                rate: '0.90'
-                ,
-            }, {
-                id: '2',
-                qid: '10',
-                rate: '0.93'
-            },{
-                id: '3',
-                qid: '10',
-                rate: '0.70'
-            }]
-        };
-        for(let i in this.props.qids) {
-            this.state.results.push({
-                id: '',
-                qid: this.props.qids[i],
-                rate: this.props.rates[i],
-            });
-        }
+        // this.state = {
+        //     qtype: '0',
+        //     modalVisible: false,
+        //
+        //     results :[{
+        //         id: '1',
+        //         qid: '10',
+        //         rate: '0.90'
+        //         ,
+        //     }, {
+        //         id: '2',
+        //         qid: '10',
+        //         rate: '0.93'
+        //     },{
+        //         id: '3',
+        //         qid: '10',
+        //         rate: '0.70'
+        //     }]
+        // };
+        // for(let i in this.props.qids) {
+        //     this.state.results.push({
+        //         id: '',
+        //         qid: this.props.qids[i],
+        //         rate: this.props.rates[i],
+        //     });
+        // }
     }
 
     componentDidMount() {
@@ -159,7 +160,7 @@ export class ResultSearchQtypeForm extends Component<studentProp,  ResultList> {
                 </FormItem>
 
 
-                <Table columns = {columns} rowKey="qid" dataSource = {this.state.results}/>
+                <Table columns = {columns} rowKey="qid" dataSource = {this.props.results}/>
             </Form>
 
 

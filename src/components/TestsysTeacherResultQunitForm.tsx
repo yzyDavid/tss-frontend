@@ -8,8 +8,10 @@ const { TextArea } = Input;
 
 interface studentProp extends DvaProps {
     form:any;
-    qids: string[];
-    rates: string[];
+    // qids: string[];
+    // rates: string[];
+    results: any[];
+
 }
 
 export class ResultFormData {
@@ -30,25 +32,25 @@ interface  ResultList{
 export class ResultSearchQunitForm extends Component<studentProp,  ResultList> {
     constructor(props){
         super(props);
-        this.state = {
-            qtype: '0',
-            modalVisible: false,
-
-            results :[{
-                id: '1',
-                qid: '10',
-                rate: '0.90'
-                ,
-            }, {
-                id: '2',
-                qid: '10',
-                rate: '0.93'
-            },{
-                id: '3',
-                qid: '10',
-                rate: '0.70'
-            }]
-        };
+        // this.state = {
+        //     qtype: '0',
+        //     modalVisible: false,
+        //
+        //     results :[{
+        //         id: '1',
+        //         qid: '10',
+        //         rate: '0.90'
+        //         ,
+        //     }, {
+        //         id: '2',
+        //         qid: '10',
+        //         rate: '0.93'
+        //     },{
+        //         id: '3',
+        //         qid: '10',
+        //         rate: '0.70'
+        //     }]
+        // };
     }
 
     componentDidMount() {
@@ -151,7 +153,7 @@ export class ResultSearchQunitForm extends Component<studentProp,  ResultList> {
                 </FormItem>
 
 
-                <Table columns = {columns} rowKey="qid" dataSource = {this.state.results}/>
+                <Table columns = {columns} rowKey="qid" dataSource = {this.props.results}/>
             </Form>
 
 

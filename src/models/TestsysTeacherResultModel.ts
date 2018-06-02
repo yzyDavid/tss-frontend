@@ -33,16 +33,28 @@ const model = {
             avg: '71'
         }],
 
-        qids: [
-            "1",
-            "2",
-            "4",
+        // qids: [
+        //     "1",
+        //     "2",
+        //     "4",
+        // ],
+        // rates: [
+        //     "0.8",
+        //     "1.0",
+        //     "0.92",
+        // ],
+        presult: [],
+        qresult: [
+            {
+                qid: "1",
+                rate: "0.8",
+            },
+            {
+                qid: "2",
+                rate: "0.94",
+            },
         ],
-        rates: [
-            "0.8",
-            "1.0",
-            "0.92",
-        ]
+
     },
     reducers: {
         saveSession(st) {
@@ -139,9 +151,24 @@ const model = {
             //?datasource
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
+            let presult: any[] = [];
+            let qresult: any[] = [];
+            for(let i in body.pid) {
+                presult.push({
+                    pid: body.pid[i],
+                    score: body.score[i],
+                    date: body.date[i]
+                });
+            }
+            for(let i of body.questions) {
+                qresult.push({
+                    qid: i.qid,
+                    rate: (i.answerednum==0? 0.0:i.correct/i.answerednum).toString(),
+                });
+            }
             yield put({
                 type: 'updateSearchInfo',
-                payload: {qids:body.qid, rates:body.rate}
+                payload: {presult: presult, qresult: qresult}
             });
 
             return;
