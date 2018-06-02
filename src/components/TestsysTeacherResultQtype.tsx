@@ -21,6 +21,7 @@ export default class TestsysTeacherResultQtypecomponent extends Component<HomePa
                     </Breadcrumb>
                     <Layout id = "content" style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
                         <WrappedResultSearchQtypeForm
+                            dispatch = {this.props.dispatch}
                             qids={this.props.qids}
                             rates={this.props.rates}/>
 

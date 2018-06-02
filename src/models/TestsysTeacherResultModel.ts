@@ -42,7 +42,9 @@ const model = {
             "0.8",
             "1.0",
             "0.92",
-        ]
+        ],
+
+
     },
     reducers: {
         saveSession(st) {

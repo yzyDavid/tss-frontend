@@ -70,7 +70,7 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
         // }
         console.log("pid:"+this.props.pid);
         for(var i=0;i<this.props.questions.length;i++) {
-          //  console.log("update:"+this.props.questions[i].qid);
+            console.log("update:"+this.props.questions[i].qid);
             switch(this.props.questions[i].qtype) {
                 case '1':
                     j_questions.push(this.props.questions[i]);
@@ -93,6 +93,7 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
             pid: this.props.pid,
         };
         console.log("handle save");
+        console.log("pid save:"+this.props.pid);
         for (var i = 0; i < myAns.length; i++) {
             console.log("qid "+myAns[i].id+": "+myAns[i].myanswer);
             values.ans.push(myAns[i].myanswer);

@@ -23,7 +23,7 @@ interface  ResultList{
     papername: string;
     begin: string;
     end: string;
-    results: ResultFormData[];
+    results: {   qid:string, rate: string}[];
     modalVisible: boolean;
 
 }
@@ -52,10 +52,8 @@ export class ResultSearchPidForm extends Component<studentProp,  ResultList> {
             }*/ ]
         };
         for(let i in this.props.qids) {
-            this.state.results.push({
-                qid: this.props.qids[i],
-                rate: this.props.rates[i],
-            });
+            this.state.results[i] = {qid: this.props.qids[i], rate: this.props.rates[i]};
+
         }
     }
 
@@ -77,9 +75,14 @@ export class ResultSearchPidForm extends Component<studentProp,  ResultList> {
         });
 
 
-     //   for(var i = 0; i < this.props.qid.length; i++)
-   //             this.state.results[i] = {qid: this.props.qid[i], avg: this.props.avg[i]};
 
+        for(let i in this.props.qids) {
+            this.state.results[i] = {qid: this.props.qids[i], rate: this.props.rates[i]};
+
+        }
+
+        this.setState({results:this.state.results});
+      //  location.reload();
     };
 
 

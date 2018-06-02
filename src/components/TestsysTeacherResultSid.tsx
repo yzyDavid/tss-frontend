@@ -20,8 +20,10 @@ export default class TestsysTeacherResultSidComponent extends Component<HomePage
                         <Breadcrumb.Item>按学号查询成绩</Breadcrumb.Item>
                     </Breadcrumb>
                     <Layout id = "content" style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-                        <WrappedResultSearchSidForm qids={this.props.qids}
-                                                    rates={this.props.rates}/>
+                        <WrappedResultSearchSidForm
+                            dispatch = {this.props.dispatch}
+                            qids={this.props.qids}
+                            rates={this.props.rates}/>
 
                     </Layout>
                 </Layout>

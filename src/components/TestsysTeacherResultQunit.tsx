@@ -20,8 +20,10 @@ export default class TestsysTeacherResultQunitComponent extends Component<HomePa
                         <Breadcrumb.Item>按单元号查询成绩</Breadcrumb.Item>
                     </Breadcrumb>
                     <Layout id = "content" style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-                        <WrappedResultSearchQunitForm qids={this.props.qids}
-                                                      rates={this.props.rates}/>
+                        <WrappedResultSearchQunitForm
+                            dispatch = {this.props.dispatch}
+                            qids={this.props.qids}
+                             rates={this.props.rates}/>
 
                     </Layout>
                 </Layout>

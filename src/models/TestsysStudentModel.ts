@@ -155,7 +155,7 @@ const model = {
                     return;
                     // break;
                 case "student_score":
-                    yield put(routerRedux.push('/testsys_student_score'));
+
                     const values = {
                         type: 0,
                         sid: null,
@@ -178,7 +178,7 @@ const model = {
                         payload: {score_pids: body1.pid, score_scores: body1.score, score_dates: body1.date}
                     });
 
-
+                    yield put(routerRedux.push('/testsys_student_score'));
                     return;
                     // break;
             }
