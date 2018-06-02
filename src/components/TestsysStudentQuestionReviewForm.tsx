@@ -31,6 +31,7 @@ export class QuestionFormData {
     // qanswer: string;
     // qmyanswer: string;
     qunit: string;
+    myanswer: string;
 }
 
 interface questionState {
@@ -68,6 +69,9 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
         // for(var i=0;i<this.props.qids.length;i++) {
         //     this.props.dispatch({type:'testsys_student/getquestion', payload: {qid: this.props.qids[i], uid: this.props.form.uid}});
         // }
+        j_questions = [];
+        s_questions = [];
+        f_questions = [];
         for(var i=0;i<this.props.questions.length;i++) {
             switch(this.props.questions[i].qtype) {
                 case '1':
@@ -109,17 +113,17 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
         var flag = false;
         for(let rec of myAns) {
             if(rec.id==qid) {
-                rec.myanswer = e.target.value;
+                rec.myanswer = e.target.value.toString();
                 flag = true;
             }
         }
         if(!flag) {
             myAns.push({
                 id: qid,
-                myanswer: e.target.value,
+                myanswer: e.target.value.toString(),
             });
         }
-        console.log("handle update: "+qid);
+        console.log("handle update: "+qid+", "+e.target.value.toString());
     };
 
     // confirmText = (e) => {

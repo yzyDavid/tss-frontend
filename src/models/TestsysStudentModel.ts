@@ -53,7 +53,7 @@ const model = {
                 question: "Is monkey an animal?",
                 qtype: "1",
                 // qanswer: "yes",
-                // qmyanswer: "",
+                qmyanswer: "",
                 qunit: "1",
             },
             {
@@ -61,7 +61,7 @@ const model = {
                 question: "Is apple an animal?",
                 qtype: "1",
                 // qanswer: "no",
-                // qmyanswer: "",
+                qmyanswer: "",
                 qunit: "2",
             },
             {
@@ -69,7 +69,7 @@ const model = {
                 question: "Which is an animal?\nA.monkey B.apple",
                 qtype: "2",
                 // qanswer: "A",
-                // qmyanswer: "",
+                qmyanswer: "",
                 qunit: "2",
             },
             {
@@ -77,7 +77,7 @@ const model = {
                 question: "What is an apple?",
                 qtype: "3",
                 // qanswer: "fruit",
-                // qmyanswer: "",
+                qmyanswer: "",
                 qunit: "2",
             },
         ],
@@ -138,7 +138,6 @@ const model = {
             console.log('jump_testsysstudent');
             switch(direction){
                 case "student_paper":
-                    yield put(routerRedux.push('/testsys_student_paper'));
                     const response = yield call(tssFetch, '/testsys_student/getpaperlist', 'POST', {});
                     console.log("student/paper response: "+response);
                     if (response.status === 400) {
@@ -152,10 +151,10 @@ const model = {
                         type: 'updatePaperList',
                         payload: {papers: body.paperlist}
                     });
+                    yield put(routerRedux.push('/testsys_student_paper'));
                     return;
                     // break;
                 case "student_score":
-                    yield put(routerRedux.push('/testsys_student_score'));
                     const values = {
                         type: 0,
                         sid: null,
@@ -177,6 +176,7 @@ const model = {
                         type: 'updateScoreList',
                         payload: {score_pids: body1.pid, score_scores: body1.score, score_dates: body1.date}
                     });
+                    yield put(routerRedux.push('/testsys_student_score'));
                     return;
                     // break;
             }
@@ -203,11 +203,10 @@ const model = {
         },
 
         * getquestions(payload: {payload: {pid: string, uid: string}}, {call, put}) {
-            yield put(routerRedux.push('/testsys_student_question_review'));
             // const msg = payload.payload;
             const msg = {pid: payload.payload.pid};
             console.log("sp/paper: "+payload);
-            const response = yield call(tssFetch, '/testsys_student/getquestion', 'POST', msg);
+            const response = yield call(tssFetch, '/testsys_student/getquestions', 'POST', msg);
             console.log("sq/paper response: "+response);
             if (response.status === 400) {
                 message.error('更新失败');
@@ -220,6 +219,7 @@ const model = {
                 type: 'updateQuestionsList',
                 payload: {pid: body.pid, startTime: body.starttime, questions: body.questioninfo}
             });
+            yield put(routerRedux.push('/testsys_student_question_review'));
             return;
         },
 
