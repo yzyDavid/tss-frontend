@@ -68,7 +68,9 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
         // for(var i=0;i<this.props.qids.length;i++) {
         //     this.props.dispatch({type:'testsys_student/getquestion', payload: {qid: this.props.qids[i], uid: this.props.form.uid}});
         // }
+        console.log("pid:"+this.props.pid);
         for(var i=0;i<this.props.questions.length;i++) {
+          //  console.log("update:"+this.props.questions[i].qid);
             switch(this.props.questions[i].qtype) {
                 case '1':
                     j_questions.push(this.props.questions[i]);

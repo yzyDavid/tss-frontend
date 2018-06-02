@@ -177,6 +177,8 @@ const model = {
                         type: 'updateScoreList',
                         payload: {score_pids: body1.pid, score_scores: body1.score, score_dates: body1.date}
                     });
+
+
                     return;
                     // break;
             }
@@ -203,11 +205,11 @@ const model = {
         },
 
         * getquestions(payload: {payload: {pid: string, uid: string}}, {call, put}) {
-            yield put(routerRedux.push('/testsys_student_question_review'));
+
             // const msg = payload.payload;
             const msg = {pid: payload.payload.pid};
             console.log("sp/paper: "+payload);
-            const response = yield call(tssFetch, '/testsys_student/getquestion', 'POST', msg);
+            const response = yield call(tssFetch, '/testsys_student/getquestions', 'POST', msg);
             console.log("sq/paper response: "+response);
             if (response.status === 400) {
                 message.error('更新失败');
@@ -220,6 +222,7 @@ const model = {
                 type: 'updateQuestionsList',
                 payload: {pid: body.pid, startTime: body.starttime, questions: body.questioninfo}
             });
+            yield put(routerRedux.push('/testsys_student_question_review'));
             return;
         },
 
