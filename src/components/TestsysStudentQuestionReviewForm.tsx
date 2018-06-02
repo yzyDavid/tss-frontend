@@ -16,19 +16,20 @@ const TabPane = Tabs.TabPane;
 
 interface FormProps extends DvaProps {
     form: any;
-    // questions: QuestionFormData[];
-    qids: string[];
-    questions: any[];
+    questions: QuestionFormData[];
+    // qids: string[];
+    // questions: any[];
     uid: string;
     pid: string;
+    startTime: string;
 }
 
 export class QuestionFormData {
     qid: string;
     question: string;
     qtype: string;
-    qanswer: string;
-    qmyanswer: string;
+    // qanswer: string;
+    // qmyanswer: string;
     qunit: string;
 }
 
@@ -64,9 +65,9 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
 
         console.log(this.state);
         console.log(this.props);
-        for(var i=0;i<this.props.qids.length;i++) {
-            this.props.dispatch({type:'testsys_student/getquestion', payload: {qid: this.props.qids[i], uid: this.props.form.uid}});
-        }
+        // for(var i=0;i<this.props.qids.length;i++) {
+        //     this.props.dispatch({type:'testsys_student/getquestion', payload: {qid: this.props.qids[i], uid: this.props.form.uid}});
+        // }
         for(var i=0;i<this.props.questions.length;i++) {
             switch(this.props.questions[i].qtype) {
                 case '1':
