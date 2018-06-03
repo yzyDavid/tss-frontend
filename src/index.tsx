@@ -104,6 +104,7 @@ app.model(CourseInfoModel);
 app.model(CurriculumTeacherModel);
 app.model(CurriculumManageModel);
 app.model(ClassroomManageModel);
+app.model(AutoSchedulingModel);
 
 
 
@@ -204,19 +205,22 @@ const TestsysTeacherResultQunitPage = connect(state => {
 
 const AutoSchedulingPage = connect(state => {
     const dataSource = state.autoscheduling.dataSource;
-    const totalCourse = state.autoscheduling.totalCourse;
-    //console.log(state.autoscheduling.dataSource);
-    return {dataSource: dataSource, totalCourse: totalCourse};
+    const numArrangedClasses = state.autoscheduling.numArrangedClasses;
+    const schedulingTime = state.autoscheduling.schedulingTime;
+    return {dataSource: dataSource, numArrangedClasses: numArrangedClasses, schedulingTime: schedulingTime};
 })(AutoSchedulingComponent);
 
 const ManualSchedulingPage = connect(state => {
     const {dataSource} = state.courseinfo;
-    return {dataSource: dataSource};
+    const schedulingTime = state.autoscheduling.schedulingTime;
+    return {dataSource: dataSource, schedulingTime: schedulingTime};
 })(ManualSchedulingPageComponent);
 
 const ManualSchModifyPage = connect(state => {
     const dataSource = state.freeclassroominfo.dataSource;
-    return {dataSource: dataSource, courseInfo:  state.freeclassroominfo.selectedCourseInfo};
+    const clazzInfo = state.courseinfo.clazzInfo;
+    const buildingData = state.curriculummanage.buildingData;
+    return {dataSource: dataSource, clazzInfo: clazzInfo, buildingData: buildingData};
 })(ManualSchModifyPageComponent);
 
 const ClassroomManagePage = connect(state => {
@@ -248,7 +252,6 @@ const CourseManagePage = connect(state => {
 const DeptManagePage = connect(state => {
     return {...state.dept, pswdShow: state.pswd.show};
 })(DeptManagePageComponent);
-
 
 const ManageTimePage = connect(state =>{
     return{};
