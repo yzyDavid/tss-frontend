@@ -283,11 +283,7 @@ const ClassSelectPage = connect(state =>{
 const StuListPage = connect(state =>{
     const {dataSource} = state.studentList;
     return {dataSource: dataSource};
-
 })(StudentListComponent);
-
-
-
 
 const ScoreUploadPage = connect(state => {
     const {uid, level} = state.login;

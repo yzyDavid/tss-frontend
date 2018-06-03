@@ -5,11 +5,13 @@ import { Router,Route,hashHistory} from 'react-router';
 import DvaProps from '../types/DvaProps';
 import {NavigationBar} from './TssPublicComponents';
 import {ClassroomFormData} from "./CurriculumManage";
+import GlobalState from "../types/globalState";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 
 interface CurriculumTeacherProps extends DvaProps {
+    uid: GlobalState;
     form: any;
     dataSource: any;
     location: any;
@@ -99,8 +101,7 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
                 render: (text,record,index)=>(<a onClick={()=>{this.props.dispatch({type: "curriculumteacher/showList", payload: {courseId: this.props.dataSource[index].classId}})}}>学生名单</a>)
             }
 
-        ];
-
+    ];
         return (
             <div>
                 <NavigationBar current={"list"} dispatch={this.props.dispatch}/>
