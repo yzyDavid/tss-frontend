@@ -50,9 +50,6 @@ import PswdModel from './models/pswdModel';
 import DeptModel from './models/deptModel';
 import SelectionModel from './models/SelectionModel';
 import StuListModel from './models/StuListModel';
-import ScoreUploadModel from './models/ScoreUploadModel'
-import ApplyModifyModel from './models/ApplyModifyModel'
-import ScoreManagerModel from './models/ScoreManagerModel'
 
 import DeptManagePageComponent from './components/DeptManagePage';
 import { TssFooter, TssHeader } from './components/TssPublicComponents';
@@ -74,21 +71,6 @@ import ManagerSelectionComponent from './components/SelectionManager';
 import StudentSelectionComponent from './components/SelectionStudent';
 import ClassSelectionComponent from './components/SelectionClass';
 import StudentListComponent from './components/StudentList';
-
-import ForumHomePageComponent from './components/ForumHomePage';
-import ForumUserPageComponent from './components/ForumUserPage'
-import MyPostPageComponent from './components/ForumMyPostPage'
-import ReplyPageComponent from './components/ForumReplyPage'
-import NewTopicPageComponent from './components/ForumNewTopicPage'
-import LetterPageComponent from './components/ForumMailPage'
-import BoardPageComponent from './components/ForumBoardPage'
-import TopicPageComponent from './components/ForumTopicPage'
-import SearchComponent from "./components/ForumSearchPage"
-import AllBoardComponent from "./components/ForumAllBoard"
-import scoreUploadComponent from './components/ScoreUpload';
-import applyModifyComponent from './components/ApplyModify';
-import scoreManagerComponent from './components/ScoreManager'
-import ScoreManager from './components/ScoreManager';
 
 
 const {Content} = Layout;
@@ -113,12 +95,6 @@ app.model(CourseInfoModel);
 app.model(CurriculumTeacherModel);
 app.model(CurriculumManageModel);
 app.model(ClassroomManageModel);
-
-
-
-app.model(ScoreUploadModel);
-app.model(ApplyModifyModel);
-app.model(ScoreManagerModel);
 
 
 const HomePage = connect(state => {
@@ -284,78 +260,7 @@ const ClassSelectPage = connect(state =>{
 const StuListPage = connect(state =>{
     const {dataSource} = state.studentList;
     return {dataSource: dataSource};
-
-})(StudentListComponent);
-
-const ForumTopicPage = connect(state => {
-    const data = state.topic.allstate;
-    return {allstate: data};
-})(TopicPageComponent);
-
-const ForumReplyPage = connect(state => {
-    const data = state.replyList.replylist;
-    return {ReplyList: data};
-})(ReplyPageComponent);
-
-const ForumSearchPage = connect(state => {
-    const data = state.search.data;
-    return {boardList: data}
-})(SearchComponent);
-
-const ForumAllBoardPage = connect(state => {
-    const data = state.ForumAllBoard.list;
-    return {boardList:data};
-})(AllBoardComponent);
-
-const ForumHomePage = connect(state => {
-    const dataSource = state.ForumAllBoard.uid;
-    const mylist = state.myboard.list;
-    const hot = state.forumhome.HotList;
-    const latest = state.forumhome.LatestList;
-    return {uid: dataSource,alllist :state.ForumAllBoard.list,mylist:mylist,hot:hot,latest:latest };
-})(ForumHomePageComponent);
-
-const ForumUserPage = connect(state => {
-    const data = state.ForumUserInfo.userInfo;
-    return {userInfo: data};
-})(ForumUserPageComponent);
-
-const ForumMyPostPage = connect(state => {
-    const data = state.mypost.postList;
-    return {postList: data};
-})(MyPostPageComponent);
-
-
-const ForumLetterPage = connect(state => {
-    const data = state.mail.input;
-    return {allstate: data}
-})(LetterPageComponent);
-
-const ForumNewTopicPage = connect(state => {
-    const data = {boardName: state.board.boardState.BoardName, boardID: state.board.boardState.BoardID};
-    return {topicBoardInfo: data}
-})(NewTopicPageComponent);
-
-const ForumBoardPage = connect(state => {
-    const data = state.board.boardState;
-    return {boardinfo: data}
-})(BoardPageComponent);
-
-const ScoreUploadPage = connect(state => {
-    const {uid, level} = state.login;
-    return {uid: uid, _state: state.scoreUpload};
-})(scoreUploadComponent);
-
-
-const ApplyModifyPage = connect(state => {
-    const { uid, level } = state.login;
-    return { uid: uid, _state: state.applyModify };
-})(applyModifyComponent);
-
-
-const ScoreManagerPage = connect(state => {
-    return {  _state: state.scoreManager };
-})(scoreManagerComponent);
+})(StudentListComponent)
 
 app.router(({history}) => (
         <Router history={history}>
@@ -404,25 +309,6 @@ app.router(({history}) => (
                         <Route path="/stuSelect" component={StuSelectPage}/>
                         <Route path="/classSelect/:courseId" component={ClassSelectPage}/>
                         <Route path="/stuList/:classId" component={StuListPage}/>
-
-
-
-                        <Route exact path="/home" component={ForumHomePage}/>
-                        <Route exact path="/userinfo" component={ForumUserPage}/>
-                        <Route path="/uid=:uid" component={ForumUserPage}/>
-                        <Route exact path="/userarticle" component={ForumUserPage}/>
-                        <Route exact path="/mypost" component={ForumMyPostPage}/>
-                        <Route exact path="/privateLetter" component={ForumLetterPage}/>
-                        <Route exact path="/reply" component={ForumReplyPage}/>
-                        <Route exact path="/search" component={ForumSearchPage}/>
-                        <Route exact path="/newpost" component={ForumNewTopicPage}/>
-                        <Route exact path="/allboard" component={ForumAllBoardPage}/>
-                        <Route path="/board=:boardid" component={ForumBoardPage}/>
-                        <Route path="/topic=:topicid" component={ForumTopicPage}/>
-                        <Route path="/scoreUpload" component={ScoreUploadPage} />
-                        <Route path="/applyModify" component={ApplyModifyPage} />
-                        <Route path="/scoreManager" component={ScoreManagerPage} />
-
 
                     </Switch>
                 </Content>
