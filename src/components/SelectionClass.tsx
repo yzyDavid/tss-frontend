@@ -46,7 +46,7 @@ export default class ClassSelectionComponent extends Component<UserProps, UserSt
     render(){
         const columns = [{
             title: "课程编号",
-            dataIndex: "id",
+            dataIndex: "classId",
         },{
             title: "学年",
             dataIndex: "year",

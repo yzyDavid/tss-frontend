@@ -107,6 +107,7 @@ export default class ManagerSelectionComponent extends Component<ManSelectionPro
                                 addonBefore={<Select defaultValue="课程名" style={{width: 85}} onChange={(value) =>{this.setState({searchIndex: value})}}>
                                     <Option value="课程名">课程名</Option>
                                     <Option value="教师">教师</Option>
+                                    <Option value="课程号">课程号</Option>
                                 </Select>}
                                 placeholder="input search text"
                                 enterButton

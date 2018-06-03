@@ -15,22 +15,29 @@ interface CourseProps extends DvaProps{
 }
 
 interface CourseTableState {
-    year: string;
-    semester: string;
+    year: any;
+    semester: any;
 }
 
-export default class CourseTableComponent extends Component<CourseProps>{
+export default class CourseTableComponent extends Component<CourseProps, CourseTableState>{
     constructor(props) {
         super(props)
+        this.state={
+            year: "2017",
+            semester: "FIRST"
+        }
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-    handleSubmit(){
-
+    handleSubmit = (e)=>{
+    console.log(this.state.year);
+    console.log(this.state.semester);
+    this.props.dispatch({type: "courseTable/search",payload: {year: this.state.year, semester:this.state.semester}})
     }
     render(){
         const columns = [{
             title: "课程代码",
-            dataIndex: "id",
+            dataIndex: "courseId",
         },{
             title: "课程名称",
             dataIndex: "courseName",
@@ -38,17 +45,17 @@ export default class CourseTableComponent extends Component<CourseProps>{
             title: "上课时间",
             dataIndex: "timeSlot"
         },{
-            title: "学期",
-            dataIndex: 'semester'
-        },{
             title: "学分",
             dataIndex: 'credit'
+        },{
+            title: "开课老师",
+            dataIndex: 'teacher'
         }];
         return(
             <div>
                <NavigationBar current={'courseTable'} dispatch={this.props.dispatch}/>
                 <div style={{ padding: 24, background: '#fff', minHeight: 780 }}>
-                    <Form layout="inline" onSubmit={this.handleSubmit}>
+                    <Form layout="inline">
                         <FormItem label="学年">
                             <Select defaultValue="2015" style={{width: 100}} onChange={(value)=>{this.setState({year: value})}}>
                                 <Option value="2015">2015</Option>

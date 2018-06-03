@@ -31,12 +31,12 @@ const model = {
         }
     },
     effects: {
-        * showAll(payload: { payload: {payload: {courseId: number}}}, {call, put}) {
-            var value = payload.payload["courseId"].toString();
-            console.log(payload.payload["courseId"]);
+        * showAll(payload: { payload: {payload: {courseName: number}}}, {call, put}) {
+            var value = payload.payload["courseName"].toString();
+            console.log(payload.payload["courseName"]);
             //fetch the data of the case and add to the query
             if(value!="-1") {
-                yield put(routerRedux.push({pathname: '/classSelect/' + value, query: payload.payload,}));
+                yield put(routerRedux.push({pathname: '/course/search?name=' + value, query: payload.payload,}));
             }
             return;
         },
@@ -44,9 +44,9 @@ const model = {
             var value = payload.payload["value"];
             var index = payload.payload["searchIndex"];
             console.log(payload.payload["value"])
-            if(index=="教师")
+            if(index=="课程号")
             {
-                const response = yield call(tssFetch, '/classes/action/search-by-teacher/'+value, 'GET' );
+                const response = yield call(tssFetch, '/classes/search/findByCourseId?id='+value, 'GET' );
                 if(response.status === 401) {
                     message.error("不存在该课程");
                     return;
@@ -60,7 +60,7 @@ const model = {
                 });
             }
             else if(index=="课程名"){
-                const response = yield call(tssFetch, '/classes/search/findByCourse_NameAndYearAndSemester?courseName='+value, 'GET');
+                const response = yield call(tssFetch, '/classes/search/findByCourseName?name='+value, 'GET');
                 if(response.status === 401) {
                     console.log("error")
                     message.error("不存在该课程");
@@ -77,10 +77,10 @@ const model = {
                 });
             }
         },
-        * select(payload: { payload: {payload: {courseId: number}}},{call,put}){
+        * select(payload: { payload: {payload: {classId: number}}},{call,put}){
             var value = payload.payload.toString();
             console.log("选择了："+value)
-            const response = yield call(tssFetch, '/classes/action/select/'+value, 'GET');
+            const response = yield call(tssFetch, '/classes/register', 'POST', value);
             if(response.status === 401) {
                 message.error("不存在该课程");
                 return;
