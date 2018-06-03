@@ -286,6 +286,7 @@ const model = {
                 message.error('无法保存试卷');
                 return;
             }
+            message.success('保存成功');
             return;
         },
 
@@ -298,6 +299,7 @@ const model = {
                 message.error('无法提交试卷');
                 return;
             }
+            message.success('提交成功');
             yield put(routerRedux.push('/testsys_student_paper'));
             return;
         }

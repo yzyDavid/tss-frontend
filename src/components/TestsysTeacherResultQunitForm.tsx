@@ -107,7 +107,6 @@ export class ResultSearchQunitForm extends Component<studentProp,  ResultList> {
             title: '题目编号',
             dataIndex: 'qid',
             key: 'qid',
-            render: text => <a href="#">{text}</a>,
         }, {
             title: '正确率',
             dataIndex: 'rate',
@@ -124,10 +123,10 @@ export class ResultSearchQunitForm extends Component<studentProp,  ResultList> {
                     {
                         getFieldDecorator('qunit', {
                             rules: [
-
+                                {required: true, message: '请输入单元'},
                             ]
                         })(
-                            <Input placeholder="请输入单元号"/>
+                            <Input placeholder="请输入单元"/>
                         )
                     }
                 </FormItem>

@@ -122,7 +122,6 @@ export class ResultSearchSidForm extends Component<studentProp,  ResultList> {
             title: '试卷编号',
             dataIndex: 'pid',
             key: 'pid',
-            render: text => <a href="#">{text}</a>,
         }, {
             title: '考试日期',
             dataIndex: 'date',
@@ -159,7 +158,8 @@ export class ResultSearchSidForm extends Component<studentProp,  ResultList> {
                     {
                         getFieldDecorator('sid', {
                             rules: [
-                                //   {required: true, message: '请输入题目'}
+                                   {required: true, message: '请输入学号'},
+                                {pattern: /^[0-9]+$/, message: '请输入数字'}
                             ]
                         })(
                             <Input placeholder="请输入学号"/>

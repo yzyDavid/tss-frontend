@@ -16,7 +16,7 @@ const model = {
     state: {
         ...state,
         level: 'manager',
-        questions :[{
+        questions :[/*{
             qid: '10',
             question: 'Is monkey an animal?',
             qanswer: 'yes',
@@ -34,7 +34,7 @@ const model = {
             qanswer: 'yes',
             qtype: '1',
             qunit: '2',
-        }]
+        }*/]
     },
     reducers: {
         saveSession(st) {

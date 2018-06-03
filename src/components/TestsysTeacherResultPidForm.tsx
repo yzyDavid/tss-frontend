@@ -119,7 +119,6 @@ export class ResultSearchPidForm extends Component<studentProp,  ResultList> {
             title: '题目编号',
             dataIndex: 'qid',
             key: 'qid',
-            render: text => <a href="#">{text}</a>,
         },   {
             title: '正确率',
             dataIndex: 'rate',
@@ -146,7 +145,8 @@ export class ResultSearchPidForm extends Component<studentProp,  ResultList> {
                     {
                         getFieldDecorator('pid', {
                             rules: [
-                                // {required: true, message: '请输入答案'}
+                                {required: true, message: '请输入试卷号'},
+                                {pattern: /^[0-9]+$/, message: '请输入数字'}
                             ]
                         })(
                             <Input  placeholder="请输入试卷号"/>
