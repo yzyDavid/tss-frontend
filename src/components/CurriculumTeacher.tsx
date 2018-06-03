@@ -11,14 +11,14 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 interface CurriculumTeacherProps extends DvaProps {
-    uid: GlobalState;
+    uid: any;
     form: any;
     dataSource: any;
     location: any;
 }
 
 var selectedValue = {year: -1, semester: ''};
-
+var teacherId;
 class SearchForm extends Component<CurriculumTeacherProps> {
     constructor(props,context) {
         super(props,context);
@@ -41,8 +41,8 @@ class SearchForm extends Component<CurriculumTeacherProps> {
             {
                 this.setState({item3State:true,item2Reset:true});
                 selectedValue.semester = values;
-                console.log(selectedValue);
-                this.props.dispatch({type: 'curriculumteacher/curriculumTeacher', payload: {teacherId: 1000000001, year: selectedValue.year, semester: selectedValue.semester}});
+                //console.log(selectedValue);
+                this.props.dispatch({type: 'curriculumteacher/curriculumTeacher', payload: {teacherId: teacherId, year: selectedValue.year, semester: selectedValue.semester}});
             }
         }
     }
@@ -91,6 +91,8 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
     }
 
     render() {
+        teacherId = this.props.uid;
+        //console.log(this.props.uid);
         const columns = [
             {title: '课号', dataIndex: 'id', key: 'id'},
             {title: '课程号', dataIndex: 'courseId', key: 'courseId'},
@@ -106,7 +108,7 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
             <div>
                 <NavigationBar current={"list"} dispatch={this.props.dispatch}/>
                 <div>
-                    <WrappedSearchForm dispatch={this.props.dispatch}/>
+                    <WrappedSearchForm dispatch={this.props.dispatch} teacherId={this.props.uid}/>
                 </div>
                 <div>
                     <Table

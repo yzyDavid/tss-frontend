@@ -236,7 +236,9 @@ const ClassroomCreatePage = connect(state => {
 
 const CurriculumTeacherPage = connect(state => {
     const {dataSource} = state.curriculumteacher;
-    return {dataSource: dataSource};
+    const uid = state.login.uid;
+    //console.log(uid);
+    return {dataSource: dataSource,uid: uid};
 })(CurriculumTeacherPageComponent);
 
 const CurriculumManagePage = connect(state => {
