@@ -3,13 +3,20 @@ import {message} from 'antd';
 import {Router, Route, Switch, routerRedux, browserHistory} from 'dva/router';
 
 
-class CurriculumTeacherClassInfo
-{
-    id: number;
-    courseId: number;
-    courseName: string;
-    arrangements: string;
-}
+var myMap = new Map();
+myMap.set('MON','周一');
+myMap.set('TUE','周二');
+myMap.set('WED','周三');
+myMap.set('THU','周四');
+myMap.set('FRI','周五');
+myMap.set('SAT','周六');
+myMap.set('SUN','周日');
+
+myMap.set('1_2','第1~2节');
+myMap.set('3_5','第3~5节');
+myMap.set('6_8','第6~8节');
+myMap.set('9_10','第9~10节');
+myMap.set('11_13','第11~13节');
 
 const model = {
     namespace: 'curriculumteacher',
@@ -55,7 +62,8 @@ const model = {
                     {
                         var arr = '';
                         for(let j=0;j<body[i].arrangements.length;j++)
-                            arr += (body[i].arrangements[j].campusName+' '+body[i].arrangements[j].buildingName+' '+body[i].arrangements[j].classroomName+' '+body[i].arrangements[j].typeName+' ; ')
+                            arr += (body[i].arrangements[j].campusName+' '+body[i].arrangements[j].buildingName+' '+
+                                body[i].arrangements[j].classroomName+' '+myMap.get(body[i].arrangements[j].typeName.substring(0,3))+myMap.get(body[i].arrangements[j].typeName.substring(4))+' ; ')
                         newData.push({id: body[i].id, courseId: body[i].courseId, courseName: body[i].courseName, arrangements: arr});
                     }
                 }
@@ -72,6 +80,11 @@ const model = {
                     payload: {dataSource:[]}
                 });
             }
+        },
+
+        * getMap(payload: { payload: {input: string} }, {call, put})  {
+            console.log(payload.payload.input);
+            return myMap.get(payload.payload.input);
         },
 
         * showList(payload: { payload: {classId: string} }, {call, put})  {

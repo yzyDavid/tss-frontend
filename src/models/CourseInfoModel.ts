@@ -2,7 +2,21 @@ import {httpMethod, tssFetch} from '../utils/tssFetch';
 import {message} from 'antd';
 import {CourseFormData} from '../components/ManualScheduling';
 import {Router, Route, Switch, routerRedux, browserHistory} from 'dva/router';
-import {log} from "util";
+
+var myMap = new Map();
+myMap.set('MON','周一');
+myMap.set('TUE','周二');
+myMap.set('WED','周三');
+myMap.set('THU','周四');
+myMap.set('FRI','周五');
+myMap.set('SAT','周六');
+myMap.set('SUN','周日');
+
+myMap.set('1_2','第1~2节');
+myMap.set('3_5','第3~5节');
+myMap.set('6_8','第6~8节');
+myMap.set('9_10','第9~10节');
+myMap.set('11_13','第11~13节');
 
 const model = {
     namespace: 'courseinfo',
@@ -10,7 +24,7 @@ const model = {
         dataSource: [
             {id :'',courseId:'', courseName:'', numLessonsLeft:'',arrangements:''},
         ],
-        clazzInfo:{id:'', courseId:'', courseName:'', numLessonsLeft:'',numLessonsEachWeek:'',arrangements:[{buildingName:'',classroomId:'', typeName:''},]}
+        clazzInfo:{id:'', courseId:'', courseName:'', numLessonsLeft:'',numLessonsEachWeek:'',arrangements:[{buildingName:'',classroomName:'', typeName:''},]}
     },
     reducers: {
         updateCourseInfo(st, payload) {
@@ -60,7 +74,8 @@ const model = {
                     {
                         var arr = '';
                         for(let j=0;j<body[i].arrangements.length;j++)
-                            arr += (body[i].arrangements[j].campusName+' '+body[i].arrangements[j].buildingName+' '+body[i].arrangements[j].classroomName+' '+body[i].arrangements[j].typeName+' ; ')
+                            arr += (body[i].arrangements[j].campusName+' '+body[i].arrangements[j].buildingName+' '+body[i].arrangements[j].classroomName+' '
+                                +myMap.get(body[i].arrangements[j].typeName.substring(0,3))+myMap.get(body[i].arrangements[j].typeName.substring(4))+' ; ')
                         newData.push({id: body[i].id, courseId: body[i].courseId, courseName: body[i].courseName, numLessonsLeft:body[i].numLessonsLeft, arrangements: arr});
                     }
                 }
@@ -91,7 +106,16 @@ const model = {
             }
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
-            //console.log(body);
+            console.log(body);
+            if(body.arrangements.length>0)
+            {
+                for(let i=0;i<body.arrangements.length;i++)
+                {
+                    var temp = body.arrangements[i].typeName.toString();
+                    body.arrangements[i].typeName = myMap.get(temp.substring(0,3))+myMap.get(temp.substring(4))
+
+                }
+            }
             yield put({
                 type: 'updateClassInfo',
                 payload: {clazzInfo:body}
