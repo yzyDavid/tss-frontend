@@ -18,17 +18,20 @@ const model = {
     subscriptions: {
         setup({dispatch, history}) {
             return history.listen(({pathname}) => {
-                if (pathname === '/stuSelect'){
+                // if (pathname === '/stuSelect'){
+                //     dispatch({type: 'select', payload: {classId: -1}})
+                // }
+                // if (pathname === '/stuSelect'){
+                //     dispatch({type: 'dismiss', payload: {classId: -1}})
+                // }
+                if (pathname === '/classSelect'){
+                    dispatch({type: 'dismiss', payload: {classId: -1}})
+                }
+                if (pathname === '/classSelect'){
                     dispatch({type: 'select', payload: {classId: -1}})
                 }
                 if (pathname === '/stuSelect'){
-                    dispatch({type: 'dismiss', payload: {classId: -1}})
-                }
-                if (pathname === '/classSelect/:courseId'){
-                    dispatch({type: 'dismiss', payload: {classId: -1}})
-                }
-                if (pathname === '/classSelect/*'){
-                    dispatch({type: 'select', payload: {classId: -1}})
+                    dispatch({type: 'refreshDataSource', payload: {courseName: ''}})
                 }
             });
         }
@@ -52,8 +55,27 @@ const model = {
           var value = payload.payload.toString();
           console.log("删除"+value+"中...");
           
+        },
+        * refreshDataSource(payload: {payload: {payload: {courseId: number}}},{call, put}){
+            var value = payload.payload["courseId"].toString();
+            console.log(value)
+            const response = yield call(tssFetch, '/classes/search/findByCourse_NameAndYearAndSemester?courseName='+value, 'GET');
+            if(response.status === 401) {
+                console.log("error")
+                message.error("不存在该课程");
+                return;
+            }
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            console.log("success")
+            console.log(body)
+            yield put({
+                type: 'updateClassInfo',
+                //payload: {data:body.data}
+                payload: {dataSource:["classes"]}
+            });
+            yield put(routerRedux.push('/classSelect/'+value))
         }
-    }
-};
+}}
 
 export default model;

@@ -6,20 +6,27 @@ import {NavigationBar} from './TssPublicComponents'
 import DvaProps from '../types/DvaProps';
 
 const { Column } = Table;
+const FormItem = Form.Item;
+const Option = Select.Option;
 
 interface CourseProps extends DvaProps{
     uid: string;
+    dataSource: any;
 }
 
-const data = [
-
-];
+interface CourseTableState {
+    year: string;
+    semester: string;
+}
 
 export default class CourseTableComponent extends Component<CourseProps>{
     constructor(props) {
         super(props)
     }
 
+    handleSubmit(){
+
+    }
     render(){
         const columns = [{
             title: "课程代码",
@@ -41,7 +48,29 @@ export default class CourseTableComponent extends Component<CourseProps>{
             <div>
                <NavigationBar current={'courseTable'} dispatch={this.props.dispatch}/>
                 <div style={{ padding: 24, background: '#fff', minHeight: 780 }}>
-                    <Table dataSource={data} columns={columns}>
+                    <Form layout="inline" onSubmit={this.handleSubmit}>
+                        <FormItem label="学年">
+                            <Select defaultValue="2015" style={{width: 100}} onChange={(value)=>{this.setState({year: value})}}>
+                                <Option value="2015">2015</Option>
+                                <Option value="2016">2016</Option>
+                                <Option value="2017">2017</Option>
+                            </Select>
+                        </FormItem>
+                        <FormItem label="学期">
+                            <Select defaultValue="FIRST" style={{width: 110}} onChange={(value)=>{this.setState({semester: value})}}>
+                                <Option value="FIRST">FIRST</Option>
+                                <Option value="SECOND">SECOND</Option>
+                            </Select>
+                        </FormItem>
+                        <Button
+                            icon="search"
+                            type="primary"
+                            htmlType="submit"
+                            onClick={this.handleSubmit}>搜索
+                        </Button>
+                    </Form>
+                    <br/>
+                    <Table dataSource={this.props.dataSource} columns={columns}>
                     </Table>
                     <Button type="primary" >打印课表</Button>
                 </div>

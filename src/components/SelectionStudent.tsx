@@ -97,7 +97,7 @@ export default class StudentSelectionComponent extends Component<UserProps, User
             dataIndex: "numStudent"
         },{
             title: "选课",
-            render: (text,record,index)=>(<a onClick={()=>{this.props.dispatch({type: "selectCourse/showAll", payload: {courseId: this.props.dataSource[index].id}})}}>选课</a>)
+            render: (text,record,index)=>(<a onClick={()=>{this.props.dispatch({type: "selectClass/refreshDataSource", payload: {courseId: this.props.dataSource[index].courseId}})}}>选课</a>)
         }];
 
         return(

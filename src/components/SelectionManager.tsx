@@ -85,10 +85,10 @@ export default class ManagerSelectionComponent extends Component<ManSelectionPro
             title: "已选",
             dataIndex: "numStudent"
         },
-            {
-                title: "选课",
-                render: (text,record,index)=>(<a onClick={()=>{this.props.dispatch({type: "selectCourse/showAll", payload: {courseId: data[index].id}})}}>选课</a>)
-            }];
+        {
+            title: "选课",
+            render: (text,record,index)=>(<a onClick={()=>{this.props.dispatch({type: "selectCourse/showAll", payload: {courseId: data[index].id}})}}>选课</a>)
+        }];
 
         return(
             <div>

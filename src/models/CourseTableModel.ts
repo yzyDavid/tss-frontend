@@ -5,8 +5,7 @@ const model = {
     namespace: "courseTable",
     state: {
         dataSource: [
-            {id: "31500001", name: "小红", major: "计算机科学与技术"},
-            {id: "31500002", name: "小刚", major: "软件工程"}
+            {key: 1, id: "20001", courseName: "Software Engineering", timeSlot: "Mon_1_2", semester: "FIRST", credit: 3}
         ]
     },
     reducers: {

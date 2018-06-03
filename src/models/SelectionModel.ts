@@ -35,8 +35,9 @@ const model = {
             var value = payload.payload["courseId"].toString();
             console.log(payload.payload["courseId"]);
             //fetch the data of the case and add to the query
-            if(value!="-1")
-            yield put(routerRedux.push({pathname:'/classSelect/'+value,query: payload.payload,}));
+            if(value!="-1") {
+                yield put(routerRedux.push({pathname: '/classSelect/' + value, query: payload.payload,}));
+            }
             return;
         },
         * search(payload: { payload: {payload: {value: string, searchIndex: string}}}, {call, put}){

@@ -7,7 +7,7 @@ const model = {
     namespace: 'curriculummanage',
     state: {
         dataSource: [
-            {key: 1, classId: '', courseName: '', typeName: ''},
+            {id: 1, classId: '', courseName: '', typeName: ''},
             ],
         buildingData: [{key:1, id: -1 , name:'',},],
         classroomData: [{key:1, id: -1 , name:'',},],
@@ -41,12 +41,12 @@ const model = {
                     type: 'updateCurriculumManageInfo',
                     //payload: {data:body.data}
                     payload: {dataSource:[
-                            {key: 1, classId: '', courseName: '', typeName: ''},]}
+                            {id: 1, classId: '', courseName: '', typeName: ''},]}
                 });
             }
             else
             {
-                const response = yield call(tssFetch, '/classrooms/'+1+'/time-slots', 'GET');
+                const response = yield call(tssFetch, '/classrooms/'+23+'/time-slots', 'GET');
                 if (response.status === 400) {
                     message.error('无该校区');
                     return;
@@ -87,7 +87,7 @@ const model = {
         },
 
         * getClassroom(payload: { payload: ClassroomFormData }, {call, put})  {
-            console.log(payload.payload);
+            //console.log(payload.payload);
             const response = yield call(tssFetch, '/buildings/'+payload.payload.buildingId+'/classrooms', 'GET');
             if (response.status === 400) {
                 message.error('无该建筑物');

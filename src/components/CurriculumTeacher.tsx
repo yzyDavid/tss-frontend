@@ -17,7 +17,7 @@ interface CurriculumTeacherProps extends DvaProps {
 export default class CurriculumTeacher extends Component<CurriculumTeacherProps> {
     constructor(props,context) {
         super(props,context);
-        console.log(props.location.query);
+        //console.log(props.location.query);
        // this.props.dispatch({type: 'curriculumteacher/curriculumTeacher', payload: {teacherId: '123'}});
         //initData = this.props.dataSource;
     }
@@ -26,7 +26,7 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
         const columns = [
             {title: '课程号', dataIndex: 'classId', key: 'classId'},
             {title: '课程名称', dataIndex: 'courseName', key: 'courseName'},
-            {title: '上课时间', dataIndex: 'courseTime', key: 'courseTime', render: (text)=>{
+            {title: '上课时间', dataIndex: 'typeName', key: 'typeName', render: (text)=>{
                     var timeB, timeA;
                     if(!text)
                         timeA = ' ';
@@ -43,7 +43,7 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
             {title: '教室', dataIndex: 'classroomName', key: 'classroomName'},
             {
                 title: "查看",
-                render: (text,record,index)=>(<a onClick={()=>{this.props.dispatch({type: "curriculumteacher/showList", payload: {courseId: this.props.dataSource[index].classId}})}}>学生名单</a>)
+                render: (text,record,index)=>(<a onClick={()=>{this.props.dispatch({type: "curriculumteacher/showList", payload: {classId: this.props.dataSource[index].classId}})}}>学生名单</a>)
             }
 
         ];
@@ -60,6 +60,7 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
                 <div>
                     <Table
                         style={{width: "100%", background: "#ffffff"}}
+                        rowKey = 'classId'
                         columns={columns}
                         dataSource={this.props.dataSource}/>
                 </div>
@@ -67,7 +68,6 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
                     <FormItem>
                     <Button  type="primary" style={{fontSize: 'large'}}>打印</Button></FormItem>
                 </Form>
-                {/*<button onClick={()=>{this.props.dispatch({type: "curriculumteacher/curriculumTeacher", payload: "bbb"});}}>daf</button>*/}
             </div>
         );
     }
