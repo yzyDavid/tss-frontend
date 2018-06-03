@@ -77,7 +77,7 @@ const model = {
             state.score = []
             var i = 0
             var obj = payload.payload.obj
-            for (var p in obj.students) { 
+            for (var p in obj.students) {
                 state.id.push(p)
                 state.name.push(obj.name[i])
                 state.score.push("0")

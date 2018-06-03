@@ -1,4 +1,4 @@
-ï»¿import { httpMethod, tssFetch } from '../utils/tssFetch';
+import { httpMethod, tssFetch } from '../utils/tssFetch';
 import { message } from 'antd';
 import { Router, Route, Switch, routerRedux, browserHistory } from 'dva/router';
 
@@ -14,46 +14,35 @@ const model = {
         cids: [],
         ids: [],
         reasons: [],
-        score: "æ— ",
-        uid: "æ— ",
-        cid: "æ— ",
-        tid: "æ— ",
-        reason: "æ— ", 
-        id: "æ— ",
+        score: null,
+        uid: null,
+        cid: null,
+        tid: null,
+        reason: " ",
+        id: null,
     },
 
     reducers: {
         change_page(state, payload) {
 
-
-            if (state.num >= state.page) {
-                message.success('æäº¤æˆåŠŸï¼')
+            if (state.num === state.page) {
+                message.error('Ã»ÓĞ¸ü¶àµÄÇëÇóÁË£¡')
+                return {...state}
             }
 
             state.page += 1
-
-            if (state.page > state.num) {
-
-                state.id = "æ— ";
-                state.uid = "æ— ";
-                state.cid = "æ— ";
-                state.reason = "æ— ";
-                state.score = "æ— ";
-                return { ...state }
-            }
             
-            state.id = state.ids[state.page-1]
-            state.uid = state.uids[state.page-1]
-            state.cid = state.cids[state.page-1]
-            state.reason = state.reasons[state.page-1]
-            state.score = state.scores[state.page-1]
+            state.id = state.ids[state.page]
+            state.uid = state.uids[state.page]
+            state.cid = state.cids[state.page]
+            state.reason = state.reasons[state.page]
+            state.score = state.scores[state.page]
             return { ...state }
         },
 
         get_modify(state, payload) {
             var i = 0;
-            var obj = payload.payload
-
+            var obj = payload.payload.obj
             for (i = 0; i < obj['cids'].length; i++) {
                 state.ids.push(obj['ids'][i])
                 state.reasons.push(obj['reasons'][i])
@@ -73,17 +62,23 @@ const model = {
                 state.forceUpdate()
             }
             else {
-                alert('å½“å‰æ— ä¿®æ”¹æˆç»©è¯·æ±‚ï¼')
+                alert('µ±Ç°ÎŞĞŞ¸Ä³É¼¨ÇëÇó£¡')
             }
         }
+
+
+
     },
 
     effects: {
         *getModify(payload, { call, put}) {
-      
-            const response = yield call(tssFetch, "/grade/getprocessmodify", "POST", { "uid": "root" })    
+
+            const response = call(tssFetch, "/grade/getprocessmodify", "POST", { "uid": "root" })
             const jsonBody = yield call(response.text.bind(response))
-            const obj = JSON.parse(jsonBody)      
+            const obj = JSON.parse(jsonBody)
+
+            var i = 0
+
             yield put({ 'type': "get_modify", 'payload': obj })
       
         },
@@ -96,11 +91,11 @@ const model = {
             const score = yield select(state => state.scoreManager.score)
        
             if (id === "" || uid === "" || cid === "" || score === "") {
-                message.error('æ²¡æœ‰è¦å¤„ç†çš„è¯·æ±‚ï¼')
+                message.error('Ã»ÓĞÒª´¦ÀíµÄÇëÇó£¡')
                 return
             }
 
-            yield call(tssFetch, "/grade/processmodify", "POST", { "id": id, "uids": uid, "cids": cid, "score": score, "agree": payload.payload.res })
+            call(tssFetch, "/grade/processmodify", "POST", { "id": id, "uids": uid, "cids": cid, "score": score, "agree": payload.payload.res })
 
             yield put({ 'type': "change_page", 'payload': {} })
         }

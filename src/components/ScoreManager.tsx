@@ -8,17 +8,16 @@ import './ScoreButton.css';
 import DvaProps from '../types/DvaProps';
 
 
-interface ScoremProps extends DvaProps {
+interface ScoreProps extends DvaProps {
     uid: any;
     _state: any;
 }
 
-class scoreManagerComponent extends Component<ScoremProps, {}>{
+class scoreManagerComponent extends Component<ScoreProps, {}>{
 
 
-    constructor(props) {
+    componentDidMount() {
 
-        super(props);
         this.props.dispatch({ type: "scoreManager/getModify", payload: {} });
     }
 
@@ -66,7 +65,7 @@ class scoreManagerComponent extends Component<ScoremProps, {}>{
 
                         <tr>
 
-                            <td colSpan={2} style={{ textAlign: "center" }}><textarea style={{ textAlign: "center", marginTop: "30px" }} className="score_textarea" readOnly={true} value={state.reason}></textarea></td>
+                            <td colSpan={2}><textarea style={{ textAlign: "center", marginTop: "30px" }} className="score_textarea" readOnly={true} value={state.reason}></textarea></td>
                         </tr>
                     </tbody>
                 </table>
