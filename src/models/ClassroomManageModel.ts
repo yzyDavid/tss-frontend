@@ -194,6 +194,7 @@ const model = {
             let foundSameBuilding = false;
 
             /* boring code */
+            /*
             if(campusName === "紫金港"){
                 campusName = "zijingang";
             } else if(campusName === "玉泉"){
@@ -211,6 +212,7 @@ const model = {
             } else{
                 campusName = "hehe";
             }
+            */
             //console.log("important:",campusName);
             //console.log("important:",buildingName);
             //console.log("important:",classroomName);
