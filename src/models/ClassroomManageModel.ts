@@ -108,8 +108,15 @@ const model = {
             const campusBody = JSON.parse(campusJsonBody); // convert the string to json object
             //const campusCount = campusBody.length; // record the total number of campus
             let idToQuery=NaN;
+            /*
             for(let i=0;i<campusBody.length;i++){
                 if(campusBody[i].name===englishName){
+                    idToQuery = campusBody[i].id;
+                }
+            }
+            */
+            for(let i=0;i<campusBody.length;i++){
+                if(campusBody[i].name===msg){
                     idToQuery = campusBody[i].id;
                 }
             }
@@ -127,7 +134,7 @@ const model = {
                 for(let j=0;j<classroomBody.length;j++){
                     let combined={
                         key:classroomBody[j].id,//this is the key property
-                        campus:englishName,
+                        campus:msg,
                         building:buildingBody[i].name,
                         room:classroomBody[j].name,
                         capacity:classroomBody[j].capacity
