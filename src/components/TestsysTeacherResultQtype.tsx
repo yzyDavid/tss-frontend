@@ -6,6 +6,10 @@ import TestTeacherSideBar from './TestTeacherSideBar'
 import { Layout, Breadcrumb} from 'antd';
 class HomePageProps implements DvaProps {
     public dispatch: any;
+    // qids: string[];
+    // rates: string[];
+    qresult: any[];
+
 }
 
 export default class TestsysTeacherResultQtypecomponent extends Component<HomePageProps, {}> {
@@ -18,7 +22,8 @@ export default class TestsysTeacherResultQtypecomponent extends Component<HomePa
                         <Breadcrumb.Item>按题目类型查询成绩</Breadcrumb.Item>
                     </Breadcrumb>
                     <Layout id = "content" style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-                        <WrappedResultSearchQtypeForm dispatch={this.props.dispatch}/>
+                        <WrappedResultSearchQtypeForm dispatch={this.props.dispatch}
+                            results={this.props.qresult}/>
 
                     </Layout>
                 </Layout>

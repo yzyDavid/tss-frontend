@@ -8,12 +8,15 @@ const { TextArea } = Input;
 
 interface studentProp extends DvaProps {
     form:any;
+    // qids: string[];
+    // rates: string[];
+    results: any[];
 }
 
 export class ResultFormData {
     id: string;
     qid: string;
-    avg: string;
+    rate: string;
 
 }
 
@@ -28,25 +31,32 @@ interface  ResultList{
 export class ResultSearchQtypeForm extends Component<studentProp,  ResultList> {
     constructor(props){
         super(props);
-        this.state = {
-            qtype: '0',
-            modalVisible: false,
-
-            results :[{
-                id: '1',
-                qid: '10',
-                avg: '90'
-                ,
-            }, {
-                id: '2',
-                qid: '10',
-                avg: '93'
-            },{
-                id: '3',
-                qid: '10',
-                avg: '70'
-            }]
-        };
+        // this.state = {
+        //     qtype: '0',
+        //     modalVisible: false,
+        //
+        //     results :[{
+        //         id: '1',
+        //         qid: '10',
+        //         rate: '0.90'
+        //         ,
+        //     }, {
+        //         id: '2',
+        //         qid: '10',
+        //         rate: '0.93'
+        //     },{
+        //         id: '3',
+        //         qid: '10',
+        //         rate: '0.70'
+        //     }]
+        // };
+        // for(let i in this.props.qids) {
+        //     this.state.results.push({
+        //         id: '',
+        //         qid: this.props.qids[i],
+        //         rate: this.props.rates[i],
+        //     });
+        // }
     }
 
     componentDidMount() {
@@ -64,7 +74,7 @@ export class ResultSearchQtypeForm extends Component<studentProp,  ResultList> {
             const{form} = this.props;
             const qtype = form.getFieldValue("qtype");
             console.log("tr/search: "+qtype);
-            this.props.dispatch({type:'teacherresult/search', payload: {QueryType:2, Sid:null, Pid:null, QType:qtype, QUnit:null}});
+            this.props.dispatch({type:'teacherresult/search', payload: {type:2, sid:null, pid:null, qtype:qtype, qunit:null}});
         });
     };
 
@@ -106,8 +116,8 @@ export class ResultSearchQtypeForm extends Component<studentProp,  ResultList> {
             render: text => <a href="#">{text}</a>,
         }, {
             title: '正确率',
-            dataIndex: 'avg',
-            key: 'avg',
+            dataIndex: 'rate',
+            key: 'rate',
         }];
 
 
@@ -131,26 +141,11 @@ export class ResultSearchQtypeForm extends Component<studentProp,  ResultList> {
 
                 <FormItem {...formItemLayout}>
                     <Button icon="copy" type="primary" htmlType="submit">搜索</Button>
-                    <Modal
-                        title="编辑试卷"
-                        wrapClassName="vertical-center-modal"
-                        visible={this.state.modalVisible}
-                        onCancel={() => this.setModalVisible(false)}
-                    >
 
-                        <Form>
-
-                            <FormItem {...formItemLayout}>
-
-                            </FormItem>
-
-                        </Form>
-
-                    </Modal>
                 </FormItem>
 
 
-                <Table columns = {columns} dataSource = {this.state.results}/>
+                <Table columns = {columns} rowKey="qid" dataSource = {this.props.results}/>
             </Form>
 
 

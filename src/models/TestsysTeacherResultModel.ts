@@ -21,6 +21,40 @@ const model = {
 
         ],
 
+        paperresult:[{
+            qid: '10',
+            avg: '90'
+
+        }, {
+            qid: '11',
+            avg: '93'
+        },{
+            qid: '15',
+            avg: '71'
+        }],
+
+        // qids: [
+        //     "1",
+        //     "2",
+        //     "4",
+        // ],
+        // rates: [
+        //     "0.8",
+        //     "1.0",
+        //     "0.92",
+        // ],
+        presult: [],
+        qresult: [
+            {
+                qid: "1",
+                rate: "0.8",
+            },
+            {
+                qid: "2",
+                rate: "0.94",
+            },
+        ],
+
     },
     reducers: {
         saveSession(st) {
@@ -105,11 +139,11 @@ const model = {
         //
         //     return;
         // },
-        * search(payload: { payload: {QueryType:number, Sid:string, Pid:string, QType:string, QUnit:string, } }, {call, put}) {
+        * search(payload: { payload: {type:number, sid:string, pid:string, qtype:string, qunit:string, } }, {call, put}) {
             console.log(payload);
             const msg = payload.payload;
             const response = yield call(tssFetch, '/testsys_result/search', 'POST', msg);
-            console.log(response);
+
             if (response.status === 400) {
                 message.error('查询失败');
                 return;
@@ -117,9 +151,29 @@ const model = {
             //?datasource
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
+            let presult: any[] = [];
+            let qresult: any[] = [];
+            console.log(body);
+
+            for(let i in body.pid) {
+                presult.push({
+                    pid: body.pid[i],
+                    score: body.score[i],
+                    date: body.date[i]
+                });
+            }
+
+            for(let i in body.questions) {
+                qresult.push({
+                    qid: body.questions[i].qid,
+                    rate: (body.questions[i].answerednum==0? 0.0:body.questions[i].correct/body.questions[i].answerednum).toString(),
+                });
+            }
+
+
             yield put({
                 type: 'updateSearchInfo',
-                payload: {resultlist:body.resultlist}
+                payload: {presult: presult, qresult: qresult}
             });
 
             return;

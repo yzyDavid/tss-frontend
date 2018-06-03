@@ -9,7 +9,7 @@ import {browserHistory, routerRedux} from 'dva/router';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const columns = [
-    {title: '课号', dataIndex: 'id', key: 'id'},
+    {title: '课号', dataIndex: 'classId', key: 'classId'},
     {title: '课程名称', dataIndex: 'courseName', key: 'courseName'},
     {title: '课程号', dataIndex: 'courseId', key: 'courseId'},
     {title: '未安排课时', dataIndex: 'numLessonsLeft', key: 'numLessonsLeft'},
@@ -27,10 +27,23 @@ interface ViewState {
 }
 
 export class CourseFormData {
+    campus: string;
     courseName: string;
 }
 
-var initData = [{id: '', courseId:'', courseName:'', numLessonsLeft:'',  courseAddress:'',  courseTime:''},];
+export class CourseInfo {
+    classId : any;
+    courseName: string;
+    courseId: any;
+    numLessonsLeft: any;
+    courseAddress:  string;
+    courseTime: any
+}
+
+var initData = [
+    {key: 1, classId :'10001',courseName:" Data Struct", courseId:'20011',  numLessonsLeft:'3',  courseAddress:'东教学楼01',  courseTime:'mon_1_2'},
+    {key: 2, classId :'12001',courseName: "Data Struct2", courseId:'22011',  numLessonsLeft:'4',  courseAddress:'东教学楼02',  courseTime:'mon_2_2'},
+];
 var selectedValue;
 var dt = new Date();
 
@@ -59,20 +72,32 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
 
     handleSubmit2 = (e) => {
         e.preventDefault();
-        this.props.dispatch({type:'courseinfo/modifyCourseInfo',payload:selectedValue.id});
+        this.props.dispatch({type:'courseinfo/modifyCourseInfo',payload:selectedValue});
     }
 
     render() {
         const {getFieldDecorator} = this.props.form
-        //console.log(dt);
+        console.log(dt);
         return (
             <div>
                 <Form layout={"inline"} onSubmit={this.handleSubmit1} style={{textAlign: 'center'}}>
                     <FormItem
                         label="年份: " >{dt.getFullYear()}
+                        {/*{getFieldDecorator('year', {})(*/}
+                            {/*<Select style={{width: 200}}>*/}
+                                {/*<Option value="2017">2017</Option>*/}
+                                {/*<Option value="2018">2018</Option>*/}
+                            {/*</Select>*/}
+                        {/*)}*/}
                     </FormItem>
                     <FormItem
                         label="学期" >第一学期
+                        {/*{getFieldDecorator('semester', {})(*/}
+                            {/*<Select style={{width: 200}}>*/}
+                                {/*<Option value="春夏">春夏</Option>*/}
+                                {/*<Option value="秋冬">秋冬</Option>*/}
+                            {/*</Select>*/}
+                        {/*)}*/}
                     </FormItem>
                     <br/>
                     <FormItem label="课程名称">
@@ -98,7 +123,6 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
                 <Table
                     style={{width: "100%", background: "#ffffff"}}
                     columns={columns}
-                    rowKey = "id"
                     rowSelection={{
                         type: 'radio',
                         onSelect(record, selected, selectedRows) {
@@ -129,6 +153,7 @@ export default class ManualSchedulingComponent extends Component<ManualSchedulin
                 <div>
                     <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource}/>
                 </div>
+
             </div>
 
         );
