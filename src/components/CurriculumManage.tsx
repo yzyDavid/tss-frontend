@@ -9,8 +9,26 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 const columns = [
-    {title: '课程号', dataIndex: 'classId', key: 'classId'},
-    {title: '课程名称', dataIndex: 'courseName', key: 'courseName'},
+    {title: '课程号', dataIndex: 'classId',
+        filters:[{text: '已安排', value: 'true'}],
+        filterMultiple: false,
+        onFilter: (value, record) => record.classId != null,
+        //onFilter: (value, record) => (record.classId === null),
+        key: 'classId',
+        render: (text)=>{
+            if(text == null)
+                text="无";
+            return (
+                <label>{text}</label>
+            );
+        }},
+    {title: '课程名称', dataIndex: 'courseName', key: 'courseName',render: (text)=>{
+            if(text == null)
+                text="无";
+            return (
+                <label>{text}</label>
+            );
+        }},
     {title: '上课时间', dataIndex: 'typeName', key: 'typeName', render: (text)=>{
             var timeB, timeA;
             if(!text)
@@ -180,26 +198,26 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
                 <Form layout={"inline"} style={{textAlign: 'center'}}>
                     <FormItem
                         label="校区" >
-                        {getFieldDecorator('campus', {})(
+                        {getFieldDecorator('campusId', {})(
                             <Select  style={{width: 200}} onChange={this.handleChange1} >
-                                <Option value= {1} >玉泉校区</Option>
-                                <Option value= {21}>紫金港校区</Option>
-                                {/*<Option value="西溪校区">西溪校区</Option>*/}
-                                {/*<Option value="华家池校区">华家池校区</Option>*/}
-                                {/*<Option value="之江校区">之江校区</Option>*/}
-                                {/*<Option value="舟山校区">舟山校区</Option>*/}
+                                <Option value= {10000}>紫金港校区</Option>
+                                <Option value= {10001} >玉泉校区</Option>
+                                <Option value={10002}>西溪校区</Option>
+                                <Option value={10003}>华家池校区</Option>
+                                <Option value={10004}>之江校区</Option>
+                                <Option value={10005}>舟山校区</Option>
                             </Select>
                         )}
                     </FormItem>
                     <FormItem label="教学楼">
-                        {getFieldDecorator('building', {})(
+                        {getFieldDecorator('buildingId', {})(
                             <Select  disabled={!(this.state.item2State)} style={{width: 200}} onChange={this.handleChange2}>
                                 {buildingsChildren}
                             </Select>
                         )}
                     </FormItem>
                     <FormItem label="教室">
-                        {getFieldDecorator('classroom', {})(
+                        {getFieldDecorator('classroomId', {})(
                             <Select  disabled={!(this.state.item3State)} style={{width: 200}} onChange={this.handleChange3}>
                                 {classroomsChildren}
                             </Select>

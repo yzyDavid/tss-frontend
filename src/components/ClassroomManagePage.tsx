@@ -1,4 +1,4 @@
-﻿import * as React from 'react';
+import * as React from 'react';
 import {Component} from 'react';
 import {Form, Button, Select, Table, Popconfirm} from 'antd';
 import DvaProps from '../types/DvaProps';

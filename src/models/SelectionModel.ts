@@ -1,7 +1,6 @@
 import {httpMethod, tssFetch} from '../utils/tssFetch';
 import {message} from 'antd';
 import {Router, Route, Switch, routerRedux, browserHistory} from 'dva/router';
-import {log} from "util";
 
 const model = {
     namespace: 'selectCourse',

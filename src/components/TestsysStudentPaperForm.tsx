@@ -15,10 +15,11 @@ interface FormProps extends DvaProps {
 
 export class PaperFormData {
     pid: string;
-    pstatus: boolean;
-    pscore: string;
-    ptime: string;
-    plength: string
+    papername: string;
+    begin: string;
+    end: string;
+    last: string;
+    count: string
 }
 
 export class PaperForm extends Component<FormProps, PaperFormData> {
@@ -34,9 +35,9 @@ export class PaperForm extends Component<FormProps, PaperFormData> {
         //     ptime: "Monday 9:00-9:15",
         //     plength: "1:30:00",
         // };
-        for(var i=0;i<this.props.pids.length;i++) {
-            this.props.dispatch({type:'testsys_student/getpaper', payload: {qid: this.props.pids[i], uid: this.props.form.uid}});
-        }
+  //      for(var i=0;i<this.props.pids.length;i++) {
+ //           this.props.dispatch({type:'testsys_student/getpaper', payload: {qid: this.props.pids[i], uid: this.props.form.uid}});
+   //     }
         // for(var i=0;i<this.props.papers.length;i++) {
         // }
     }
@@ -66,23 +67,18 @@ export class PaperForm extends Component<FormProps, PaperFormData> {
                 dataIndex: 'pid',
                 key: 'pid',
             }, {
-                title: '状态',
-                dataIndex: 'pstatus',
-                key: 'status',
-            }, {
-                title: '分数',
-                dataIndex: 'pscore',
-                key: 'score',
-                render: (text, record) => (
-                    <div>{record.score}</div>
-                ),
+                title: '名称',
+                dataIndex: 'papername',
+                key: 'name'
             }, {
                 title: '开始时间',
-                dataIndex: 'ptime',
                 key: 'time',
+                render: (text, record) => (
+                    <div>{record.begin} - {record.end}</div>
+                )
             }, {
                 title: '时长',
-                dataIndex: 'plength',
+                dataIndex: 'last',
                 key: 'length',
             }, {
                 title: '',
