@@ -6,9 +6,9 @@ const model = {
     namespace: 'autoscheduling',
     state: {
         dataSource: [
-            {key: 1, courseNumber: '', courseName: '', restCourseTime: ''},
+            {classId: -1},
             ],
-        totalCourse: 0,
+        numArrangedClasses: 'loading...',
         schedulingTime: {year: -1, semester: ''}
     },
     reducers: {
@@ -23,47 +23,39 @@ const model = {
         setup({dispatch, history}) {
             return history.listen(({pathname}) => {
                 if (pathname === '/autoScheduling') {
-                    dispatch({ type: 'restCourseInfo', payload: false});
+                    dispatch({ type: 'restCourseInfo', payload: {year: -1}});
+                    dispatch({ type: 'getSchedulingInfo', payload: false});
+                }
+                if(pathname == '/manualScheduling'){
                     dispatch({ type: 'getSchedulingInfo', payload: false});
                 }
             });
         }
     },
     effects: {
-        * restCourseInfo(payload: { payload: boolean}, {call, put}) {
-            if(!payload.payload)
+        * restCourseInfo(payload: { payload: {year: number, semester: string}}, {call, put}) {
+            if(payload.payload.year === -1)
             {
                 console.log('the set up');
                 yield put({
                     type: 'updateRestCourseInfo',
-                    //payload: {data:body.data}
                     payload: {dataSource:[
-                            {key: 1, courseNumber: ' ', courseName: ' ', restCourseTime: ' '},
+                            {classId: -1},
                         ], totalCourse: "loading......"}
                 });
             }
             else {
-                //console.log(payload.payload);
-                //const msg = payload.payload;
-                // //const tssFetch = (url: string, method: httpMethod, payload: string | object)
-                // //返回一个js对象
-                //const response = yield call(tssFetch, '/classroom/info', 'GET', msg);
-                // if(response.status === 400) {
-                //    message.error('查询空闲教室信息失败');
-                //    return;
-                //}
-                // const jsonBody = yield call(response.text.bind(response));
+                const response = yield call(tssFetch,'/auto-arrangement?year='+payload.payload.year+'&semester='+payload.payload.semester , 'PUT');
+                if(response.status === 400) {
+                   message.error('自动排课失败');
+                   return;
+                }
+                const jsonBody = yield call(response.text.bind(response));
                 //将字符串转换为json对象
-                //const body = JSON.parse(jsonBody);
+                const body = JSON.parse(jsonBody);
                 yield put({
                     type: 'updateRestCourseInfo',
-                    //payload: {data:body.data}
-                    payload: {
-                        dataSource: [
-                            {key: 1, courseNumber: '22221', courseName: '大学英语Ⅲ', restCourseTime: '2'},
-                            {key: 2, courseNumber: '22223', courseName: '微积分Ⅲ', restCourseTime: '4'},
-                        ], totalCourse: 22
-                    }
+                    payload: { dataSourse:body.pendingClassIds, numArrangedClasses: body.numArrangedClasses}
                 });
             }
             return;
@@ -87,7 +79,7 @@ const model = {
         },
 
         * setSchedulingInfo(payload: { payload: {year: number, semester: any} }, {call, put}) {
-            console.log(payload.payload);
+            //console.log(payload.payload);
             const msg = payload.payload;
             const response = yield call(tssFetch, '/current-year-semester-of-arrangement', 'PUT',msg);
             if(response.status === 400) {

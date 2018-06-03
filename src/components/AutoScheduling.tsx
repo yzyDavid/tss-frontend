@@ -11,55 +11,18 @@ const FormItem = Form.Item;
 const {TextArea} = Input;
 
 const columns = [
-    {title: '课程号', dataIndex: 'courseNumber', key: 'courseNumber'},
-    {title: '课程名称', dataIndex: 'courseName', key: 'courseName'},
-    {title: '未安排课时', dataIndex: 'restCourseTime', key: 'restCourseTime'},
+    {title: '课程号', dataIndex: 'classId', key: 'classId'},
 ];
 
 interface AutoSchProps extends DvaProps {
     dataSource: any;
-    totalCourse: any;
+    numArrangedClasses: any;
     schedulingTime: any;
 }
 
-// interface loadingState {
-//     loading : boolean;
-// }
 var initNum = "正在排课......";
-var initData = [{key: 1, courseNumber: ' ', courseName: ' ', restCourseTime: ' '},];
+var initData = [{classId: -1},];
 var arrangeTime = {year: -1, semester: ''};
-
-// class LoadButton extends Component<AutoSchProps,loadingState>{
-//     constructor(props){
-//         super(props);
-//         this.state = {
-//             loading : false,
-//         }
-//         this.handleClick = this.handleClick.bind(this);
-//     }
-//
-//     handleClick(){
-//         if(this.state.loading)
-//             this.setState({loading : false});
-//         else
-//             this.setState({loading : true});
-//         //send the requirement of this to the
-//     }
-//
-//     render() {
-//         return (
-//             <Button
-//                 style={{textAlign: 'center'}}
-//                 type="primary"
-//                 loading={this.state.loading}
-//                 onClick={this.handleClick}>
-//             自动排课
-//             </Button>
-//         );
-//     }
-// }
-//
-// const AutoSelectButton: any = Form.create({})(LoadButton);
 
 export  default class AutoSchedulingComponent extends Component<AutoSchProps, {}> {
 constructor(props) {
@@ -69,14 +32,15 @@ constructor(props) {
     handleSubmit = (e) => {
         e.preventDefault();
         console.log('handleClick');
-        this.props.dispatch({type: 'autoscheduling/restCourseInfo', payload: {}});
+        this.props.dispatch({type: 'autoscheduling/restCourseInfo', payload: arrangeTime});
         initData=this.props.dataSource;
-        initNum=this.props.totalCourse;
+        initNum=this.props.numArrangedClasses;
+
     }
 
     render() {
         initData=this.props.dataSource;
-        initNum=this.props.totalCourse;
+        initNum=this.props.numArrangedClasses;
         arrangeTime=this.props.schedulingTime;
         return (
             <div>
@@ -85,7 +49,7 @@ constructor(props) {
                     <FormItem
                         label="目前排课年份: ">{arrangeTime.year}</FormItem>
                     <FormItem
-                        label="目前排课学期:">{arrangeTime.semester}</FormItem>
+                        label="目前排课学期:">{(arrangeTime.semester=='FIRST')?'第一学期':'第二学期'}</FormItem>
                 </Form>
                 <br/>
                 <Form layout={"inline"} style={{textAlign:"center",background: "#ffffff",fontSize:"large", paddingTop: '50px'}}>
@@ -105,14 +69,13 @@ constructor(props) {
                     <FormItem>
                         <Table
                             style={{ width: "100%"}}
+                            rowKey='classId'
                             columns={columns}
                             dataSource={initData}/>
                     </FormItem>
                     <br/>
                 </Form>
-                {/*<AutoSelectButton/>*/}
                 </div>
-            // </div>
         );
     }
 }

@@ -40,7 +40,7 @@ class SearchForm extends Component<CurriculumTeacherProps> {
                 this.setState({item3State:true,item2Reset:true});
                 selectedValue.semester = values;
                 console.log(selectedValue);
-                this.props.dispatch({type: 'curriculumteacher/curriculumTeacher', payload: {teacherId: '123', year: selectedValue.year, semester: selectedValue.semester}});
+                this.props.dispatch({type: 'curriculumteacher/curriculumTeacher', payload: {teacherId: 1000000001, year: selectedValue.year, semester: selectedValue.semester}});
             }
         }
     }
@@ -90,23 +90,25 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
 
     render() {
         const columns = [
-            {title: '课程号', dataIndex: 'classId', key: 'classId'},
+            {title: '课号', dataIndex: 'id', key: 'id'},
+            {title: '课程号', dataIndex: 'courseId', key: 'courseId'},
             {title: '课程名称', dataIndex: 'courseName', key: 'courseName'},
-            {title: '上课时间', dataIndex: 'type', key: 'type', render: (text)=>{
-                    var timeB, timeA;
-                    if(!text)
-                        timeA = ' ';
-                    else {
-                        timeB= text.toString();
-                        timeA = timeB.substring(0,3)+ ' ' + timeB.substring(4,5)+ '~' + timeB.substring(timeB.length-1,timeB.length);
-                    }
-                    return (
-                        <label>{timeA}</label>
-                    );
-                }},
-            {title: '校区', dataIndex: 'campusName', key: 'campusName'},
-            {title: '教学楼', dataIndex: 'buildingName', key: 'buildingName'},
-            {title: '教室', dataIndex: 'classroomName', key: 'classroomName'},
+            {title: '排课安排', dataIndex: 'arrangements', key: 'arrangements'},
+            // {title: '上课时间', dataIndex: 'type', key: 'type', render: (text)=>{
+            //         var timeB, timeA;
+            //         if(!text)
+            //             timeA = ' ';
+            //         else {
+            //             timeB= text.toString();
+            //             timeA = timeB.substring(0,3)+ ' ' + timeB.substring(4,5)+ '~' + timeB.substring(timeB.length-1,timeB.length);
+            //         }
+            //         return (
+            //             <label>{timeA}</label>
+            //         );
+            //     }},
+            // {title: '校区', dataIndex: 'campusName', key: 'campusName'},
+            // {title: '教学楼', dataIndex: 'buildingName', key: 'buildingName'},
+            // {title: '教室', dataIndex: 'classroomName', key: 'classroomName'},
             {
                 title: "查看",
                 render: (text,record,index)=>(<a onClick={()=>{this.props.dispatch({type: "curriculumteacher/showList", payload: {courseId: this.props.dataSource[index].classId}})}}>学生名单</a>)
@@ -123,15 +125,14 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
                 <div>
                     <Table
                         style={{width: "100%", background: "#ffffff"}}
-                        rowKey = 'classId'
+                        rowKey = 'id'
                         columns={columns}
                         dataSource={this.props.dataSource}/>
                 </div>
-                <Form layout={"inline"} style={{textAlign: 'center'}}>
-                    <FormItem>
-                    <Button  type="primary" style={{fontSize: 'large'}}>打印</Button></FormItem>
-                </Form>
-                {/*<button onClick={()=>{this.props.dispatch({type: "curriculumteacher/curriculumTeacher", payload: "bbb"});}}>daf</button>*/}
+                {/*<Form layout={"inline"} style={{textAlign: 'center'}}>*/}
+                    {/*<FormItem>*/}
+                    {/*<Button  type="primary" style={{fontSize: 'large'}}>打印</Button></FormItem>*/}
+                {/*</Form>*/}
             </div>
         );
     }

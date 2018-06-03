@@ -6,7 +6,7 @@ const model = {
     namespace: 'freeclassroominfo',
     state: {
         dataSource: [
-            {key: 1, classroomAddress: '', classroomTime: '', classroomCapacity: ''},
+            {key: 1, classroomId: '', classroomTime: '', classroomCapacity: ''},
             ],
     },
     reducers: {
@@ -21,11 +21,12 @@ const model = {
         setup({dispatch, history}) {
             return history.listen(({pathname}) => {
                 if (pathname.substring(0,17) === '/manualSchModify/') {
-                    dispatch({ type: 'freeClassroomInfo', payload: {classroomAddress: '', classroomTime: '', classroomCapacity: ''} });
+                    dispatch({ type: 'freeClassroomInfo', payload: {campus: 10001, classroomDate: 'MON', classroomTime: '1_2'} });
                 }
             });
         }
     },
+
     effects: {
         * freeClassroomInfo(payload: { payload: FreeClassroomFormData }, {call, put}) {
             //console.log(payload.payload);
@@ -41,9 +42,9 @@ const model = {
                 type: 'updateClassroomInfo',
                 //payload: {data:body.data}
                 payload: {dataSource:[
-                        {key: 1, classroomAddress: '东一102', classroomTime: '周一第3~5节', classroomCapacity: '100'},
-                        {key: 2, classroomAddress: '东二202', classroomTime: '周一第7~8节', classroomCapacity: '50'},
-                        {key: 3, classroomAddress: '东三202', classroomTime: '周一第8~9节', classroomCapacity: '60'},
+                        {key: 1, classroomId: '东一102', classroomTime: '周一第3~5节', classroomCapacity: '100'},
+                        {key: 2, classroomId: '东二202', classroomTime: '周一第7~8节', classroomCapacity: '50'},
+                        {key: 3, classroomId: '东三202', classroomTime: '周一第8~9节', classroomCapacity: '60'},
                     ]}
             });
             return;

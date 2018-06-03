@@ -34,7 +34,7 @@ const model = {
     },
     effects: {
         * curriculumManage(payload: { payload: ClassroomFormData }, {call, put})  {
-            //console.log(payload.payload);
+            console.log(payload.payload);
             if(payload.payload.campusId<0)
             {
                 yield put({
@@ -46,15 +46,14 @@ const model = {
             }
             else
             {
-                const response = yield call(tssFetch, '/classrooms/'+23+'/time-slots', 'GET');
+                const response = yield call(tssFetch, '/classrooms/'+payload.payload.classroomId+'/time-slots', 'GET');
                 if (response.status === 400) {
-                    message.error('无该校区');
+                    message.error('获取教室课表失败');
                     return;
                 }
                 const jsonBody = yield call(response.text.bind(response));
                 const body = JSON.parse(jsonBody);
-                console.log(body);
-
+                //console.log(body);
                 yield put({
                     type: 'updateCurriculumManageInfo',
                     payload: { dataSource: body }

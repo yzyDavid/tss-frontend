@@ -76,20 +76,22 @@ const UserManagePage = connect(state => {
 
 const AutoSchedulingPage = connect(state => {
     const dataSource = state.autoscheduling.dataSource;
-    const totalCourse = state.autoscheduling.totalCourse;
+    const numArrangedClasses = state.autoscheduling.numArrangedClasses;
     const schedulingTime = state.autoscheduling.schedulingTime;
-    return {dataSource: dataSource, totalCourse: totalCourse, schedulingTime: schedulingTime};
+    return {dataSource: dataSource, numArrangedClasses: numArrangedClasses, schedulingTime: schedulingTime};
 })(AutoSchedulingComponent);
 
 const ManualSchedulingPage = connect(state => {
     const {dataSource} = state.courseinfo;
-    return {dataSource: dataSource};
+    const schedulingTime = state.autoscheduling.schedulingTime;
+    return {dataSource: dataSource, schedulingTime: schedulingTime};
 })(ManualSchedulingPageComponent);
 
 const ManualSchModifyPage = connect(state => {
     const dataSource = state.freeclassroominfo.dataSource;
     const clazzInfo = state.courseinfo.clazzInfo;
-    return {dataSource: dataSource, clazzInfo: clazzInfo};
+    const buildingData = state.curriculummanage.buildingData;
+    return {dataSource: dataSource, clazzInfo: clazzInfo, buildingData: buildingData};
 })(ManualSchModifyPageComponent);
 
 const ClassroomManagePage = connect(state => {

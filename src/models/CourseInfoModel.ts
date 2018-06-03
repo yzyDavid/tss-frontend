@@ -8,9 +8,9 @@ const model = {
     namespace: 'courseinfo',
     state: {
         dataSource: [
-            {id :'',courseId:'', courseName:'', numLessonsLeft:''},
+            {id :'',courseId:'', courseName:'', numLessonsLeft:'',arrangements:''},
         ],
-        clazzInfo:{courseId:'', courseName:'', numLessonsLeft:'',numLessonsEachWeek:'',arrangements:[{buildingName:'',classroomId:'', typeName:''},]}
+        clazzInfo:{id:'', courseId:'', courseName:'', numLessonsLeft:'',numLessonsEachWeek:'',arrangements:[{buildingName:'',classroomId:'', typeName:''},]}
     },
     reducers: {
         updateCourseInfo(st, payload) {
@@ -41,11 +41,10 @@ const model = {
                 yield put({
                     type: 'updateCourseInfo',
                     payload: {dataSource:[
-                            {id: '', courseId:'', courseName:'', numLessonsLeft:'',  courseAddress:'',  courseTime:''},]}});
+                            {id: '', courseId:'', courseName:'', numLessonsLeft:'',  arrangements:''},]}});
             else
             {
-                const response = yield call(tssFetch, '/classes/search/find-by-course-name-containing-and-year-and-semester?courseName='+payload.payload.courseName+'&year=2017&semester=FIRST', 'GET');
-                //console.log(response);
+                const response = yield call(tssFetch, '/classes/search/find-by-course-name-containing-and-year-and-semester?courseName='+payload.payload.courseName+'&year='+payload.payload.year+'&semester='+payload.payload.semester, 'GET');
                 if (response.status === 400) {
                     message.error('课程信息错误');
                     return;
@@ -53,9 +52,21 @@ const model = {
                 const jsonBody = yield call(response.text.bind(response));
                 const body = JSON.parse(jsonBody);
                 //console.log(body);
+                let newData = [{id: -1, courseId: -1, courseName: '',numLessonsLeft:'', arrangements:''},]
+                newData.pop();
+                if(body.length>0)
+                {
+                    for(let i=0; i<body.length; i++)
+                    {
+                        var arr = '';
+                        for(let j=0;j<body[i].arrangements.length;j++)
+                            arr += (body[i].arrangements[j].campusName+' '+body[i].arrangements[j].buildingName+' '+body[i].arrangements[j].classroomName+' '+body[i].arrangements[j].typeName+' ; ')
+                        newData.push({id: body[i].id, courseId: body[i].courseId, courseName: body[i].courseName, numLessonsLeft:body[i].numLessonsLeft, arrangements: arr});
+                    }
+                }
                 yield put({
                     type: 'updateCourseInfo',
-                    payload: {dataSource:body}
+                    payload: {dataSource:newData}
                 });
             }
             return;
@@ -80,6 +91,7 @@ const model = {
             }
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
+            console.log(body);
             yield put({
                 type: 'updateClassInfo',
                 payload: {clazzInfo:body}
