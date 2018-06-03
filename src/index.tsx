@@ -66,6 +66,7 @@ import ManualSchModifyPageComponent from './components/ManualSchModify';
 import SetSchedulingTimeComponent from './components/SetSchedulingTime'
 import CourseManagePageComponent from './components/CourseManagePage';
 import ClassroomManagePageComponent from './components/ClassroomManagePage';
+import ClassroomCreateComponent from './components/ClassroomCreate'
 import CurriculumTeacherPageComponent from './components/CurriculumTeacher';
 import CurriculumManagePageComponent from './components/CurriculumManage';
 import ManageTimeComponent from './components/ManageTime';
@@ -225,9 +226,13 @@ const ManualSchModifyPage = connect(state => {
 
 const ClassroomManagePage = connect(state => {
     const {dataSource} = state.classroommanage;
-    return {dataSource:dataSource};
-
+    return {dataSource: dataSource};
 })(ClassroomManagePageComponent);
+
+const ClassroomCreatePage = connect(state => {
+    const {dataSource} = state.classroommanage;
+    return {dataSource: dataSource};
+})(ClassroomCreateComponent);
 
 const CurriculumTeacherPage = connect(state => {
     const {dataSource} = state.curriculumteacher;
@@ -336,6 +341,7 @@ app.router(({history}) => (
                         <Route path="/manualScheduling" component={ManualSchedulingPage} />
                         <Route path="/manualSchModify/:name" component={ManualSchModifyPage} />
                         <Route path="/classroomManage" component={ClassroomManagePage}/>
+                        <Route path="/classroomCreate" component={ClassroomCreatePage}/>
                         <Route path="/curriculumTeacher" component={CurriculumTeacherPage}/>
                         <Route path="/curriculumManage" component={CurriculumManagePage}/>
                         <Route path="/setSchedulingTime" component={SetSchedulingTimePage}/>
