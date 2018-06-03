@@ -83,7 +83,7 @@ const model = {
        },
 
         * getClassInfo(payload: { payload: number }, {call, put}) {
-            console.log(payload.payload);
+            //console.log(payload.payload);
             const response = yield call(tssFetch, '/classes/'+payload.payload, 'GET');
             if (response.status === 400) {
                 message.error('课程信息错误');
@@ -91,7 +91,7 @@ const model = {
             }
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
-            console.log(body);
+            //console.log(body);
             yield put({
                 type: 'updateClassInfo',
                 payload: {clazzInfo:body}

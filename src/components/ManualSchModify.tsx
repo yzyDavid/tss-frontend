@@ -15,13 +15,13 @@ const columns = [
 ];
 
 var initData = [
-    {key: 1, classroomAddress: '', classroomTime: '', classroomCapacity: ''},
+    {key: 1, classroomId: '', classroomTime: '', classroomCapacity: ''},
 
 ];
 var initClassInfo = {id:'', courseId:'', courseName:'', numLessonsLeft:'',numLessonsEachWeek:'',arrangements:[{buildingName:'',classroomId:'', typeName:''},]};
 var buildingsChildren = [<Option key={-1}>请选择校区</Option>,];
 var buildingInitData = [{key: 1, id: -1, name: ''},];
-var confirmData = {classroomAddress: '', classroomTime: '', classroomCapacity: ''};
+var confirmData = {classroomId: '', classroomTime: '', classroomCapacity: ''};
 var selectedValue = {campusId: 0,buildingId: 0};
 
 interface ManualSchModifyProps extends DvaProps {
@@ -104,7 +104,7 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
 
     handleSubmit2 = (e) => {
         e.preventDefault();
-        if(confirmData.classroomAddress.length>1)
+        if(confirmData.classroomId.length>1)
             this.setState({modalState: true,});
         this.props.dispatch({type: 'courseinfo/modifyClassArrange', payload: {classroomId: 10000, typeName: 'MON_1_2', classId: 10001}});
     };
@@ -195,7 +195,7 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
                            onOk={this.handleOk} onCancel={this.handleCancel}
                     >
                         <br/>
-                        <p> 上课地点: {confirmData.classroomAddress}</p>
+                        <p> 上课地点: {confirmData.classroomId}</p>
                         <br/>
                         <p>  上课时间: {confirmData.classroomTime}</p>
                         <br/>
@@ -211,7 +211,7 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
                         type: 'radio',
                         onSelect(record, selected, selectedRows) {
                             confirmData = record;
-                            //console.log(record, selected, selectedRows);
+                            //console.log(record);
                         },}}
                     dataSource={initData}/>
             </div>
