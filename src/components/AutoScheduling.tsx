@@ -31,7 +31,6 @@ export default class AutoSchedulingComponent extends Component<AutoSchProps, {}>
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log('handleClick');
         this.props.dispatch({type: 'autoscheduling/restCourseInfo', payload: arrangeTime});
         initData=this.props.dataSource;
         initNum=this.props.numArrangedClasses;
@@ -45,6 +44,12 @@ export default class AutoSchedulingComponent extends Component<AutoSchProps, {}>
         return (
             <div>
                 <NavigationBar current={"list"} dispatch={this.props.dispatch}/>
+                <Form layout={"inline"} style={{textAlign:"center",fontSize:"large", marginTop: '20px'}}>
+                    <span><FormItem
+                        label="目前排课年份: ">{arrangeTime.year}</FormItem></span>
+                    <span><FormItem
+                        label="目前排课学期:">{(arrangeTime.semester=='FIRST')?'第一学期':'第二学期'}</FormItem></span>
+                </Form>
                 <Form layout={"inline"} style={{textAlign:"center",background: "#ffffff",fontSize:"large"}}>
                     <br/>
                     <Button

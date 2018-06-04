@@ -5,10 +5,8 @@ import {Router, Route, Switch, routerRedux, browserHistory} from 'dva/router';
 const model = {
     namespace: 'autoscheduling',
     state: {
-        dataSource: [
-            {classId: -1},
-            ],
-        numArrangedClasses: 'loading...',
+        dataSource: [{}],
+        numArrangedClasses: '还未排课',
         schedulingTime: {year: -1, semester: ''}
     },
     reducers: {
@@ -39,15 +37,13 @@ const model = {
                 console.log('the set up');
                 yield put({
                     type: 'updateRestCourseInfo',
-                    payload: {dataSource:[
-                            {classId: -1},
-                        ], totalCourse: "loading......"}
+                    payload: {dataSource:[], totalCourse: "还未排课."}
                 });
             }
             else {
                 const response = yield call(tssFetch,'/auto-arrangement?year='+payload.payload.year+'&semester='+payload.payload.semester , 'PUT');
                 if(response.status === 400) {
-                   message.error('自动排课失败');
+                   message.error('自动排课失败,请查看是否设置了当前排课时间');
                    return;
                 }
                 const jsonBody = yield call(response.text.bind(response));
