@@ -55,9 +55,9 @@ const model = {
         }
     },
     effects: {
-        * userInfo(payload: { payload: {uid: null|string} }, {call, put}) {
+        * userInfo(payload: { payload: null }, {call, put}) {
             const msg = payload.payload;
-            const response = yield call(tssFetch, '/user/get', 'POST', msg);
+            const response = yield call(tssFetch, '/user/get/own/info', 'POST', msg);
             if(response.status === 401) {
                 message.error('查询个人信息失败');
                 return;
@@ -65,15 +65,16 @@ const model = {
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
             // message.success(body.status);
+            console.log("body", body);
             yield put({
                 type: 'updateUserInfo',
-                payload: {uid: body.uid, email: body.email, telephone: body.telephone, intro: body.intro}
+                payload: {uid: body.uid, email: body.email, telephone: body.telephone, intro: body.intro, name: body.name, dept: body.department, gender: body.gender, majorClass: body.majorClass, type: body.type}
             });
             return;
         },
-        * modify(payload: { payload: {uid: null|string, email: null|string, telephone: null|string, intro: null|string} }, {call, put}) {
+        * modify(payload: { payload: {email: null|string, telephone: null|string, intro: null|string} }, {call, put}) {
             const msg = payload.payload;
-            const response = yield call(tssFetch, '/user/modify', 'POST', msg);
+            const response = yield call(tssFetch, '/user/modify/own/info', 'POST', msg);
             if(response.status === 400) {
                 message.error('编辑个人信息失败');
                 return;
@@ -81,105 +82,142 @@ const model = {
             yield put({type: 'userInfo', payload: {uid: null}});
             return;
         },
-        * searchUser(payload: {payload:{uid:any, name: any, type: any, dept:any}}, {call, put}){
-            const msg = payload.payload;
-            let targetData:any = [];
-            for (let i = 0; i < totalData.length; i++){
-                if(msg.uid !== undefined && msg.uid!=="" && msg.uid !== totalData[i].uid){
-                    console.log("uid", msg.uid, totalData[i].uid);
-                    continue;
-                }
-                if(msg.name !== undefined && msg.name!=="" &&  msg.name !== totalData[i].name) {
-                    console.log("name", msg.name, totalData[i].name);
-                    continue;
-                }
-                if(msg.dept !== undefined && msg.dept!=="" && msg.dept !== totalData[i].dept) {
-                    continue;
-                }
-                if(msg.type !== undefined && msg.type!=="" && msg.type !== totalData[i].type) {
-                    continue;
-                }
-                console.log("i", targetData);
-                targetData.push( {...totalData[i]});
-            }
+        * resetUser(payload: {payload: {}}, {call, put}){
             yield put({
                 type: 'updateUserInfo',
-                payload: {data: targetData}
+                payload: {uid: "", email: "", telephone: "", intro: "", name: "", dept: "", gender: "", majorClass: "", type: ""}
             });
         },
-        * showUser(payload: {payload:{uid:string}},{call,put}){
+        * searchUser(payload: {payload:{uid:any, name: any, type: any, dept:any}}, {call, put}){
+            console.log("searchUser", payload.payload);
             const msg = payload.payload;
-            for (let i = 0; i < totalData.length; i++){
-                if(msg.uid === totalData[i].uid){
-                    yield put({
-                        type: 'updateUserInfo',
-                        payload: {...totalData[i]}
-                    });
-                    break;
-                }
+            const response = yield call(tssFetch, '/user/query', 'POST', {uid: msg.uid, name: msg.name, department: msg.dept});
+            if(response.status === 400) {
+                message.error('搜索用户失败');
+                return;
             }
-        },
-        * modifyUser(payload: {payload: {uid: string, name: string, type: string, dept: string, gender:string, year:string}},{call,put}){
-            const msg = payload.payload;
-            for (let i = 0; i < totalData.length; i++){
-                if(msg.uid === totalData[i].uid){
-                    // console.log("msg",msg);
-                    totalData[i].name = msg.name;
-                    totalData[i].type = msg.type;
-                    totalData[i].dept = msg.dept;
-                    totalData[i].gender = msg.gender;
-                    totalData[i].year = msg.year;
-                    // console.log("modify", totalData);
-                    yield put({
-                        type: 'updateUserInfo',
-                        payload: {...msg}
-                    });
-                    break;
-                }
-            }
-        },
-        * addUser(payload: {payload: {uid: string, name: string, type: string, dept: string, gender:string, year:string}},{call,put}){
-            console.log("add");
-            const msg = payload.payload;
-            totalData.push({key: (totalData.length+1).toString(), ...msg})
-        },
-        * deleteUser(payload: {payload: {uid: string}},{call, put}){
-            const msg = payload.payload;
-            console.log("delete", msg);
-
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            message.success(body.status);
             let tmp:any = [];
-            for (let i = 0; i < totalData.length; i++){
-                if(msg.uid !== totalData[i].uid){
-                    tmp.push(totalData[i]);
-                }
+            for(let i = 0; i < body.uids.length; i++){
+                console.log(body);
+                tmp.push({key: (tmp.length+1).toString(), uid: body.uids[i], name: body.names[i], dept: body.departments[i], type: body.types[i], gender: body.genders[i], year: body.years[i]});
             }
-            totalData = tmp;
+            // let targetData:any = [];
+            // for (let i = 0; i < totalData.length; i++){
+            //     if(msg.uid !== undefined && msg.uid!=="" && msg.uid !== totalData[i].uid){
+            //         console.log("uid", msg.uid, totalData[i].uid);
+            //         continue;
+            //     }
+            //     if(msg.name !== undefined && msg.name!=="" &&  msg.name !== totalData[i].name) {
+            //         console.log("name", msg.name, totalData[i].name);
+            //         continue;
+            //     }
+            //     if(msg.dept !== undefined && msg.dept!=="" && msg.dept !== totalData[i].dept) {
+            //         continue;
+            //     }
+            //     if(msg.type !== undefined && msg.type!=="" && msg.type !== totalData[i].type) {
+            //         continue;
+            //     }
+            //     console.log("i", targetData);
+            //     targetData.push( {...totalData[i]});
+            // }
+            yield put({
+                type: 'updateUserInfo',
+                payload: {data: tmp}
+            });
+            // console.log("tmp", tmp);
+        },
+        * showUser(payload: {payload:{uid:string}},{call,put}){
+            // const msg = payload.payload;
+            // for (let i = 0; i < totalData.length; i++){
+            //     if(msg.uid === totalData[i].uid){
+            //         yield put({
+            //             type: 'updateUserInfo',
+            //             payload: {...totalData[i]}
+            //         });
+            //         break;
+            //     }
+            // }
+            const msg = payload.payload;
+            const response = yield call(tssFetch, '/user/get/info', 'POST', msg);
+            if(response.status === 401) {
+                message.error('查询用户信息失败');
+                return;
+            }
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            message.success(body.status);
+            // console.log("body", body);
+            yield put({
+                type: 'updateUserInfo',
+                payload: {uid: body.uid, email: body.email, telephone: body.telephone, intro: body.intro, name: body.name, dept: body.department, gender: body.gender, majorClass: body.majorClass, type: body.type}
+            });
+        },
+        * modifyUser(payload: {payload: {uid: string, name: string, type: string, dept: string, gender:string, year:string, majorClass:string, email:string, telephone: string, intro: string}},{call,put}){
+            const msg = payload.payload;
+            const response = yield call(tssFetch, '/user/modify/info', 'POST', msg);
+            if(response.status === 400) {
+                message.error('编辑用户信息失败');
+                return;
+            }
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            message.success(body.status);
+            // for (let i = 0; i < totalData.length; i++){
+            //     if(msg.uid === totalData[i].uid){
+            //         // console.log("msg",msg);
+            //         totalData[i].name = msg.name;
+            //         totalData[i].type = msg.type;
+            //         totalData[i].dept = msg.dept;
+            //         totalData[i].gender = msg.gender;
+            //         totalData[i].year = msg.year;
+            //         // console.log("modify", totalData);
+            //         yield put({
+            //             type: 'updateUserInfo',
+            //             payload: {...msg}
+            //         });
+            //         break;
+            //     }
+            // }
+        },
+        * addUser(payload: {payload: {uids: string[], names: string[], type: string, genders:string[], passwords:string|null[]}},{call,put}){
+            const msg = payload.payload;
+            const response = yield call(tssFetch, '/user/add', 'PUT', msg);
+            if(response.status === 400) {
+                message.error('添加用户失败');
+                return;
+            }
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            message.success(body.status);
+        },
+        * deleteUser(payload: {payload: {uids: string[]}},{call, put}){
+            const msg = payload.payload;
+            const response = yield call(tssFetch, '/user/delete', 'DELETE', msg);
+            if(response.status !== 200) {
+                message.error('删除用户失败');
+                return;
+            }
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            message.success(body.status);
+            // console.log("delete", msg);
+
+            // let tmp:any = [];
+            // for (let i = 0; i < totalData.length; i++){
+            //     if(msg.uid !== totalData[i].uid){
+            //         tmp.push(totalData[i]);
+            //     }
+            // }
+            // totalData = tmp;
         },
         * getPhoto(payload: {payload: {uid: null|string}}, {call, put}){
-            // const msg = payload.payload;
-            //
-            // const response = yield call(tssFetch, '/user/getPhoto', 'POST', msg);
-            // if(response.status === 401) {
-            //     message.error('照片加载失败');
-            //     return;
-            // }
-            // const jsonBody = yield call(response.text.bind(response));
-            // const body = JSON.parse(jsonBody);
-            // message.success(body.status);
-            // yield put({
-            //     type: 'updateUserInfo',
-            //     payload: {photo: body.resource}
-            // });
+
         },
         * modifyPhoto(payload:{payload: {file: any, uid: null|string}}, {call, put}) {
-            // const msg = payload.payload;
-            // console.log("msg", msg);
-            // const f = {name: msg.file.name, uid:msg.file.uid, size:msg.file.size, type:msg.file.type};
-            // console.log('json test:', JSON.stringify(f));
-            // // const response = yield call(tssFetch, '/user/modifyPhoto', 'POST', msg);
-            // const auth: string = getAuthTokenFromLocalStorage();
-            // let url = '/user/modifyPhoto';
-            // console.log("aa", payload);
+
         }
     }
 };

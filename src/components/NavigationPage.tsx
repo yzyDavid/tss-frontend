@@ -102,7 +102,7 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
         };
 
         const Block2 = (props) => {
-            if(props.level === 'student' ){
+            if(props.level === 'Teaching Administrator' ){
                 const menu = (
                     <Menu>
                         <Menu.Item key = "selection">

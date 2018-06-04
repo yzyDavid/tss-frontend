@@ -101,6 +101,7 @@ const app = dva({
 
 app.model(PswdModel);
 app.model(LoginModel);
+app.model(CourseModel);
 app.model(NavigationModel);
 app.model(UserInfoModel);
 app.model(AutoSchedulingModel);
@@ -143,7 +144,7 @@ const UserPage = connect(state => {
 })(UserPageComponent);
 
 const UserManagePage = connect(state => {
-    return {};
+    return {...state.userinfo};
 })(UserManagePageComponent);
 
 

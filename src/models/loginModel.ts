@@ -15,7 +15,7 @@ const model = {
     namespace: 'login',
     state: {
         ...state,
-        type: '2'
+        type: 'Teaching Administrator'
     },
     reducers: {
         saveSession(st) {
@@ -31,7 +31,6 @@ const model = {
     },
     effects: {
         * login(payload: { payload: LoginFormData }, {call, put}) {
-            // console.log(payload);
             const msg = payload.payload;
             const response = yield call(tssFetch, '/session/login', 'POST', msg);
             console.log(response);
@@ -41,7 +40,6 @@ const model = {
             }
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
-            // console.log(body);
             yield put({type: 'updateSession', payload: {uid: body.uid, password: msg.password, token: body.token, type: body.type}});
             message.success('登录成功');
             yield put(routerRedux.push('/navi'));
