@@ -7,14 +7,14 @@ const FormItem = Form.Item;
 
 interface FormProps extends DvaProps {
     form: any;
-    name: string;
-    id: number;
+    courseName: string;
+    courseId: number;
     credit: number;
     brief: string;
 }
 class CourseInfo{
-    name: string;
-    id: number;
+    courseName: string;
+    courseId: number;
     credit: number;
     brief: string;
 }
@@ -23,8 +23,8 @@ export class CourseDetailForm extends Component<FormProps,CourseInfo>{
     componentDidMount() {};
     refresh = () => {
         this.props.form.setFieldsValue({
-            name: this.props.name,
-            id: this.props.id,
+            name: this.props.courseName,
+            id: this.props.courseId,
             credit: this.props.credit,
             brief: this.props.brief,
         });
@@ -33,10 +33,10 @@ export class CourseDetailForm extends Component<FormProps,CourseInfo>{
         return (
             <Form>
                 <FormItem label="课程名">
-                    <span className="ant-form-text"> {this.props.name}</span>
+                    <span className="ant-form-text"> {this.props.courseName}</span>
                 </FormItem>
                 <FormItem label="课程号">
-                    <span className="ant-form-text"> {this.props.id}</span>
+                    <span className="ant-form-text"> {this.props.courseId}</span>
                 </FormItem>
                 <FormItem label="学分">
                     <span className="ant-form-text"> {this.props.credit}</span>

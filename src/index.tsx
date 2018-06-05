@@ -29,10 +29,8 @@ import CourseInfoModel from './models/CourseInfoModel';
 import UserInfoModel from './models/userInfoModel';
 
 import TestsysTeacherQuestionModel from './models/TestsysTeacherQuestionModel';
-
 import TestsysStudentPaperPageComponent from "./components/TestsysStudentPaper";
 import TestsysStudentQuestionReviewPageComponent from "./components/TestsysStudentQuestionReview";
-
 import TestsysTeacherPaperModel from './models/TestsysTeacherPaperModel'
 import TestsysModel from './models/TestsysModel'
 import TestsysTeacherResultModel from './models/TestsysTeacherResultModel'
@@ -49,9 +47,11 @@ import SelectionModel from './models/SelectionModel';
 import StuListModel from './models/StuListModel';
 import SelectionClassModel from './models/SelectionClassModel';
 import CourseTableModel from './models/CourseTableModel';
-import ScoreUploadModel from './models/ScoreUploadModel'
-import ApplyModifyModel from './models/ApplyModifyModel'
-import ScoreManagerModel from './models/ScoreManagerModel'
+import ScoreUploadModel from './models/ScoreUploadModel';
+import ApplyModifyModel from './models/ApplyModifyModel';
+import ScoreManagerModel from './models/ScoreManagerModel';
+import PlanModel from './models/PlanModel';
+import ManageTimeModel from './models/ManageTimeModel';
 import DeptManagePageComponent from './components/DeptManagePage';
 import { TssFooter, TssHeader } from './components/TssPublicComponents';
 import HomePageComponent from './components/HomePage';
@@ -109,7 +109,8 @@ app.model(ScoreUploadModel);
 app.model(ApplyModifyModel);
 app.model(ScoreManagerModel);
 app.model(CourseTableModel);
-
+app.model(PlanModel);
+app.model(ManageTimeModel);
 
 const HomePage = connect(state => {
     return {}
@@ -248,13 +249,14 @@ const DeptManagePage = connect(state => {
     return {...state.dept, pswdShow: state.pswd.show};
 })(DeptManagePageComponent);
 
-
 const ManageTimePage = connect(state =>{
     return{};
 })(ManageTimeComponent)
 
 const PlanPage = connect(state => {
-    return {};
+    const {dataSource1} = state.plan;
+    const {dataSource2} = state.plan;
+    return {dataSource1: dataSource1, dataSource2: dataSource2}
 })(PlanComponent)
 
 const ManSelectPage = connect(state =>{
@@ -277,9 +279,6 @@ const StuListPage = connect(state =>{
     return {dataSource: dataSource};
 
 })(StudentListComponent);
-
-
-
 
 const ScoreUploadPage = connect(state => {
     const {uid, level} = state.login;

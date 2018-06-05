@@ -57,7 +57,7 @@ export default class StudentSelectionComponent extends Component<UserProps, User
         if(this.formRef && modalVisible === true) this.formRef.refresh();
         this.setState({ modalVisible: modalVisible, courseIndex: index });
         console.log(index);
-        console.log(this.props.dataSource[index].id);
+        console.log(this.props.dataSource[index].courseId);
     }
     setModalVisible(modalVisible) {
         this.setState({ modalVisible: modalVisible });
@@ -68,6 +68,14 @@ export default class StudentSelectionComponent extends Component<UserProps, User
         this.setState({refresh: true})
     }
 
+    select(course){
+        console.log(course)
+        this.props.dispatch({type:"selectCourse/select",payload:course["classId"]});
+    };
+    dismiss(course){
+        this.props.dispatch({type:"selectCourse/dismiss",payload:course["classId"]})
+    }
+
     componentDidMount(){
 
     };
@@ -76,6 +84,9 @@ export default class StudentSelectionComponent extends Component<UserProps, User
         const columns = [{
             title: "课程编号",
             dataIndex: "courseId",
+        }, {
+            title: "教学班号",
+            dataIndex: "classId",
         },{
             title: "课程名称",
             dataIndex: "courseName",
@@ -97,7 +108,11 @@ export default class StudentSelectionComponent extends Component<UserProps, User
             dataIndex: "numStudent"
         },{
             title: "选课",
-            render: (text,record,index)=>(<a onClick={()=>{this.props.dispatch({type: "selectClass/refreshDataSource", payload: {courseName: this.props.dataSource[index].courseName}})}}>选课</a>)
+            render: (record)=>(
+                <span>
+                    <a onClick={()=>this.select(record)}>选课/</a>
+                    <a onClick={()=>this.dismiss(record)}>退选</a>
+                </span>)
         }];
 
         return(
@@ -136,7 +151,7 @@ export default class StudentSelectionComponent extends Component<UserProps, User
                                 onOk={() => this.setModalVisible(false)}
 
                             >
-                                <WrappedCourseDetailForm  wrappedComponentRef={(inst) => this.formRef = inst} dispatch={this.props.dispatch} id={this.props.dataSource[this.state.courseIndex].courseId} name={this.props.dataSource[this.state.courseIndex].courseName} credit={this.props.dataSource[this.state.courseIndex]} brief={this.props.dataSource[this.state.courseIndex].brief} />
+                                <WrappedCourseDetailForm  wrappedComponentRef={(inst) => this.formRef = inst} dispatch={this.props.dispatch} courseId={this.props.dataSource[this.state.courseIndex]["courseId"]} courseName={this.props.dataSource[this.state.courseIndex]["courseName"]} credit={this.props.dataSource[this.state.courseIndex]["credit"]} brief={this.props.dataSource[this.state.courseIndex]["brief"]} />
                             </Modal>
                         </Form>
                         <br/>

@@ -1,22 +1,25 @@
 import * as React from 'react';
 import {Component} from 'react';
-import {Layout, Modal, Breadcrumb, Icon, Table, Button, Input, Select, Form} from 'antd';
+import {Layout, Modal, Breadcrumb, Icon, Table, Button, Input, Select, Form, Collapse} from 'antd';
 import 'antd/dist/antd.css';
 import {NavigationBar} from './TssPublicComponents'
 import DvaProps from '../types/DvaProps';
 
 const { Column } = Table;
 const FormItem = Form.Item;
+const Panel = Collapse.Panel;
 
 interface PlanProps extends DvaProps{
     uid: string;
     form: any;
+    dataSource1: any;
+    dataSource2: any;
 }
 
 const data = [{
     key: '1',
     courseId: 20102,
-    name: '数据结构基础',
+    courseName: '数据结构基础',
     teacher: 'Mike',
     brief: '重点介绍算法设计、算法描述和相应C程序编码，并给出相应的数据结构应用实例',
     credit: 3.0,
@@ -34,24 +37,51 @@ const data = [{
 
 export default class PlanComponent extends Component<PlanProps>{
     constructor(props) {
-        super(props)
+        super(props);
+        this.props.dispatch({type: "plan/fetchCourseList"});
     }
 
     deletePlan(course){
-        console.log(course);
+        //console.log(course);
+        this.props.dispatch({type: "plan/deletePlan", payload: {courseId: course["courseId"]}})
+    }
+    addPlan(course){
+        //console.log(course);
+        this.props.dispatch({type: "plan/addPlan", payload: {courseId: course["courseId"]}})
     }
     handleSubmit(){
 
     }
-
+    callback(key) {
+        console.log(key);
+    }
     render(){
-        const {getFieldDecorator} = this.props.form
-        const columns = [{
+        const columns1 = [{
             title: "课程代码",
             dataIndex: "courseId",
         },{
             title: "课程名称",
-            dataIndex: "coursename",
+            dataIndex: "courseName",
+        },{
+            title: "学分",
+            dataIndex: "credit"
+        },{
+            title: "种类",
+            dataIndex: "type"
+        },{
+            title: "添加",
+            render: (record)=>(
+                <span>
+                    <a onClick={()=>this.addPlan(record)}>添加</a>
+                </span>
+            )
+        }]
+        const columns2 = [{
+            title: "课程代码",
+            dataIndex: "courseId",
+        },{
+            title: "课程名称",
+            dataIndex: "courseName",
         },{
             title: "学分",
             dataIndex: "credit"
@@ -70,28 +100,16 @@ export default class PlanComponent extends Component<PlanProps>{
             <div>
                <NavigationBar current={'plan'} dispatch={this.props.dispatch}/>
                 <div style={{ padding: 24, background: '#fff', minHeight: 780 }}>
-                    <div>
-                        <Form layout={"inline"} onSubmit={this.handleSubmit} style={{textAlign: 'center'}}>
-                            <FormItem
-                                label="addCourse" >添加课程
-                            </FormItem>
-                            <br/>
-                            <FormItem label="课程名称">
-                                {
-                                    // getFieldDecorator('courseName', { })(
-                                    //     <Input placeholder="请输入课程名称" style={{width: 200}}/>)
-                                }
-                            </FormItem>
-                            <Button
-                                icon="add"
-                                type="primary"
-                                htmlType="submit"
-                                onClick={this.handleSubmit}>添加
-                            </Button>
-                        </Form>
-                    </div>
-                    <Table dataSource={data} columns={columns}>
-                    </Table>
+                    <Collapse defaultActiveKey={['1']} onChange={this.callback}>
+                        <Panel header="修改培养方案" key="1">
+                            <Table dataSource={this.props.dataSource1} columns={columns1}>
+                            </Table>
+                        </Panel>
+                        <Panel header="查看培养方案" key="2">
+                            <Table dataSource={this.props.dataSource2} columns={columns2}>
+                            </Table>
+                        </Panel>
+                    </Collapse>
                 </div>
 
             </div>
