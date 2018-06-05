@@ -9,20 +9,40 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 const columns = [
-    {title: '课程号', dataIndex: 'classId', key: 'classId'},
-    {title: '课程名称', dataIndex: 'courseName', key: 'courseName'},
-    {title: '上课时间', dataIndex: 'typeName', key: 'typeName', render: (text)=>{
-            var timeB, timeA;
-            if(!text)
-                timeA = ' ';
-            else {
-                timeB= text.toString();
-                timeA = timeB.substring(0,3)+ ' ' + timeB.substring(4,5)+ '~' + timeB.substring(timeB.length-1,timeB.length);
-            }
+    {title: '课程号', dataIndex: 'classId',
+        filters:[{text: '已安排', value: 'true'}],
+        filterMultiple: false,
+        onFilter: (value, record) => record.classId != null,
+        //onFilter: (value, record) => (record.classId === null),
+        key: 'classId',
+        render: (text)=>{
+            if(text == null)
+                text="无";
             return (
-                <label>{timeA}</label>
+                <label>{text}</label>
             );
         }},
+    {title: '课程名称', dataIndex: 'courseName', key: 'courseName',render: (text)=>{
+            if(text == null)
+                text="无";
+            return (
+                <label>{text}</label>
+            );
+        }},
+    {title: '上课时间', dataIndex: 'typeName', key: 'typeName',
+        // render: (text)=>{
+        //     var timeB, timeA;
+        //     if(!text)
+        //         timeA = ' ';
+        //     else {
+        //         timeB= text.toString();
+        //         timeA = timeB.substring(0,3)+ ' ' + timeB.substring(4,5)+ '~' + timeB.substring(timeB.length-1,timeB.length);
+        //     }
+        //     return (
+        //         <label>{timeA}</label>
+        //     );
+        // }
+        },
 ];
 const waring1  = function() { message.error('不存在该教室，请重新选择');};
 const waring2  = function() { message.error('未选择需要查看的教室');};
@@ -180,26 +200,26 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
                 <Form layout={"inline"} style={{textAlign: 'center'}}>
                     <FormItem
                         label="校区" >
-                        {getFieldDecorator('campus', {})(
+                        {getFieldDecorator('campusId', {})(
                             <Select  style={{width: 200}} onChange={this.handleChange1} >
-                                <Option value= {1} >玉泉校区</Option>
-                                <Option value= {21}>紫金港校区</Option>
-                                {/*<Option value="西溪校区">西溪校区</Option>*/}
-                                {/*<Option value="华家池校区">华家池校区</Option>*/}
-                                {/*<Option value="之江校区">之江校区</Option>*/}
-                                {/*<Option value="舟山校区">舟山校区</Option>*/}
+                                <Option value= {10000}>紫金港校区</Option>
+                                <Option value= {10001} >玉泉校区</Option>
+                                <Option value={10002}>西溪校区</Option>
+                                <Option value={10003}>华家池校区</Option>
+                                <Option value={10004}>之江校区</Option>
+                                <Option value={10005}>舟山校区</Option>
                             </Select>
                         )}
                     </FormItem>
                     <FormItem label="教学楼">
-                        {getFieldDecorator('building', {})(
+                        {getFieldDecorator('buildingId', {})(
                             <Select  disabled={!(this.state.item2State)} style={{width: 200}} onChange={this.handleChange2}>
                                 {buildingsChildren}
                             </Select>
                         )}
                     </FormItem>
                     <FormItem label="教室">
-                        {getFieldDecorator('classroom', {})(
+                        {getFieldDecorator('classroomId', {})(
                             <Select  disabled={!(this.state.item3State)} style={{width: 200}} onChange={this.handleChange3}>
                                 {classroomsChildren}
                             </Select>
@@ -212,148 +232,6 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
                         onClick={this.handleSubmit}>选择
                     </Button>
                 </Form>
-
-                {/*<Row style={{padding: 20}} gutter={5}>*/}
-                    {/*<Col span={3}><div >时间</div></Col>*/}
-                    {/*<Col  span={3}><div >周一</div></Col>*/}
-                    {/*<Col  span={3}><div >周二</div></Col>*/}
-                    {/*<Col  span={3}><div >周三</div></Col>*/}
-                    {/*<Col  span={3}><div >周四</div></Col>*/}
-                    {/*<Col  span={3}><div >周五</div></Col>*/}
-                    {/*<Col  span={3}><div >周六</div></Col>*/}
-                    {/*<Col  span={3}><div >周日</div></Col>*/}
-                {/*</Row>*/}
-                {/*<Row style={{padding: 20, background: "#ffffff"}} gutter={5}>*/}
-                    {/*<Col span={3}><div >第一节</div></Col>*/}
-                    {/*<Col  span={3}><div >法阿斯顿发生</div></Col>*/}
-                    {/*<Col  span={3}><div >无</div></Col>*/}
-                    {/*<Col  span={3}><div >周三</div></Col>*/}
-                    {/*<Col  span={3}><div >周四</div></Col>*/}
-                    {/*<Col  span={3}><div >周五</div></Col>*/}
-                    {/*<Col  span={3}><div >周六</div></Col>*/}
-                    {/*<Col  span={3}><div >周日</div></Col>*/}
-                {/*</Row>*/}
-                {/*<Row style={{padding: 20, background: "#ffffff"}} gutter={5}>*/}
-                    {/*<Col span={3}><div >第二节</div></Col>*/}
-                    {/*<Col  span={3}><div >周一发士大动阀的发生</div></Col>*/}
-                    {/*<Col  span={3}><div >无</div></Col>*/}
-                    {/*<Col  span={3}><div >周三</div></Col>*/}
-                    {/*<Col  span={3}><div >周四</div></Col>*/}
-                    {/*<Col  span={3}><div >周五</div></Col>*/}
-                    {/*<Col  span={3}><div >周六</div></Col>*/}
-                    {/*<Col  span={3}><div >周日</div></Col>*/}
-                {/*</Row>*/}
-                {/*<Row style={{padding: 20, background: "#ffffff"}} gutter={5}>*/}
-                    {/*<Col span={3}><div >第三节</div></Col>*/}
-                    {/*<Col  span={3}><div >周一发动阀的算法阿斯顿发生</div></Col>*/}
-                    {/*<Col  span={3}><div >无</div></Col>*/}
-                    {/*<Col  span={3}><div >周三</div></Col>*/}
-                    {/*<Col  span={3}><div >周四</div></Col>*/}
-                    {/*<Col  span={3}><div >周五</div></Col>*/}
-                    {/*<Col  span={3}><div >周六</div></Col>*/}
-                    {/*<Col  span={3}><div >周日</div></Col>*/}
-                {/*</Row>*/}
-                {/*<Row style={{padding: 20, background: "#ffffff"}} gutter={5}>*/}
-                    {/*<Col span={3}><div >第四节</div></Col>*/}
-                    {/*<Col  span={3}><div >周一的算顿发生</div></Col>*/}
-                    {/*<Col  span={3}><div >无</div></Col>*/}
-                    {/*<Col  span={3}><div >周三</div></Col>*/}
-                    {/*<Col  span={3}><div >周四</div></Col>*/}
-                    {/*<Col  span={3}><div >周五</div></Col>*/}
-                    {/*<Col  span={3}><div >周六</div></Col>*/}
-                    {/*<Col  span={3}><div >周日</div></Col>*/}
-                {/*</Row>*/}
-                {/*<Row style={{padding: 20, background: "#ffffff"}} gutter={5}>*/}
-                    {/*<Col span={3}><div >第五节</div></Col>*/}
-                    {/*<Col  span={3}><div >周一动阀的算法顿发生</div></Col>*/}
-                    {/*<Col  span={3}><div >无</div></Col>*/}
-                    {/*<Col  span={3}><div >周三</div></Col>*/}
-                    {/*<Col  span={3}><div >周四</div></Col>*/}
-                    {/*<Col  span={3}><div >周五</div></Col>*/}
-                    {/*<Col  span={3}><div >周六</div></Col>*/}
-                    {/*<Col  span={3}><div >周日</div></Col>*/}
-                {/*</Row>*/}
-                {/*<Row style={{padding: 20, background: "#ffffff"}} gutter={5}>*/}
-                    {/*<Col span={3}><div >第六节</div></Col>*/}
-                    {/*<Col  span={3}><div >周啊手动阀手动阀斯顿发生</div></Col>*/}
-                    {/*<Col  span={3}><div >无</div></Col>*/}
-                    {/*<Col  span={3}><div >周三</div></Col>*/}
-                    {/*<Col  span={3}><div >周四</div></Col>*/}
-                    {/*<Col  span={3}><div >周五</div></Col>*/}
-                    {/*<Col  span={3}><div >周六</div></Col>*/}
-                    {/*<Col  span={3}><div >周日</div></Col>*/}
-                {/*</Row>*/}
-                {/*<Row style={{padding: 20, background: "#ffffff"}} gutter={5}>*/}
-                    {/*<Col span={3}><div >第七节</div></Col>*/}
-                    {/*<Col  span={3}><div >周一发士大动阀的发生</div></Col>*/}
-                    {/*<Col  span={3}><div >无</div></Col>*/}
-                    {/*<Col  span={3}><div >周三</div></Col>*/}
-                    {/*<Col  span={3}><div >周四</div></Col>*/}
-                    {/*<Col  span={3}><div >周五</div></Col>*/}
-                    {/*<Col  span={3}><div >周六</div></Col>*/}
-                    {/*<Col  span={3}><div >周日</div></Col>*/}
-                {/*</Row>*/}
-                {/*<Row style={{padding: 20, background: "#ffffff"}} gutter={5}>*/}
-                    {/*<Col span={3}><div >第八节</div></Col>*/}
-                    {/*<Col  span={3}><div >周一发动阀的算法阿斯顿发生</div></Col>*/}
-                    {/*<Col  span={3}><div >无</div></Col>*/}
-                    {/*<Col  span={3}><div >周三</div></Col>*/}
-                    {/*<Col  span={3}><div >周四</div></Col>*/}
-                    {/*<Col  span={3}><div >周五</div></Col>*/}
-                    {/*<Col  span={3}><div >周六</div></Col>*/}
-                    {/*<Col  span={3}><div >周日</div></Col>*/}
-                {/*</Row>*/}
-                {/*<Row style={{padding: 20, background: "#ffffff"}} gutter={5}>*/}
-                    {/*<Col span={3}><div >第九节</div></Col>*/}
-                    {/*<Col  span={3}><div >周一的算顿发生</div></Col>*/}
-                    {/*<Col  span={3}><div >无</div></Col>*/}
-                    {/*<Col  span={3}><div >周三</div></Col>*/}
-                    {/*<Col  span={3}><div >周四</div></Col>*/}
-                    {/*<Col  span={3}><div >周五</div></Col>*/}
-                    {/*<Col  span={3}><div >周六</div></Col>*/}
-                    {/*<Col  span={3}><div >周日</div></Col>*/}
-                {/*</Row>*/}
-                {/*<Row style={{padding: 20, background: "#ffffff"}} gutter={5}>*/}
-                    {/*<Col span={3}><div >第十节</div></Col>*/}
-                    {/*<Col  span={3}><div >周一动阀的算法顿发生</div></Col>*/}
-                    {/*<Col  span={3}><div >无</div></Col>*/}
-                    {/*<Col  span={3}><div >周三</div></Col>*/}
-                    {/*<Col  span={3}><div >周四</div></Col>*/}
-                    {/*<Col  span={3}><div >周五</div></Col>*/}
-                    {/*<Col  span={3}><div >周六</div></Col>*/}
-                    {/*<Col  span={3}><div >周日</div></Col>*/}
-                {/*</Row>*/}
-                {/*<Row style={{padding: 20, background: "#ffffff"}} gutter={5}>*/}
-                    {/*<Col span={3}><div >第十一节</div></Col>*/}
-                    {/*<Col  span={3}><div >周一动阀的算法顿发生</div></Col>*/}
-                    {/*<Col  span={3}><div >无</div></Col>*/}
-                    {/*<Col  span={3}><div >周三</div></Col>*/}
-                    {/*<Col  span={3}><div >周四</div></Col>*/}
-                    {/*<Col  span={3}><div >周五</div></Col>*/}
-                    {/*<Col  span={3}><div >周六</div></Col>*/}
-                    {/*<Col  span={3}><div >周日</div></Col>*/}
-                {/*</Row>*/}
-                {/*<Row style={{padding: 20, background: "#ffffff"}} gutter={5}>*/}
-                    {/*<Col span={3}><div >第十二节</div></Col>*/}
-                    {/*<Col  span={3}><div >周一动阀的算法顿发生</div></Col>*/}
-                    {/*<Col  span={3}><div >无</div></Col>*/}
-                    {/*<Col  span={3}><div >周三</div></Col>*/}
-                    {/*<Col  span={3}><div >周四</div></Col>*/}
-                    {/*<Col  span={3}><div >周五</div></Col>*/}
-                    {/*<Col  span={3}><div >周六</div></Col>*/}
-                    {/*<Col  span={3}><div >周日</div></Col>*/}
-                {/*</Row>*/}
-                {/*<Row style={{padding: 20, background: "#ffffff"}} gutter={5}>*/}
-                    {/*<Col span={3}><div >第十三节</div></Col>*/}
-                    {/*<Col  span={3}><div >周一动阀的算法顿发生</div></Col>*/}
-                    {/*<Col  span={3}><div >无</div></Col>*/}
-                    {/*<Col  span={3}><div >周三</div></Col>*/}
-                    {/*<Col  span={3}><div >周四</div></Col>*/}
-                    {/*<Col  span={3}><div >周五</div></Col>*/}
-                    {/*<Col  span={3}><div >周六</div></Col>*/}
-                    {/*<Col  span={3}><div >周日</div></Col>*/}
-                {/*</Row>*/}
-
                 <Table
                     style={{width: "100%", background: "#ffffff"}}
                     rowKey = "id"

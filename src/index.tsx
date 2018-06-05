@@ -64,6 +64,7 @@ import ManualSchModifyPageComponent from './components/ManualSchModify';
 import SetSchedulingTimeComponent from './components/SetSchedulingTime'
 import CourseManagePageComponent from './components/CourseManagePage';
 import ClassroomManagePageComponent from './components/ClassroomManagePage';
+import ClassroomCreateComponent from './components/ClassroomCreate'
 import CurriculumTeacherPageComponent from './components/CurriculumTeacher';
 import CurriculumManagePageComponent from './components/CurriculumManage';
 import ManageTimeComponent from './components/ManageTime';
@@ -105,6 +106,13 @@ app.model(SelectionModel);
 app.model(StuListModel);
 app.model(SelectionClassModel);
 app.model(ClassroomManageModel);
+<<<<<<< HEAD
+=======
+app.model(AutoSchedulingModel);
+
+
+
+>>>>>>> origin/master
 app.model(ScoreUploadModel);
 app.model(ApplyModifyModel);
 app.model(ScoreManagerModel);
@@ -204,30 +212,39 @@ const TestsysTeacherResultQunitPage = connect(state => {
 
 const AutoSchedulingPage = connect(state => {
     const dataSource = state.autoscheduling.dataSource;
-    const totalCourse = state.autoscheduling.totalCourse;
-    //console.log(state.autoscheduling.dataSource);
-    return {dataSource: dataSource, totalCourse: totalCourse};
+    const numArrangedClasses = state.autoscheduling.numArrangedClasses;
+    const schedulingTime = state.autoscheduling.schedulingTime;
+    return {dataSource: dataSource, numArrangedClasses: numArrangedClasses, schedulingTime: schedulingTime};
 })(AutoSchedulingComponent);
 
 const ManualSchedulingPage = connect(state => {
     const {dataSource} = state.courseinfo;
-    return {dataSource: dataSource};
+    const schedulingTime = state.autoscheduling.schedulingTime;
+    return {dataSource: dataSource, schedulingTime: schedulingTime};
 })(ManualSchedulingPageComponent);
 
 const ManualSchModifyPage = connect(state => {
     const dataSource = state.freeclassroominfo.dataSource;
-    return {dataSource: dataSource, courseInfo:  state.freeclassroominfo.selectedCourseInfo};
+    const clazzInfo = state.courseinfo.clazzInfo;
+    const buildingData = state.curriculummanage.buildingData;
+    return {dataSource: dataSource, clazzInfo: clazzInfo, buildingData: buildingData};
 })(ManualSchModifyPageComponent);
 
 const ClassroomManagePage = connect(state => {
     const {dataSource} = state.classroommanage;
-    return {dataSource:dataSource};
-
+    return {dataSource: dataSource};
 })(ClassroomManagePageComponent);
+
+const ClassroomCreatePage = connect(state => {
+    const {dataSource} = state.classroommanage;
+    return {dataSource: dataSource};
+})(ClassroomCreateComponent);
 
 const CurriculumTeacherPage = connect(state => {
     const {dataSource} = state.curriculumteacher;
-    return {dataSource: dataSource};
+    const uid = state.login.uid;
+    //console.log(uid);
+    return {dataSource: dataSource,uid: uid};
 })(CurriculumTeacherPageComponent);
 
 const CurriculumManagePage = connect(state => {
@@ -277,7 +294,6 @@ const ClassSelectPage = connect(state =>{
 const StuListPage = connect(state =>{
     const {dataSource} = state.studentList;
     return {dataSource: dataSource};
-
 })(StudentListComponent);
 
 const ScoreUploadPage = connect(state => {
@@ -332,6 +348,7 @@ app.router(({history}) => (
                         <Route path="/manualScheduling" component={ManualSchedulingPage} />
                         <Route path="/manualSchModify/:name" component={ManualSchModifyPage} />
                         <Route path="/classroomManage" component={ClassroomManagePage}/>
+                        <Route path="/classroomCreate" component={ClassroomCreatePage}/>
                         <Route path="/curriculumTeacher" component={CurriculumTeacherPage}/>
                         <Route path="/curriculumManage" component={CurriculumManagePage}/>
                         <Route path="/setSchedulingTime" component={SetSchedulingTimePage}/>
