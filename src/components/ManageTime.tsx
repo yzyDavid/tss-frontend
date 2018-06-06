@@ -55,24 +55,18 @@ export default class ManageTimeComponent extends Component<manageTimeProps, mana
         this.onChange10 = this.onChange10.bind(this);
         this.onChange11 = this.onChange11.bind(this);
         this.onChange12= this.onChange12.bind(this);
+        this.setTime1 = this.setTime1.bind(this);
+        this.setTime2 = this.setTime2.bind(this);
+        this.setTime3 = this.setTime3.bind(this);
     }
     setTime1(){
-        //TODO
-        Modal.success({
-            content: "时间设置成功！"
-        })
+        this.props.dispatch({type:"manageTime/setComplement",payload: {start:this.state.date1_1 + " " + this.state.time1_1, end: this.state.date1_2+ " " + this.state.time1_2}})
     }
     setTime2(){
-        //TODO
-        Modal.success({
-            content: "时间设置成功！"
-        })
+        this.props.dispatch({type:"manageTime/setDropTime",payload: {start:this.state.date2_1 + " " + this.state.time2_1, end: this.state.date2_2+ " " + this.state.time2_2}})
     }
     setTime3(){
-        //TODO
-        Modal.success({
-            content: "时间设置成功！"
-        })
+        this.props.dispatch({type:"manageTime/setFirstSelection",payload: {start:this.state.date3_1 + " " + this.state.time3_1, end: this.state.date3_2+ " " + this.state.time3_2}})
     }
     onChange1(time, timeString) {
         console.log(time, timeString);
@@ -135,6 +129,15 @@ export default class ManageTimeComponent extends Component<manageTimeProps, mana
                 <Content style={{margin: '0 16px'}}>
             <div style = {{ padding: 24, background: '#fff', minHeight: 780 }}>
                 <div>
+                    <span style={{margin: 8}}>初选开始时间</span>
+                    <DatePicker onChange={this.onChange11}></DatePicker>
+                    <TimePicker onChange={this.onChange5} style={{margin: 8}}></TimePicker>
+                    <span style={{margin: 8}}>初选结束时间</span>
+                    <DatePicker onChange={this.onChange12}></DatePicker>
+                    <TimePicker onChange={this.onChange6} style={{margin: 8}}></TimePicker>
+                    <Button type ="primary" style={{margin: 4}} onClick={this.setTime3}>设置初选时间</Button>
+                </div>
+                <div>
                     <span style={{margin: 8}}>补选开始时间</span>
                     <DatePicker onChange={this.onChange7}></DatePicker>
                     <TimePicker onChange={this.onChange1} style={{margin: 8}}></TimePicker>
@@ -151,15 +154,6 @@ export default class ManageTimeComponent extends Component<manageTimeProps, mana
                     <DatePicker onChange={this.onChange10}></DatePicker>
                     <TimePicker onChange={this.onChange4} style={{margin: 8}}></TimePicker>
                     <Button type ="primary" style={{margin: 4}} onClick={this.setTime2}>设置退选时间</Button>
-                </div>
-                <div>
-                    <span style={{margin: 8}}>初选开始时间</span>
-                    <DatePicker onChange={this.onChange11}></DatePicker>
-                    <TimePicker onChange={this.onChange5} style={{margin: 8}}></TimePicker>
-                    <span style={{margin: 8}}>初选结束时间</span>
-                    <DatePicker onChange={this.onChange12}></DatePicker>
-                    <TimePicker onChange={this.onChange6} style={{margin: 8}}></TimePicker>
-                    <Button type ="primary" style={{margin: 4}} onClick={this.setTime3}>设置初选时间</Button>
                 </div>
             </div>
                 </Content>

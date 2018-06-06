@@ -1,5 +1,7 @@
 import {Router, Route, Switch, routerRedux, browserHistory} from 'dva/router';
 import {CourseFormData} from "../components/ManualScheduling";
+import {tssFetch} from "../utils/tssFetch";
+import {message} from "antd";
 
 const model = {
     namespace: "courseTable",
@@ -9,7 +11,7 @@ const model = {
         ]
     },
     reducers: {
-        updateStudentList(st, payload) {
+        updateCourseTable(st, payload) {
             return {...st, ...payload.payload};
         },
     },
@@ -35,11 +37,20 @@ const model = {
             if(a!="" || b!="") {
                 //fetch the courseTable
                 //TODO
-
+                const response = yield call(tssFetch, '/classes/get_selected/' + a + '/' + b, 'GET');
+                if (response.status != 200) {
+                    return;
+                }
+                else{
                 //refresh the dataSource
                 //TODO
-                console.log(a)
-                console.log(b)
+                    const jsonBody = yield call(response.text.bind(response));
+                    const body = JSON.parse(jsonBody);
+                    yield put({
+                        type: "updateCourseTable",
+                        payload: {dataSource:body["classes"]}
+                    })
+                }
             }
         }
     }

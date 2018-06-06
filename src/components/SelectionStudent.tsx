@@ -27,18 +27,6 @@ interface UserState {
     searchIndex: any;
     refresh: boolean
 }
-//
-// const rowSelection = {
-//     onChange: (selectedRowKeys, selectedRows) => {
-//         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-//         console.log()
-//     },
-//     getCheckboxProps: record => ({
-//         disabled: record.name === 'Disabled User', // Column configuration not to be checked
-//         name: record.name,
-//     }),
-//
-// };
 
 
 export default class StudentSelectionComponent extends Component<UserProps, UserState>{
@@ -50,6 +38,8 @@ export default class StudentSelectionComponent extends Component<UserProps, User
             searchIndex: "课程名",
             refresh: false,
         }
+        //console.log(this.props.global)
+        this.props.dispatch({type:"selectCourse/fetchClassLists",payload: ""});
     }
 
     formRef: any;
@@ -70,10 +60,10 @@ export default class StudentSelectionComponent extends Component<UserProps, User
 
     select(course){
         console.log(course)
-        this.props.dispatch({type:"selectCourse/select",payload:course["classId"]});
+        this.props.dispatch({type:"selectCourse/select",payload:course["id"]});
     };
     dismiss(course){
-        this.props.dispatch({type:"selectCourse/dismiss",payload:course["classId"]})
+        this.props.dispatch({type:"selectCourse/dismiss",payload:course["id"]})
     }
 
     componentDidMount(){
@@ -86,7 +76,7 @@ export default class StudentSelectionComponent extends Component<UserProps, User
             dataIndex: "courseId",
         }, {
             title: "教学班号",
-            dataIndex: "classId",
+            dataIndex: "id",
         },{
             title: "课程名称",
             dataIndex: "courseName",
@@ -107,6 +97,9 @@ export default class StudentSelectionComponent extends Component<UserProps, User
             title: "已选",
             dataIndex: "numStudent"
         },{
+            title: "选课状态",
+            dataIndex: "status"
+        }, {
             title: "选课",
             render: (record)=>(
                 <span>
@@ -151,7 +144,7 @@ export default class StudentSelectionComponent extends Component<UserProps, User
                                 onOk={() => this.setModalVisible(false)}
 
                             >
-                                <WrappedCourseDetailForm  wrappedComponentRef={(inst) => this.formRef = inst} dispatch={this.props.dispatch} courseId={this.props.dataSource[this.state.courseIndex]["courseId"]} courseName={this.props.dataSource[this.state.courseIndex]["courseName"]} credit={this.props.dataSource[this.state.courseIndex]["credit"]} brief={this.props.dataSource[this.state.courseIndex]["brief"]} />
+                                <WrappedCourseDetailForm  wrappedComponentRef={(inst) => this.formRef = inst} dispatch={this.props.dispatch} courseId={this.props.dataSource[this.state.courseIndex]["id"]} courseName={this.props.dataSource[this.state.courseIndex]["courseName"]} credit={this.props.dataSource[this.state.courseIndex]["credit"]} brief={this.props.dataSource[this.state.courseIndex]["brief"]} />
                             </Modal>
                         </Form>
                         <br/>

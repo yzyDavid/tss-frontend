@@ -3,7 +3,7 @@ import {message} from 'antd';
 import {Router, Route, Switch, routerRedux, browserHistory} from 'dva/router';
 
 const model = {
-    namespace: 'selectCourse',
+    namespace: 'selectManCourse',
     state: {
         dataSource: [
             {key: 1, courseId: '00001', classId: '201001',courseName: "My Plan",year: "2018", semester: "SECOND", timeSlot: "SUN_3_5", capacity: 100, numStudent: 0, brief: "asdf"},
@@ -31,20 +31,6 @@ const model = {
         }
     },
     effects: {
-        * fetchClassLists(payload:{},{call,put}){
-            const response = yield call(tssFetch, '/classes/search', 'POST', {'courseName': ""});
-            if(response.status === 401) {
-                console.log("error")
-                message.error("没有课程可选");
-                return;
-            }
-            const jsonBody = yield call(response.text.bind(response));
-            const body = JSON.parse(jsonBody);
-            yield put({
-                type: 'updateCourseInfo',
-                payload: {dataSource: body["classes"]}
-            });
-        },
         * search(payload: { payload: {payload: {value: string, searchIndex: string}}}, {call, put}){
             var value = payload.payload["value"];
             var index = payload.payload["searchIndex"];
@@ -56,22 +42,13 @@ const model = {
                     message.error("不存在该课程");
                     return;
                 }
-                else if(response.status==404){
-                    message.error("该课程不存在");
-                    yield put({
-                        type: "fetchClassLists",
-                        payload: ""
-                    })
-                }
-                else {
-                    const jsonBody = yield call(response.text.bind(response));
-                    const body = JSON.parse(jsonBody);
-                    // message.success(body.status);
-                    yield put({
-                        type: 'updateCourseInfo',
-                        payload: {dataSource: body["classes"]}
-                    });
-                }
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                // message.success(body.status);
+                yield put({
+                    type: 'updateCourseInfo',
+                    payload: {dataSource: body}
+                });
             }
             else if(index=="课程名"){
                 const response = yield call(tssFetch, '/classes/search', 'POST', {'courseName': value});
@@ -80,22 +57,15 @@ const model = {
                     message.error("不存在该课程");
                     return;
                 }
-                else if(response.status==404){
-                    message.error("该课程不存在");
-                    yield put({
-                        type: "fetchClassLists",
-                        payload: ""
-                    })
-                }
-                else {
-                    const jsonBody = yield call(response.text.bind(response));
-                    const body = JSON.parse(jsonBody);
-                    // message.success(body.status);
-                    yield put({
-                        type: 'updateCourseInfo',
-                        payload: {dataSource: body["classes"]}
-                    });
-                }
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                console.log("success")
+                console.log(body["classes"])
+                // message.success(body.status);
+                yield put({
+                    type: 'updateCourseInfo',
+                    payload: {dataSource: body["classes"]}
+                });
             }
             else if(index=="教师"){
                 const response = yield call(tssFetch, '/classes/search', 'POST', {'teacherName': value});
@@ -104,20 +74,15 @@ const model = {
                     message.error("不存在该课程");
                     return;
                 }
-                else if(response.status==404){
-                    message.error("该课程不存在");
-                    yield put({
-                        type: "fetchClassLists",
-                        payload: ""
-                    })
-                }else {
-                    const jsonBody = yield call(response.text.bind(response));
-                    const body = JSON.parse(jsonBody);
-                    yield put({
-                        type: 'updateCourseInfo',
-                        payload: {dataSource: body["classes"]}
-                    });
-                }
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                console.log("success")
+                console.log(body["classes"])
+                // message.success(body.status);
+                yield put({
+                    type: 'updateCourseInfo',
+                    payload: {dataSource: body["classes"]}
+                });
             }
         },
         * select(payload: { payload: {payload: {classId: number}}},{call,put}){
@@ -126,8 +91,8 @@ const model = {
             if(value!="-1") {
                 console.log("选择了：" + value)
                 const response = yield call(tssFetch, '/classes/register', 'POST', {'classId': value});
-                if (response.status === 409) {
-                    message.error("现在不是选课时间");
+                if (response.status === 401) {
+                    message.error("不存在该课程");
                     return;
                 }
                 else {
@@ -143,18 +108,9 @@ const model = {
         * dismiss(payload: {payload: {payload: {courseId: number}}},{call,put}){
           var value = payload.payload.toString();
           if(value!="-1") {
+              console.log("删除" + value + "中...");
               const response = yield call(tssFetch, '/classes/drop', 'DELETE', {'classId': value});
-              if (response.status === 404) {
-                  message.error("您未选择该门课");
-                  return;
-              }
-              else if (response.status == 409){
-                  message.error("现在不是退课时间！");
-              }
-              else{
-                  message.success("退课成功");
-                  return;
-              }
+              console.log("退课成功");
           }
         }
     }

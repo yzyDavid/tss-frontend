@@ -106,13 +106,6 @@ app.model(SelectionModel);
 app.model(StuListModel);
 app.model(SelectionClassModel);
 app.model(ClassroomManageModel);
-<<<<<<< HEAD
-=======
-app.model(AutoSchedulingModel);
-
-
-
->>>>>>> origin/master
 app.model(ScoreUploadModel);
 app.model(ApplyModifyModel);
 app.model(ScoreManagerModel);
@@ -267,13 +260,14 @@ const DeptManagePage = connect(state => {
 })(DeptManagePageComponent);
 
 const ManageTimePage = connect(state =>{
-    return{};
+    return{...state.manageTime};
 })(ManageTimeComponent)
 
 const PlanPage = connect(state => {
     const {dataSource1} = state.plan;
     const {dataSource2} = state.plan;
-    return {dataSource1: dataSource1, dataSource2: dataSource2}
+    const { uid, level } = state.login;
+    return {dataSource1: dataSource1, dataSource2: dataSource2, uid: uid}
 })(PlanComponent)
 
 const ManSelectPage = connect(state =>{

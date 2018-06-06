@@ -4,13 +4,14 @@ import {Layout, Modal, Breadcrumb, Icon, Table, Button, Input, Select, Form, Col
 import 'antd/dist/antd.css';
 import {NavigationBar} from './TssPublicComponents'
 import DvaProps from '../types/DvaProps';
+import GlobalState from "../types/globalState";
 
 const { Column } = Table;
 const FormItem = Form.Item;
 const Panel = Collapse.Panel;
 
 interface PlanProps extends DvaProps{
-    uid: string;
+    uid: any;
     form: any;
     dataSource1: any;
     dataSource2: any;
@@ -38,12 +39,13 @@ const data = [{
 export default class PlanComponent extends Component<PlanProps>{
     constructor(props) {
         super(props);
-        this.props.dispatch({type: "plan/fetchCourseList"});
+        //this.props.dispatch({type: "plan/fetchCourseList"});
+        this.props.dispatch({type:"plan/fetchPlan"});
     }
 
     deletePlan(course){
-        //console.log(course);
-        this.props.dispatch({type: "plan/deletePlan", payload: {courseId: course["courseId"]}})
+        console.log(this.props.uid);
+        this.props.dispatch({type: "plan/deletePlan", payload: {courseId: course["courseId"], uid: this.props.uid}})
     }
     addPlan(course){
         //console.log(course);
@@ -69,6 +71,10 @@ export default class PlanComponent extends Component<PlanProps>{
             title: "种类",
             dataIndex: "type"
         },{
+            title: "状态",
+            dataIndex: "status"
+        },
+        {
             title: "添加",
             render: (record)=>(
                 <span>
