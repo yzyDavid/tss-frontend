@@ -3,7 +3,6 @@ import {Router, Route, Switch, routerRedux, browserHistory} from 'dva/router';
 import * as React from 'react';
 import {Layout, message} from 'antd';
 
-
 import TestsysHomePageComponent from './components/TestsysHomePage';
 import TestsysTeacherPageComponent from './components/TestsysTeacher';
 import TestsysStudentPageComponent from './components/TestsysStudent';
@@ -18,7 +17,6 @@ import TestsysTeacherResultSidComponent from './components/TestsysTeacherResultS
 import TestsysTeacherResultPidComponent from './components/TestsysTeacherResultPid'
 import TestsysTeacherResultQtypeComponent from './components/TestsysTeacherResultQtype'
 import TestsysTeacherResultQunitComponent from './components/TestsysTeacherResultQunit'
-
 
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
@@ -78,7 +76,6 @@ import applyModifyComponent from './components/ApplyModify';
 import scoreManagerComponent from './components/ScoreManager'
 import ScoreManager from './components/ScoreManager';
 import CourseTableComponent from './components/CourseTable';
-
 
 const {Content} = Layout;
 
@@ -268,7 +265,7 @@ const ManageTimePage = connect(state => {
 const PlanPage = connect(state => {
     const {dataSource1} = state.plan;
     const {dataSource2} = state.plan;
-    return {dataSource1: dataSource1, dataSource2: dataSource2}
+    return {dataSource1: dataSource1, dataSource2: dataSource2, uid: state.login.uid};
 })(PlanComponent);
 
 const ManSelectPage = connect(state => {

@@ -11,7 +11,7 @@ const Panel = Collapse.Panel;
 
 interface PlanProps extends DvaProps {
     uid: string;
-    form: any;
+    form: any;  // TODO: what is this field for?
     dataSource1: any;
     dataSource2: any;
 }
@@ -32,8 +32,7 @@ const data = [{
     brief: 'ddd',
     credit: 2.0,
     semester: '春',
-}
-];
+}];
 
 export default class PlanComponent extends Component<PlanProps> {
     constructor(props) {
@@ -79,7 +78,7 @@ export default class PlanComponent extends Component<PlanProps> {
                     <a onClick={() => this.addPlan(record)}>添加</a>
                 </span>
             )
-        }]
+        }];
         const columns2 = [{
             title: "课程代码",
             dataIndex: "courseId",
@@ -104,7 +103,7 @@ export default class PlanComponent extends Component<PlanProps> {
             <div>
                 <NavigationBar current={'plan'} dispatch={this.props.dispatch}/>
                 <div style={{padding: 24, background: '#fff', minHeight: 780}}>
-                    <Collapse defaultActiveKey={['1']} onChange={this.callback}>
+                    <Collapse defaultActiveKey={['1']} onChange={this.callback.bind(this)}>
                         <Panel header="修改培养方案" key="1">
                             <Table dataSource={this.props.dataSource1} columns={columns1}>
                             </Table>
@@ -115,9 +114,7 @@ export default class PlanComponent extends Component<PlanProps> {
                         </Panel>
                     </Collapse>
                 </div>
-
             </div>
-
         );
     }
 }
