@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Component} from 'react';
-import {Form, Button, Input, Select, Table, Modal} from 'antd';;
+import {Form, Button, Input, Select, Table, Modal, message} from 'antd';;
 import DvaProps from '../types/DvaProps';
 import {NavigationBar} from './TssPublicComponents';
 import {browserHistory, routerRedux} from 'dva/router';
@@ -43,12 +43,17 @@ class SearchForm extends Component<ManualSchedulingProps,ViewState> {
         const formProps = this.props.form;
         formProps.validateFieldsAndScroll((err: any, values: SchedulingTime) => {
             if (err) {
+                message.error('未选择设置内容');
                 return;
             }
-            console.log(values);
-            selectedValue = values;
-            this.props.dispatch({type: 'autoscheduling/setSchedulingInfo', payload: values});
-            this.setState({refresh:true, modalState: true});
+            if(values.year&&values.semester)
+            {
+                console.log(values);
+                selectedValue = values;
+                this.props.dispatch({type: 'autoscheduling/setSchedulingInfo', payload: values});
+                this.setState({refresh:true, modalState: true});
+            }else
+                message.error('未选择设置内容');
         });
     }
 
