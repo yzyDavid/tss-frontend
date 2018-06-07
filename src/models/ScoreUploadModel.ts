@@ -76,24 +76,26 @@ const model = {
             state.name = []
             state.score = []
             var i = 0
-            var obj = payload.payload.obj
-            for (var p in obj.students) { 
-                state.id.push(p)
-                state.name.push(obj.name[i])
-                state.score.push("0")
+            var obj = payload.payload
+            for (var p in obj.students) {
+                state.ids.push(p)
+                state.names.push(obj.name[i])
+                state.scores.push("0")
                 i++
             }
 
             state.last_page = Math.ceil(i / 12)
             for (var j = 0; j < (state.last_page * 12 - i); j++) {
-                state.id.push("")
-                state.name.push("")
-                state.score.push("")
+                state.ids.push("")
+                state.names.push("")
+                state.scores.push("")
             }
+            console.log(state.name)
             return { ...state }
         },
 
         change_score(state, payload) {
+         
             state.scores[payload.index] = payload.payload.value
             return { ...state }
         },
@@ -166,10 +168,17 @@ const model = {
         *upload(payload, { call, put, select }) {
 
             var score = yield select(state => state.scoreUpload.scores)
+            var re = /^[0-9][0-9]?([.]5)?$/;
 
             for (var p in score) {
-                if (p === "") {
+                if (score[p] === "") {
                     message.error("尚未登记完全！")
+                    return 
+                }
+
+              
+                if (!re.test(score[p]) && score[p] !== "100") {
+                    message.error("输入格式错误！")
                     return 
                 }
             }
@@ -199,11 +208,6 @@ const model = {
             yield call(tssFetch,"/grade/add", "PUT", { "uid": payload. uid, "cid": cid, "studentid": id, "score": score })
             message.success("登记成功！")
         }
-
-
-
-
-
 
      }
 
