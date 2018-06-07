@@ -4,10 +4,12 @@
   "private": true,
   "dependencies": {
     "antd": "^3.3.1",
+    "draftjs-to-html": "^0.8.4",
     "dva": "^2.1.0",
     "moment": "^2.22.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-draft-wysiwyg": "^1.12.13",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-scripts-ts": "2.14.0"

@@ -77,6 +77,33 @@ import scoreManagerComponent from './components/ScoreManager'
 import ScoreManager from './components/ScoreManager';
 import CourseTableComponent from './components/CourseTable';
 
+
+import ForumHomePageComponent from './components/ForumHomePage';
+import ForumNavigationModel from './models/forumNavigationModel';
+import ForumUserInfoModel from './models/forumUserInfoModel';
+import ForumUserPageComponent from './components/ForumUserPage'
+import MyPostPageComponent from './components/ForumMyPostPage'
+import ReplyPageComponent from './components/ForumReplyPage'
+import NewTopicPageComponent from './components/ForumNewTopicPage'
+import LetterPageComponent from './components/ForumMailPage'
+import ForumSearchModel from './models/forumSearchModel'
+import ForumAllBoardModel from './models/forumAllBoardModel'
+import ForumMyPostModel from './models/forumMyPostModel'
+import ForumMyBoardModel from './models/forumMyboardModel'
+import ForumTopicModel from './models/forumTopicModel'
+import BoardPageComponent from './components/ForumBoardPage'
+import TopicPageComponent from './components/ForumTopicPage'
+import ForumReplyListModel from './models/forumReplyListModel'
+import ForumHomeModel from './models/forumHomeModel'
+import ForumBoardMOdel from './models/forumBoardModel'
+import SearchComponent from "./components/ForumSearchPage"
+import AllBoardComponent from "./components/ForumAllBoard"
+import ForumMailModel from "./models/forumMailModel"
+import ForumUserModel from "./models/forumUserModel"
+import ForumNewTopicMode from "./models/forumNewTopicModel"
+import ForumUserPostComponent from "./components/ForumUserPost"
+
+
 const {Content} = Layout;
 
 const app = dva({
@@ -103,7 +130,7 @@ app.model(SelectionModel);
 app.model(StuListModel);
 app.model(SelectionClassModel);
 app.model(ClassroomManageModel);
-app.model(AutoSchedulingModel);
+
 
 
 app.model(ScoreUploadModel);
@@ -112,6 +139,23 @@ app.model(ScoreManagerModel);
 app.model(CourseTableModel);
 app.model(PlanModel);
 app.model(ManageTimeModel);
+
+
+app.model(ForumNavigationModel);
+app.model(ForumMyBoardModel);
+app.model(ForumAllBoardModel);
+app.model(ForumMyPostModel);
+app.model(ForumTopicModel);
+app.model(ForumHomeModel);
+app.model(ForumBoardMOdel);
+app.model(ForumReplyListModel);
+app.model(ForumMailModel);
+app.model(ForumUserInfoModel);
+app.model(ForumSearchModel);
+app.model(ForumUserModel);
+app.model(ForumNewTopicMode);
+
+
 
 const HomePage = connect(state => {
     return {}
@@ -309,6 +353,91 @@ const CourseTablePage = connect(state => {
     return {dataSource: dataSource};
 })(CourseTableComponent)
 
+
+
+
+
+
+
+
+
+
+const ForumTopicPage = connect(state => {
+    const url = state.forumhome.URL;
+    const data = state.topic.allstate;
+    return {allstate: data,URL:url};
+})(TopicPageComponent);
+
+const ForumReplyPage = connect(state => {
+    const url = state.forumhome.URL;
+    const data = state.replyList.replylist;
+    return {ReplyList: data,URL:url};
+})(ReplyPageComponent);
+
+const ForumSearchPage = connect(state => {
+    const type = state.search.type;
+    const key = state.search.key;
+    const board = state.search.boardData;
+    const topic = state.search.topicData;
+    const user = state.search.userData;
+    return {typeList:type,keyList:key,boardData:board,topicData:topic,userData:user};
+})(SearchComponent);
+
+const ForumAllBoardPage = connect(state => {
+    const data = state.ForumAllBoard.list;
+    return {boardList:data};
+})(AllBoardComponent);
+
+
+const ForumHomePage = connect(state => {
+    const dataSource = state.ForumAllBoard.uid;
+    const mylist = state.myboard.list;
+    const hot = state.forumhome.HotList;
+    const latest = state.forumhome.LatestList;
+    const url = state.forumhome.URL;
+    return {uid: dataSource,alllist :state.ForumAllBoard.list,mylist:mylist,hot:hot,latest:latest,URL:url };
+})(ForumHomePageComponent);
+
+const ForumUserPage = connect(state => {
+    const data = state.ForumUserInfo.userInfo;
+    return {userInfo:data};
+})(ForumUserPageComponent);
+
+const ForumMyPostPage = connect(state => {
+    const url = state.forumhome.URL;
+    const data = state.mypost.postList;
+    return{postList :data,URL:url};
+})(MyPostPageComponent);
+
+const ForumUserPostPage = connect(state => {
+    const data = state.mypost.postList;
+    return{postList :data};
+})(ForumUserPostComponent);
+
+
+
+const ForumLetterPage = connect(state => {
+    const data = state.mail.input;
+    return {allstate:data}
+})(LetterPageComponent);
+
+const ForumNewTopicPage = connect(state => {
+    const url = state.forumhome.URL;
+    const data= state.ForumNewTopic.boardInfo;
+    return {topicBoardInfo:data,URL:url}
+})(NewTopicPageComponent);
+
+const ForumBoardPage = connect(state => {
+    const TopicData = state.board.topicData;
+    const PublicData = state.board.publicData;
+    const url = state.forumhome.URL;
+    return { topicData:TopicData,publicData:PublicData,URL:url}
+})(BoardPageComponent);
+
+
+
+
+
 app.router(({history}) => (
         <Router history={history}>
             <Layout>
@@ -357,7 +486,21 @@ app.router(({history}) => (
                         <Route path="/applyModify" component={ApplyModifyPage}/>
                         <Route path="/scoreManager" component={ScoreManagerPage}/>
 
-
+                        <Route exact path="/forum/home"  component={ForumHomePage}/>
+                        <Route exact path="/forum/userinfo" component={ForumUserPage}/>
+                        <Route  path="/forum/uid=:uid" component={ForumUserPage}/>
+                        <Route exact path="/forum/userarticle" component={ForumUserPage}/>
+                        <Route exact path="/forum/mypost/page=:pageNumber" component={ForumMyPostPage}/>
+                        <Route exact path="/forum/privateLetter" component={ForumLetterPage}/>
+                        <Route exact path="/forum/reply" component={ForumReplyPage}/>
+                        <Route exact path="/forum/search/board/:key" component={ForumSearchPage}/>
+                        <Route exact path="/forum/search/user/:key" component={ForumSearchPage}/>
+                        <Route exact path="/forum/search/topic/:key/:pageNum" component={ForumSearchPage}/>
+                        <Route exact path="/forum/newpost=:boardid" component={ForumNewTopicPage}/>
+                        <Route exact path="/forum/allboard" component={ForumAllBoardPage}/>
+                        <Route path="/forum/board/:boardid/:pageNum" component={ForumBoardPage}/>
+                        <Route exact path="/forum/topic/:topicid/:pageNum" component={ForumTopicPage}/>
+                        <Route exact path="/forum/userpost/:uid/:pageNumber" component={ForumUserPostPage}/>
                     </Switch>
                 </Content>
                 <TssFooter/>
