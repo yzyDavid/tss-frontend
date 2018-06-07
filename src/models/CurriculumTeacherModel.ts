@@ -90,8 +90,21 @@ const model = {
         * showList(payload: { payload: {classId: string} }, {call, put})  {
              var value = payload.payload["classId"];
              console.log(value+"daf")
-             if(value!='')
-             yield put(routerRedux.push({pathname:'/stuList/'+value,query: payload.payload,}));
+            if(value!='') {
+                //fetch the studentList according to the classId
+                //TODO
+                yield put({
+                        type: "studentList/updateStudentList",
+                        payload: {
+                            dataSource: [
+                                {key: "1", id: "315010101", name: "我是数据库来的", major: "计算机科学与技术"}
+                            ]
+                        }
+                    }
+                )
+
+                yield put(routerRedux.push({pathname: '/stuList/' + value}));
+            }
             return;
         },
     }

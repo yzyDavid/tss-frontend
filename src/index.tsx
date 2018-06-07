@@ -29,17 +29,13 @@ import CourseInfoModel from './models/CourseInfoModel';
 import UserInfoModel from './models/userInfoModel';
 
 import TestsysTeacherQuestionModel from './models/TestsysTeacherQuestionModel';
-
 import TestsysStudentPaperPageComponent from "./components/TestsysStudentPaper";
 import TestsysStudentQuestionReviewPageComponent from "./components/TestsysStudentQuestionReview";
-
 import TestsysTeacherPaperModel from './models/TestsysTeacherPaperModel'
 import TestsysModel from './models/TestsysModel'
 import TestsysTeacherResultModel from './models/TestsysTeacherResultModel'
 import TestsysStudentScoreComponent from "./components/TestsysStudentScore";
 import TestsysStudentModel from './models/TestsysStudentModel'
-
-
 import CurriculumTeacherModel from './models/CurriculumTeacherModel'
 import CurriculumManageModel from './models/CurriculumManageModel'
 import ClassroomManageModel from './models/ClassroomManageModel'
@@ -49,10 +45,13 @@ import PswdModel from './models/pswdModel';
 import DeptModel from './models/deptModel';
 import SelectionModel from './models/SelectionModel';
 import StuListModel from './models/StuListModel';
-import ScoreUploadModel from './models/ScoreUploadModel'
-import ApplyModifyModel from './models/ApplyModifyModel'
-import ScoreManagerModel from './models/ScoreManagerModel'
-
+import SelectionClassModel from './models/SelectionClassModel';
+import CourseTableModel from './models/CourseTableModel';
+import ScoreUploadModel from './models/ScoreUploadModel';
+import ApplyModifyModel from './models/ApplyModifyModel';
+import ScoreManagerModel from './models/ScoreManagerModel';
+import PlanModel from './models/PlanModel';
+import ManageTimeModel from './models/ManageTimeModel';
 import DeptManagePageComponent from './components/DeptManagePage';
 import {TssFooter, TssHeader} from './components/TssPublicComponents';
 import HomePageComponent from './components/HomePage';
@@ -74,12 +73,11 @@ import ManagerSelectionComponent from './components/SelectionManager';
 import StudentSelectionComponent from './components/SelectionStudent';
 import ClassSelectionComponent from './components/SelectionClass';
 import StudentListComponent from './components/StudentList';
-
-
 import scoreUploadComponent from './components/ScoreUpload';
 import applyModifyComponent from './components/ApplyModify';
 import scoreManagerComponent from './components/ScoreManager'
 import ScoreManager from './components/ScoreManager';
+import CourseTableComponent from './components/CourseTable';
 
 
 const {Content} = Layout;
@@ -91,18 +89,22 @@ const app = dva({
 app.model(LoginModel);
 app.model(NavigationModel);
 app.model(UserInfoModel);
-
 app.model(TestsysTeacherQuestionModel);
 app.model(TestsysTeacherPaperModel);
 app.model(TestsysModel);
 app.model(TestsysTeacherResultModel);
 app.model(TestsysStudentModel);
-
-
 app.model(FreeClassroomInfoModel);
 app.model(CourseInfoModel);
 app.model(CurriculumTeacherModel);
 app.model(CurriculumManageModel);
+app.model(AutoSchedulingModel);
+app.model(CourseModel);
+app.model(PswdModel);
+app.model(DeptModel);
+app.model(SelectionModel);
+app.model(StuListModel);
+app.model(SelectionClassModel);
 app.model(ClassroomManageModel);
 app.model(AutoSchedulingModel);
 
@@ -110,7 +112,9 @@ app.model(AutoSchedulingModel);
 app.model(ScoreUploadModel);
 app.model(ApplyModifyModel);
 app.model(ScoreManagerModel);
-
+app.model(CourseTableModel);
+app.model(PlanModel);
+app.model(ManageTimeModel);
 
 const HomePage = connect(state => {
     return {}
@@ -262,7 +266,9 @@ const ManageTimePage = connect(state => {
 })(ManageTimeComponent);
 
 const PlanPage = connect(state => {
-    return {uid: state.login.uid};
+    const {dataSource1} = state.plan;
+    const {dataSource2} = state.plan;
+    return {dataSource1: dataSource1, dataSource2: dataSource2}
 })(PlanComponent);
 
 const ManSelectPage = connect(state => {
@@ -272,12 +278,13 @@ const ManSelectPage = connect(state => {
 
 const StuSelectPage = connect(state => {
     const {dataSource} = state.selectCourse;
-    return {dataSource: dataSource}
-})(StudentSelectionComponent);
+    return {dataSource: dataSource, global: state.login}
+})(StudentSelectionComponent)
 
 const ClassSelectPage = connect(state => {
-    return {};
-})(ClassSelectionComponent);
+    const {dataSource} = state.selectClass;
+    return {dataSource: dataSource};
+})(ClassSelectionComponent)
 
 const StuListPage = connect(state => {
     const {dataSource} = state.studentList;
@@ -300,6 +307,11 @@ const ScoreManagerPage = connect(state => {
     return {_state: state.scoreManager};
 })(scoreManagerComponent);
 
+const CourseTablePage = connect(state => {
+    const {dataSource} = state.courseTable;
+    return {dataSource: dataSource};
+})(CourseTableComponent)
+
 app.router(({history}) => (
         <Router history={history}>
             <Layout>
@@ -310,18 +322,15 @@ app.router(({history}) => (
                         <Route path="/navi" component={NavigationPage}/>
                         <Route path="/user" component={UserPage}/>
                         <Route path="/userManage" component={UserManagePage}/>
-
                         <Route path="/testsys" component={TestsysHomePage}/>
                         <Route path="/testsys_teacher" component={TestsysTeacherPage}/>
                         <Route path="/testsys_student" component={TestsysStudentPage}/>
                         <Route path="/testsys_teacher_question" component={TestsysTeacherQuestionPage}/>
                         <Route path="/testsys_teacher_question_insert" component={TestsysTeacherQuestionInsertPage}/>
                         <Route path="/testsys_teacher_question_search" component={TestsysTeacherQuestionSearchPage}/>
-
                         <Route path="/testsys_student_paper" component={TestsysStudentPaperPage}/>
                         <Route path="/testsys_student_question_review" component={TestsysStudentQuestionReviewPage}/>
                         <Route path="/testsys_student_score" component={TestsysStudentScorePage}/>
-
                         <Route path="/testsys_teacher_paper" component={TestsysTeacherPaperPage}/>
                         <Route path="/testsys_teacher_paper_insert" component={TestsysTeacherPaperInsertPage}/>
                         <Route path="/testsys_teacher_paper_search" component={TestsysTeacherPaperSearchPage}/>
@@ -330,8 +339,6 @@ app.router(({history}) => (
                         <Route path="/testsys_teacher_result_pid" component={TestsysTeacherResultPidPage}/>
                         <Route path="/testsys_teacher_result_qtype" component={TestsysTeacherResultQtypePage}/>
                         <Route path="/testsys_teacher_result_qunit" component={TestsysTeacherResultQunitPage}/>
-
-
                         <Route path="/autoScheduling" component={AutoSchedulingPage}/>
                         <Route path="/manualScheduling" component={ManualSchedulingPage}/>
                         <Route path="/manualSchModify/:name" component={ManualSchModifyPage}/>
@@ -348,8 +355,7 @@ app.router(({history}) => (
                         <Route path="/stuSelect" component={StuSelectPage}/>
                         <Route path="/classSelect/:courseId" component={ClassSelectPage}/>
                         <Route path="/stuList/:classId" component={StuListPage}/>
-
-
+                        <Route path="/courseTable" component={CourseTablePage}/>
                         <Route path="/scoreUpload" component={ScoreUploadPage}/>
                         <Route path="/applyModify" component={ApplyModifyPage}/>
                         <Route path="/scoreManager" component={ScoreManagerPage}/>
