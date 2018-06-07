@@ -5,9 +5,9 @@ import 'antd/dist/antd.css';
 import {NavigationBar} from './TssPublicComponents'
 import DvaProps from '../types/DvaProps';
 
-const { Column } = Table;
+const {Column} = Table;
 
-interface PlanProps extends DvaProps{
+interface PlanProps extends DvaProps {
     uid: string;
 }
 
@@ -35,7 +35,7 @@ const data = [{
     brief: 'ccc',
     credit: 3.5,
     semester: '夏',
-},{
+}, {
     key: '4',
     id: 20109,
     name: '人工智能',
@@ -43,7 +43,7 @@ const data = [{
     brief: 'bbb',
     credit: 3.5,
     semester: '夏',
-},{
+}, {
     key: '5',
     id: 20111,
     name: 'B/S体系设计',
@@ -55,29 +55,29 @@ const data = [{
 
 ];
 
-export default class PlanComponent extends Component<PlanProps>{
+export default class PlanComponent extends Component<PlanProps> {
     constructor(props) {
         super(props)
     }
 
-    render(){
+    render() {
         const columns = [{
             title: "课程代码",
             dataIndex: "id",
-        },{
+        }, {
             title: "课程名称",
             dataIndex: "name",
-        },{
+        }, {
             title: "学分",
             dataIndex: "credit"
-        },{
+        }, {
             title: "学期",
             dataIndex: 'semester'
         }];
-        return(
+        return (
             <div>
-               <NavigationBar current={'plan'} dispatch={this.props.dispatch}/>
-                <div style={{ padding: 24, background: '#fff', minHeight: 780 }}>
+                <NavigationBar current={'plan'} dispatch={this.props.dispatch}/>
+                <div style={{padding: 24, background: '#fff', minHeight: 780}}>
                     <Table dataSource={data} columns={columns}>
                     </Table>
                 </div>

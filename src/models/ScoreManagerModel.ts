@@ -101,7 +101,6 @@ const model = {
             }
 
             yield call(tssFetch, "/grade/processmodify", "POST", { "id": id, "uids": uid, "cids": cid, "score": score, "agree": payload.payload.res })
-
             yield put({ 'type': "change_page", 'payload': {} })
         }
             
