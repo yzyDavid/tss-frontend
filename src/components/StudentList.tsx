@@ -8,22 +8,17 @@ import DvaProps from '../types/DvaProps';
 interface StudentListProps extends DvaProps{
     uid: string;
     location: any;
+    dataSource: any
 }
 
-var data = [
-    {
-        key: "1",
-        name: "小明",
-        id: "31500000",
-        major: "计算机科学与技术"
-    }
-]
 export default class StudentListComponent extends Component<StudentListProps>{
     constructor(props){
         super (props);
         this.props.dispatch({type: "studentList/stuList", payload: this.props.location.query})
     }
+    exportExcel(){
 
+    }
     render(){
         const columns = [{
             title: "姓名",
@@ -39,7 +34,10 @@ export default class StudentListComponent extends Component<StudentListProps>{
             <div>
                 <NavigationBar current={'plan'} dispatch={this.props.dispatch}/>
                 <div style={{ padding: 24, background: '#fff', minHeight: 780 }}>
-                    <Table dataSource={data} columns={columns}>
+                    <div style={{paddingBottom: 20, paddingRight:100}}>
+                        <Button type="primary" onClick={this.exportExcel}>导出Excel</Button>
+                    </div>
+                    <Table dataSource={this.props.dataSource} columns={columns}>
                     </Table>
                 </div>
 

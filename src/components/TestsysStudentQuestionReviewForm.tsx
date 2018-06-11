@@ -17,28 +17,30 @@ const TabPane = Tabs.TabPane;
 interface FormProps extends DvaProps {
     form: any;
     // questions: QuestionFormData[];
-    qids: string[];
-    questions: any[];
+    // qids: string[];
+    questions: any;
     uid: string;
     pid: string;
+    startTime: string;
 }
 
 export class QuestionFormData {
     qid: string;
     question: string;
     qtype: string;
-    qanswer: string;
-    qmyanswer: string;
+    // qanswer: string;
+    // qmyanswer: string;
     qunit: string;
+    myanswer: string;
 }
 
 interface questionState {
     time: string;
 }
 
-let j_questions: any[] = [];
-let s_questions: any[] = [];
-let f_questions: any[] = [];
+// let j_questions: any[] = [];
+// let s_questions: any[] = [];
+// let f_questions: any[] = [];
 
 let myAns: any[] = [];
 let time: string = "";
@@ -64,36 +66,42 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
 
         console.log(this.state);
         console.log(this.props);
-        for(var i=0;i<this.props.qids.length;i++) {
-            this.props.dispatch({type:'testsys_student/getquestion', payload: {qid: this.props.qids[i], uid: this.props.form.uid}});
-        }
-        for(var i=0;i<this.props.questions.length;i++) {
-            switch(this.props.questions[i].qtype) {
-                case '1':
-                    j_questions.push(this.props.questions[i]);
-                    break;
-                case '2':
-                    s_questions.push(this.props.questions[i]);
-                    break;
-                case '3':
-                    f_questions.push(this.props.questions[i]);
-                    break;
-            }
-        }
+        // for(var i=0;i<this.props.qids.length;i++) {
+        //     this.props.dispatch({type:'testsys_student/getquestion', payload: {qid: this.props.qids[i], uid: this.props.form.uid}});
+        // }
+
+        // j_questions = [];
+        // s_questions = [];
+        // f_questions = [];
+        // for(var i=0;i<this.props.questions.length;i++) {
+        //     switch(this.props.questions[i].qtype) {
+        //         case '1':
+        //             j_questions.push(this.props.questions[i]);
+        //             break;
+        //         case '2':
+        //             s_questions.push(this.props.questions[i]);
+        //             break;
+        //         case '3':
+        //             f_questions.push(this.props.questions[i]);
+        //             break;
+        //     }
+        // }
+
     }
 
 
     handleSave = () => {
         let values: any = {
-            Ans:[],
-            Qid:[],
-            Pid: this.props.pid,
+            ans:[],
+            qid:[],
+            pid: this.props.pid,
         };
         console.log("handle save");
+        console.log("pid save:"+this.props.pid);
         for (var i = 0; i < myAns.length; i++) {
             console.log("qid "+myAns[i].id+": "+myAns[i].myanswer);
-            values.Ans.push(myAns[i].myanswer);
-            values.Qid.push(myAns[i].id);
+            values.ans.push(myAns[i].myanswer);
+            values.qid.push(myAns[i].id);
         }
         this.props.dispatch({type:'testsys_student/save', payload: values});
     };
@@ -108,17 +116,17 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
         var flag = false;
         for(let rec of myAns) {
             if(rec.id==qid) {
-                rec.myanswer = e.target.value;
+                rec.myanswer = e.target.value.toString();
                 flag = true;
             }
         }
         if(!flag) {
             myAns.push({
                 id: qid,
-                myanswer: e.target.value,
+                myanswer: e.target.value.toString(),
             });
         }
-        console.log("handle update: "+qid);
+        console.log("handle update: "+qid+", "+e.target.value.toString());
     };
 
     // confirmText = (e) => {
@@ -241,13 +249,13 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
                 <List bordered dataSource={[`剩余时间 - ${time}`]} renderItem={item => (<List.Item>{item}</List.Item>)}/>
                 <Tabs defaultActiveKey="1">
                     <TabPane tab="判断题" key="1">
-                        <Table rowKey="qid" columns = {columns_j} dataSource = {j_questions}/>
+                        <Table rowKey="qid" columns = {columns_j} dataSource = {this.props.questions.j_questions}/>
                     </TabPane>
                     <TabPane tab="选择题" key="2">
-                        <Table rowKey="qid" columns = {columns_s} dataSource = {s_questions}/>
+                        <Table rowKey="qid" columns = {columns_s} dataSource = {this.props.questions.s_questions}/>
                     </TabPane>
                     <TabPane tab="填空题" key="3">
-                        <Table rowKey="qid" columns = {columns_f} dataSource = {f_questions}/>
+                        <Table rowKey="qid" columns = {columns_f} dataSource = {this.props.questions.f_questions}/>
                     </TabPane>
                 </Tabs>
 

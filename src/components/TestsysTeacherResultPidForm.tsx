@@ -8,13 +8,16 @@ const { TextArea } = Input;
 
 interface studentProp extends DvaProps {
     form:any;
+
+    // qids: string[];
+    // rates: string[];
+    qresult: any[];
+
 }
 
 export class ResultFormData {
-    id: string;
-    qid: string;
-    avg: string;
-
+    qid:string;
+    rate: string;
 }
 
 interface  ResultList{
@@ -31,28 +34,31 @@ interface  ResultList{
 export class ResultSearchPidForm extends Component<studentProp,  ResultList> {
     constructor(props){
         super(props);
-        this.state = {
-            pid: '233',
-            papername: '第一套',
-            begin: '2018-04-30 16:30:00',
-            end: '2018-04-30 16:30:00',
-            modalVisible: false,
-
-            results :[{
-                id: '1',
-                qid: '10',
-                avg: '90'
-                ,
-            }, {
-                id: '2',
-                qid: '11',
-                avg: '93'
-            },{
-                id: '3',
-                qid: '10',
-                avg: '71'
-            }]
-        };
+        // this.state = {
+        //     pid: '233',
+        //     papername: '第一套',
+        //     begin: '2018-04-30 16:30:00',
+        //     end: '2018-04-30 16:30:00',
+        //     modalVisible: false,
+        //
+        //     results :[/*{
+        //         qid: '10',
+        //         avg: '90'
+        //         ,
+        //     }, {
+        //         qid: '11',
+        //         avg: '93'
+        //     },{
+        //         qid: '10',
+        //         avg: '71'
+        //     }*/ ]
+        // };
+        // for(let i in this.props.qids) {
+        //     this.state.results.push({
+        //         qid: this.props.qids[i],
+        //         rate: this.props.rates[i],
+        //     });
+        // }
     }
 
     componentDidMount() {
@@ -69,8 +75,13 @@ export class ResultSearchPidForm extends Component<studentProp,  ResultList> {
             const{form} = this.props;
             const pid = form.getFieldValue("pid");
             console.log("tr/search: "+pid);
-            this.props.dispatch({type:'teacherresult/search', payload: {QueryType:1, Sid:null, Pid:pid, QType:null, QUnit:null}});
+            this.props.dispatch({type:'teacherresult/search', payload: {type:1, sid:null, pid:pid, qtype:null, qunit:null}});
         });
+
+
+     //   for(var i = 0; i < this.props.qid.length; i++)
+   //             this.state.results[i] = {qid: this.props.qid[i], avg: this.props.avg[i]};
+
     };
 
 
@@ -107,12 +118,12 @@ export class ResultSearchPidForm extends Component<studentProp,  ResultList> {
         const columns = [{
             title: '题目编号',
             dataIndex: 'qid',
-            key: 'pid',
+            key: 'qid',
             render: text => <a href="#">{text}</a>,
         },   {
             title: '正确率',
-            dataIndex: 'avg',
-            key: 'avg',
+            dataIndex: 'rate',
+            key: 'rate',
             /*
             render: (text, record) => (
                 <span>
@@ -146,26 +157,11 @@ export class ResultSearchPidForm extends Component<studentProp,  ResultList> {
 
                 <FormItem {...formItemLayout}>
                     <Button icon="copy" type="primary" htmlType="submit">搜索</Button>
-                    <Modal
-                        title="编辑试卷"
-                        wrapClassName="vertical-center-modal"
-                        visible={this.state.modalVisible}
-                        onCancel={() => this.setModalVisible(false)}
-                    >
 
-                        <Form>
-
-                            <FormItem {...formItemLayout}>
-
-                            </FormItem>
-
-                        </Form>
-
-                    </Modal>
                 </FormItem>
 
 
-                <Table columns = {columns} dataSource = {this.state.results}/>
+                <Table columns = {columns} rowKey = "qid" dataSource = {this.props.qresult}/>
             </Form>
 
 

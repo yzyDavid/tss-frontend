@@ -4,15 +4,18 @@ import {Form, Button, Modal} from 'antd';
 import DvaProps from '../types/DvaProps';
 import {NavigationBar} from './TssPublicComponents';
 import {QuestionFormData, WrappedQuestionReviewForm} from "./TestsysStudentQuestionReviewForm";
+import { start } from 'repl';
 
 interface UserProps extends DvaProps {
     uid: string;
     email: string;
     tel: string;
     intro: string;
-    questions: QuestionFormData[];
+    // questions: QuestionFormData[];
+    questions: any;
     qids: string[];
     pid: string;
+    startTime: string;
 }
 interface UserState {
     modalVisible: boolean;
@@ -48,9 +51,10 @@ export default class TestsysStudentQuestionPageComponent extends Component<UserP
                 <WrappedQuestionReviewForm
                     dispatch = {this.props.dispatch}
                     questions = {this.props.questions}
-                    qids = {this.props.qids}
+                    // qids = {this.props.qids}
                     uid = {this.props.uid}
-                    pid = {this.props.pid}/>
+                    pid = {this.props.pid}
+                    startTime = {this.props.startTime}/>
             </div>
         );
     }

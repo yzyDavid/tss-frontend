@@ -8,7 +8,7 @@ const SubMenu = Menu.SubMenu;
 
 
 interface ReplyListProps extends DvaProps {
-
+    URL:string;
     ReplyList:any;
 
 }
@@ -22,6 +22,7 @@ export default class ReplyPageComponent extends Component<ReplyListProps>{
     }
 
     render(){
+        let url = this.props.URL;
         return(
             <BrowserFrame>
                 <NavigationBar current={"Reply"} dispatch={this.props.dispatch}/>
@@ -37,8 +38,8 @@ export default class ReplyPageComponent extends Component<ReplyListProps>{
                                 <div style={{fontSize:22,borderStyle:"solid",marginTop:15,borderWidth:1,backgroundColor:"rgb(255,255,255)"}}>
                                     <div style={{marginLeft:20,marginTop:10,marginBottom:10}}>
                                         {reply.time}:&nbsp;&nbsp;
-                                        <a href={"//localhost:3000/#/forum/uid="+reply.uid}>{reply.name}</a>在帖子
-                                        <a href={"//localhost:3000/#/forum/topic="+reply.topicID}>{reply.title}</a>
+                                        <a href={url+"#/forum/uid="+reply.uid}>{reply.name}</a>在帖子
+                                        <a href={url+"#/forum/topic/"+reply.topicID+"/1"}>{reply.title}</a>
                                         中回复了你
                                     </div>
                                 </div>

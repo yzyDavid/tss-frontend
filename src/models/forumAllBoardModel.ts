@@ -20,7 +20,7 @@ const model = {
             const msg = payload.payload;
 
             yield put(routerRedux.push({
-                pathname: "/board="+msg,
+                pathname: "/forum/board/"+msg+"/1",
             }));
             return;
 
@@ -39,12 +39,19 @@ const model = {
         setup({dispatch, history,call,put}) {
 
 
-            dispatch({type:'allboard/getData', payload:{}});
+
 
             return;
 
-        }
+        },
+
+
+
     },
+
+
+
+
 };
 
 export default model;

@@ -6,6 +6,7 @@ import DvaProps from '../types/DvaProps';
 import {WrappedPswdForm} from './PswdEditForm'
 import {TssFooter, TssHeader} from "./TssPublicComponents";
 
+
 interface NaviProps extends DvaProps {
     uid: string;
     level: string;
@@ -211,7 +212,7 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
                             <JumpButton {...this.button4} />
                         </Col>
                         <Col span={4} offset={2}>
-                            <JumpButton {...this.button5} />
+                            <JumpButton {...this.button5} onClick={this.handleClick.bind(this, {direction: "testsys"})} />
                         </Col>
                         <Col span={4} offset={2}>
                             <JumpButton {...this.button6} />

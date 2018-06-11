@@ -2,15 +2,29 @@ import {httpMethod, tssFetch} from '../utils/tssFetch';
 import {message} from 'antd';
 import {CourseFormData} from '../components/ManualScheduling';
 import {Router, Route, Switch, routerRedux, browserHistory} from 'dva/router';
-import {log} from "util";
+
+var myMap = new Map();
+myMap.set('MON','周一');
+myMap.set('TUE','周二');
+myMap.set('WED','周三');
+myMap.set('THU','周四');
+myMap.set('FRI','周五');
+myMap.set('SAT','周六');
+myMap.set('SUN','周日');
+
+myMap.set('1_2','第1~2节');
+myMap.set('3_5','第3~5节');
+myMap.set('6_8','第6~8节');
+myMap.set('9_10','第9~10节');
+myMap.set('11_13','第11~13节');
 
 const model = {
     namespace: 'courseinfo',
     state: {
         dataSource: [
-            {id :'',courseId:'', courseName:'', numLessonsLeft:'',  courseAddress:'',  courseTime:''},
+            {id :'',courseId:'', courseName:'', numLessonsLeft:'',arrangements:''},
         ],
-        clazzInfo:{courseId:'', courseName:'', numLessonsLeft:'',numLessonsEachWeek:'',arrangements:[{buildingName:'',classroomId:'', type:''},]}
+        clazzInfo:{id:'', courseId:'', courseName:'', numLessonsLeft:'',numLessonsEachWeek:'',arrangements:[{buildingName:'',classroomName:'', typeName:''},]}
     },
     reducers: {
         updateCourseInfo(st, payload) {
@@ -41,21 +55,33 @@ const model = {
                 yield put({
                     type: 'updateCourseInfo',
                     payload: {dataSource:[
-                            {id: '', courseId:'', courseName:'', numLessonsLeft:'',  courseAddress:'',  courseTime:''},]}});
+                            {id: '', courseId:'', courseName:'', numLessonsLeft:'',  arrangements:''},]}});
             else
             {
-                const response = yield call(tssFetch, '/classes/search/findByCourse_NameAndYearAndSemester?courseName='+payload.payload.courseName, 'GET');
-                //console.log(response);
+                const response = yield call(tssFetch, '/classes/search/find-by-course-name-containing-and-year-and-semester?courseName='+payload.payload.courseName+'&year='+payload.payload.year+'&semester='+payload.payload.semester, 'GET');
                 if (response.status === 400) {
                     message.error('课程信息错误');
                     return;
                 }
                 const jsonBody = yield call(response.text.bind(response));
                 const body = JSON.parse(jsonBody);
-                console.log(body);
+                //console.log(body);
+                let newData = [{id: -1, courseId: -1, courseName: '',numLessonsLeft:'', arrangements:''},]
+                newData.pop();
+                if(body.length>0)
+                {
+                    for(let i=0; i<body.length; i++)
+                    {
+                        var arr = '';
+                        for(let j=0;j<body[i].arrangements.length;j++)
+                            arr += (body[i].arrangements[j].campusName+' '+body[i].arrangements[j].buildingName+' '+body[i].arrangements[j].classroomName+' '
+                                +myMap.get(body[i].arrangements[j].typeName.substring(0,3))+myMap.get(body[i].arrangements[j].typeName.substring(4))+' ; ')
+                        newData.push({id: body[i].id, courseId: body[i].courseId, courseName: body[i].courseName, numLessonsLeft:body[i].numLessonsLeft, arrangements: arr});
+                    }
+                }
                 yield put({
                     type: 'updateCourseInfo',
-                    payload: {dataSource:body["classes"]}
+                    payload: {dataSource:newData}
                 });
             }
             return;
@@ -72,6 +98,7 @@ const model = {
        },
 
         * getClassInfo(payload: { payload: number }, {call, put}) {
+            //console.log(payload.payload);
             const response = yield call(tssFetch, '/classes/'+payload.payload, 'GET');
             if (response.status === 400) {
                 message.error('课程信息错误');
@@ -79,7 +106,16 @@ const model = {
             }
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
-            //console.log(body);
+            console.log(body);
+            if(body.arrangements.length>0)
+            {
+                for(let i=0;i<body.arrangements.length;i++)
+                {
+                    var temp = body.arrangements[i].typeName.toString();
+                    body.arrangements[i].typeName = myMap.get(temp.substring(0,3))+myMap.get(temp.substring(4))
+
+                }
+            }
             yield put({
                 type: 'updateClassInfo',
                 payload: {clazzInfo:body}
@@ -87,28 +123,37 @@ const model = {
             return;
         },
 
-        * deleteClassArrange(payload: { payload: number }, {call, put}) {
-            console.log('delectedCourseInfo ');
+        * deleteClassArrange(payload: { payload:{classroomId: number, typeName: any, classId: number} }, {call, put}) {
+            // console.log('delectedCourseInfo ');
             // console.log(payload.payload);
-            // const msg = payload.payload;
-            // // //const tssFetch = (url: string, method: httpMethod, payload: string | object)
-            // // //返回一个js对象
-            // const response = yield call(tssFetch, '/classroom/info', 'GET', msg);
-            // if(response.status === 400) {
-            //     message.error('查询空闲教室信息失败');
-            //     return;
-            // }
-            // const jsonBody = yield call(response.text.bind(response));
-            // //将字符串转换为json对象
-            // const body = JSON.parse(jsonBody);
+            var classId = payload.payload.classId;
+            const response = yield call(tssFetch, '/classrooms/'+payload.payload.classroomId+'/time-slots/'+payload.payload.typeName+'/clazz', 'DELETE');
+            if(response.status === 400) {
+                message.error('删除信息失败');
+                return;
+            }
             yield put({
-                type: 'updateClassArrangeInfo',
-                //payload: {data:body.data}
-                payload: { arrangements:[
-                    {buildingName:'123',classroomId:'456', type:'789'},{buildingName:'456',classroomId:'789', type:'000'}]}
+                type: 'getClassInfo',
+                payload: classId
             });
             return;
         },
+
+        * modifyClassArrange(payload: { payload:{classroomId: number, typeName: any, classId: number} }, {call, put}) {
+            //console.log(payload.payload);
+            var classId = payload.payload.classId;
+            const response = yield call(tssFetch, '/classrooms/'+payload.payload.classroomId+'/time-slots/'+payload.payload.typeName+'/clazz/?classId='+payload.payload.classId, 'PUT');
+            if(response.status === 400) {
+                message.error('修改信息失败');
+                return;
+            }
+            yield put({
+                type: 'getClassInfo',
+                payload: classId
+            });
+            return;
+        },
+
     }
 };
 

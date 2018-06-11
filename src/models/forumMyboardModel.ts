@@ -30,7 +30,7 @@ const model = {
 
         *show({ payload },{select,call, put}){
             const name = yield select(state =>state);
-            console.log("in show:",name.allboard.uid);
+         //   console.log("in show:",name.allboard.uid);
 
             return ;
         }
