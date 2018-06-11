@@ -121,7 +121,7 @@ export default class ClassroomCreateComponent extends Component<ClassroomCreateP
     render() {
         return (
             <div>
-                <NavigationBar current={"list"} dispatch={this.props.dispatch}/>
+                {/*<NavigationBar current={"list"} dispatch={this.props.dispatch}/>*/}
                 <br/>
                 <div>
                     <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource}/>

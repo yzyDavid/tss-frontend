@@ -119,7 +119,7 @@ export default class StudentSelectionComponent extends Component<UserProps, User
             <Layout>
                 <div>
                 <Content>
-                    <NavigationBar current={"selection"} dispatch={this.props.dispatch}/>
+                    {/*<NavigationBar current={"selection"} dispatch={this.props.dispatch}/>*/}
                 </Content>
                 </div>
             <Layout>

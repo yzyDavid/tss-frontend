@@ -56,7 +56,7 @@ import ApplyModifyModel from './models/ApplyModifyModel'
 import ScoreManagerModel from './models/ScoreManagerModel'
 
 import DeptManagePageComponent from './components/DeptManagePage';
-import { TssFooter, TssHeader } from './components/TssPublicComponents';
+import { TssFooter, TssHeader, NavigationBar } from './components/TssPublicComponents';
 import HomePageComponent from './components/HomePage';
 import NavigationPageComponent from './components/NavigationPage';
 import UserPageComponent from './components/UserPage';
@@ -135,6 +135,13 @@ const UserManagePage = connect(state => {
     return {...state.userinfo};
 })(UserManagePageComponent);
 
+const TssHeaderComponent = connect(state => {
+    return {show:state.pswd.show, visible:state.pswd.visible};
+})(TssHeader);
+
+const TssNavigationBar = connect(state => {
+    return {level: state.login.type, show: state.pswd.naviVisible, current: state.pswd.current};
+})(NavigationBar);
 
 const TestsysHomePage = connect (state => {
     return{}
@@ -314,8 +321,9 @@ const ScoreManagerPage = connect(state => {
 app.router(({history}) => (
         <Router history={history}>
             <Layout>
-                <TssHeader />
+                <TssHeaderComponent />
                 <Content style={{minHeight: '600px'}}>
+                    <TssNavigationBar />
                     <Switch>
                         <Route path="/" exact component={HomePage}/>
                         <Route path="/navi" component={NavigationPage}/>

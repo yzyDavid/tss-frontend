@@ -8,6 +8,9 @@ const model = {
     namespace: 'pswd',
     state: {
         show: false,
+        visible: false,
+        naviVisible: false,
+        current: ""
     },
     reducers: {
         changeVisible(st, payload) {
@@ -17,10 +20,15 @@ const model = {
     subscriptions: {
         setup({ dispatch, history }) {
             history.listen(location => {
+                dispatch({type: 'changeVisible', payload: {current: location.pathname.substring(1)}});
+                console.log(location.pathname.substring(1));
                 if (location.pathname === '/') {
-                    dispatch({type: 'changeVisible', payload: {show: false}});
+                    dispatch({type: 'changeVisible', payload: {visible: false, naviVisible: false}});
                 }
-                else dispatch({type: 'changeVisible', payload: {show: false}});
+                else if(location.pathname === '/navi') {
+                    dispatch({type: 'changeVisible', payload: {visible: true, naviVisible: false}});
+                }
+                else dispatch({type: 'changeVisible', payload: {visible: true, naviVisible: true}});
             });
         }
     },

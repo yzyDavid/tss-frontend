@@ -219,7 +219,7 @@ export default class BoardPageComponent extends Component<BoardProps>{
 
         return(
             <BrowserFrame>
-                <NavigationBar current={""} dispatch={this.props.dispatch}/>
+                {/*<NavigationBar current={""} dispatch={this.props.dispatch}/>*/}
                 <div style={{marginLeft:280,marginRight:280,marginTop:10}}>
                     <div style={{fontWeight:"bold",fontSize:30}}>
                         <div style={{float:"left"}}>{this.props.publicData.boardName}</div>

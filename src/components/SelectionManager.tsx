@@ -92,7 +92,7 @@ export default class ManagerSelectionComponent extends Component<ManSelectionPro
 
         return(
             <div>
-                <NavigationBar current={"ManSelect"} dispatch={this.props.dispatch}/>
+                {/*<NavigationBar current={"ManSelect"} dispatch={this.props.dispatch}/>*/}
                 <br/>
                 <div style={{ padding: 24, background: '#fff', minHeight: 780 }}>
                     <Form layout = {"inline"}>

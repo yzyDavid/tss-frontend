@@ -66,7 +66,7 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
     button3_stu = {
         btnName: "培养方案",
         src: require("src/img/Book.png"),
-    }
+    };
 
     button4 = {
         btnName: "师生论坛",
@@ -101,16 +101,16 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
             if (props.level === 'Teaching Administrator' || props.level === "System Administrator") {
                 const menu = (
                     <Menu>
-                        <Menu.Item key="selection">
+                        <Menu.Item key="userManage">
                             <a onClick={this.handleClick.bind(this, {direction: "userManage"})}>用户管理</a>
                         </Menu.Item>
-                        <Menu.Item key="courseTable">
+                        <Menu.Item key="courseManage">
                             <a onClick={this.handleClick.bind(this, {direction: "courseManage"})}>课程管理</a>
                         </Menu.Item>
-                        <Menu.Item key="courseTable">
+                        <Menu.Item key="deptManage">
                             <a onClick={this.handleClick.bind(this, {direction: "deptManage"})}>院系管理</a>
                         </Menu.Item>
-                        <Menu.Item key="courseTable">
+                        <Menu.Item key="classroomManage">
                             <a onClick={this.handleClick.bind(this, {direction: "classroomManage"})}>教室管理</a>
                         </Menu.Item>
                     </Menu>
@@ -233,7 +233,7 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
                             <a onClick={this.handleClick.bind(this, {direction: "plan"})}>培养方案管理</a>
                         </Menu.Item>
                         <Menu.Item key="scoreManager">
-                            <a onClick={this.handleClick.bind(this, {direction: "scoreManager"})}>选课时间设置</a>
+                            <a onClick={this.handleClick.bind(this, {direction: "manageTime"})}>选课时间设置</a>
                         </Menu.Item>
                         <Menu.Item key="manSelect">
                             <a onClick={this.handleClick.bind(this, {direction: "manSelect"})}>学生选课管理</a>

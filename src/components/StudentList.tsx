@@ -32,7 +32,7 @@ export default class StudentListComponent extends Component<StudentListProps>{
         }];
         return(
             <div>
-                <NavigationBar current={'plan'} dispatch={this.props.dispatch}/>
+                {/*<NavigationBar current={'plan'} dispatch={this.props.dispatch}/>*/}
                 <div style={{ padding: 24, background: '#fff', minHeight: 780 }}>
                     <div style={{paddingBottom: 20, paddingRight:100}}>
                         <Button type="primary" onClick={this.exportExcel}>导出Excel</Button>

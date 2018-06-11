@@ -15,10 +15,10 @@ const model = {
     namespace: 'login',
     state: {
         ...state,
-        // type: 'Teaching Administrator',
+        type: 'Teaching Administrator',
         // type: 'System Administrator'
         // type: 'Teacher'
-        type: 'Student'
+        // type: 'Student'
 
     },
     reducers: {

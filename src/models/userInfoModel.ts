@@ -58,7 +58,7 @@ const model = {
         * userInfo(payload: { payload: null }, {call, put}) {
             const msg = payload.payload;
             const response = yield call(tssFetch, '/user/get/own/info', 'POST', msg);
-            if(response.status === 401) {
+            if(response.status !== 200) {
                 message.error('查询个人信息失败');
                 return;
             }

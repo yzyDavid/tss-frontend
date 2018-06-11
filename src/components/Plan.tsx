@@ -101,7 +101,7 @@ export default class PlanComponent extends Component<PlanProps> {
         }];
         return (
             <div>
-                <NavigationBar current={'plan'} dispatch={this.props.dispatch}/>
+                {/*<NavigationBar current={'plan'} dispatch={this.props.dispatch}/>*/}
                 <div style={{padding: 24, background: '#fff', minHeight: 780}}>
                     <Collapse defaultActiveKey={['1']} onChange={this.callback.bind(this)}>
                         <Panel header="修改培养方案" key="1">

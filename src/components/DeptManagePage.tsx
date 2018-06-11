@@ -238,7 +238,7 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
         };
         return (
             <div>
-                <NavigationBar current={"deptManage"} dispatch={this.props.dispatch}/>
+                {/*<NavigationBar current={"deptManage"} dispatch={this.props.dispatch}/>*/}
                 <br/>
                 <div>
                     <WrappedSearchForm data={this.props.data} dispatch={this.props.dispatch}/>

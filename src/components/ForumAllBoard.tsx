@@ -47,7 +47,7 @@ export default class AllBoard extends Component<AllBoardProps>{
 
         return(
             <div>
-                <NavigationBar current={""} dispatch={this.props.dispatch}/>
+                {/*<NavigationBar current={""} dispatch={this.props.dispatch}/>*/}
                 <div style={{fontSize:25,marginLeft:200,marginTop:10}}>全部版块</div>
                 <div style={{marginLeft:200,marginRight:200,marginTop:20,}}>
                     {

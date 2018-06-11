@@ -194,7 +194,7 @@ export default class CourseManagePageComponent extends Component<CourseProps, Co
             {/*<Content style={{minHeight: '600px'}}>*/}
         return (
             <div>
-                <NavigationBar current={"courseManage"} dispatch={this.props.dispatch}/>
+                {/*<NavigationBar current={"courseManage"} dispatch={this.props.dispatch}/>*/}
                 <br/>
                 <div>
                     <WrappedSearchForm data={this.props.data} dispatch={this.props.dispatch}/>

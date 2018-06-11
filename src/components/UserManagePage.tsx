@@ -220,7 +220,7 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
     render() {
         return (
             <div>
-                <NavigationBar current={"userManage"} dispatch={this.props.dispatch}/>
+                {/*<NavigationBar current={"userManage"} dispatch={this.props.dispatch}/>*/}
                 <br/>
                 <div>
                     <WrappedSearchForm data={this.props.data} dispatch={this.props.dispatch}/>

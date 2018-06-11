@@ -127,7 +127,7 @@ export default class ManualSchedulingComponent extends Component<ManualSchedulin
         arrangeTime=this.props.schedulingTime;
         return (
             <div>
-                <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
+                {/*<NavigationBar current={"course"} dispatch={this.props.dispatch}/>*/}
                 <br/>
                 <div>
                     <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource}/>
