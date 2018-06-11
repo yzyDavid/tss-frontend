@@ -123,8 +123,8 @@ const HomePage = connect(state => {
 })(HomePageComponent);
 
 const NavigationPage = connect(state => {
-    const {uid, level} = state.login;
-    return {level: level, uid: uid}
+    const {uid, type} = state.login;
+    return {level: type, uid: uid}
 })(NavigationPageComponent);
 
 const UserPage = connect(state => {
