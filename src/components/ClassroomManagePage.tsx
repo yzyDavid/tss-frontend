@@ -1,8 +1,7 @@
-﻿import * as React from 'react';
+import * as React from 'react';
 import {Component} from 'react';
-import {Form, Button, Modal, Input, Icon, Select, Table, Divider,Upload} from 'antd';
+import {Form, Button, Select, Table, Popconfirm} from 'antd';
 import DvaProps from '../types/DvaProps';
-import {WrappedInfoEditForm} from './InfoEditForm';
 import {NavigationBar} from './TssPublicComponents';
 import { connect } from 'dva';
 
@@ -11,37 +10,16 @@ interface ClassroomManageProps extends DvaProps {
     dataSource: any;
 }
 
-const columns = [
-    {title: '校区', dataIndex: 'campus', key: 'campus'},
-    {title: '教学楼', dataIndex: 'building', key: 'building'},
-    {title: '教室', dataIndex: 'room', key: 'room'},
-    {title: '容量', dataIndex: 'capacity', key: 'capacity'},
-    {title: '操作', dataIndex: 'x', key: 'x', render: () => <a >编辑</a>},
-];
-
-/*fake data*/
-const data = [
-    {key: 1, campus: '紫金港', building:'东2',room:'302',capacity: '50', x: ''},
-    {key: 2, campus: '紫金港', building:'东1',room:'404',capacity: '40', x: ''},
-    {key: 3, campus: '紫金港', building:'西1',room:'505',capacity: '120', x: ''},
-    {key: 4, campus: '玉泉', building:'教4',room:'233',capacity: '40', x: ''},
-    {key: 5, campus: '玉泉', building:'曹光彪西1',room:'111',capacity: '40',  x: ''},
-    {key: 6, campus: '西溪', building:'楼1',room:'777',capacity: '120', x: ''},
-    {key: 7, campus: '西溪', building:'楼2',room:'666',capacity: '120', x: ''},
-    {key: 8, campus: '华家池', building:'楼1',room:'110',capacity: '120', x: ''},
-    {key: 9, campus: '舟山', building:'楼2',room:'119',capacity: '233', x: ''},
-    {key: 10, campus: '海宁', building:'楼3',room:'120',capacity: '233', x: ''},
-    {key: 11, campus: '之江', building:'楼4',room:'911',capacity: '40', x: ''},
-    {key: 12, campus: '舟山', building:'楼5',room:'999',capacity: '40', x: ''},
-];
-
 var initData=[
     {key: 1, campus: '凉了', building:'凉了',room:'凉了',capacity: '凉了', x: ''},
 ];
 
 // 通过 rowSelection 对象表明需要行选择
+let classToDelete = -1; // 要删除的教室的id
+
 const rowSelection = {
     onChange(selectedRowKeys, selectedRows) {
+        classToDelete = selectedRowKeys;
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
     },
     onSelect(record, selected, selectedRows) {
@@ -59,21 +37,74 @@ class SearchForm extends Component<ClassroomManageProps, {}> {
     constructor(props){
         super(props);
         this.handleSearch = this.handleSearch.bind(this);
+        this.handleCreate = this.handleCreate.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handlePrint = this.handlePrint.bind(this);
     }
 
     handleSearch = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            if(err)
+            if(err){
                 return;
-            console.log('Received values of form: ', values);
-            this.props.dispatch({type:'classroommanage/fetchClassroomInfo',payload:values});
+            }
+            //console.log('Received values of form: ', values.campus);
+            // fetch the specific classrooms, identified by campus name
+            this.props.dispatch({type: 'classroommanage/fetchSpecific', payload: values.campus});
         });
     }
 
-    handleReset = () => {
-        this.props.form.resetFields();
+    handleCreate = (e) =>{
+        e.preventDefault();
+        console.log("in handle create");
+        /*jump to another page...*/
+        this.props.dispatch({type:'navigation/jump', payload: {direction: "classroomCreate"}});
     }
+
+    handleDelete = (e) =>{
+        e.preventDefault();
+        //console.log("in handleDelete");
+        //console.log("class to delete:",classToDelete);
+        this.props.dispatch({type:'classroommanage/deleteClassroom', payload:`${classToDelete}`});
+    }
+
+    handlePrint = (e) =>{
+        // aha... interesting
+        e.preventDefault();
+        window.print();
+    }
+
+    columns = [
+        {
+            title: '校区',
+            dataIndex: 'campus',
+            key: 'campus'
+        },
+        {
+            title: '教学楼',
+            dataIndex: 'building',
+            key: 'building'},
+        {
+            title: '教室',
+            dataIndex: 'room',
+            key: 'room'
+        },
+        {
+            title: '容量',
+            dataIndex: 'capacity',
+            key: 'capacity'
+        },
+        {
+            title: '操作',
+            dataIndex: 'x',
+            key: 'x',
+            render:()=> (
+                <Popconfirm title="确认删除?" onConfirm={this.handleDelete}>
+                    <a href="">删除</a>
+                </Popconfirm>
+            )
+        },
+    ];
 
     render() {
         const {getFieldDecorator} = this.props.form;
@@ -103,8 +134,22 @@ class SearchForm extends Component<ClassroomManageProps, {}> {
                             htmlType="submit"
                             onClick={this.handleSearch}>搜索</Button>
                     </FormItem>
+                    <FormItem labelCol={{span: 8, offset: 24}} wrapperCol={{span: 8, offset: 12}}>
+                        <Button
+                            style={{width: "250px"}}
+                            type="primary"
+                            htmlType="submit"
+                            onClick={this.handleCreate}>录入资源</Button>
+                    </FormItem>
+                    <FormItem labelCol={{span: 8, offset: 24}} wrapperCol={{span: 8, offset: 12}}>
+                        <Button
+                            style={{width: "250px"}}
+                            type="primary"
+                            htmlType="submit"
+                            onClick={this.handlePrint}>打印</Button>
+                    </FormItem>
                 </Form>
-                <Table style={{width: "100%", background: "#ffffff"}} columns={columns} dataSource={this.props.dataSource} rowSelection={rowSelection} className="table"/>
+                <Table style={{width: "100%", background: "#ffffff"}} columns={this.columns} dataSource={this.props.dataSource} rowSelection={rowSelection} className="table"/>
             </div>
         );
     }

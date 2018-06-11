@@ -261,7 +261,7 @@ export class PaperInsertForm extends Component<PaperFormProps, EditState> {
                         getFieldDecorator('last', {
                             rules: [
                                 {required: true, message: '请输入名称'},
-                                {pattern: /[1-9][0-9]?:[0-9][0-9]:[0-9][0-9]/, message: '请按照格式 hh:mm:ss 如：1:00:00'}
+                                {pattern: /[1-9][0-9]?:[0-5][0-9]:[0-5][0-9]/, message: '请按照格式 hh:mm:ss 如：1:00:00'}
                             ]
                         })(
 

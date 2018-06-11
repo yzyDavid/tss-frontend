@@ -12,6 +12,7 @@ const InputGroup = Input.Group;
 const Option = Select.Option;
 
 interface ForumHomeProps extends DvaProps {
+    URL:string;
     alllist:any;
     mylist:any;
     uid: string;
@@ -47,12 +48,12 @@ export default class ForumHomePageComponent extends Component<ForumHomeProps>{
             title: '版面',
             dataIndex: 'board',
             key: 'board',
-            render: (text,record) => <a  href={"//localhost:3000/#/forum/board="+record.boardid}>{text}</a>,width:150,
+            render: (text,record) => <a  href={this.props.URL+"#/forum/board/"+record.boardid+"/1"}>{text}</a>,width:150,
         }, {
             title: '标题',
             dataIndex: 'title',
             key: 'title',
-            render: (text,record) => <a  href={"//localhost:3000/#/forum/topic="+record.topicid}>{text}</a>,width:400,
+            render: (text,record) => <a  href={this.props.URL+"#/forum/topic/"+record.topicid+"/1"}>{text}</a>,width:400,
         }, {
             title: '作者',
             dataIndex: 'author',
@@ -88,10 +89,10 @@ export default class ForumHomePageComponent extends Component<ForumHomeProps>{
 
                             <InputGroup compact >
 
-                                <Select defaultValue="title" onSelect={value => this.props.dispatch({type:'search/settype', payload:{type:value}})}>
-                                    <Option value="title">标题</Option>
-                                    <Option value="user">用户</Option>
-                                    <Option value="board">版块</Option>
+                                <Select defaultValue="标题" onSelect={value => this.props.dispatch({type:'search/settype', payload:{type:value}})}>
+                                    <Option value="标题">标题</Option>
+                                    <Option value="用户">用户</Option>
+                                    <Option value="版块">版块</Option>
                                 </Select>
                                 <Search
                                     placeholder="按回车搜索"

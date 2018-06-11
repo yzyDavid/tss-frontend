@@ -1,42 +1,58 @@
 import {routerRedux} from 'dva/router';
 import {tssFetch} from '../utils/tssFetch';
 
+
+export class pageForm{
+    page:string
+}
+
 const model = {
     namespace: 'mypost',
     state: {
         postList: {
             "userName":"用户名",
-            "data":[{
-                "id":"1",
-                "title":"test_title1",
-                "time":"2017-05-01 12:11:11",
-                "topicID":"123",
-                "boardID":"123",
-                "boardName":"数据结构-陈越"
-            },{
-                "id":"2",
-                "title":"test_title2",
-                "time":"2017-05-01 12:11:11",
-                "topicID":"123",
-                "boardID":"123",
-                "boardName":"编程语言原理-翁恺"
-
-            }],
-            "currentPage":1,
-            "totalPage":100
+            "titles":["帖子标题"],
+            "times":["2017-05-01 12:11:11"],
+            "topicIDs":["123"],
+            "boardIDs":["123"],
+            "boardNames":["数据结构-陈越"],
+            "currentPage":"1",
+            "totalPage":"100" ,
         }
 
 
     },
     reducers: {
-        updateAllBoardInfo(state, payload) {
+        updateListInfo(state, payload) {
             return {...state,...payload.payload};
         }
     },
     effects: {
-        * getallboard(payload: {payload:{newuser:string}}, {call, put}) {
+        * getMyDataByPage(payload: {payload:any}, {call, put}) {
 
-            yield put({type: 'updateAllBoardInfo', payload: {uid :'test'}});
+            const pageNum = payload.payload;
+            const data  = new pageForm;
+            data.page = pageNum;
+            const response = yield call(tssFetch, '/topic/published?page=1', 'GET',data );
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            yield put({type: 'updateListInfo', payload: {postList:body}});
+
+
+            return ;
+        },
+
+        * getUserDataByPage(payload: {payload:any}, {call, put}) {
+
+            const data = payload.payload;
+
+            const response = yield call(tssFetch, '/search/published', 'POST',data );
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            console.log("下面是user发帖纪录");
+            console.log(body);
+            yield put({type: 'updateListInfo', payload: {postList:body}});
+
 
             return ;
         },

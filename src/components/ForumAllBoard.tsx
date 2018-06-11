@@ -30,7 +30,9 @@ export default class AllBoard extends Component<AllBoardProps>{
     };
 
 
-
+    componentWillMount(){
+        this.props.dispatch({type:'ForumAllBoard/getData', payload:{}});
+    }
     render(){
 
         let replylist = new Array();

@@ -4,13 +4,13 @@ import {tssFetch} from '../utils/tssFetch';
 const model = {
     namespace: 'forumhome',
     state: {
-
+        URL:"http://10.111.228.62:3000/",
         HotList : [{
             key: '1',
             board: '数据库-高云君',
             title: "这是一个帖子的标题",
             author: "我是发帖人ID",
-            boardid:'123',
+            boardid:'101',
             topicid:'123',
             time:"2018-05-01 12:00:00",
             replyNUM:"5"

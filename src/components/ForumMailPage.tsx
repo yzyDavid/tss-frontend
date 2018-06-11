@@ -4,10 +4,22 @@ import NavigationBar from './ForumNavigation';
 import BrowserFrame from './ForumBrowserFrame';
 import DvaProps from "../models/DvaProps";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import {Button,Modal, Input, Icon } from 'antd'
+import {Button,Modal, Input, Icon ,message} from 'antd'
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
+
+
+export class checkBoxForm{
+    page:string;
+}
+
+export class sendMailForm{
+    destination:string;
+    title:string;
+    text:string;
+}
+
 interface letterProps extends DvaProps{
     allstate:any;
 }
@@ -18,7 +30,8 @@ export default class LetterPageComponent extends Component<letterProps>{
         visible:boolean,
         flag:number,
         title:string,
-        editorState:any
+        editorState:any,
+        currentPage:any;
     };
 
 
@@ -30,19 +43,26 @@ export default class LetterPageComponent extends Component<letterProps>{
             visible:false,
             flag: 1,
             editorState:EditorState.createEmpty(),
+            currentPage:"1"
         };
 
 
     }
 
     setFlag2(e){
-        this.setState({flag:2})
+        this.setState({flag:2});
+        const data = new checkBoxForm;
+        data.page = this.state.currentPage;
+        this.props.dispatch({type:'mail/checkInBox', payload:data})
     }
     setFlag1(e){
         this.setState({flag:1})
     }
     setFlag3(e){
-        this.setState({flag:3})
+        this.setState({flag:3});
+        const data = new checkBoxForm;
+        data.page = this.state.currentPage;
+        this.props.dispatch({type:'mail/checkOutBox', payload:data})
     }
 
 
@@ -82,11 +102,23 @@ export default class LetterPageComponent extends Component<letterProps>{
 
 
     postMail=(e)=>{
-        console.log(this.state.destination);
-        console.log(this.state.title);
+        // console.log("私信内容如下")
+        // console.log(this.state.destination);
+        // console.log(this.state.title);
         const text = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())).toString();
-        this.props.dispatch({type:'mail/sendMail', payload:{}})
+        // console.log(text);
 
+        const data = new sendMailForm;
+        data.destination = this.state.destination;
+        data.title = this.state.title;
+        data.text = text;
+        this.props.dispatch({type:'mail/sendMail', payload:data})
+
+        // if(true){
+        //     message.success('发送成功');
+        // }else{
+        //     message.error('发送失败');
+        // }
     };
 
     render(){
@@ -134,20 +166,20 @@ export default class LetterPageComponent extends Component<letterProps>{
 
         }else if(this.state.flag===2){
 
-            for(var i=0;i<this.props.allstate.length;i++ ){
+            for(var i=0;i<this.props.allstate.titles.length;i++ ){
 
-                var test = this.props.allstate[i];
+
 
                 display.push(                    <div style={{marginTop:20,borderStyle:"solid",fontSize:20,borderWidth:1
                     ,backgroundColor:"rgb(255,255,255)"}}>
                     <div style={{marginTop:10,marginBottom:10,marginLeft:15}}>
-                        <a>{test.user}</a>向您发送了私信<a type="primary" onClick={this.showModal}>{test.title}</a>，请点击标题查看
-                        <Modal title={test.title} visible={this.state.visible}
+                        <a>{this.props.allstate.destinations[i]}</a>向您发送了私信<a type="primary" onClick={this.showModal}>{this.props.allstate.titles[i]}</a>，请点击标题查看
+                        <Modal title={this.props.allstate.titles[i]} visible={this.state.visible}
                                onOk={this.handleOk}
                                onCancel={this.handleCancel}
                         >
-                            <div>{test.contents}</div>
-                            <div style={{marginTop:20 ,borderTopStyle:"dashed",borderTopWidth:1,width:300}}>{test.user}&nbsp;于{test.time}</div>
+                            <div dangerouslySetInnerHTML={{__html: this.props.allstate.texts[i]}}></div>
+                            <div style={{marginTop:20 ,borderTopStyle:"dashed",borderTopWidth:1,width:300}}>{this.props.allstate.destinations[i]}&nbsp;于{this.props.allstate.times[i]}</div>
                         </Modal>
                     </div>
                 </div>)
@@ -157,20 +189,20 @@ export default class LetterPageComponent extends Component<letterProps>{
 
 
         }else if(this.state.flag===3){
-            for(var i=0;i<this.props.allstate.length;i++ ){
+            for(var i=0;i<this.props.allstate.titles.length;i++ ){
 
-                var test = this.props.allstate[i];
+
 
                 display.push(                    <div style={{marginTop:20,borderStyle:"solid",fontSize:20,borderWidth:1
                     ,backgroundColor:"rgb(255,255,255)"}}>
                     <div style={{marginTop:10,marginBottom:10,marginLeft:15}}>
-                        您向<a>{test.user}</a>发送了私信<a type="primary" onClick={this.showModal}>{test.title}</a>，请点击标题查看
-                        <Modal title={test.title} visible={this.state.visible}
+                        您向<a>{this.props.allstate.destinations[i]}</a>发送了私信<a type="primary" onClick={this.showModal}>{this.props.allstate.titles[i]}</a>，请点击标题查看
+                        <Modal title={this.props.allstate.titles[i]} visible={this.state.visible}
                                onOk={this.handleOk}
                                onCancel={this.handleCancel}
                         >
-                            <div>{test.contents}</div>
-                            <div style={{marginTop:20 ,borderTopStyle:"dashed",borderTopWidth:1,width:300}}>{test.user}&nbsp;于{test.time}</div>
+                            <div dangerouslySetInnerHTML={{__html: this.props.allstate.texts[i]}}></div>
+                            <div style={{marginTop:20 ,borderTopStyle:"dashed",borderTopWidth:1,width:300}}>{this.props.allstate.destinations[i]}&nbsp;于{this.props.allstate.times[i]}</div>
                         </Modal>
                     </div>
                 </div>)

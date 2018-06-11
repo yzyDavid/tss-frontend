@@ -18,7 +18,7 @@ const model = {
                 case "home": yield put(routerRedux.push('/forum/home')); break;
                 case "Reply": yield put(routerRedux.push('/forum/reply')); break;
                 case "PrivateLetter": yield put(routerRedux.push('/forum/privateLetter')); break;
-                case "mypost" : yield put(routerRedux.push('/forum/mypost')); break;
+                case "mypost" : yield put(routerRedux.push('/forum/mypost/page=1')); break;
 
             }
             return;

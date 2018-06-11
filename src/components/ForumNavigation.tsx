@@ -1,6 +1,6 @@
 import {Component} from 'react';
 import * as React from 'react';
-import {Layout, Menu, Icon} from 'antd';
+import {Layout, Menu, Icon,Badge } from 'antd';
 import DvaProps from "../types/DvaProps";
 const {Header, Footer} = Layout;
 const SubMenu = Menu.SubMenu;
@@ -49,9 +49,12 @@ export default class NavigationBar extends Component<BarProps>{
                     </SubMenu>
 
 
-                    <SubMenu title={<span><Icon type="message" />消息中心</span>}>
+                    <SubMenu title={<span><Icon type="message" />消息中心<Badge style={{marginLeft:10,marginBottom:3}} count={5}>
+                            </Badge></span>}>
                         <MenuItemGroup >
-                            <Menu.Item key="PrivateLetter">私信</Menu.Item>
+                            <Menu.Item key="PrivateLetter">私信
+                                <Badge style={{marginLeft:10,marginBottom:3}} count={0}>
+                            </Badge></Menu.Item>
                             <Menu.Item key="Reply">回复我的</Menu.Item>
                         </MenuItemGroup>
                     </SubMenu>

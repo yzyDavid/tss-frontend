@@ -17,23 +17,23 @@ const model = {
     subscriptions: {
         setup({dispatch, history}) {
             return history.listen(({pathname}) => {
-                if (pathname === '/stuList') {
-                    dispatch({ type: 'stuList', payload: {classNumber: ""} });
-                }
+                // if (pathname === '/stuList') {
+                //     dispatch({ type: 'stuList', payload: {classNumber: ""} });
+                // }
             });
         }
     },
     effects: {
-        * stuList(payload: { payload: {classNumber: string} }, {call, put}){
-            yield put({
-                type: "updateStudentList",
-                payload: {dataSource:[
-                        {key: "1", id: "315010101", name: "我是数据库来的", major: "计算机科学与技术"}
-                    ]}
-                }
-
-            )
-        },
+        // * stuList(payload: { payload: {classNumber: string} }, {call, put}){
+        //     yield put({
+        //         type: "updateStudentList",
+        //         payload: {dataSource:[
+        //                 {key: "1", id: "315010101", name: "我是数据库来的", major: "计算机科学与技术"}
+        //             ]}
+        //         }
+        //
+        //     )
+        // },
     }
 }
 
