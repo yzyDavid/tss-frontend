@@ -367,6 +367,7 @@ app.router(({history}) => (
                         <Route path="/navi" component={NavigationPage}/>
                         <Route path="/user" component={UserPage}/>
                         <Route path="/userManage" component={UserManagePage}/>
+                        <Route path="/courseManage" component={CourseManagePage}/>
 
                         <Route path="/testsys" component={TestsysHomePage}/>
                         <Route path="/testsys_teacher" component={TestsysTeacherPage}/>
@@ -395,7 +396,6 @@ app.router(({history}) => (
                         <Route path="/curriculumTeacher" component={CurriculumTeacherPage}/>
                         <Route path="/curriculumManage" component={CurriculumManagePage}/>
                         <Route path="/setSchedulingTime" component={SetSchedulingTimePage}/>
-                        <Route path="/courseManage" component={CourseManagePage}/>
                         <Route path="/deptManage" component={DeptManagePage}/>
                         <Route path="/plan" component={PlanPage}/>
                         <Route path="/manageTime" component={ManageTimePage}/>

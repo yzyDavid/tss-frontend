@@ -178,7 +178,6 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
         this.props.dispatch({type: 'userinfo/showUser', payload: {uid: id}});
         this.setModal2Visible(true);
     };
-
     resetPassword(id:string){
         message.success("重置密码成功");
         // this.props.dispatch();

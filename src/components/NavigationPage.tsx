@@ -190,7 +190,6 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
                 );
             }
         };
-
         return (
             <div>
                 <h2 className={"ant-menu-item-group-title"} style={{fontSize: "large", marginLeft: "35px"}}>导航页面</h2>
