@@ -147,6 +147,7 @@ export class NavigationBar extends Component<BarProps> {
                         <SubMenu title={<span><Icon type="bar-chart"/>成绩管理</span>}>
                             <MenuItemGroup title="成绩管理">
                                 <Menu.Item key="scoreUpload">成绩上传</Menu.Item>
+                                <Menu.Item key="scoreFetch">成绩查询</Menu.Item>
                                 <Menu.Item key="applyModify">成绩修改</Menu.Item>
                             </MenuItemGroup>
                         </SubMenu>

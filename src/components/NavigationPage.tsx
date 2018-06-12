@@ -254,6 +254,9 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
                         <Menu.Item key="scoreUpload">
                             <a onClick={this.handleClick.bind(this, {direction: "scoreUpload"})}>成绩上传</a>
                         </Menu.Item>
+                        <Menu.Item key="scoreFetch">
+                            <a onClick={this.handleClick.bind(this, {direction: "scoreFetch"})}>成绩查询</a>
+                        </Menu.Item>
                         <Menu.Item key="applyModify">
                             <a onClick={this.handleClick.bind(this, {direction: "applyModify"})}>成绩修改</a>
                         </Menu.Item>
