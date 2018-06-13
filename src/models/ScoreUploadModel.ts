@@ -187,13 +187,13 @@ const model = {
             var permission = 0
             var cid = yield select(state => state.scoreUpload.cid)
             var identity = { "cid": cid }
-            const response = yield call(tssFetch, "/grade/getclassstudentscore", "GET", identity)
+            const response = yield call(tssFetch, "/grade/getclassstudentscore", "POST", identity)
             const jsonBody = yield call(response.text.bind(response))
             const obj = JSON.parse(jsonBody)
 
             var i = 0
             for (i = 0; i < 5; i++) {
-                if (obj['score'][i] == 1)
+                if (obj['score'][i] == 0)
                     break
             }
             if (i === 5)
