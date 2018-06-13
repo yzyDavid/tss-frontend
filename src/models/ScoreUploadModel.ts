@@ -168,7 +168,8 @@ const model = {
         *upload(payload, { call, put, select }) {
 
             var score = yield select(state => state.scoreUpload.scores)
-            var re = /^[0-9][0-9]?([.]5)?$/;
+            var re = /^\d{1,2}(\.5)?$/;
+           
 
             for (var p in score) {
                 if (score[p] === "0") {
@@ -176,8 +177,8 @@ const model = {
                     return 
                 }
 
-              
-                if (!re.test(score[p]) && score[p] !== "100") {
+             
+                if (!re.test(score[p]) && score[p] !== "100" && score[p] !== " ") {
                     message.error("输入格式错误！")
                     return 
                 }
