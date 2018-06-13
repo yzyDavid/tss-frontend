@@ -92,8 +92,12 @@ const model = {
              console.log(value+"daf")
             if(value!='') {
                 //fetch the studentList according to the classId
-
-                yield put(routerRedux.push({pathname: '/stuList/' + value}));
+                const response = yield call(tssFetch, '/excel/download/classes/'+value, 'GET');
+                if(response.status == 200){
+                    message.success("开始下载Excel");
+                }else{
+                    message.error("下载失败");
+                }
             }
             return;
         },

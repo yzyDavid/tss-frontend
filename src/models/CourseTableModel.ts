@@ -10,7 +10,6 @@ const model = {
     },
     reducers: {
         updateCourseTable(st, payload) {
-            console.log("~~~")
             return {...st, ...payload.payload};
         },
     },

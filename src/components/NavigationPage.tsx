@@ -232,9 +232,6 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
             if (props.level === 'Teaching Administrator' || props.level === "System Administrator") {
                 const menu = (
                     <Menu>
-                        <Menu.Item key="plan">
-                            <a onClick={this.handleClick.bind(this, {direction: "plan"})}>培养方案管理</a>
-                        </Menu.Item>
                         <Menu.Item key="scoreManager">
                             <a onClick={this.handleClick.bind(this, {direction: "manageTime"})}>选课时间设置</a>
                         </Menu.Item>

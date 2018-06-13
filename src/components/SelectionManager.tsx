@@ -63,6 +63,7 @@ export default class ManagerSelectionComponent extends Component<ManSelectionPro
     // }
     handleSearch = (value, searchIndex)=>{
         console.log({value,searchIndex})
+        console.log(this.state.stuId)
         this.props.dispatch({type: "selectManCourse/search", payload: {value,searchIndex}});
         this.setState({refresh: true})
     }
@@ -93,9 +94,6 @@ export default class ManagerSelectionComponent extends Component<ManSelectionPro
             title: "已选",
             dataIndex: "numStudent"
         },{
-            title: "选课状态",
-            dataIndex: "status"
-        }, {
             title: "选课",
             render: (record)=>(
                 <span>
@@ -110,7 +108,10 @@ export default class ManagerSelectionComponent extends Component<ManSelectionPro
                 <div style={{ padding: 24, background: '#fff', minHeight: 780 }}>
                     <Form layout = {"inline"}>
                         <FormItem label = "学生学号">
-                            <Input placeholder="请输入学生学号" style={{width: 200}} onChange={(value)=>{this.setState({stuId: value})}}/>
+                            <Search placeholder="请输入学生学号"
+                                    style={{width: 200}}
+                                    onSearch={(value)=>{this.setState({stuId: value})}}
+                                    enterButton="设置"/>
                         </FormItem>
                     </Form>
                     <br/>

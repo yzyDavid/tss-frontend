@@ -26,7 +26,6 @@ const model = {
     },
     effects: {
         * fetchClassLists(payload:{},{call,put}){
-            console.log("~~")
             const response = yield call(tssFetch, '/classes/search', 'POST', {'courseName': ""});
             if(response.status === 401) {
                 console.log("error")
@@ -49,14 +48,17 @@ const model = {
                 const response = yield call(tssFetch, '/classes/search', 'POST', {'courseId': value} );
                 if(response.status === 401) {
                     message.error("不存在该课程");
-                    return;
+                    yield put({
+                        type: 'updateCourseInfo',
+                        payload: {dataSource: []}
+                    });
                 }
                 else if(response.status==404){
                     message.error("该课程不存在");
                     yield put({
-                        type: "fetchClassLists",
-                        payload: ""
-                    })
+                        type: 'updateCourseInfo',
+                        payload: {dataSource: []}
+                    });
                 }
                 else {
                     const jsonBody = yield call(response.text.bind(response));
@@ -73,19 +75,21 @@ const model = {
                 if(response.status === 401) {
                     console.log("error")
                     message.error("不存在该课程");
-                    return;
+                    yield put({
+                        type: 'updateCourseInfo',
+                        payload: {dataSource: []}
+                    });
                 }
                 else if(response.status==404){
                     message.error("该课程不存在");
                     yield put({
-                        type: "fetchClassLists",
-                        payload: ""
-                    })
+                        type: 'updateCourseInfo',
+                        payload: {dataSource: []}
+                    });
                 }
                 else {
                     const jsonBody = yield call(response.text.bind(response));
                     const body = JSON.parse(jsonBody);
-                    // message.success(body.status);
                     yield put({
                         type: 'updateCourseInfo',
                         payload: {dataSource: body["classes"]}
@@ -94,17 +98,14 @@ const model = {
             }
             else if(index=="教师"){
                 const response = yield call(tssFetch, '/classes/search', 'POST', {'teacherName': value});
-                if(response.status === 401) {
-                    console.log("error")
-                    message.error("不存在该课程");
-                    return;
-                }
-                else if(response.status==404){
-                    message.error("该课程不存在");
+                if(response.status != 200) {
+                    const jsonBody = yield call(response.text.bind(response));
+                    const body = JSON.parse(jsonBody);
+                    message.error(body["status"]);
                     yield put({
-                        type: "fetchClassLists",
-                        payload: ""
-                    })
+                        type: 'updateCourseInfo',
+                        payload: {dataSource: []}
+                    });
                 }else {
                     const jsonBody = yield call(response.text.bind(response));
                     const body = JSON.parse(jsonBody);
@@ -121,14 +122,14 @@ const model = {
             if(value!="-1") {
                 console.log("选择了：" + value)
                 const response = yield call(tssFetch, '/classes/register', 'POST', {'classId': value});
-                if (response.status === 409) {
+                if (response.status == 200) {
                     message.success("选课成功");
                     return;
                 }
                 else {
                     const jsonBody = yield call(response.text.bind(response));
                     const body = JSON.parse(jsonBody);
-                        message.success("选课成功");
+                        message.error(body["status"]);
                 }
             }
         },
@@ -136,16 +137,14 @@ const model = {
           var value = payload.payload.toString();
           if(value!="-1") {
               const response = yield call(tssFetch, '/classes/drop', 'DELETE', {'classId': value});
-              if (response.status === 404) {
-                  //message.error("您未选择该门课");
+              if (response.status == 200) {
                   message.success("退课成功");
                   return;
               }
-              else if (response.status == 409){
-                  message.success("退课成功");
-              }
               else{
-                  message.success("退课成功");
+                  const jsonBody = yield call(response.text.bind(response));
+                  const body = JSON.parse(jsonBody);
+                  message.error(body["status"]);
                   return;
               }
           }
