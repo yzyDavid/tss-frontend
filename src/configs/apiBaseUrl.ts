@@ -1,4 +1,4 @@
-const apiBaseUrl = "http://127.0.0.1:8080";
+const apiBaseUrl = "http://192.168.84.13:8080";
 
 // const apiBaseUrl = "https://jwbapi.yuzhenyun.me";
 

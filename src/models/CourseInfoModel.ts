@@ -18,6 +18,21 @@ myMap.set('6_8','第6~8节');
 myMap.set('9_10','第9~10节');
 myMap.set('11_13','第11~13节');
 
+var myMap2 = new Map();
+myMap2.set('周一','MON');
+myMap2.set('周二','TUE');
+myMap2.set('周三','WED');
+myMap2.set('周四','THU');
+myMap2.set('周五','FRI');
+myMap2.set('周六','SAT');
+myMap2.set('周日','SUN');
+
+myMap2.set('第1~2节','1_2');
+myMap2.set('第3~5节','3_5');
+myMap2.set('第6~8节','6_8');
+myMap2.set('第9~10节','9_10');
+myMap2.set('第11~13节','11_13');
+
 const model = {
     namespace: 'courseinfo',
     state: {
@@ -113,7 +128,6 @@ const model = {
                 {
                     var temp = body.arrangements[i].typeName.toString();
                     body.arrangements[i].typeName = myMap.get(temp.substring(0,3))+myMap.get(temp.substring(4))
-
                 }
             }
             yield put({
@@ -124,10 +138,12 @@ const model = {
         },
 
         * deleteClassArrange(payload: { payload:{classroomId: number, typeName: any, classId: number} }, {call, put}) {
-            // console.log('delectedCourseInfo ');
-            // console.log(payload.payload);
+            //console.log('delectedCourseInfo ');
+            //console.log(payload.payload);
             var classId = payload.payload.classId;
-            const response = yield call(tssFetch, '/classrooms/'+payload.payload.classroomId+'/time-slots/'+payload.payload.typeName+'/clazz', 'DELETE');
+            var typeString = payload.payload.typeName.toString();
+            var slotType =  myMap2.get(typeString.substring(0,2)) + '_'+ myMap2.get(typeString.substring(2));
+            const response = yield call(tssFetch, '/classrooms/'+payload.payload.classroomId+'/time-slots/'+slotType+'/clazz', 'DELETE');
             if(response.status === 400) {
                 message.error('删除信息失败');
                 return;
@@ -140,7 +156,7 @@ const model = {
         },
 
         * modifyClassArrange(payload: { payload:{classroomId: number, typeName: any, classId: number} }, {call, put}) {
-            //console.log(payload.payload);
+            console.log(payload.payload);
             var classId = payload.payload.classId;
             const response = yield call(tssFetch, '/classrooms/'+payload.payload.classroomId+'/time-slots/'+payload.payload.typeName+'/clazz/?classId='+payload.payload.classId, 'PUT');
             if(response.status === 400) {
