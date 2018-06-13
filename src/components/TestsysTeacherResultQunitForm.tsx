@@ -107,14 +107,28 @@ export class ResultSearchQunitForm extends Component<studentProp,  ResultList> {
             title: '题目编号',
             dataIndex: 'qid',
             key: 'qid',
-            render: text => <a href="#">{text}</a>,
-        }, {
+        },{
+            title: '题目内容',
+            dataIndex: 'question',
+            key: 'question',
+        } , {
+            title: '答案',
+            dataIndex: 'qanswer',
+            key: 'qanswer',
+        } ,  {
+            title: '单元',
+            dataIndex: 'qunit',
+            key: 'qunit',
+        } ,  {
+            title: '题型',
+            dataIndex: 'qtype',
+            key: 'qtype',
+        } ,  {
             title: '正确率',
             dataIndex: 'rate',
             key: 'rate',
+
         }];
-
-
 
         return (
             <Form onSubmit={this.handleSearch}>
@@ -124,10 +138,10 @@ export class ResultSearchQunitForm extends Component<studentProp,  ResultList> {
                     {
                         getFieldDecorator('qunit', {
                             rules: [
-
+                                {required: true, message: '请输入单元'},
                             ]
                         })(
-                            <Input placeholder="请输入单元号"/>
+                            <Input placeholder="请输入单元"/>
                         )
                     }
                 </FormItem>

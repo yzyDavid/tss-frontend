@@ -107,7 +107,7 @@ export class QuestionSearchForm extends Component<FormProps,  QuestiontoEdit> {
                 qid: id,
             }
             this.props.dispatch({type:'teacherquestion/delete', payload: values});     //!!!!!!!!
-
+        location.reload();
        /*
             const DelDataSource = this.props.questions;
             DelDataSource.splice(id, 1);
@@ -162,6 +162,7 @@ this.setState({list});*/
         console.log("update question");
         console.log(values);
 
+        location.reload();
     }
 
     render() {
@@ -241,7 +242,7 @@ this.setState({list});*/
                     {
                         getFieldDecorator('qid', {
                             rules: [
-
+                                {pattern: /^[0-9]+$/, message: '请输入数字'}
                             ]
                         })(
 
@@ -268,7 +269,7 @@ this.setState({list});*/
                     {
                         getFieldDecorator('qtype', {
                             rules: [
-                                {pattern: /^[0-9]+$/, message: '请输入数字'}
+                                {pattern: /^[0-9]+$/, message: '请输入题型（1：判断，2：选择，3：填空）'}
                             ]
                         })(
                             <Input />

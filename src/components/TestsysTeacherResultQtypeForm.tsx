@@ -113,13 +113,28 @@ export class ResultSearchQtypeForm extends Component<studentProp,  ResultList> {
             title: '题目编号',
             dataIndex: 'qid',
             key: 'qid',
-            render: text => <a href="#">{text}</a>,
-        }, {
+        },{
+            title: '题目内容',
+            dataIndex: 'question',
+            key: 'question',
+        } , {
+            title: '答案',
+            dataIndex: 'qanswer',
+            key: 'qanswer',
+        } ,  {
+            title: '单元',
+            dataIndex: 'qunit',
+            key: 'qunit',
+        } ,  {
+            title: '题型',
+            dataIndex: 'qtype',
+            key: 'qtype',
+        } ,  {
             title: '正确率',
             dataIndex: 'rate',
             key: 'rate',
-        }];
 
+        }];
 
 
         return (
@@ -130,10 +145,10 @@ export class ResultSearchQtypeForm extends Component<studentProp,  ResultList> {
                     {
                         getFieldDecorator('qtype', {
                             rules: [
-                                //  {required: true, message: '该知识点的单元号'}
+                                {required: true, message: '请输入题型'},
                             ]
                         })(
-                            <Input placeholder="请输入题型（0为填空题，1为是非题）"/>
+                            <Input placeholder="请输入题型（1：判断，2：选择，3：填空）"/>
                         )
                     }
                 </FormItem>
