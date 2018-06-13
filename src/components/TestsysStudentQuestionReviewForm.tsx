@@ -92,8 +92,20 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
     };
 
     handleSubmit = () => {
-        this.handleSave();
-        this.props.dispatch({type:'testsys_student/submit', payload: {pid: this.props.pid}});
+    //    this.handleSave();
+      //  for(var i = 0; i < 10000; i++);
+        let values: any = {
+            ans:[],
+            qid:[],
+            pid: this.props.pid,
+        };
+        for (var i = 0; i < myAns.length; i++) {
+            console.log("qid "+myAns[i].id+": "+myAns[i].myanswer);
+            values.ans.push(myAns[i].myanswer);
+            values.qid.push(myAns[i].id);
+        }
+      //  console.log("values:"+values);
+        this.props.dispatch({type:'testsys_student/submit', payload: values});
         console.log("handle submit");
     };
 
