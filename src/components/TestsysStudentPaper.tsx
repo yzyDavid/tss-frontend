@@ -4,6 +4,8 @@ import {Form, Button, Modal, Row, Col} from 'antd';
 import DvaProps from '../types/DvaProps';
 import {NavigationBar} from './TssPublicComponents';
 import {WrappedPaperDisplayForm} from "./TestsysStudentPaperForm";
+import TestStudentSideBar from "./TestStudentSideBar";
+import Layout from "antd/es/layout/layout";
 
 class HomePageProps implements DvaProps {
     public dispatch: any;
@@ -52,33 +54,16 @@ export default class StudentPaperPageComponent extends Component<UserProps, User
         };
 
         return (
-            <div>
-                <h2>选择试卷</h2>
-                {/*<Row>*/}
-                    {/*<Col span={4} offset={4}>章节</Col>*/}
-                    {/*<Col span={4} offset={4}>时长</Col>*/}
-                {/*</Row>*/}
-                {/*<p/>*/}
-                {/*<Row>*/}
-                    {/*<Col span={4} offset={4}>Chap 1</Col>*/}
-                    {/*<Col span={4} offset={4}>1:00:00</Col>*/}
-                    {/*<Col>*/}
-                        {/*<Button icon="copy"  type="primary" htmlType="submit" onClick={this.handleBeginClick.bind(this)}>开始答题</Button>*/}
-                    {/*</Col>*/}
-                {/*</Row>*/}
-                {/*<Row>*/}
-                    {/*<Col span={4} offset={4}>Chap 2</Col>*/}
-                    {/*<Col span={4} offset={4}>1:30:00</Col>*/}
-                    {/*<Col>*/}
-                        {/*<Button  icon="copy"  type="primary" htmlType="submit" onClick={this.handleBeginClick.bind(this)}>开始答题</Button>*/}
-                    {/*</Col>*/}
-                {/*</Row>*/}
-                <WrappedPaperDisplayForm
-                    dispatch={this.props.dispatch}
-                    papers={this.props.papers}
-                    pids={this.props.pids}
-                    uid={this.props.uid}/>
-            </div>
+            <Layout>
+                <TestStudentSideBar dispatch={this.props.dispatch} />
+                <Layout id = "content" style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
+                    <WrappedPaperDisplayForm
+                        dispatch={this.props.dispatch}
+                        papers={this.props.papers}
+                        pids={this.props.pids}
+                        uid={this.props.uid}/>
+                </Layout>
+            </Layout>
 
     );
     }

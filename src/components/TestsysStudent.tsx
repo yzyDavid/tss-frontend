@@ -4,6 +4,8 @@ import {Form, Button, Modal} from 'antd';
 import DvaProps from '../types/DvaProps';
 import {NavigationBar} from './TssPublicComponents';
 import Breadcrumb from "antd/es/breadcrumb/Breadcrumb";
+import TestStudentSideBar from './TestStudentSideBar';
+import Layout from "antd/es/layout/layout";
 
 interface UserProps extends DvaProps {
     uid: string;
@@ -40,13 +42,18 @@ export default class StudentComponent extends Component<UserProps, UserState> {
         };
 
         return (
-            <div>
-                <FormItem {...formItemLayout}>
-                    <Button icon="copy" type="primary" htmlType="submit" onClick={this.handleClick.bind(this, {direction: "student_paper"})}>我要答题</Button>
-                    <Button icon="copy" type="primary" htmlType="submit" onClick={this.handleClick.bind(this, {direction: "student_score"})}>成绩查询</Button>
-                </FormItem>
-            </div>
-
+            <Layout>
+                <TestStudentSideBar dispatch={this.props.dispatch} />
+                {/*<div>*/}
+                    {/*<FormItem {...formItemLayout}>*/}
+                        {/*<Button icon="copy" type="primary" htmlType="submit" onClick={this.handleClick.bind(this, {direction: "student_paper"})}>我要答题</Button>*/}
+                        {/*<Button icon="copy" type="primary" htmlType="submit" onClick={this.handleClick.bind(this, {direction: "student_score"})}>成绩查询</Button>*/}
+                    {/*</FormItem>*/}
+                {/*</div>*/}
+                <Layout id = "content" style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
+                    欢迎!
+                </Layout>
+            </Layout>
         );
 
     }
