@@ -162,6 +162,9 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
                         <Menu.Item key="curriculumTeacher">
                             <a onClick={this.handleClick.bind(this, {direction: "curriculumManage"})}>课表查询</a>
                         </Menu.Item>
+                        <Menu.Item key="setSchedulingTime">
+                            <a onClick={this.handleClick.bind(this, {direction: "setSchedulingTime"})}>排课时间</a>
+                        </Menu.Item>
                     </Menu>
                 );
                 return (
