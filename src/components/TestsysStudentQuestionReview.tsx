@@ -18,6 +18,7 @@ interface UserProps extends DvaProps {
     qids: string[];
     pid: string;
     startTime: string;
+    currentTime: string;
 }
 interface UserState {
     modalVisible: boolean;
@@ -58,7 +59,8 @@ export default class TestsysStudentQuestionPageComponent extends Component<UserP
                         // qids = {this.props.qids}
                         uid = {this.props.uid}
                         pid = {this.props.pid}
-                        startTime = {this.props.startTime}/>
+                        startTime = {this.props.startTime}
+                        currentTime = {this.props.currentTime}/>
                 </div>
             </Layout>
         );

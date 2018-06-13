@@ -111,6 +111,7 @@ const model = {
         //     "2018-05-01 9:00",
         //     "2018-05-02 14:30",
         // ]
+        currentTime: "",
     },
 
     reducers: {
@@ -138,6 +139,9 @@ const model = {
         updateScoreList(st, payload) {
             return {...st, ...payload.payload};
         },
+        updateTime(st, payload) {
+            return {...st, ...payload.payload};
+        }
     },
 
     effects: {
@@ -301,6 +305,16 @@ const model = {
             }
             message.success('提交成功');
             yield put(routerRedux.push('/testsys_student_paper'));
+            return;
+        },
+        * tick(payload: {}, {call, put}) {
+            let time = new Date();
+            time.setTime( time.getTime() - time.getTimezoneOffset()*60*1000 );
+            // console.log("tick: "+time);
+            yield put({
+                type: 'updateTime',
+                payload: {currentTime: time.toUTCString().slice(0,-3)}
+            });
             return;
         }
     },
