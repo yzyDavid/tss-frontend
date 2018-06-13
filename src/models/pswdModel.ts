@@ -8,6 +8,9 @@ const model = {
     namespace: 'pswd',
     state: {
         show: false,
+        visible: false,
+        naviVisible: false,
+        current: ""
     },
     reducers: {
         changeVisible(st, payload) {
@@ -17,10 +20,15 @@ const model = {
     subscriptions: {
         setup({ dispatch, history }) {
             history.listen(location => {
+                dispatch({type: 'changeVisible', payload: {current: location.pathname.substring(1)}});
+                console.log(location.pathname.substring(1));
                 if (location.pathname === '/') {
-                    dispatch({type: 'changeVisible', payload: {show: false}});
+                    dispatch({type: 'changeVisible', payload: {visible: false, naviVisible: false}});
                 }
-                else dispatch({type: 'changeVisible', payload: {show: false}});
+                else if(location.pathname === '/navi') {
+                    dispatch({type: 'changeVisible', payload: {visible: true, naviVisible: false}});
+                }
+                else dispatch({type: 'changeVisible', payload: {visible: true, naviVisible: true}});
             });
         }
     },
@@ -31,57 +39,18 @@ const model = {
                 payload: {show: payload.payload.show}
             })
         },
-        * userInfo(payload: { payload: {uid: null|string} }, {call, put}) {
+        * modify(payload: { payload: {old: string, new: string} }, {call, put}) {
             const msg = payload.payload;
-            const response = yield call(tssFetch, '/user/get', 'POST', msg);
-            if(response.status === 401) {
-                message.error('查询个人信息失败');
+            const response = yield call(tssFetch, '/user/modify/pwd', 'POST', msg);
+            if(response.status === 400) {
+                message.error('编辑密码失败');
                 return;
             }
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
-            // message.success(body.status);
-            yield put({
-                type: 'updateUserInfo',
-                payload: {uid: body.uid, email: body.email, telephone: body.telephone, intro: body.intro}
-            });
+            message.success(body.status);
+            yield put({type: 'changeVisible', payload: {show: false}});
             return;
-        },
-        * modify(payload: { payload: {uid: null|string, email: null|string, telephone: null|string, intro: null|string} }, {call, put}) {
-            const msg = payload.payload;
-            const response = yield call(tssFetch, '/user/modify', 'POST', msg);
-            if(response.status === 400) {
-                message.error('编辑个人信息失败');
-                return;
-            }
-            yield put({type: 'userInfo', payload: {uid: null}});
-            return;
-        },
-        * getPhoto(payload: {payload: {uid: null|string}}, {call, put}){
-            // const msg = payload.payload;
-            //
-            // const response = yield call(tssFetch, '/user/getPhoto', 'POST', msg);
-            // if(response.status === 401) {
-            //     message.error('照片加载失败');
-            //     return;
-            // }
-            // const jsonBody = yield call(response.text.bind(response));
-            // const body = JSON.parse(jsonBody);
-            // message.success(body.status);
-            // yield put({
-            //     type: 'updateUserInfo',
-            //     payload: {photo: body.resource}
-            // });
-        },
-        * modifyPhoto(payload:{payload: {file: any, uid: null|string}}, {call, put}) {
-            // const msg = payload.payload;
-            // console.log("msg", msg);
-            // const f = {name: msg.file.name, uid:msg.file.uid, size:msg.file.size, type:msg.file.type};
-            // console.log('json test:', JSON.stringify(f));
-            // // const response = yield call(tssFetch, '/user/modifyPhoto', 'POST', msg);
-            // const auth: string = getAuthTokenFromLocalStorage();
-            // let url = '/user/modifyPhoto';
-            // console.log("aa", payload);
         }
     }
 };

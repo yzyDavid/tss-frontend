@@ -26,12 +26,12 @@ const model = {
 
             if (state.page === 0 && payload.payload.count < 0) {
 
-                message.error('ÒÑ¾­ÊÇµÚÒ»Ò³ÁË£¡');
+                message.error('ï¿½Ñ¾ï¿½ï¿½Çµï¿½Ò»Ò³ï¿½Ë£ï¿½');
                 return { ...state };
             }
 
             if (state.last_page === state.page && payload.payload.count > 0) {
-                message.error('ÒÑ¾­ÊÇ×îºóÒ»Ò³ÁË£¡')
+                message.error('ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»Ò³ï¿½Ë£ï¿½')
                 return { ...state };
             }
             state.page = state.page + payload.payload.count
@@ -149,11 +149,11 @@ const model = {
             const reason = yield select(state => state.applyModify.reason)
             if (uid === "" || cid === "" || score === "" || score === "" || sid === "" || reason === "")
             {
-                message.error('ĞÅÏ¢È±Ê§£¡')
+                message.error('æäº¤å¤±è´¥')
                 return
             }
             yield call(tssFetch, "/grade/modify", "POST", { "uid": uid, "cid": cid, "score": score, "studentid": sid, "reasons": reason })
-            message.success('Ìá½»³É¹¦£¡')
+            message.success('æäº¤æˆåŠŸ')
         }
 
 

@@ -6,7 +6,7 @@ const model = {
     namespace: 'freeclassroominfo',
     state: {
         dataSource: [
-            {key: 1, classroomId: '', classroomTime: '', classroomCapacity: ''},
+            {id: '', buildingName: '', name:'', capacity: ''},
             ],
     },
     reducers: {
@@ -21,33 +21,47 @@ const model = {
         setup({dispatch, history}) {
             return history.listen(({pathname}) => {
                 if (pathname.substring(0,17) === '/manualSchModify/') {
-                    dispatch({ type: 'freeClassroomInfo', payload: {campus: 10001, classroomDate: 'MON', classroomTime: '1_2'} });
+                    dispatch({ type: 'freeClassroomInfo', payload: '' });
                 }
             });
         }
     },
 
     effects: {
-        * freeClassroomInfo(payload: { payload: FreeClassroomFormData }, {call, put}) {
+        * freeClassroomInfo(payload: { payload: string }, {call, put}) {
             //console.log(payload.payload);
-            // const response = yield call(tssFetch, '/classroom/info', 'GET', msg);
-            // if(response.status === 400) {
-            //     message.error('查询空闲教室信息失败');
-            //     return;
-            // }
-            // const jsonBody = yield call(response.text.bind(response));
-            // //将字符串转换为json对象
-            // const body = JSON.parse(jsonBody);
-            yield put({
-                type: 'updateClassroomInfo',
-                //payload: {data:body.data}
-                payload: {dataSource:[
-                        {key: 1, classroomId: '东一102', classroomTime: '周一第3~5节', classroomCapacity: '100'},
-                        {key: 2, classroomId: '东二202', classroomTime: '周一第7~8节', classroomCapacity: '50'},
-                        {key: 3, classroomId: '东三202', classroomTime: '周一第8~9节', classroomCapacity: '60'},
-                    ]}
-            });
-            return;
+            if(payload.payload.length >0 )
+            {
+                yield put({
+                    type: 'updateClassroomInfo',
+                    //payload: {data:body.data}
+                    payload: {dataSource: [{id: '', buildingName: '正在查询', name:'正在查询', capacity: '正在查询'},]}
+                });
+                const response = yield call(tssFetch, '/time-slots/'+payload.payload+'/empty-classrooms', 'GET');
+                if(response.status === 400) {
+                    message.error('查询空闲教室信息失败');
+                    return;
+                }
+                const jsonBody = yield call(response.text.bind(response));
+                //将字符串转换为json对象
+                const body = JSON.parse(jsonBody);
+                //console.log(body);
+                yield put({
+                    type: 'updateClassroomInfo',
+                    //payload: {data:body.data}
+                    payload: {dataSource: body}
+                });
+                return;
+            }
+            else
+            {
+                yield put({
+                    type: 'updateClassroomInfo',
+                    //payload: {data:body.data}
+                    payload: {dataSource: [{id: '', buildingName: '', name:'', capacity: ''},]}
+                });
+                return;
+            }
         },
     }
 };

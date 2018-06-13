@@ -23,24 +23,6 @@ interface UserState {
     courseIndex: number
 }
 
-var data = [{
-    key: '1',
-    classId: 1111,
-    teacher: "aaa",
-    location: "adf"
-}, {
-    key: '2',
-    classId: 2222,
-    teacher: "bbb",
-    location: "adf"
-}, {
-    key: '3',
-    classId: "3333",
-    teacher: "ccc",
-    location: "adf"
-}
-
-];
 
 export default class ClassSelectionComponent extends Component<UserProps, UserState>{
     constructor(props){
@@ -50,11 +32,11 @@ export default class ClassSelectionComponent extends Component<UserProps, UserSt
         }
     }
     select(course){
-        //console.log(course)
-        this.props.dispatch({type:"selectCourse/select",payload:course["classId"]});
+        console.log(course)
+        this.props.dispatch({type:"selectClass/select",payload:course["classId"]});
     };
     dismiss(course){
-        this.props.dispatch({type:"selectCourse/dismiss",payload:course["classId"]})
+        this.props.dispatch({type:"selectClass/dismiss",payload:course["classId"]})
     }
 
     componentDidMount(){
@@ -66,11 +48,19 @@ export default class ClassSelectionComponent extends Component<UserProps, UserSt
             title: "课程编号",
             dataIndex: "classId",
         },{
-            title: "开课老师",
-            dataIndex: "teacher",
+            title: "学年",
+            dataIndex: "year",
         },{
-            title: "开课地点",
-            dataIndex: 'location'
+            title: "学期",
+            dataIndex: 'semester'
+        },{
+
+        },{
+            title: "容量",
+            dataIndex: "capacity"
+        },{
+            title: "已选",
+            dataIndex: "numStudent"
         },{
             title:"操作",
             render: (record)=>(
@@ -85,7 +75,7 @@ export default class ClassSelectionComponent extends Component<UserProps, UserSt
             <Layout>
                 <div>
                 <Content>
-                    <NavigationBar current={"selection"} dispatch={this.props.dispatch}/>
+                    {/*<NavigationBar current={"selection"} dispatch={this.props.dispatch}/>*/}
                 </Content>
                 </div>
             <Layout>
@@ -96,7 +86,7 @@ export default class ClassSelectionComponent extends Component<UserProps, UserSt
                         <Breadcrumb.Item>选课系统</Breadcrumb.Item>
                     </Breadcrumb>
                     <div style={{ padding: 24, background: '#fff', minHeight: 780 }}>
-                        <Table dataSource={data} columns={columns}>
+                        <Table dataSource={this.props.dataSource} columns={columns}>
 
                         </Table>
                     </div>

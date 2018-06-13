@@ -56,9 +56,9 @@ class SearchForm extends Component<FormProps, FormState> {
 
     handleSearch = (e) => {
         e.preventDefault();
-        this.props.dispatch({type:'dept/search', payload:{id:null}});
         this.props.form.validateFields((err, values) => {
-            console.log('Received values of form: ', values);
+            console.log('Received values of dept search: ', values);
+            this.props.dispatch({type:'dept/search', payload:{...values}});
         });
     };
 
@@ -72,6 +72,38 @@ class SearchForm extends Component<FormProps, FormState> {
 
     render() {
         const {getFieldDecorator} = this.props.form;
+        let Item2 = () => {
+            switch (this.state.tag){
+                case "1": return (<FormItem label="院系" labelCol={{span: 8, offset: 4}} wrapperCol={{span: 8}}>
+                    {
+                        getFieldDecorator('name', {
+
+                        })(
+                            <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} style={{width: 200}}/>
+                        )
+                    }
+                </FormItem>);
+                case "2": return (<FormItem label="专业" labelCol={{span: 8, offset: 4}} wrapperCol={{span: 8}}>
+                    {
+                        getFieldDecorator('name', {
+                            rules: [
+                            ]
+                        })(
+                            <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} style={{width: 200}}/>
+                        )
+                    }
+                </FormItem>);
+                default : return (<FormItem label="班级" labelCol={{span: 8, offset: 4}} wrapperCol={{span: 8}}>
+                    {
+                        getFieldDecorator('name', {
+
+                        })(
+                            <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} style={{width: 200}}/>
+                        )
+                    }
+                </FormItem>);
+            }
+        };
         return (
             <div>
                 <Form className="ant-advanced-search-form" layout={"inline"} onSubmit={this.handleSearch}>
@@ -90,26 +122,7 @@ class SearchForm extends Component<FormProps, FormState> {
 
                         }
                     </FormItem>
-                    {this.state.tag === "2" ? (
-                        <FormItem label="专业" labelCol={{span: 8, offset: 4}} wrapperCol={{span: 8}}>
-                        {
-                            getFieldDecorator('name', {
-                                rules: [
-                                ]
-                            })(
-                                <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} style={{width: 200}}/>
-                            )
-                        }
-                    </FormItem>) : (<FormItem label="院系" labelCol={{span: 8, offset: 4}} wrapperCol={{span: 8}}>
-                        {
-                            getFieldDecorator('name', {
-
-                            })(
-                                <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} style={{width: 200}}/>
-                            )
-                        }
-                    </FormItem>)
-                    }
+                    <Item2 />
                     <FormItem labelCol={{span: 8, offset: 24}} wrapperCol={{span: 8, offset: 12}}>
                         <Button style={{width: "200px"}} icon="search" type="primary" htmlType="submit">搜索</Button>
                     </FormItem>
@@ -225,7 +238,7 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
         };
         return (
             <div>
-                <NavigationBar current={"deptManage"} dispatch={this.props.dispatch}/>
+                {/*<NavigationBar current={"deptManage"} dispatch={this.props.dispatch}/>*/}
                 <br/>
                 <div>
                     <WrappedSearchForm data={this.props.data} dispatch={this.props.dispatch}/>

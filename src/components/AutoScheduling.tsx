@@ -43,7 +43,7 @@ export default class AutoSchedulingComponent extends Component<AutoSchProps, {}>
         arrangeTime=this.props.schedulingTime;
         return (
             <div>
-                <NavigationBar current={"list"} dispatch={this.props.dispatch}/>
+                {/*<NavigationBar current={"list"} dispatch={this.props.dispatch}/>*/}
                 <Form layout={"inline"} style={{textAlign:"center",fontSize:"large", marginTop: '20px'}}>
                     <span><FormItem
                         label="目前排课年份: ">{arrangeTime.year}</FormItem></span>

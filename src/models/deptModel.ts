@@ -21,78 +21,87 @@ const model = {
         year: "2015"
     },
     reducers: {
-        updateUserInfo(st, payload) {
+        updateDeptInfo(st, payload) {
             return {...st, ...payload.payload, show:true};
         },
     },
-    subscriptions: {
-        setup({ dispatch, history }) {
-            history.listen(location => {
-                if (location.pathname === '/user') {
-                    dispatch({type: 'userInfo', payload: {uid: null}});
-                }
-            });
-        }
-    },
     effects: {
-        * search(payload: {id: any}, {call, put}){
-            let tmp = [{key:"1", name:"计算机科学与技术学院"}];
-            yield put({
-                type: 'updateUserInfo',
-                payload: {data: tmp}
-            });
-        },
-        * userInfo(payload: { payload: {uid: null|string} }, {call, put}) {
+        * search(payload: {payload: {tag: string, name: string}}, {call, put}){
             const msg = payload.payload;
-            const response = yield call(tssFetch, '/user/get', 'POST', msg);
-            if(response.status === 401) {
-                message.error('查询个人信息失败');
-                return;
+            if(msg.tag === "1"){
+                if(msg.name === ""){
+                    const response = yield call(tssFetch, '/dept/department/get/list', 'POST', {});
+                    if(response.status === 401) {
+                        message.error('获取院系列表失败');
+                        return;
+                    }
+                    const jsonBody = yield call(response.text.bind(response));
+                    const body = JSON.parse(jsonBody);
+                    message.success(body.status);
+                    const tmp = body.names;
+                    let deptData:any = [];
+                    for (let i = 0; i < tmp.length(); i = i + 1){
+                        deptData.push({key: (deptData.length+1).toString(), name: tmp[i]})
+                    }
+                    yield put({
+                        type: 'updateDeptInfo',
+                        payload: {data: deptData}
+                    });
+                }
+                else {
+                    const response = yield call(tssFetch, '/dept/department/get/info', 'POST', {name: msg.name});
+                    if(response.status === 401) {
+                        message.error('获取院系列表失败');
+                        return;
+                    }
+                    const jsonBody = yield call(response.text.bind(response));
+                    const body = JSON.parse(jsonBody);
+                    message.success(body.status);
+                    const deptData:any = [{key: "1", name: body.name}];
+                    yield put({
+                        type: 'updateDeptInfo',
+                        payload: {data: deptData}
+                    });
+                }
             }
-            const jsonBody = yield call(response.text.bind(response));
-            const body = JSON.parse(jsonBody);
-            // message.success(body.status);
-            yield put({
-                type: 'updateUserInfo',
-                payload: {uid: body.uid, email: body.email, telephone: body.telephone, intro: body.intro}
-            });
-            return;
-        },
-        * modify(payload: { payload: {uid: null|string, email: null|string, telephone: null|string, intro: null|string} }, {call, put}) {
-            const msg = payload.payload;
-            const response = yield call(tssFetch, '/user/modify', 'POST', msg);
-            if(response.status === 400) {
-                message.error('编辑个人信息失败');
-                return;
+            else if(msg.tag === "2"){
+                if(msg.name === ""){
+                    message.error("请输入专业名称");
+                }
+                else {
+                    const response = yield call(tssFetch, '/dept/major/get/info', 'POST', {name: msg.name});
+                    if(response.status === 401) {
+                        message.error('获取专业列表失败');
+                        return;
+                    }
+                    const jsonBody = yield call(response.text.bind(response));
+                    const body = JSON.parse(jsonBody);
+                    message.success(body.status);
+                    yield put({
+                        type: 'updateDeptInfo',
+                        payload: {majorData: [{key:"1", name:body.name}]}
+                    });
+                }
             }
-            yield put({type: 'userInfo', payload: {uid: null}});
-            return;
-        },
-        * getPhoto(payload: {payload: {uid: null|string}}, {call, put}){
-            // const msg = payload.payload;
-            //
-            // const response = yield call(tssFetch, '/user/getPhoto', 'POST', msg);
-            // if(response.status === 401) {
-            //     message.error('照片加载失败');
-            //     return;
-            // }
-            // const jsonBody = yield call(response.text.bind(response));
-            // const body = JSON.parse(jsonBody);
-            // message.success(body.status);
-            // yield put({
-            //     type: 'updateUserInfo',
-            //     payload: {photo: body.resource}
-            // });
-        },
-        * modifyPhoto(payload:{payload: {file: any, uid: null|string}}, {call, put}) {
-            // const msg = payload.payload;
-            // console.log("msg", msg);
-            // const f = {name: msg.file.name, uid:msg.file.uid, size:msg.file.size, type:msg.file.type};
-            // console.log('json test:', JSON.stringify(f));
-            // // const response = yield call(tssFetch, '/user/modifyPhoto', 'POST', msg);
-            // const auth: string = getAuthTokenFromLocalStorage();
-            // let url = '/user/modifyPhoto';
-            // console.log("aa", payload);
+            else {
+                if(msg.name === ""){
+                    message.error("请输入班级名称");
+                }
+                else {
+                    const response = yield call(tssFetch, '/dept/class/get/info', 'POST', {name: msg.name});
+                    if(response.status === 401) {
+                        message.error('获取班级列表失败');
+                        return;
+                    }
+                    const jsonBody = yield call(response.text.bind(response));
+                    const body = JSON.parse(jsonBody);
+                    message.success(body.status);
+                    yield put({
+                        type: 'updateDeptInfo',
+                        payload: {classData: [{key:"1", name:body.name}]}
+                    });
+                }
+            }
         }
     }
 };

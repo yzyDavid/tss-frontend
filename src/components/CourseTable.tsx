@@ -6,79 +6,78 @@ import {NavigationBar} from './TssPublicComponents'
 import DvaProps from '../types/DvaProps';
 
 const { Column } = Table;
+const FormItem = Form.Item;
+const Option = Select.Option;
 
 interface CourseProps extends DvaProps{
     uid: string;
+    dataSource: any;
 }
 
-const data = [{
-    key: '1',
-    id: 20102,
-    name: '数据结构基础',
-    teacher: 'Mike',
-    brief: '重点介绍算法设计、算法描述和相应C程序编码，并给出相应的数据结构应用实例',
-    credit: 3.0,
-    semester: '春夏',
-}, {
-    key: '2',
-    id: 20104,
-    name: '软件工程',
-    teacher: 'Mary',
-    brief: 'ddd',
-    credit: 2.0,
-    semester: '春',
-}, {
-    key: '3',
-    id: 20106,
-    name: '计算机网络',
-    teacher: 'Joe',
-    brief: 'ccc',
-    credit: 3.5,
-    semester: '夏',
-},{
-    key: '4',
-    id: 20109,
-    name: '人工智能',
-    teacher: 'Kathy',
-    brief: 'bbb',
-    credit: 3.5,
-    semester: '夏',
-},{
-    key: '5',
-    id: 20111,
-    name: 'B/S体系设计',
-    teacher: 'Steve',
-    brief: 'aaa',
-    credit: 4,
-    semester: '春夏',
+interface CourseTableState {
+    year: any;
+    semester: any;
 }
 
-];
-
-export default class CourseTableComponent extends Component<CourseProps>{
+export default class CourseTableComponent extends Component<CourseProps, CourseTableState>{
     constructor(props) {
         super(props)
+        this.state={
+            year: "2017",
+            semester: "FIRST"
+        }
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
+    handleSubmit = (e)=>{
+    console.log(this.state.year);
+    console.log(this.state.semester);
+    this.props.dispatch({type: "courseTable/search",payload: {year: this.state.year, semester:this.state.semester}})
+    }
     render(){
         const columns = [{
             title: "课程代码",
-            dataIndex: "id",
+            dataIndex: "courseId",
         },{
             title: "课程名称",
-            dataIndex: "name",
+            dataIndex: "courseName",
+        },{
+            title: "上课时间",
+            dataIndex: "timeSlot"
         },{
             title: "学分",
-            dataIndex: "credit"
+            dataIndex: 'credit'
         },{
-            title: "学期",
-            dataIndex: 'semester'
+            title: "开课老师",
+            dataIndex: 'teacher'
         }];
         return(
             <div>
-               <NavigationBar current={'courseTable'} dispatch={this.props.dispatch}/>
+               {/*<NavigationBar current={'courseTable'} dispatch={this.props.dispatch}/>*/}
                 <div style={{ padding: 24, background: '#fff', minHeight: 780 }}>
-                    <Table dataSource={data} columns={columns}>
+                    <Form layout="inline">
+                        <FormItem label="学年">
+                            <Select defaultValue="2015" style={{width: 100}} onChange={(value)=>{this.setState({year: value})}}>
+                                <Option value="2015">2015</Option>
+                                <Option value="2016">2016</Option>
+                                <Option value="2017">2017</Option>
+                            </Select>
+                        </FormItem>
+                        <FormItem label="学期">
+                            <Select defaultValue="FIRST" style={{width: 110}} onChange={(value)=>{this.setState({semester: value})}}>
+                                <Option value="FIRST">FIRST</Option>
+                                <Option value="SECOND">SECOND</Option>
+                            </Select>
+                        </FormItem>
+                        <Button
+                            icon="search"
+                            type="primary"
+                            htmlType="submit"
+                            onClick={this.handleSubmit}>搜索
+                        </Button>
+                    </Form>
+                    <br/>
+                    <Table dataSource={this.props.dataSource} columns={columns}>
                     </Table>
                     <Button type="primary" >打印课表</Button>
                 </div>
