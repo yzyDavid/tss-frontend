@@ -4,7 +4,7 @@ import {tssFetch} from '../utils/tssFetch';
 const model = {
     namespace: 'forumhome',
     state: {
-        URL:"http://10.111.228.62:3000/",
+        URL:"localhost:3000/",
         HotList : [{
             key: '1',
             board: '数据库-高云君',
