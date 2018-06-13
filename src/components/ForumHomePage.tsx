@@ -33,8 +33,7 @@ export default class ForumHomePageComponent extends Component<ForumHomeProps>{
     }
 
 
-    search(){
-
+    componentWillMount(){
 
     }
     clickAllBoard= (e) =>{
