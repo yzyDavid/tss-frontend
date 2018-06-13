@@ -72,9 +72,9 @@ const model = {
 
 
         change_class_(state, payload) {
-            state.id = []
-            state.name = []
-            state.score = []
+            state.ids = []
+            state.names = []
+            state.scores = []
             var i = 0
             var obj = payload.payload
             for (var p in obj.students) {
@@ -86,9 +86,9 @@ const model = {
 
             state.last_page = Math.ceil(i / 12)
             for (var j = 0; j < (state.last_page * 12 - i); j++) {
-                state.ids.push("")
-                state.names.push("")
-                state.scores.push("")
+                state.ids.push(" ")
+                state.names.push(" ")
+                state.scores.push(" ")
             }
             console.log(state.name)
             return { ...state }
@@ -96,7 +96,7 @@ const model = {
 
         change_score(state, payload) {
          
-            state.scores[payload.index] = payload.payload.value
+            state.scores[payload.payload.index] = payload.payload.value
             return { ...state }
         },
 
@@ -171,7 +171,7 @@ const model = {
             var re = /^[0-9][0-9]?([.]5)?$/;
 
             for (var p in score) {
-                if (score[p] === "") {
+                if (score[p] === "0") {
                     message.error("尚未登记完全！")
                     return 
                 }
