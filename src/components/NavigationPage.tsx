@@ -196,7 +196,10 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
                 const menu = (
                     <Menu>
                         <Menu.Item key="testsys">
-                            <a onClick={this.handleClick.bind(this, {direction: "testsys"})}>在线测试</a>
+                            <a onClick={this.handleClick.bind(this, {direction: "testsys_teacher"})}>教师测试系统</a>
+                        </Menu.Item>
+                        <Menu.Item key="testsys">
+                            <a onClick={this.handleClick.bind(this, {direction: "testsys_student"})}>学生测试系统</a>
                         </Menu.Item>
                         <Menu.Item key="scoreManager">
                             <a onClick={this.handleClick.bind(this, {direction: "scoreManager"})}>成绩管理</a>
@@ -253,6 +256,9 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
                     <Menu>
                         <Menu.Item key="scoreUpload">
                             <a onClick={this.handleClick.bind(this, {direction: "scoreUpload"})}>成绩上传</a>
+                        </Menu.Item>
+                        <Menu.Item key="scoreFetch">
+                            <a onClick={this.handleClick.bind(this, {direction: "scoreFetch"})}>成绩查询</a>
                         </Menu.Item>
                         <Menu.Item key="applyModify">
                             <a onClick={this.handleClick.bind(this, {direction: "applyModify"})}>成绩修改</a>

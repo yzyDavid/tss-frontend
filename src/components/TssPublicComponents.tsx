@@ -119,7 +119,8 @@ export class NavigationBar extends Component<BarProps> {
                         <Menu.Item key="forum/home"><Icon type="message"/>师生论坛</Menu.Item>
                         <SubMenu title={<span><Icon type="edit"/>测试系统</span>}>
                             <MenuItemGroup title="测试系统">
-                                <Menu.Item key="testsys">在线测试</Menu.Item>
+                                <Menu.Item key="testsys_teacher"><Icon type="edit"/>教师测试系统</Menu.Item>
+                                <Menu.Item key="testsys_student"><Icon type="edit"/>学生测试系统</Menu.Item>
                                 <Menu.Item key="scoreManager">成绩管理</Menu.Item>
                             </MenuItemGroup>
                         </SubMenu>
@@ -147,6 +148,7 @@ export class NavigationBar extends Component<BarProps> {
                         <SubMenu title={<span><Icon type="bar-chart"/>成绩管理</span>}>
                             <MenuItemGroup title="成绩管理">
                                 <Menu.Item key="scoreUpload">成绩上传</Menu.Item>
+                                <Menu.Item key="scoreFetch">成绩查询</Menu.Item>
                                 <Menu.Item key="applyModify">成绩修改</Menu.Item>
                             </MenuItemGroup>
                         </SubMenu>
