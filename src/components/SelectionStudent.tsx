@@ -23,7 +23,7 @@ interface UserProps extends DvaProps {
 
 interface UserState {
     modalVisible: boolean;
-    courseIndex: number;
+    classIndex: number;
     searchIndex: any;
     refresh: boolean
 }
@@ -34,7 +34,7 @@ export default class StudentSelectionComponent extends Component<UserProps, User
         super(props);
         this.state = {
             modalVisible: false,
-            courseIndex: 0,
+            classIndex: 0,
             searchIndex: "课程名",
             refresh: false,
         }
@@ -45,7 +45,7 @@ export default class StudentSelectionComponent extends Component<UserProps, User
     formRef: any;
     ChooseCourse(index, modalVisible) {
         if(this.formRef && modalVisible === true) this.formRef.refresh();
-        this.setState({ modalVisible: modalVisible, courseIndex: index });
+        this.setState({ modalVisible: modalVisible, classIndex: index });
         console.log(index);
         console.log(this.props.dataSource[index].courseId);
     }
@@ -111,7 +111,7 @@ export default class StudentSelectionComponent extends Component<UserProps, User
         if(this.props.dataSource.length==0){
             wrapped = <div><span></span></div>;
         }else{
-            wrapped = <WrappedCourseDetailForm  wrappedComponentRef={(inst) => this.formRef = inst} dispatch={this.props.dispatch} courseId={this.props.dataSource[this.state.courseIndex]["id"]} courseName={this.props.dataSource[this.state.courseIndex]["courseName"]} credit={this.props.dataSource[this.state.courseIndex]["credit"]} brief={this.props.dataSource[this.state.courseIndex]["brief"]} />
+            wrapped = <WrappedCourseDetailForm  wrappedComponentRef={(inst) => this.formRef = inst} dispatch={this.props.dispatch} courseId={this.props.dataSource[this.state.classIndex]["id"]} courseName={this.props.dataSource[this.state.classIndex]["courseName"]} credit={this.props.dataSource[this.state.classIndex]["credit"]} classroom={this.props.dataSource[this.state.classIndex]["classroom"]} />
         }
         return(
             <Layout>

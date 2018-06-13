@@ -101,7 +101,7 @@ const model = {
                 }
             }
         },
-        * select(payload: {payload:{classId: number, uid: any, courseId}},{call,put}) {
+        * select(payload: {payload:{classId: number, uid: any, courseId:any}},{call,put}) {
             var value = payload.payload["classId"];
             var uid = payload.payload["uid"];
             var courseId = payload.payload["courseId"];
@@ -114,16 +114,7 @@ const model = {
                 return;
             }
             else {
-                const response = yield call(tssFetch, '/classes/search', 'POST', {'courseId': value} );
-                const jsonBody = yield call(response.text.bind(response));
-                const body = JSON.parse(jsonBody);
-                // message.success(body.status);
-                yield put({
-                    type: 'updateManCourseInfo',
-                    payload: {dataSource: body["classes"]}
-                });
                 message.success("选课成功");
-
             }
         }
 
