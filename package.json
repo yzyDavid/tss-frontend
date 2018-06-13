@@ -1,6 +1,6 @@
 {
   "name": "tss-frontend",
-  "version": "0.2.0.alpha",
+  "version": "0.3.0",
   "private": true,
   "dependencies": {
     "antd": "^3.3.1",
