@@ -78,7 +78,7 @@ const model = {
             var i = 0
             var obj = payload.payload
             for (var p in obj.students) {
-                state.ids.push(p)
+                state.ids.push(obj.students[p])
                 state.names.push(obj.name[i])
                 state.scores.push("0")
                 i++
@@ -187,32 +187,32 @@ const model = {
             var permission = 0
             var cid = yield select(state => state.scoreUpload.cid)
             var identity = { "cid": cid }
-            const response = yield call(tssFetch, "/grade/getclassstudentscore", "POST", identity)
+            const response = yield call(tssFetch, "/grade/getclasssgrade", "POST", identity)
             const jsonBody = yield call(response.text.bind(response))
             const obj = JSON.parse(jsonBody)
 
             var i = 0
             for (i = 0; i < 5; i++) {
-                if (obj['score'][i] == 0)
+                if (obj['scores'][i] != 0)
                     break
             }
             if (i === 5)
-                permission == 1
+                permission = 1
 
             if (permission === 0) {
                 message.error('该课程已经登记过成绩！')
                 return
             }
 
-            var student = yield select(state => state.students)
+ 
             var id = yield select(state => state.ids)
-            yield call(tssFetch,"/grade/add", "PUT", { "uid": payload. uid, "cid": cid, "studentid": id, "score": score })
+            yield call(tssFetch,"/grade/add", "PUT", { "uid": payload.payload.uid, "cid": cid, "studentid": id, "score": score })
             message.success("登记成功！")
         }
-
      }
 
 
 };
 
 export default model;
+ 
