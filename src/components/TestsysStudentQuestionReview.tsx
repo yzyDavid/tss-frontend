@@ -5,6 +5,8 @@ import DvaProps from '../types/DvaProps';
 import {NavigationBar} from './TssPublicComponents';
 import {QuestionFormData, WrappedQuestionReviewForm} from "./TestsysStudentQuestionReviewForm";
 import { start } from 'repl';
+import TestStudentSideBar from "./TestStudentSideBar";
+import Layout from "antd/es/layout/layout";
 
 interface UserProps extends DvaProps {
     uid: string;
@@ -46,16 +48,19 @@ export default class TestsysStudentQuestionPageComponent extends Component<UserP
             },
         };
         return (
-            <div>
-                <h2>查看题目</h2>
-                <WrappedQuestionReviewForm
-                    dispatch = {this.props.dispatch}
-                    questions = {this.props.questions}
-                    // qids = {this.props.qids}
-                    uid = {this.props.uid}
-                    pid = {this.props.pid}
-                    startTime = {this.props.startTime}/>
-            </div>
+            <Layout>
+                <TestStudentSideBar dispatch={this.props.dispatch} />
+                <div>
+                    <h2>查看题目</h2>
+                    <WrappedQuestionReviewForm
+                        dispatch = {this.props.dispatch}
+                        questions = {this.props.questions}
+                        // qids = {this.props.qids}
+                        uid = {this.props.uid}
+                        pid = {this.props.pid}
+                        startTime = {this.props.startTime}/>
+                </div>
+            </Layout>
         );
     }
 }

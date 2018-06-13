@@ -179,9 +179,9 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
                 title: '答题',
                 key: 'action',
                 render: (text, record) => (
-                <RadioGroup onChange={(event)=>this.handleUpdate(record.qid, event)}>
-                    <Radio value={1}>True</Radio>
-                    <Radio value={0}>False</Radio>
+                <RadioGroup onChange={(event)=>this.handleUpdate(record.qid, event)} defaultValue={record.myanswer}>
+                    <Radio value={"1"}>True</Radio>
+                    <Radio value={"0"}>False</Radio>
                 </RadioGroup>
                 ),
             // }, {
@@ -208,11 +208,11 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
                 title: '答题',
                 key: 'action',
                 render: (text, record) => (
-                    <RadioGroup onChange={(event)=>this.handleUpdate(record.qid, event)}>
-                        <Radio value={1}>A</Radio>
-                        <Radio value={2}>B</Radio>
-                        <Radio value={3}>C</Radio>
-                        <Radio value={4}>D</Radio>
+                    <RadioGroup onChange={(event)=>this.handleUpdate(record.qid, event)} defaultValue={record.myanswer}>
+                        <Radio value={"1"}>A</Radio>
+                        <Radio value={"2"}>B</Radio>
+                        <Radio value={"3"}>C</Radio>
+                        <Radio value={"4"}>D</Radio>
                     </RadioGroup>
                 ),
             }
@@ -237,7 +237,8 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
                     <FormItem>
                         {
                             getFieldDecorator(`myanswer${record.qid}`, {
-                                rules: []
+                                rules: [],
+                                initialValue: record.myanswer,
                             })(
                                 <Input onBlur={(event)=>this.handleUpdate(record.qid, event)}/>
                             )
