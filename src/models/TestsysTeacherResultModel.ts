@@ -44,7 +44,7 @@ const model = {
         //     "0.92",
         // ],
         presult: [],
-        qresult: [
+        qresult: [/*
             {
                 qid: "1",
                 rate: "0.8",
@@ -52,7 +52,7 @@ const model = {
             {
                 qid: "2",
                 rate: "0.94",
-            },
+            },*/
         ],
 
     },
@@ -166,6 +166,10 @@ const model = {
             for(let i in body.questions) {
                 qresult.push({
                     qid: body.questions[i].qid,
+                    question:body.questions[i].question,
+                    qanswer:body.questions[i].qanswer,
+                    qtype:body.questions[i].qtype,
+                    qunit:body.questions[i].qunit,
                     rate: (body.questions[i].answerednum==0? 0.0:body.questions[i].correct/body.questions[i].answerednum).toString(),
                 });
             }

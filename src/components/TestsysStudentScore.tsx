@@ -4,6 +4,8 @@ import {QuestionFormData, WrappedQuestionSearchForm} from './TestsysTeacherQuest
 import DvaProps from '../types/DvaProps';
 import {Form} from "antd";
 import {WrappedScoreDisplayForm} from "./TestsysStudentScoreForm";
+import Layout from "antd/es/layout/layout";
+import TestStudentSideBar from "./TestStudentSideBar";
 
 interface UserProps extends DvaProps {
     uid: string;
@@ -23,15 +25,18 @@ const FormItem = Form.Item;
 export default class TestsysStudentScoreComponent extends Component<UserProps, UserState> {
     render() {
         return (
-            <div>
-                <h2>查询成绩</h2>
-                <WrappedScoreDisplayForm
-                    dispatch={this.props.dispatch}
-                    // pids={this.props.score_pids}
-                    // scores={this.props.score_scores}
-                    // dates={this.props.score_dates}/>
-                    scores={this.props.scores} />
-            </div>
+            <Layout>
+                <TestStudentSideBar dispatch={this.props.dispatch} />
+                <Layout id = "content" style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
+                    <h2>查询成绩</h2>
+                    <WrappedScoreDisplayForm
+                        dispatch={this.props.dispatch}
+                        // pids={this.props.score_pids}
+                        // scores={this.props.score_scores}
+                        // dates={this.props.score_dates}/>
+                        scores={this.props.scores} />
+                </Layout>
+            </Layout>
     );
     }
 }

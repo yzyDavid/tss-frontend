@@ -56,7 +56,7 @@ export default class ManagerSelectionComponent extends Component<ManSelectionPro
     }
     select(course){
         console.log(course)
-        this.props.dispatch({type:"selectManCourse/select",payload:{classId: course["id"],uid: this.state.stuId}});
+        this.props.dispatch({type:"selectManCourse/select",payload:{classId: course["id"],uid: this.state.stuId, courseId: course["courseId"]}});
     };
     // dismiss(course){
     //     this.props.dispatch({type:"selectManCourse/dismiss",payload:course["id"]})

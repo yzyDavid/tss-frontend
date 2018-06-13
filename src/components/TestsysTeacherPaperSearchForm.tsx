@@ -155,7 +155,7 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
         const begin = form.getFieldValue('begin');
         const end = form.getFieldValue('end');
         const last = form.getFieldValue('last');
-
+        const pid_t = form.getFieldValue('pid_t');
 
         form.setFieldsValue({
             pid: list[index].pid,
@@ -165,9 +165,10 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
             end: moment(list[index].end),
             last:list[index].last,
             //begin end
+            pid_t:list[index].pid,
 
         });
-    //    console.log('ok');
+     //  console.log(form.getFieldValue('pid_t'));
 
         this.setState({pid_t:list[index].pid, papername_t:list[index].papername, isauto_t:list[index].isauto, begin_t:list[index].begin,
         end_t:list[index].end, last_t:list[index].last, count_t:list[index].count, qid_t:list[index].qid, score_t:list[index].score});
@@ -206,10 +207,10 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
         }
 
         const values = {
-            pid: form.getFieldValue("pid"),
+            pid: form.getFieldValue("pid_t"),
             papername: form.getFieldValue("papername"),
             begin:  form.getFieldValue("begin").format('YYYY-MM-DD HH:mm:ss'),
-            end:  form.getFieldValue("begin").format('YYYY-MM-DD HH:mm:ss'),
+            end:  form.getFieldValue("end").format('YYYY-MM-DD HH:mm:ss'),
             last: form.getFieldValue("last"),
             isauto: this.state.isauto,     //?
 
@@ -227,7 +228,8 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
 
     handleDeletePaper = (pid) => {
         console.log("deletepaper:"+pid);
-        this.props.dispatch({type:'teacherpaper/delete', payload: pid});
+        this.props.dispatch({type:'teacherpaper/delete', payload: {pid:pid}});
+        location.reload();
     }
 
     handleDelete = (qid) => {
@@ -413,7 +415,6 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
             title: '试卷号',
             dataIndex: 'pid',
             key: 'pid',
-            render: text => <a href="#">{text}</a>,
         }, {
             title: '试卷名',
             dataIndex: 'papername',
@@ -485,19 +486,6 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
 
                 <Form >
 
-                    <FormItem label="试卷号" {...formItemLayout} hasFeedback>
-                        {
-                            getFieldDecorator('pid', {
-                                rules: [
-                                    {required: true, message: '请输入试卷号'},
-                                    {pattern: /^[0-9]+$/, message: '请输入数字'}
-                                ]
-                            })(
-
-                                <Input />
-                            )
-                        }
-                    </FormItem>
 
                     <FormItem label="试卷名称" {...formItemLayout} hasFeedback>
                         {
@@ -541,7 +529,7 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
                             getFieldDecorator('last', {
                                 rules: [
                                     {required: true, message: '请输入名称'},
-                                    {pattern: /[1-9][0-9]?:[0-9][0-9]:[0-9][0-9]/, message: '请按照格式 hh:mm:ss 如：1:00:00'}
+                                    {pattern: /[1-9][0-9]?:[0-5][0-9]:[0-5][0-9]$/, message: '请按照格式 hh:mm:ss 如：1:00:00'}
                                 ]
                             })(
 
@@ -551,13 +539,7 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
                         }
                     </FormItem>
 
-                    <FormItem {...tailFormItemLayout} >
-                        {getFieldDecorator('auto', {
-                            valuePropName: 'checked',
-                        })(
-                            <Checkbox value={this.state.isauto}  onChange={()=> this.changeButtonDisable()}>自动生成</Checkbox>
-                        )}
-                    </FormItem>
+
 
                     <FormItem {...tailFormItemLayout} >
                         <Button icon="edit" type="primary"

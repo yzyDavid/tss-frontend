@@ -22,6 +22,7 @@ interface FormProps extends DvaProps {
     uid: string;
     pid: string;
     startTime: string;
+    currentTime: string;
 }
 
 export class QuestionFormData {
@@ -49,15 +50,18 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
     componentDidMount() {
     }
 
-    interval() {
-        this.setState({ time: new Date().toUTCString()});
-    }
+    // interval() {
+    //     this.setState({ time: new Date().toUTCString()});
+    // }
     start() {
         // this.timeToken = setInterval(() => time = new Date().toUTCString(), 1000);
-        const{form} = this.props;
+        // const{form} = this.props;
+        let myform: any = this.props;
         setInterval(function(){
-            form.setFieldValue('time');
-            time = new Date().toUTCString();
+            // form.setFieldValue('time');
+            // time = new Date().toUTCString();
+            // console.log(time);
+            myform.dispatch({type:'testsys_student/tick', payload: {}});
             }, 1000);
     }
 
@@ -66,27 +70,8 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
 
         console.log(this.state);
         console.log(this.props);
-        // for(var i=0;i<this.props.qids.length;i++) {
-        //     this.props.dispatch({type:'testsys_student/getquestion', payload: {qid: this.props.qids[i], uid: this.props.form.uid}});
-        // }
 
-        // j_questions = [];
-        // s_questions = [];
-        // f_questions = [];
-        // for(var i=0;i<this.props.questions.length;i++) {
-        //     switch(this.props.questions[i].qtype) {
-        //         case '1':
-        //             j_questions.push(this.props.questions[i]);
-        //             break;
-        //         case '2':
-        //             s_questions.push(this.props.questions[i]);
-        //             break;
-        //         case '3':
-        //             f_questions.push(this.props.questions[i]);
-        //             break;
-        //     }
-        // }
-
+        this.start();
     }
 
 
@@ -107,8 +92,20 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
     };
 
     handleSubmit = () => {
-        this.handleSave();
-        this.props.dispatch({type:'testsys_student/submit', payload: {pid: this.props.pid}});
+    //    this.handleSave();
+      //  for(var i = 0; i < 10000; i++);
+        let values: any = {
+            ans:[],
+            qid:[],
+            pid: this.props.pid,
+        };
+        for (var i = 0; i < myAns.length; i++) {
+            console.log("qid "+myAns[i].id+": "+myAns[i].myanswer);
+            values.ans.push(myAns[i].myanswer);
+            values.qid.push(myAns[i].id);
+        }
+      //  console.log("values:"+values);
+        this.props.dispatch({type:'testsys_student/submit', payload: values});
         console.log("handle submit");
     };
 
@@ -167,9 +164,9 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
                 title: '答题',
                 key: 'action',
                 render: (text, record) => (
-                <RadioGroup onChange={(event)=>this.handleUpdate(record.qid, event)}>
-                    <Radio value={1}>True</Radio>
-                    <Radio value={0}>False</Radio>
+                <RadioGroup onChange={(event)=>this.handleUpdate(record.qid, event)} defaultValue={record.myanswer}>
+                    <Radio value={"1"}>True</Radio>
+                    <Radio value={"0"}>False</Radio>
                 </RadioGroup>
                 ),
             // }, {
@@ -196,11 +193,11 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
                 title: '答题',
                 key: 'action',
                 render: (text, record) => (
-                    <RadioGroup onChange={(event)=>this.handleUpdate(record.qid, event)}>
-                        <Radio value={1}>A</Radio>
-                        <Radio value={2}>B</Radio>
-                        <Radio value={3}>C</Radio>
-                        <Radio value={4}>D</Radio>
+                    <RadioGroup onChange={(event)=>this.handleUpdate(record.qid, event)} defaultValue={record.myanswer}>
+                        <Radio value={"1"}>A</Radio>
+                        <Radio value={"2"}>B</Radio>
+                        <Radio value={"3"}>C</Radio>
+                        <Radio value={"4"}>D</Radio>
                     </RadioGroup>
                 ),
             }
@@ -225,7 +222,8 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
                     <FormItem>
                         {
                             getFieldDecorator(`myanswer${record.qid}`, {
-                                rules: []
+                                rules: [],
+                                initialValue: record.myanswer,
                             })(
                                 <Input onBlur={(event)=>this.handleUpdate(record.qid, event)}/>
                             )
@@ -237,16 +235,16 @@ export class QuestionReviewForm extends Component<FormProps, questionState> {
 
         return (
             <div>
-                <FormItem>
-                    {
-                        getFieldDecorator("time", {
-                            rules: []
-                        })(
-                            <div></div>
-                        )
-                    }
-                </FormItem>
-                <List bordered dataSource={[`剩余时间 - ${time}`]} renderItem={item => (<List.Item>{item}</List.Item>)}/>
+                {/*<FormItem>*/}
+                    {/*{*/}
+                        {/*getFieldDecorator("time", {*/}
+                            {/*rules: []*/}
+                        {/*})(*/}
+                            {/*<div>时间：{this.props.currentTime}</div>*/}
+                        {/*)*/}
+                    {/*}*/}
+                {/*</FormItem>*/}
+                <List bordered dataSource={[`当前时间 - ${this.props.currentTime}`]} renderItem={item => (<List.Item>{item}</List.Item>)}/>
                 <Tabs defaultActiveKey="1">
                     <TabPane tab="判断题" key="1">
                         <Table rowKey="qid" columns = {columns_j} dataSource = {this.props.questions.j_questions}/>

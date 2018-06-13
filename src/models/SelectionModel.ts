@@ -46,15 +46,8 @@ const model = {
             if(index=="课程号")
             {
                 const response = yield call(tssFetch, '/classes/search', 'POST', {'courseId': value} );
-                if(response.status === 401) {
+                if(response.status != 200) {
                     message.error("不存在该课程");
-                    yield put({
-                        type: 'updateCourseInfo',
-                        payload: {dataSource: []}
-                    });
-                }
-                else if(response.status==404){
-                    message.error("该课程不存在");
                     yield put({
                         type: 'updateCourseInfo',
                         payload: {dataSource: []}
@@ -72,16 +65,9 @@ const model = {
             }
             else if(index=="课程名"){
                 const response = yield call(tssFetch, '/classes/search', 'POST', {'courseName': value});
-                if(response.status === 401) {
+                if(response.status != 200) {
                     console.log("error")
                     message.error("不存在该课程");
-                    yield put({
-                        type: 'updateCourseInfo',
-                        payload: {dataSource: []}
-                    });
-                }
-                else if(response.status==404){
-                    message.error("该课程不存在");
                     yield put({
                         type: 'updateCourseInfo',
                         payload: {dataSource: []}
@@ -99,9 +85,7 @@ const model = {
             else if(index=="教师"){
                 const response = yield call(tssFetch, '/classes/search', 'POST', {'teacherName': value});
                 if(response.status != 200) {
-                    const jsonBody = yield call(response.text.bind(response));
-                    const body = JSON.parse(jsonBody);
-                    message.error(body["status"]);
+                    message.error("不存在该课程");
                     yield put({
                         type: 'updateCourseInfo',
                         payload: {dataSource: []}
