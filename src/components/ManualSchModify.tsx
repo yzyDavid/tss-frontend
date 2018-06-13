@@ -253,7 +253,7 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
             if(initClassInfo.arrangements.length == 1)
                 return (
                     <div>
-                        <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
+                        {/*<NavigationBar current={"course"} dispatch={this.props.dispatch}/>*/}
                         <Form  layout={"inline"} style={{textAlign: 'center'}}>
                             <FormItem label="课程号：" >{initClassInfo.courseId}</FormItem>
                             <FormItem label="课程名称：" >{initClassInfo.courseName}</FormItem>
@@ -283,7 +283,7 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
             else if(initClassInfo.arrangements.length == 2)
                 return (
                     <div>
-                        <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
+                        {/*<NavigationBar current={"course"} dispatch={this.props.dispatch}/>*/}
                         <div>
                         <Form  layout={"inline"} style={{textAlign: 'center'}}>
                             <FormItem label="课程号：" >{initClassInfo.courseId}</FormItem>
@@ -328,7 +328,7 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
             else
                 return (
                     <div>
-                        <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
+                        {/*<NavigationBar current={"course"} dispatch={this.props.dispatch}/>*/}
                         <Form  layout={"inline"} style={{textAlign: 'center'}}>
                             <FormItem label="课程号：" >{initClassInfo.courseId}</FormItem>
                             <FormItem label="课程名称：" >{initClassInfo.courseName}</FormItem>
@@ -343,7 +343,7 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
         }else
             return (
                 <div>
-                    <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
+                    {/*<NavigationBar current={"course"} dispatch={this.props.dispatch}/>*/}
                     <div/>
                     <div>
                         <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource} buildingData={this.props.buildingData}/>

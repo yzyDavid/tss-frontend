@@ -7,10 +7,10 @@ const model = {
     namespace: "plan",
     state: {
         dataSource1: [
-            {key:1, courseId: 20111, courseName: "Data Science", credit: 3.0, type: "必修"},
+            {key: 1, courseId: 20111, courseName: "Data Science", credit: 3.0, type: "必修"},
         ],
         dataSource2: [
-            {key:1, courseId: 20000, courseName: "sdfa", credit: 4.0, semester: "FIRST" }
+            {key: 1, courseId: 20000, courseName: "sdfa", credit: 4.0, semester: "FIRST"}
         ]
     },
     reducers: {
@@ -22,23 +22,24 @@ const model = {
         setup({dispatch, history}) {
             return history.listen(({pathname}) => {
                 if (pathname === '/plan') {
-                    dispatch({ type: 'fetchPlan' });
+                    dispatch({type: 'fetchPlan'});
                 }
                 if (pathname === '/plan') {
                     dispatch({ type: 'fetchOwnPlan'});
+                    dispatch({type: 'fetchCourseList'});
                 }
                 if (pathname === '/plan') {
-                    dispatch({ type: 'addPlan',payload: {courseId: ""}});
+                    dispatch({type: 'addPlan', payload: {courseId: ""}});
                 }
                 if (pathname === '/plan') {
-                    dispatch({ type: 'deletePlan',payload: {courseId: ""}});
+                    dispatch({type: 'deletePlan', payload: {courseId: ""}});
                 }
 
             });
         }
     },
     effects: {
-        * fetchPlan(payload:{},{call,put}){
+        * fetchPlan(payload: {}, {call, put}) {
             //fetch the latest plan
             const response = yield call(tssFetch, '/program/status', 'GET');
             if(response.status == 200){
@@ -111,6 +112,6 @@ const model = {
             }
         }
     }
-}
+};
 
 export default model;

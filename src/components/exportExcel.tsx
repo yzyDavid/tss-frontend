@@ -108,7 +108,7 @@ export default class ExportComponent extends Component<UserProps, ExportState>{
             <Layout>
                 <div>
                     <Content>
-                        <NavigationBar current={"selection"} dispatch={this.props.dispatch}/>
+                        {/*<NavigationBar current={"selection"} dispatch={this.props.dispatch}/>*/}
                     </Content>
                 </div>
                 <Layout>

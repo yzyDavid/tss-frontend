@@ -75,7 +75,7 @@ export default class ClassSelectionComponent extends Component<UserProps, UserSt
             <Layout>
                 <div>
                 <Content>
-                    <NavigationBar current={"selection"} dispatch={this.props.dispatch}/>
+                    {/*<NavigationBar current={"selection"} dispatch={this.props.dispatch}/>*/}
                 </Content>
                 </div>
             <Layout>

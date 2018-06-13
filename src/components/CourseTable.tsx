@@ -53,7 +53,7 @@ export default class CourseTableComponent extends Component<CourseProps, CourseT
         }];
         return(
             <div>
-               <NavigationBar current={'courseTable'} dispatch={this.props.dispatch}/>
+               {/*<NavigationBar current={'courseTable'} dispatch={this.props.dispatch}/>*/}
                 <div style={{ padding: 24, background: '#fff', minHeight: 780 }}>
                     <Form layout="inline">
                         <FormItem label="学年">

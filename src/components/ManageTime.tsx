@@ -123,7 +123,7 @@ export default class ManageTimeComponent extends Component<manageTimeProps, mana
     render(){
         return(
         <div>
-            <NavigationBar current={"manageTime"} dispatch={this.props.dispatch}/>
+            {/*<NavigationBar current={"manageTime"} dispatch={this.props.dispatch}/>*/}
             <br/>
             <Layout>
                 <Content style={{margin: '0 16px'}}>

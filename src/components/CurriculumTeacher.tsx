@@ -106,7 +106,7 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
     ];
         return (
             <div>
-                <NavigationBar current={"list"} dispatch={this.props.dispatch}/>
+                {/*<NavigationBar current={"list"} dispatch={this.props.dispatch}/>*/}
                 <div>
                     <WrappedSearchForm dispatch={this.props.dispatch} teacherId={this.props.uid}/>
                 </div>

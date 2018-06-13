@@ -5,9 +5,6 @@ const model = {
     state: {
     },
     reducers: {
-        updateUserInfo(st, payload) {
-            return {...st, ...payload.payload};
-        }
     },
     effects: {
         * jump(payload: {payload: {direction: string}}, {call, put}) {

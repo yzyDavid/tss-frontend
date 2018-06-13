@@ -29,13 +29,18 @@ import CourseInfoModel from './models/CourseInfoModel';
 import UserInfoModel from './models/userInfoModel';
 
 import TestsysTeacherQuestionModel from './models/TestsysTeacherQuestionModel';
+
 import TestsysStudentPaperPageComponent from "./components/TestsysStudentPaper";
 import TestsysStudentQuestionReviewPageComponent from "./components/TestsysStudentQuestionReview";
+
 import TestsysTeacherPaperModel from './models/TestsysTeacherPaperModel'
 import TestsysModel from './models/TestsysModel'
 import TestsysTeacherResultModel from './models/TestsysTeacherResultModel'
 import TestsysStudentScoreComponent from "./components/TestsysStudentScore";
 import TestsysStudentModel from './models/TestsysStudentModel'
+
+
+
 import CurriculumTeacherModel from './models/CurriculumTeacherModel'
 import CurriculumManageModel from './models/CurriculumManageModel'
 import ClassroomManageModel from './models/ClassroomManageModel'
@@ -47,15 +52,16 @@ import SelectionModel from './models/SelectionModel';
 import StuListModel from './models/StuListModel';
 import SelectionClassModel from './models/SelectionClassModel';
 import CourseTableModel from './models/CourseTableModel';
-import ScoreUploadModel from './models/ScoreUploadModel';
-import ApplyModifyModel from './models/ApplyModifyModel';
-import ScoreManagerModel from './models/ScoreManagerModel';
 import PlanModel from './models/PlanModel';
 import ManageTimeModel from './models/ManageTimeModel';
 import ManSelectionModel from './models/manSelectionModel';
 import ExportModel from './models/exportExcelModel';
+import ScoreUploadModel from './models/ScoreUploadModel'
+import ScoreFetchModel from './models/ScoreFetchModel'
+import ApplyModifyModel from './models/ApplyModifyModel'
+import ScoreManagerModel from './models/ScoreManagerModel'
 import DeptManagePageComponent from './components/DeptManagePage';
-import { TssFooter, TssHeader } from './components/TssPublicComponents';
+import { TssFooter, TssHeader, NavigationBar } from './components/TssPublicComponents';
 import HomePageComponent from './components/HomePage';
 import NavigationPageComponent from './components/NavigationPage';
 import UserPageComponent from './components/UserPage';
@@ -75,12 +81,37 @@ import ManagerSelectionComponent from './components/SelectionManager';
 import StudentSelectionComponent from './components/SelectionStudent';
 import ClassSelectionComponent from './components/SelectionClass';
 import StudentListComponent from './components/StudentList';
+import scoreFetchComponent from "./components/ScoreFetch";
 import scoreUploadComponent from './components/ScoreUpload';
 import applyModifyComponent from './components/ApplyModify';
 import scoreManagerComponent from './components/ScoreManager'
 import ScoreManager from './components/ScoreManager';
 import CourseTableComponent from './components/CourseTable';
 import exportComponent from './components/exportExcel';
+import ForumHomePageComponent from './components/ForumHomePage';
+import ForumNavigationModel from './models/forumNavigationModel';
+import ForumUserInfoModel from './models/forumUserInfoModel';
+import ForumUserPageComponent from './components/ForumUserPage'
+import MyPostPageComponent from './components/ForumMyPostPage'
+import ReplyPageComponent from './components/ForumReplyPage'
+import NewTopicPageComponent from './components/ForumNewTopicPage'
+import LetterPageComponent from './components/ForumMailPage'
+import ForumSearchModel from './models/forumSearchModel'
+import ForumAllBoardModel from './models/forumAllBoardModel'
+import ForumMyPostModel from './models/forumMyPostModel'
+import ForumMyBoardModel from './models/forumMyboardModel'
+import ForumTopicModel from './models/forumTopicModel'
+import BoardPageComponent from './components/ForumBoardPage'
+import TopicPageComponent from './components/ForumTopicPage'
+import ForumReplyListModel from './models/forumReplyListModel'
+import ForumHomeModel from './models/forumHomeModel'
+import ForumBoardMOdel from './models/forumBoardModel'
+import SearchComponent from "./components/ForumSearchPage"
+import AllBoardComponent from "./components/ForumAllBoard"
+import ForumMailModel from "./models/forumMailModel"
+import ForumUserModel from "./models/forumUserModel"
+import ForumNewTopicMode from "./models/forumNewTopicModel"
+import ForumUserPostComponent from "./components/ForumUserPost"
 
 const {Content} = Layout;
 
@@ -88,27 +119,27 @@ const app = dva({
     history: browserHistory
 });
 
+app.model(PswdModel);
 app.model(LoginModel);
+app.model(CourseModel);
 app.model(NavigationModel);
 app.model(UserInfoModel);
+
 app.model(TestsysTeacherQuestionModel);
 app.model(TestsysTeacherPaperModel);
 app.model(TestsysModel);
 app.model(TestsysTeacherResultModel);
 app.model(TestsysStudentModel);
+
+
 app.model(FreeClassroomInfoModel);
 app.model(CourseInfoModel);
 app.model(CurriculumTeacherModel);
 app.model(CurriculumManageModel);
-app.model(AutoSchedulingModel);
-app.model(CourseModel);
-app.model(PswdModel);
-app.model(DeptModel);
-app.model(SelectionModel);
-app.model(StuListModel);
-app.model(SelectionClassModel);
 app.model(ClassroomManageModel);
+app.model(AutoSchedulingModel);
 app.model(ScoreUploadModel);
+app.model(ScoreFetchModel);
 app.model(ApplyModifyModel);
 app.model(ScoreManagerModel);
 app.model(CourseTableModel);
@@ -116,14 +147,28 @@ app.model(PlanModel);
 app.model(ManageTimeModel);
 app.model(ManSelectionModel);
 app.model(ExportModel);
+app.model(ForumNavigationModel);
+app.model(ForumMyBoardModel);
+app.model(ForumAllBoardModel);
+app.model(ForumMyPostModel);
+app.model(ForumTopicModel);
+app.model(ForumHomeModel);
+app.model(ForumBoardMOdel);
+app.model(ForumReplyListModel);
+app.model(ForumMailModel);
+app.model(ForumUserInfoModel);
+app.model(ForumSearchModel);
+app.model(ForumUserModel);
+app.model(ForumNewTopicMode);
+
 
 const HomePage = connect(state => {
     return {}
 })(HomePageComponent);
 
 const NavigationPage = connect(state => {
-    const {uid, level} = state.login;
-    return {level: level, uid: uid}
+    const {uid, type} = state.login;
+    return {level: type, uid: uid}
 })(NavigationPageComponent);
 
 const UserPage = connect(state => {
@@ -131,9 +176,16 @@ const UserPage = connect(state => {
 })(UserPageComponent);
 
 const UserManagePage = connect(state => {
-    return {};
+    return {...state.userinfo};
 })(UserManagePageComponent);
 
+const TssHeaderComponent = connect(state => {
+    return {show:state.pswd.show, visible:state.pswd.visible};
+})(TssHeader);
+
+const TssNavigationBar = connect(state => {
+    return {level: state.login.type, show: state.pswd.naviVisible, current: state.pswd.current};
+})(NavigationBar);
 
 const TestsysHomePage = connect (state => {
     return{}
@@ -268,10 +320,12 @@ const ManageTimePage = connect(state =>{
 })(ManageTimeComponent)
 
 const PlanPage = connect(state => {
+
     const {dataSource1} = state.plan;
     const {dataSource2} = state.plan;
     const { uid, level } = state.login;
     return {dataSource1: dataSource1, dataSource2: dataSource2, uid: uid}
+
 })(PlanComponent)
 
 const ManSelectPage = connect(state =>{
@@ -281,12 +335,11 @@ const ManSelectPage = connect(state =>{
 
 const StuSelectPage = connect(state =>{
     const {dataSource} = state.selectCourse;
-    return {dataSource: dataSource, global: state.login}
+    return {dataSource: dataSource}
 })(StudentSelectionComponent)
 
 const ClassSelectPage = connect(state =>{
-    const {dataSource} = state.selectClass;
-    return {dataSource: dataSource};
+    return {};
 })(ClassSelectionComponent)
 
 const StuListPage = connect(state =>{
@@ -299,6 +352,10 @@ const ScoreUploadPage = connect(state => {
     return {uid: uid, _state: state.scoreUpload};
 })(scoreUploadComponent);
 
+const ScoreFetchPage = connect(state =>  {
+    const {uid, level} = state.login;
+    return {uid: uid, _state:state.scoreFetch};
+})(scoreFetchComponent);
 
 const ApplyModifyPage = connect(state => {
     const { uid, level } = state.login;
@@ -310,10 +367,85 @@ const ScoreManagerPage = connect(state => {
     return {  _state: state.scoreManager };
 })(scoreManagerComponent);
 
-const CourseTablePage = connect(state=>{
-    const {dataSource} = state.courseTable;
-    return {dataSource: dataSource};
-})(CourseTableComponent)
+
+
+
+
+
+const ForumTopicPage = connect(state => {
+    const url = state.forumhome.URL;
+    const data = state.topic.allstate;
+    return {allstate: data,URL:url};
+})(TopicPageComponent);
+
+const ForumReplyPage = connect(state => {
+    const url = state.forumhome.URL;
+    const data = state.replyList.replylist;
+    return {ReplyList: data,URL:url};
+})(ReplyPageComponent);
+
+const ForumSearchPage = connect(state => {
+    const type = state.search.type;
+    const key = state.search.key;
+    const board = state.search.boardData;
+    const topic = state.search.topicData;
+    const user = state.search.userData;
+    return {typeList:type,keyList:key,boardData:board,topicData:topic,userData:user};
+})(SearchComponent);
+
+const ForumAllBoardPage = connect(state => {
+    const data = state.ForumAllBoard.list;
+    return {boardList:data};
+})(AllBoardComponent);
+
+
+const ForumHomePage = connect(state => {
+    const dataSource = state.ForumAllBoard.uid;
+    const mylist = state.myboard.list;
+    const hot = state.forumhome.HotList;
+    const latest = state.forumhome.LatestList;
+    const url = state.forumhome.URL;
+    return {uid: dataSource,alllist :state.ForumAllBoard.list,mylist:mylist,hot:hot,latest:latest,URL:url };
+})(ForumHomePageComponent);
+
+const ForumUserPage = connect(state => {
+    const data = state.ForumUserInfo.userInfo;
+    return {userInfo:data};
+})(ForumUserPageComponent);
+
+const ForumMyPostPage = connect(state => {
+    const url = state.forumhome.URL;
+    const data = state.mypost.postList;
+    return{postList :data,URL:url};
+})(MyPostPageComponent);
+
+const ForumUserPostPage = connect(state => {
+    const data = state.mypost.postList;
+    return{postList :data};
+})(ForumUserPostComponent);
+
+
+
+const ForumLetterPage = connect(state => {
+    const data = state.mail.input;
+    return {allstate:data}
+})(LetterPageComponent);
+
+const ForumNewTopicPage = connect(state => {
+    const url = state.forumhome.URL;
+    const data= state.ForumNewTopic.boardInfo;
+    return {topicBoardInfo:data,URL:url}
+})(NewTopicPageComponent);
+
+const ForumBoardPage = connect(state => {
+    const TopicData = state.board.topicData;
+    const PublicData = state.board.publicData;
+    const url = state.forumhome.URL;
+    return { topicData:TopicData,publicData:PublicData,URL:url}
+})(BoardPageComponent);
+
+
+
 
 const ExportPage = connect(state=>{
     const {dataSource} = state.export;
@@ -323,22 +455,27 @@ const ExportPage = connect(state=>{
 app.router(({history}) => (
         <Router history={history}>
             <Layout>
-                <TssHeader />
+                <TssHeaderComponent />
                 <Content style={{minHeight: '600px'}}>
+                    <TssNavigationBar />
                     <Switch>
                         <Route path="/" exact component={HomePage}/>
                         <Route path="/navi" component={NavigationPage}/>
                         <Route path="/user" component={UserPage}/>
                         <Route path="/userManage" component={UserManagePage}/>
+                        <Route path="/courseManage" component={CourseManagePage}/>
+
                         <Route path="/testsys" component={TestsysHomePage}/>
                         <Route path="/testsys_teacher" component={TestsysTeacherPage}/>
                         <Route path="/testsys_student" component={TestsysStudentPage}/>
                         <Route path="/testsys_teacher_question" component={TestsysTeacherQuestionPage}/>
                         <Route path="/testsys_teacher_question_insert" component={TestsysTeacherQuestionInsertPage}/>
                         <Route path="/testsys_teacher_question_search" component={TestsysTeacherQuestionSearchPage}/>
+
                         <Route path="/testsys_student_paper" component={TestsysStudentPaperPage}/>
                         <Route path="/testsys_student_question_review" component={TestsysStudentQuestionReviewPage}/>
                         <Route path="/testsys_student_score" component={TestsysStudentScorePage}/>
+
                         <Route path="/testsys_teacher_paper" component={TestsysTeacherPaperPage}/>
                         <Route path="/testsys_teacher_paper_insert" component={TestsysTeacherPaperInsertPage}/>
                         <Route path="/testsys_teacher_paper_search" component={TestsysTeacherPaperSearchPage}/>
@@ -347,6 +484,8 @@ app.router(({history}) => (
                         <Route path="/testsys_teacher_result_pid" component={TestsysTeacherResultPidPage}/>
                         <Route path="/testsys_teacher_result_qtype" component={TestsysTeacherResultQtypePage}/>
                         <Route path="/testsys_teacher_result_qunit" component={TestsysTeacherResultQunitPage}/>
+
+
                         <Route path="/autoScheduling" component={AutoSchedulingPage} />
                         <Route path="/manualScheduling" component={ManualSchedulingPage} />
                         <Route path="/manualSchModify/:name" component={ManualSchModifyPage} />
@@ -355,7 +494,6 @@ app.router(({history}) => (
                         <Route path="/curriculumTeacher" component={CurriculumTeacherPage}/>
                         <Route path="/curriculumManage" component={CurriculumManagePage}/>
                         <Route path="/setSchedulingTime" component={SetSchedulingTimePage}/>
-                        <Route path="/courseManage" component={CourseManagePage}/>
                         <Route path="/deptManage" component={DeptManagePage}/>
                         <Route path="/plan" component={PlanPage}/>
                         <Route path="/manageTime" component={ManageTimePage}/>
@@ -363,12 +501,29 @@ app.router(({history}) => (
                         <Route path="/stuSelect" component={StuSelectPage}/>
                         <Route path="/classSelect/:courseId" component={ClassSelectPage}/>
                         <Route path="/stuList/:classId" component={StuListPage}/>
-                        <Route path="/courseTable" component={CourseTablePage}/>
+
+
+
                         <Route path="/scoreUpload" component={ScoreUploadPage} />
                         <Route path="/applyModify" component={ApplyModifyPage} />
                         <Route path="/scoreManager" component={ScoreManagerPage} />
                         <Route path="/export" component={ExportPage} />
-
+                        <Route path="/scoreFetch" component={ScoreFetchPage} />
+                        <Route exact path="/forum/home"  component={ForumHomePage}/>
+                        <Route exact path="/forum/userinfo" component={ForumUserPage}/>
+                        <Route  path="/forum/uid=:uid" component={ForumUserPage}/>
+                        <Route exact path="/forum/userarticle" component={ForumUserPage}/>
+                        <Route exact path="/forum/mypost/page=:pageNumber" component={ForumMyPostPage}/>
+                        <Route exact path="/forum/privateLetter" component={ForumLetterPage}/>
+                        <Route exact path="/forum/reply" component={ForumReplyPage}/>
+                        <Route exact path="/forum/search/board/:key" component={ForumSearchPage}/>
+                        <Route exact path="/forum/search/user/:key" component={ForumSearchPage}/>
+                        <Route exact path="/forum/search/topic/:key/:pageNum" component={ForumSearchPage}/>
+                        <Route exact path="/forum/newpost=:boardid" component={ForumNewTopicPage}/>
+                        <Route exact path="/forum/allboard" component={ForumAllBoardPage}/>
+                        <Route path="/forum/board/:boardid/:pageNum" component={ForumBoardPage}/>
+                        <Route exact path="/forum/topic/:topicid/:pageNum" component={ForumTopicPage}/>
+                        <Route exact path="/forum/userpost/:uid/:pageNumber" component={ForumUserPostPage}/>
 
                     </Switch>
                 </Content>

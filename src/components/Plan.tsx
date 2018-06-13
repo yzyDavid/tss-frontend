@@ -6,13 +6,13 @@ import {NavigationBar} from './TssPublicComponents'
 import DvaProps from '../types/DvaProps';
 import GlobalState from "../types/globalState";
 
-const { Column } = Table;
+const {Column} = Table;
 const FormItem = Form.Item;
 const Panel = Collapse.Panel;
 
-interface PlanProps extends DvaProps{
-    uid: any;
-    form: any;
+
+interface PlanProps extends DvaProps {
+    uid: string;
     dataSource1: any;
     dataSource2: any;
 }
@@ -33,10 +33,9 @@ const data = [{
     brief: 'ddd',
     credit: 2.0,
     semester: '春',
-}
-];
+}];
 
-export default class PlanComponent extends Component<PlanProps>{
+export default class PlanComponent extends Component<PlanProps> {
     constructor(props) {
         super(props);
         this.props.dispatch({type: "plan/fetchOwnPlan"});
@@ -47,27 +46,31 @@ export default class PlanComponent extends Component<PlanProps>{
         console.log(this.props.uid);
         this.props.dispatch({type: "plan/deletePlan", payload: {courseId: course["courseId"], uid: this.props.uid}})
     }
-    addPlan(course){
+
+    addPlan(course) {
         //console.log(course);
         this.props.dispatch({type: "plan/addPlan", payload: {courseId: course["courseId"]}})
     }
-    handleSubmit(){
+
+    handleSubmit() {
 
     }
+
     callback(key) {
         console.log(key);
     }
-    render(){
+
+    render() {
         const columns1 = [{
             title: "课程代码",
             dataIndex: "courseId",
-        },{
+        }, {
             title: "课程名称",
             dataIndex: "courseName",
-        },{
+        }, {
             title: "学分",
             dataIndex: "credit"
-        },{
+        }, {
             title: "种类",
             dataIndex: "type"
         },{
@@ -76,19 +79,19 @@ export default class PlanComponent extends Component<PlanProps>{
         },
         {
             title: "添加",
-            render: (record)=>(
+            render: (record) => (
                 <span>
-                    <a onClick={()=>this.addPlan(record)}>添加</a>
+                    <a onClick={() => this.addPlan(record)}>添加</a>
                 </span>
             )
-        }]
+        }];
         const columns2 = [{
             title: "课程代码",
             dataIndex: "courseId",
-        },{
+        }, {
             title: "课程名称",
             dataIndex: "courseName",
-        },{
+        }, {
             title: "学分",
             dataIndex: "credit"
         },{
@@ -97,20 +100,22 @@ export default class PlanComponent extends Component<PlanProps>{
         },{
             title: "状态",
             dataIndex: "status"
-        },
-        {
-            title:"删除",
-            render: (record)=>(
+        },{
+            title: "学期",
+            dataIndex: 'semester'
+        }, {
+            title: "删除",
+            render: (record) => (
                 <span>
-                    <a onClick={()=>this.deletePlan(record)}>删除</a>
+                    <a onClick={() => this.deletePlan(record)}>删除</a>
                 </span>
             )
         }];
-        return(
+        return (
             <div>
-               <NavigationBar current={'plan'} dispatch={this.props.dispatch}/>
-                <div style={{ padding: 24, background: '#fff', minHeight: 780 }}>
-                    <Collapse defaultActiveKey={['1']} onChange={this.callback}>
+                {/*<NavigationBar current={'plan'} dispatch={this.props.dispatch}/>*/}
+                <div style={{padding: 24, background: '#fff', minHeight: 780}}>
+                    <Collapse defaultActiveKey={['1']} onChange={this.callback.bind(this)}>
                         <Panel header="修改培养方案" key="1">
                             <Table dataSource={this.props.dataSource1} columns={columns1}>
                             </Table>
@@ -121,9 +126,7 @@ export default class PlanComponent extends Component<PlanProps>{
                         </Panel>
                     </Collapse>
                 </div>
-
             </div>
-
         );
     }
 }

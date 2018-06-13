@@ -15,7 +15,7 @@ export default class HomePageComponent extends Component<HomePageProps, {}> {
         return (
             <div>
                 <h2>用户登录</h2>
-                <Col span={8} offset={8}>
+                <Col span={12} offset={6}>
                     <Card title="Login">
                         <WrappedLoginForm dispatch={this.props.dispatch} />
                     </Card>

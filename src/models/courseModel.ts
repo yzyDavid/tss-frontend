@@ -16,7 +16,7 @@ const model = {
         credit: '2.5',
     },
     reducers: {
-        updateUserInfo(st, payload) {
+        updateCourseInfo(st, payload) {
             return {...st, ...payload.payload, show:true};
         },
     },
@@ -30,65 +30,49 @@ const model = {
         }
     },
     effects: {
-        * search(payload: {id: any}, {call, put}){
-            let tmp = [{key:"1", cid:"0001", name:"软件工程", credit:"4", dept:"计算机科学与技术学院"}];
+        * search(payload: {payload: {cid: any, name: any, dept: any}}, {call, put}){
+            // console.log("search course");
+            const msg = payload.payload;
+            const response = yield call(tssFetch, '/course/query', 'POST', msg);
+            if(response.status !== 200) {
+                message.error('搜索院系信息失败');
+                return;
+            }
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            let tmp:any = [];
+            for(let i = 0; i < body.cids.length; i++){
+                tmp.push({key: (tmp.length+1).toString(), name: body.names[i], credit: body.credits[i], dept: body.depts[i]});
+            }
             yield put({
-                type: 'updateUserInfo',
+                type: 'updateCourseInfo',
                 payload: {data: tmp}
             });
         },
-        * userInfo(payload: { payload: {uid: null|string} }, {call, put}) {
+        * modify(payload: { payload: {uid: null|string, email: null|string, telephone: null|string, intro: null|string} }, {call, put}) {
+            // const msg = payload.payload;
+            // const response = yield call(tssFetch, '/user/modify', 'POST', msg);
+            // if(response.status === 400) {
+            //     message.error('编辑个人信息失败');
+            //     return;
+            // }
+            // yield put({type: 'userInfo', payload: {uid: null}});
+            return;
+        },
+        * add(payload: {payload: {cid: string, name: string, credit: any, numLessonsEachWeek: any, department: any}},{call,put}){
             const msg = payload.payload;
-            const response = yield call(tssFetch, '/user/get', 'POST', msg);
-            if(response.status === 401) {
-                message.error('查询个人信息失败');
+            const response = yield call(tssFetch, '/course/add', 'PUT', msg);
+            if(response.status !== 200) {
+                message.error('添加课程失败');
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                message.error(body.status);
                 return;
             }
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
             message.success(body.status);
-            yield put({
-                type: 'updateUserInfo',
-                payload: {uid: body.uid, email: body.email, telephone: body.telephone, intro: body.intro}
-            });
-            return;
         },
-        * modify(payload: { payload: {uid: null|string, email: null|string, telephone: null|string, intro: null|string} }, {call, put}) {
-            const msg = payload.payload;
-            const response = yield call(tssFetch, '/user/modify', 'POST', msg);
-            if(response.status === 400) {
-                message.error('编辑个人信息失败');
-                return;
-            }
-            yield put({type: 'userInfo', payload: {uid: null}});
-            return;
-        },
-        * getPhoto(payload: {payload: {uid: null|string}}, {call, put}){
-            // const msg = payload.payload;
-            //
-            // const response = yield call(tssFetch, '/user/getPhoto', 'POST', msg);
-            // if(response.status === 401) {
-            //     message.error('照片加载失败');
-            //     return;
-            // }
-            // const jsonBody = yield call(response.text.bind(response));
-            // const body = JSON.parse(jsonBody);
-            // message.success(body.status);
-            // yield put({
-            //     type: 'updateUserInfo',
-            //     payload: {photo: body.resource}
-            // });
-        },
-        * modifyPhoto(payload:{payload: {file: any, uid: null|string}}, {call, put}) {
-            // const msg = payload.payload;
-            // console.log("msg", msg);
-            // const f = {name: msg.file.name, uid:msg.file.uid, size:msg.file.size, type:msg.file.type};
-            // console.log('json test:', JSON.stringify(f));
-            // // const response = yield call(tssFetch, '/user/modifyPhoto', 'POST', msg);
-            // const auth: string = getAuthTokenFromLocalStorage();
-            // let url = '/user/modifyPhoto';
-            // console.log("aa", payload);
-        }
     }
 };
 
