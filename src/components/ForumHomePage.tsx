@@ -34,7 +34,8 @@ export default class ForumHomePageComponent extends Component<ForumHomeProps>{
 
 
     componentWillMount(){
-
+        // this.props.dispatch({type:'forumhome/get24', payload:{}});
+        // this.props.dispatch({type:'forumhome/getLatest', payload:{}});
     }
     clickAllBoard= (e) =>{
 
@@ -75,7 +76,31 @@ export default class ForumHomePageComponent extends Component<ForumHomeProps>{
         ];
 
 
+        let hotList = new Array();
+        for(var i=0;i<this.props.hot.boardNames.length;i++){
+            hotList.push({
+                board:this.props.hot.boardNames[i],
+                title:this.props.hot.titles[i],
+                author:this.props.hot.authors[i],
+                replyNUM:this.props.hot.replyNUMs[i],
+                time:this.props.hot.times[i],
 
+
+            })
+        }
+
+        let latestList = new Array();
+        for(var i=0;i<this.props.latest.boardNames.length;i++){
+            latestList.push({
+                board:this.props.latest.boardNames[i],
+                title:this.props.latest.titles[i],
+                author:this.props.latest.authors[i],
+                replyNUM:this.props.latest.replyNUMs[i],
+                time:this.props.latest.times[i],
+
+
+            })
+        }
         return(
             <BrowserFrame>
                 <div style={{height:"100%"}} className="ant-layout-topaside">
@@ -134,11 +159,11 @@ export default class ForumHomePageComponent extends Component<ForumHomeProps>{
                                             <Option value="7">最近7天</Option>
                                             <Option value="30">最近30天</Option>
                                         </Select>
-                                        <Table columns={columns} dataSource={this.props.hot} pagination={false}/>
+                                        <Table columns={columns} dataSource={hotList} pagination={false}/>
                                     </div>
 
                                     <div style={{marginTop:20,fontSize:23}}>最新发布
-                                        <Table columns={columns} dataSource={this.props.latest} pagination={false}/>
+                                        <Table columns={columns} dataSource={latestList} pagination={false}/>
 
                                     </div>
 
