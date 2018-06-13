@@ -176,8 +176,12 @@ const UserPage = connect(state => {
 })(UserPageComponent);
 
 const UserManagePage = connect(state => {
-    return {...state.userinfo};
+    return {...state.userinfo, deptList: state.dept.deptList};
 })(UserManagePageComponent);
+
+const CourseManagePage = connect(state => {
+    return {...state.course, pswdShow: state.pswd.show, deptList: state.dept.deptList};
+})(CourseManagePageComponent);
 
 const TssHeaderComponent = connect(state => {
     return {show:state.pswd.show, visible:state.pswd.visible};
@@ -306,10 +310,6 @@ const CurriculumManagePage = connect(state => {
 const SetSchedulingTimePage = connect(state => {
     return{};
 })(SetSchedulingTimeComponent);
-
-const CourseManagePage = connect(state => {
-    return {...state.course, pswdShow: state.pswd.show};
-})(CourseManagePageComponent);
 
 const DeptManagePage = connect(state => {
     return {...state.dept, pswdShow: state.pswd.show};

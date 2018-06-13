@@ -53,7 +53,6 @@ export default class UserPageComponent extends Component<UserProps, UserState> {
     render() {
         return (
             <div>
-                {/*<NavigationBar current={"user"} dispatch={this.props.dispatch}/>*/}
                 <br/>
                 <div>
                     <Col span={12} style={{display: 'block'}}>

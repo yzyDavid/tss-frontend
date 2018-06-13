@@ -18,14 +18,14 @@ const model = {
         },
     },
     subscriptions: {
-        setup({ dispatch, history }) {
+        setup({dispatch, history}) {
             history.listen(location => {
                 dispatch({type: 'changeVisible', payload: {current: location.pathname.substring(1)}});
                 console.log(location.pathname.substring(1));
                 if (location.pathname === '/') {
                     dispatch({type: 'changeVisible', payload: {visible: false, naviVisible: false}});
                 }
-                else if(location.pathname === '/navi') {
+                else if (location.pathname === '/navi') {
                     dispatch({type: 'changeVisible', payload: {visible: true, naviVisible: false}});
                 }
                 else dispatch({type: 'changeVisible', payload: {visible: true, naviVisible: true}});
@@ -33,17 +33,20 @@ const model = {
         }
     },
     effects: {
-        * showWindow(payload: {payload: {show: boolean}}, {call, put}){
+        * showWindow(payload: { payload: { show: boolean } }, {call, put}) {
             yield put({
                 type: 'changeVisible',
                 payload: {show: payload.payload.show}
             })
         },
-        * modify(payload: { payload: {old: string, new: string} }, {call, put}) {
+        * modify(payload: { payload: { oldPwd: string, newPwd: string } }, {call, put}) {
             const msg = payload.payload;
             const response = yield call(tssFetch, '/user/modify/pwd', 'POST', msg);
-            if(response.status === 400) {
+            if (response.status !== 200) {
                 message.error('编辑密码失败');
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                message.error(body.status);
                 return;
             }
             const jsonBody = yield call(response.text.bind(response));
