@@ -91,11 +91,11 @@ const model = {
         * searchUser(payload: {payload:{uid:any, name: any, type: any, dept:any}}, {call, put}){
             console.log("searchUser", payload.payload);
             const msg = payload.payload;
-            const response = yield call(tssFetch, '/user/query', 'POST', {uid: msg.uid, name: msg.name, department: msg.dept});
-            if(response.status === 400) {
-                message.error('搜索用户失败');
-                return;
-            }
+            const response = yield call(tssFetch, '/user/query', 'POST', {uid: msg.uid, name: msg.name, department: msg.dept, type: msg.type});
+            // if(response.status === 400) {
+            //     message.error('搜索用户失败');
+            //     return;
+            // }
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
             message.success(body.status);

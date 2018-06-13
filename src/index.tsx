@@ -119,6 +119,7 @@ const app = dva({
 app.model(PswdModel);
 app.model(LoginModel);
 app.model(CourseModel);
+app.model(DeptModel);
 app.model(NavigationModel);
 app.model(UserInfoModel);
 

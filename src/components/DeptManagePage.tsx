@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Component, FormEvent} from 'react';
 import {Form, Button, Modal, Input, Icon, Select, Table, Divider, Col, Row, Layout, message} from 'antd';
 import DvaProps from '../types/DvaProps';
+import {WrappedAddDeptForm} from "./AddDeptForm";
 import {WrappedInfoEditForm} from './InfoEditForm';
 import {NavigationBar, TssFooter, TssHeader} from "./TssPublicComponents";
 
@@ -25,6 +26,7 @@ interface DeptState {
     modal1Visible: boolean;
     modal2Visible: boolean;
     modal3Visible: boolean;
+    modal4Visible: boolean;
 }
 
 const rowSelection = {
@@ -42,7 +44,7 @@ const rowSelection = {
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-interface FormState{
+interface FormState {
     tag: string | null
 }
 
@@ -58,7 +60,7 @@ class SearchForm extends Component<FormProps, FormState> {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             console.log('Received values of dept search: ', values);
-            this.props.dispatch({type:'dept/search', payload:{...values}});
+            this.props.dispatch({type: 'dept/search', payload: {...values}});
         });
     };
 
@@ -73,35 +75,33 @@ class SearchForm extends Component<FormProps, FormState> {
     render() {
         const {getFieldDecorator} = this.props.form;
         let Item2 = () => {
-            switch (this.state.tag){
-                case "1": return (<FormItem label="院系" labelCol={{span: 8, offset: 4}} wrapperCol={{span: 8}}>
-                    {
-                        getFieldDecorator('name', {
-
-                        })(
-                            <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} style={{width: 200}}/>
-                        )
-                    }
-                </FormItem>);
-                case "2": return (<FormItem label="专业" labelCol={{span: 8, offset: 4}} wrapperCol={{span: 8}}>
-                    {
-                        getFieldDecorator('name', {
-                            rules: [
-                            ]
-                        })(
-                            <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} style={{width: 200}}/>
-                        )
-                    }
-                </FormItem>);
-                default : return (<FormItem label="班级" labelCol={{span: 8, offset: 4}} wrapperCol={{span: 8}}>
-                    {
-                        getFieldDecorator('name', {
-
-                        })(
-                            <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} style={{width: 200}}/>
-                        )
-                    }
-                </FormItem>);
+            switch (this.state.tag) {
+                case "1":
+                    return (<FormItem label="院系" labelCol={{span: 8, offset: 4}} wrapperCol={{span: 8}}>
+                        {
+                            getFieldDecorator('name', {})(
+                                <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} style={{width: 200}}/>
+                            )
+                        }
+                    </FormItem>);
+                case "2":
+                    return (<FormItem label="专业" labelCol={{span: 8, offset: 4}} wrapperCol={{span: 8}}>
+                        {
+                            getFieldDecorator('name', {
+                                rules: []
+                            })(
+                                <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} style={{width: 200}}/>
+                            )
+                        }
+                    </FormItem>);
+                default :
+                    return (<FormItem label="班级" labelCol={{span: 8, offset: 4}} wrapperCol={{span: 8}}>
+                        {
+                            getFieldDecorator('name', {})(
+                                <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} style={{width: 200}}/>
+                            )
+                        }
+                    </FormItem>);
             }
         };
         return (
@@ -122,7 +122,7 @@ class SearchForm extends Component<FormProps, FormState> {
 
                         }
                     </FormItem>
-                    <Item2 />
+                    <Item2/>
                     <FormItem labelCol={{span: 8, offset: 24}} wrapperCol={{span: 8, offset: 12}}>
                         <Button style={{width: "200px"}} icon="search" type="primary" htmlType="submit">搜索</Button>
                     </FormItem>
@@ -141,88 +141,117 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
         this.state = {
             modal1Visible: false,
             modal2Visible: false,
-            modal3Visible: false
+            modal3Visible: false,
+            modal4Visible: false
         };
     }
+
     columns = [
         {title: '院系名称', dataIndex: 'name', key: 'name'},
-        {title: '操作', dataIndex: 'x', key: 'x', render: (text, record) => (
+        {
+            title: '操作', dataIndex: 'x', key: 'x', render: (text, record) => (
                 <span>
                     {/*<a href="javascript:void(0);" onClick={()=>{this.getInfo(record.id)}}>查看</a>*/}
                     {/*<span className="ant-divider" />*/}
-                    <a href="javascript:void(0);" onClick={()=>this.modifyDept(record.name)}>查看/编辑</a>
+                    <a href="javascript:void(0);" onClick={() => this.modifyDept(record.name)}>查看/编辑</a>
                 </span>
-            )},
+            )
+        },
     ];
 
     columnsMajor = [
         {title: '专业名称', dataIndex: 'name', key: 'name'},
-        {title: '操作', dataIndex: 'x', key: 'x', render: (text, record) => (
+        {
+            title: '操作', dataIndex: 'x', key: 'x', render: (text, record) => (
                 <span>
-                    <a href="javascript:void(0);" onClick={()=>{this.modifyMajor(record.name)}}>查看/编辑</a>
+                    <a href="javascript:void(0);" onClick={() => {
+                        this.modifyMajor(record.name)
+                    }}>查看/编辑</a>
                     {/*<span className="ant-divider" />*/}
                     {/*<a href="javascript:void(0);" onClick={()=>this.modifyMajor(record.id)}>编辑</a>*/}
                 </span>
-            )},
+            )
+        },
     ];
 
     columnsClass = [
         {title: '班级名称', dataIndex: 'name', key: 'name'},
-        {title: '操作', dataIndex: 'x', key: 'x', render: (text, record) => (
+        {
+            title: '操作', dataIndex: 'x', key: 'x', render: (text, record) => (
                 <span>
-                    <a href="javascript:void(0);" onClick={()=>{this.modifyClass(record.name)}}>查看/编辑</a>
+                    <a href="javascript:void(0);" onClick={() => {
+                        this.modifyClass(record.name)
+                    }}>查看/编辑</a>
                 </span>
-            )},
+            )
+        },
     ];
 
 
     formRef1: any;
     formRef2: any;
     formRef3: any;
-    getInfo(id:string){
+    formRef4: any;
+
+    getInfo(id: string) {
         // this.props.dispatch({type: '/user/info', payload: {uid: id}});
     };
 
-    modifyInfo(name:string){
+    modifyInfo(name: string) {
         // this.props.dispatch({type: '/user/info', payload: {uid: id}});
     };
 
-    modifyDept(name: string){
+    modifyDept(name: string) {
         this.setModal1Visible(true);
     }
 
-    modifyClass(name:string){
+    modifyClass(name: string) {
         this.setModal3Visible(true);
     }
 
-    modifyMajor(name:string){
+    modifyMajor(name: string) {
         this.setModal2Visible(true);
 
     }
 
     setModal1Visible(modalVisible) {
         if (this.formRef1 && modalVisible === true) this.formRef1.refresh();
-        this.setState({modal1Visible: modalVisible, modal2Visible:false, modal3Visible:false});
+        this.setState({modal1Visible: modalVisible, modal2Visible: false, modal3Visible: false});
     };
+
     setModal2Visible(modalVisible) {
         if (this.formRef2 && modalVisible === true) this.formRef2.refresh();
-        this.setState({modal1Visible: false, modal2Visible: modalVisible, modal3Visible:false});
+        this.setState({modal1Visible: false, modal2Visible: modalVisible, modal3Visible: false});
     };
+
     setModal3Visible(modalVisible) {
         if (this.formRef3 && modalVisible === true) this.formRef3.refresh();
         this.setState({modal1Visible: false, modal2Visible: false, modal3Visible: modalVisible});
     };
+
+    setModal4Visible(modalVisible) {
+        // if (this.formRef4 && modalVisible === true) this.formRef4.refresh();
+        this.setState({modal1Visible: false, modal2Visible: false, modal3Visible: false, modal4Visible: modalVisible});
+    };
+
     handleOk1(e) {
         // if(!this.formRef.handleSubmit(e)) this.setModalVisible(false);
         this.setModal1Visible(false);
     }
+
     handleOk2(e) {
         // if(!this.formRef.handleSubmit(e)) this.setModalVisible(false);
         this.setModal2Visible(false);
     }
+
     handleOk3(e) {
         // if(!this.formRef.handleSubmit(e)) this.setModalVisible(false);
         this.setModal3Visible(false);
+    }
+
+    handleOk4(e) {
+        if (!this.formRef4.handleSubmit(e)) this.setModal4Visible(false);
+        // this.setModal3Visible(false);
     }
 
     render() {
@@ -238,18 +267,22 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
         };
         return (
             <div>
-                {/*<NavigationBar current={"deptManage"} dispatch={this.props.dispatch}/>*/}
                 <br/>
                 <div>
                     <WrappedSearchForm data={this.props.data} dispatch={this.props.dispatch}/>
-                    <Table footer={()=>{
+                    <Table footer={() => {
                         return (
                             <Row>
-                            <Col span={12} offset={0} style={{ textAlign: 'left'}} >
-                                <Button icon="delete" type="primary" >删除已选院系</Button>
-                                <Button icon='plus' type="primary" style={{marginLeft: 8}}>添加新的院系</Button>
-                            </Col>
-                    </Row>)}} style={{width: "100%", background: "#ffffff"}} columns={this.columns} dataSource={this.props.data} rowSelection={rowSelection} className="table"/>
+                                <Col span={12} offset={0} style={{textAlign: 'left'}}>
+                                    <Button icon="delete" type="primary">删除已选院系</Button>
+                                    <Button icon='plus' type="primary" style={{marginLeft: 8}}
+                                            onClick={() => {
+                                                this.setModal4Visible(true)
+                                            }}>添加新的院系</Button>
+                                </Col>
+                            </Row>)
+                    }} style={{width: "100%", background: "#ffffff"}} columns={this.columns}
+                           dataSource={this.props.data} rowSelection={rowSelection} className="table"/>
                     <Modal
                         title="查看编辑院系信息"
                         wrapClassName="vertical-center-modal"
@@ -257,15 +290,18 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
                         onOk={(e) => this.handleOk1(e)}
                         onCancel={() => this.setModal1Visible(false)}
                     >
-                        <WrappedDeptForm  wrappedComponentRef={(inst) => this.formRef1 = inst} dispatch={this.props.dispatch} name={this.props.name}/>
-                        <Table  size="small" footer={()=>{
+                        <WrappedDeptForm wrappedComponentRef={(inst) => this.formRef1 = inst}
+                                         dispatch={this.props.dispatch} name={this.props.name}/>
+                        <Table size="small" footer={() => {
                             return (
                                 <Row>
-                                    <Col span={24} offset={0} style={{ textAlign: 'left'}} >
-                                        <Button icon="delete" type="primary" >删除已选专业</Button>
+                                    <Col span={24} offset={0} style={{textAlign: 'left'}}>
+                                        <Button icon="delete" type="primary">删除已选专业</Button>
                                         <Button icon='plus' type="primary" style={{marginLeft: 8}}>添加新的专业</Button>
                                     </Col>
-                                </Row>)}} style={{width: "100%", background: "#ffffff"}} columns={this.columnsMajor} dataSource={this.props.majorData} rowSelection={rowSelection} className="table"/>
+                                </Row>)
+                        }} style={{width: "100%", background: "#ffffff"}} columns={this.columnsMajor}
+                               dataSource={this.props.majorData} rowSelection={rowSelection} className="table"/>
                     </Modal>
                     <Modal
                         title="查看编辑专业信息"
@@ -274,15 +310,19 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
                         onOk={(e) => this.handleOk2(e)}
                         onCancel={() => this.setModal2Visible(false)}
                     >
-                        <WrappedMajorForm  wrappedComponentRef={(inst) => this.formRef2 = inst} dispatch={this.props.dispatch} majorName={this.props.majorName} dept={this.props.name}/>
-                        <Table size="small" footer={()=>{
+                        <WrappedMajorForm wrappedComponentRef={(inst) => this.formRef2 = inst}
+                                          dispatch={this.props.dispatch} majorName={this.props.majorName}
+                                          dept={this.props.name}/>
+                        <Table size="small" footer={() => {
                             return (
                                 <Row>
-                                    <Col span={24} offset={0} style={{ textAlign: 'left'}} >
-                                        <Button icon="delete" type="primary" >删除已选专业</Button>
+                                    <Col span={24} offset={0} style={{textAlign: 'left'}}>
+                                        <Button icon="delete" type="primary">删除已选专业</Button>
                                         <Button icon='plus' type="primary" style={{marginLeft: 8}}>添加新的专业</Button>
                                     </Col>
-                                </Row>)}} style={{width: "100%", background: "#ffffff"}} columns={this.columnsClass} dataSource={this.props.classData} rowSelection={rowSelection} className="table"/>
+                                </Row>)
+                        }} style={{width: "100%", background: "#ffffff"}} columns={this.columnsClass}
+                               dataSource={this.props.classData} rowSelection={rowSelection} className="table"/>
                     </Modal>
                     <Modal
                         title="查看编辑班级信息"
@@ -291,7 +331,19 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
                         onOk={(e) => this.handleOk3(e)}
                         onCancel={() => this.setModal3Visible(false)}
                     >
-                        <WrappedClassForm  wrappedComponentRef={(inst) => this.formRef3 = inst} dispatch={this.props.dispatch} majorName={this.props.majorName} className={this.props.className} year={this.props.year}/>
+                        <WrappedClassForm wrappedComponentRef={(inst) => this.formRef3 = inst}
+                                          dispatch={this.props.dispatch} majorName={this.props.majorName}
+                                          className={this.props.className} year={this.props.year}/>
+                    </Modal>
+                    <Modal
+                        title="添加院系"
+                        wrapClassName="vertical-center-modal"
+                        visible={this.state.modal4Visible}
+                        onOk={(e) => this.handleOk4(e)}
+                        onCancel={() => this.setModal4Visible(false)}
+                    >
+                        <WrappedAddDeptForm wrappedComponentRef={(inst) => this.formRef4 = inst}
+                                            dispatch={this.props.dispatch}/>
                     </Modal>
                 </div>
             </div>
@@ -331,6 +383,7 @@ export class DeptForm extends Component<DeptFormProps, DeptFormData> {
     handleChange = (info) => {
         info.fileList.slice(-1);
     };
+
     render() {
         const {getFieldDecorator} = this.props.form;
         const formItemLayout = {
@@ -348,11 +401,10 @@ export class DeptForm extends Component<DeptFormProps, DeptFormData> {
                 <FormItem label="院系名称" {...formItemLayout} hasFeedback>
                     {
                         getFieldDecorator('name', {
-                            rules: [
-                            ],
+                            rules: [],
                             initialValue: this.props.name
                         })(
-                            <Input prefix={<Icon type="mail" style={{fontSize: 13}}/>} />
+                            <Input prefix={<Icon type="mail" style={{fontSize: 13}}/>}/>
                         )
                     }
                 </FormItem>
@@ -378,7 +430,7 @@ export class MajorForm extends Component<MajorFormProps, MajorData> {
     handleSubmit = (e: FormEvent<{}>) => {
         let flag = false;
         e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err: any, values:MajorData) => {
+        this.props.form.validateFieldsAndScroll((err: any, values: MajorData) => {
             if (err) {
                 message.error('信息填写不合法');
                 flag = true;
@@ -397,6 +449,7 @@ export class MajorForm extends Component<MajorFormProps, MajorData> {
     handleChange = (info) => {
         info.fileList.slice(-1);
     };
+
     render() {
         const {getFieldDecorator} = this.props.form;
         const formItemLayout = {
@@ -414,19 +467,17 @@ export class MajorForm extends Component<MajorFormProps, MajorData> {
                 <FormItem label="专业名称" {...formItemLayout} hasFeedback>
                     {
                         getFieldDecorator('majorName', {
-                            rules: [
-                            ],
+                            rules: [],
                             initialValue: this.props.majorName
                         })(
-                            <Input prefix={<Icon type="mail" style={{fontSize: 13}}/>} />
+                            <Input prefix={<Icon type="mail" style={{fontSize: 13}}/>}/>
                         )
                     }
                 </FormItem>
                 <FormItem label="所属院系" {...formItemLayout} hasFeedback>
                     {
                         getFieldDecorator('dept', {
-                            rules: [
-                            ],
+                            rules: [],
                             initialValue: this.props.dept
                         })(
                             <Select>
@@ -462,7 +513,7 @@ export class ClassForm extends Component<ClassFormProps, ClassData> {
     handleSubmit = (e: FormEvent<{}>) => {
         let flag = false;
         e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err: any, values:ClassData) => {
+        this.props.form.validateFieldsAndScroll((err: any, values: ClassData) => {
             if (err) {
                 message.error('信息填写不合法');
                 flag = true;
@@ -478,6 +529,7 @@ export class ClassForm extends Component<ClassFormProps, ClassData> {
             name: this.props.majorName,
         });
     };
+
     render() {
         const {getFieldDecorator} = this.props.form;
         const formItemLayout = {
@@ -495,33 +547,30 @@ export class ClassForm extends Component<ClassFormProps, ClassData> {
                 <FormItem label="班级名称" {...formItemLayout} hasFeedback>
                     {
                         getFieldDecorator('className', {
-                            rules: [
-                            ],
+                            rules: [],
                             initialValue: this.props.className
                         })(
-                            <Input prefix={<Icon type="name" style={{fontSize: 13}}/>} />
+                            <Input prefix={<Icon type="name" style={{fontSize: 13}}/>}/>
                         )
                     }
                 </FormItem>
                 <FormItem label="所属专业" {...formItemLayout} hasFeedback>
                     {
                         getFieldDecorator('majorName', {
-                            rules: [
-                            ],
+                            rules: [],
                             initialValue: this.props.majorName
                         })(
-                            <Input prefix={<Icon type="major" style={{fontSize: 13}}/>} />
+                            <Input prefix={<Icon type="major" style={{fontSize: 13}}/>}/>
                         )
                     }
                 </FormItem>
                 <FormItem label="年份" {...formItemLayout} hasFeedback>
                     {
                         getFieldDecorator('year', {
-                            rules: [
-                            ],
+                            rules: [],
                             initialValue: this.props.year
                         })(
-                            <Input prefix={<Icon type="time" style={{fontSize: 13}}/>} />
+                            <Input prefix={<Icon type="time" style={{fontSize: 13}}/>}/>
                         )
                     }
                 </FormItem>
