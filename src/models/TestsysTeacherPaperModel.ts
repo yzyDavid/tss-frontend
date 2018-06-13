@@ -101,6 +101,7 @@ const model = {
         * delete(payload: { payload: {pid:string} }, {call, put}) { //删除卷子
             // console.log(payload);
             const msg = payload.payload;
+
             const response = yield call(tssFetch, '/testsys_paper/delete', 'POST', msg);
             console.log(response);
             if (response.status === 400) {

@@ -119,7 +119,7 @@ export class QuestionInsertForm extends Component<FormProps, QuestionFormData> {
                     {
                         getFieldDecorator('qtype', {
                             rules: [
-                                {required: true, message: '请输入题型编号（0为选择题，1为判断题，2为填空题）'},
+                                {required: true, message: '请输入题型（1：判断，2：选择，3：填空）'},
                                 {pattern: /^[0-9]+$/, message: '请输入数字'}
                             ]
                         })(

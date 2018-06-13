@@ -14,20 +14,7 @@ const model = {
         pid: -1,
         pids: [],
         papers: [
-            // {
-            //     pid:"1",
-            //     pstatus: true,
-            //     pscore: "90",
-            //     ptime: "Monday 9:00-9:15",
-            //     plength: "1:30:00",
-            // },
-            // {
-            //     pid:"2",
-            //     pstatus: false,
-            //     pscore: 0,
-            //     ptime: "Sunday 14:00-9:15",
-            //     plength: "2:00:00",
-            // },
+/*
             {
                 pid: "1",
                 begin: "9:00",
@@ -44,11 +31,12 @@ const model = {
                 count: "6",
                 papername: "Chapter 2 Quiz",
             },
+            */
         ],
         qids: [],
         startTime: "",
         questions: {
-            j_questions: [
+            j_questions: [/*
             {
                 qid: "1",
                 question: "Is monkey an animal?",
@@ -64,9 +52,9 @@ const model = {
                 // qanswer: "no",
                 qmyanswer: "",
                 qunit: "2",
-            },
+            },*/
             ],
-            s_questions: [
+            s_questions: [/*
             {
                 qid: "5",
                 question: "Which is an animal?\nA.monkey B.apple",
@@ -74,9 +62,10 @@ const model = {
                 // qanswer: "A",
                 qmyanswer: "",
                 qunit: "2",
-            },
+            },*/
             ],
             f_questions: [
+                /*
             {
                 qid: "6",
                 question: "What is an apple?",
@@ -84,10 +73,11 @@ const model = {
                 // qanswer: "fruit",
                 qmyanswer: "",
                 qunit: "2",
-            },
+            },*/
             ],
         },
         scores: [
+            /*
             {
                 pid:"1",
                 score: "80",
@@ -97,7 +87,7 @@ const model = {
                 pid:"3",
                 score: "95",
                 date: "2018-05-01 14:30",
-            },
+            },*/
         ],
         // score_pids: [
         //     "1",
@@ -111,6 +101,7 @@ const model = {
         //     "2018-05-01 9:00",
         //     "2018-05-02 14:30",
         // ]
+        currentTime: "",
     },
 
     reducers: {
@@ -138,6 +129,9 @@ const model = {
         updateScoreList(st, payload) {
             return {...st, ...payload.payload};
         },
+        updateTime(st, payload) {
+            return {...st, ...payload.payload};
+        }
     },
 
     effects: {
@@ -286,19 +280,31 @@ const model = {
                 message.error('无法保存试卷');
                 return;
             }
+            message.success('保存成功');
             return;
         },
 
-        * submit(payload: {payload: {pid: string}}, {call, put}) {
-            console.log("sq/submit: "+payload.payload);
-            const msg = {pid:payload.payload.pid};
+        * submit(payload: {payload: {ans: string[], qid: string[], pid: string}}, {call, put}) {
+            console.log("sq/submit: "+payload);
+            const msg = payload.payload;
             const response = yield call(tssFetch, '/testsys_student/submit', 'POST', msg);
-            console.log("sq/question response: "+response);
+//            console.log("sq/question response: "+response);
             if (response.status === 400) {
                 message.error('无法提交试卷');
                 return;
             }
+            message.success('提交成功');
             yield put(routerRedux.push('/testsys_student_paper'));
+            return;
+        },
+        * tick(payload: {}, {call, put}) {
+            let time = new Date();
+            time.setTime( time.getTime() - time.getTimezoneOffset()*60*1000 );
+            // console.log("tick: "+time);
+            yield put({
+                type: 'updateTime',
+                payload: {currentTime: time.toUTCString().slice(0,-3)}
+            });
             return;
         }
     },

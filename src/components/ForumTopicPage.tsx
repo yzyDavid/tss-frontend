@@ -33,7 +33,8 @@ export default class TopicPageComponent extends Component<TopicProps>{
     state = {
         editorState: EditorState.createEmpty(),
         showQuote:false,
-        replyNum:0
+        replyNum:0,
+
     };
 
     constructor(props) {
@@ -125,16 +126,14 @@ export default class TopicPageComponent extends Component<TopicProps>{
         this.props.dispatch({type:'topic/postReply', payload:postData})
     };
 
+
+
+
     render(){
         const { editorState } = this.state;
 
         let replylist = new Array();
         let quoteZone;
-        // "lzid":"34",
-        //     "lztext":"123",
-        //     "lzphoto":"url",
-        //     "lztime":"123",
-        //     "lzname":"楼主ID",
         let LZ;
         if(this.props.allstate.currentPage==="1"){
             LZ = <div style={{ marginLeft:200, marginRight:200, marginBottom:20,
@@ -155,7 +154,7 @@ export default class TopicPageComponent extends Component<TopicProps>{
                         {/*<div style={{marginTop:20 , fontSize:18,borderStyle:"solid"}} dangerouslySetInnerHTML={{__html: draftToHtml(reply.quote)}} />*/}
                         {q}
                         <div style={{marginTop:45 , marginBottom:20,fontSize:18}} dangerouslySetInnerHTML={{__html: this.props.allstate.lztext}} /></div>
-                    <div onClick={this.replyFloor.bind(this,"-1")} style={{textDecoration:"underline"}}>回复</div>
+                    <div onClick={this.replyFloor.bind(this,"-1")} style={{cursor:"pointer",width:"30px"}} >回复</div>
 
                 </div>
             </div>
@@ -207,7 +206,7 @@ export default class TopicPageComponent extends Component<TopicProps>{
                                 {/*<div style={{marginTop:20 , fontSize:18,borderStyle:"solid"}} dangerouslySetInnerHTML={{__html: draftToHtml(reply.quote)}} />*/}
                                 {q}
                                 <div style={{marginTop:45 , marginBottom:20,fontSize:18}} dangerouslySetInnerHTML={{__html: text}} /></div>
-                            <div onClick={this.replyFloor.bind(this,replyKey)} style={{textDecoration:"underline"}}>回复</div>
+                            <div onClick={this.replyFloor.bind(this,replyKey)} style={{cursor:"pointer",width:"30px"}}>回复</div>
 
                         </div>
                     </div>
@@ -225,7 +224,7 @@ export default class TopicPageComponent extends Component<TopicProps>{
                 quoteZone = <div  style={{marginTop:45 , marginBottom:20, borderStyle:"solid" ,borderWidth:1,backgroundColor:"rgb(200, 200, 200)"}}>
                     <div style={{fontWeight:"bold",marginTop:10,marginLeft:10,fontSize:10}}>您将引用{quoteIndex}楼用户&nbsp;{quoteAuthor}&nbsp;在{quoteTime}发表的内容</div>
                     <div style={{ marginTop:10,marginLeft:10,fontSize:18}} dangerouslySetInnerHTML={{__html: text}}></div>
-                    <div style={{marginTop:10,marginLeft:10,fontSize:10}} onClick={this.disappearQuote}>点击取消引用</div>
+                    <div style={{marginTop:10,marginLeft:10,fontSize:10,cursor:"pointer"}} onClick={this.disappearQuote}>点击取消引用</div>
                 </div>
             }else{
                 quoteZone = <div></div>
@@ -284,7 +283,7 @@ export default class TopicPageComponent extends Component<TopicProps>{
                     />
 
                 </div>
-                <div style={{marginLeft:window.innerWidth/2-10}}> <Button type="primary" onClick={this.postReply}>回复</Button></div>
+                <div style={{marginLeft:window.innerWidth/2-10,}}> <Button type="primary" onClick={this.postReply}>回复</Button></div>
 
             </BrowserFrame>
         )
