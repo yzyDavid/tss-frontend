@@ -37,7 +37,7 @@ export default  class TestStudentSideBar extends Component<BarProp>{
                     <Menu.Item key="1">查看试卷</Menu.Item>
                 </SubMenu>
                 <SubMenu key="result"  title={<span><Icon type="notification" />成绩查询</span>}>
-                    <Menu.Item key="2">按学号查询</Menu.Item>
+                    <Menu.Item key="2">试卷成绩查询</Menu.Item>
                 </SubMenu>
             </Menu>
         </Sider>);
