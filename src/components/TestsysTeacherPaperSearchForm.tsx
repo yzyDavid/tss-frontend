@@ -539,13 +539,7 @@ export class PaperSearchForm extends Component<PaperFormProps, EditState> {
                         }
                     </FormItem>
 
-                    <FormItem {...tailFormItemLayout} >
-                        {getFieldDecorator('auto', {
-                            valuePropName: 'checked',
-                        })(
-                            <Checkbox value={this.state.isauto}  onChange={()=> this.changeButtonDisable()}>自动生成</Checkbox>
-                        )}
-                    </FormItem>
+
 
                     <FormItem {...tailFormItemLayout} >
                         <Button icon="edit" type="primary"
