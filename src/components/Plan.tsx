@@ -39,7 +39,7 @@ const data = [{
 export default class PlanComponent extends Component<PlanProps>{
     constructor(props) {
         super(props);
-        //this.props.dispatch({type: "plan/fetchCourseList"});
+        this.props.dispatch({type: "plan/fetchOwnPlan"});
         this.props.dispatch({type:"plan/fetchPlan"});
     }
 
@@ -92,9 +92,13 @@ export default class PlanComponent extends Component<PlanProps>{
             title: "学分",
             dataIndex: "credit"
         },{
-            title: "学期",
-            dataIndex: 'semester'
+            title: "种类",
+            dataIndex: "type"
         },{
+            title: "状态",
+            dataIndex: "status"
+        },
+        {
             title:"删除",
             render: (record)=>(
                 <span>

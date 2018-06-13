@@ -100,7 +100,7 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
             {title: '排课安排', dataIndex: 'arrangements', key: 'arrangements'},
             {
                 title: "查看",
-                render: (text,record,index)=>(<a onClick={()=>{this.props.dispatch({type: "curriculumteacher/showList", payload: {classId: this.props.dataSource[index].classId}})}}>学生名单</a>)
+                render: (text,record,index)=>(<a onClick={()=>{this.props.dispatch({type: "curriculumteacher/export", payload: {classId: this.props.dataSource[index].classId}})}}>导出excel</a>)
             }
 
     ];

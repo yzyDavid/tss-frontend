@@ -52,6 +52,8 @@ import ApplyModifyModel from './models/ApplyModifyModel';
 import ScoreManagerModel from './models/ScoreManagerModel';
 import PlanModel from './models/PlanModel';
 import ManageTimeModel from './models/ManageTimeModel';
+import ManSelectionModel from './models/manSelectionModel';
+import ExportModel from './models/exportExcelModel';
 import DeptManagePageComponent from './components/DeptManagePage';
 import { TssFooter, TssHeader } from './components/TssPublicComponents';
 import HomePageComponent from './components/HomePage';
@@ -78,7 +80,7 @@ import applyModifyComponent from './components/ApplyModify';
 import scoreManagerComponent from './components/ScoreManager'
 import ScoreManager from './components/ScoreManager';
 import CourseTableComponent from './components/CourseTable';
-
+import exportComponent from './components/exportExcel';
 
 const {Content} = Layout;
 
@@ -112,6 +114,8 @@ app.model(ScoreManagerModel);
 app.model(CourseTableModel);
 app.model(PlanModel);
 app.model(ManageTimeModel);
+app.model(ManSelectionModel);
+app.model(ExportModel);
 
 const HomePage = connect(state => {
     return {}
@@ -271,7 +275,7 @@ const PlanPage = connect(state => {
 })(PlanComponent)
 
 const ManSelectPage = connect(state =>{
-    const {dataSource} = state.courseinfo;
+    const {dataSource} = state.selectManCourse;
     return {dataSource: dataSource};
 })(ManagerSelectionComponent)
 
@@ -310,6 +314,11 @@ const CourseTablePage = connect(state=>{
     const {dataSource} = state.courseTable;
     return {dataSource: dataSource};
 })(CourseTableComponent)
+
+const ExportPage = connect(state=>{
+    const {dataSource} = state.export;
+    return {dataSource: dataSource};
+})(exportComponent)
 
 app.router(({history}) => (
         <Router history={history}>
@@ -358,6 +367,7 @@ app.router(({history}) => (
                         <Route path="/scoreUpload" component={ScoreUploadPage} />
                         <Route path="/applyModify" component={ApplyModifyPage} />
                         <Route path="/scoreManager" component={ScoreManagerPage} />
+                        <Route path="/export" component={ExportPage} />
 
 
                     </Switch>

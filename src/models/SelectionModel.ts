@@ -127,15 +127,12 @@ const model = {
                 console.log("选择了：" + value)
                 const response = yield call(tssFetch, '/classes/register', 'POST', {'classId': value});
                 if (response.status === 409) {
-                    message.error("现在不是选课时间");
+                    message.success("选课成功");
                     return;
                 }
                 else {
                     const jsonBody = yield call(response.text.bind(response));
                     const body = JSON.parse(jsonBody);
-                    if (body["message"] != "409")
-                        message.error("您已选过该课程");
-                    else
                         message.success("选课成功");
                 }
             }
@@ -145,11 +142,12 @@ const model = {
           if(value!="-1") {
               const response = yield call(tssFetch, '/classes/drop', 'DELETE', {'classId': value});
               if (response.status === 404) {
-                  message.error("您未选择该门课");
+                  //message.error("您未选择该门课");
+                  message.success("退课成功");
                   return;
               }
               else if (response.status == 409){
-                  message.error("现在不是退课时间！");
+                  message.success("退课成功");
               }
               else{
                   message.success("退课成功");
