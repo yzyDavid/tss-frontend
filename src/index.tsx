@@ -131,7 +131,7 @@ app.model(TestsysModel);
 app.model(TestsysTeacherResultModel);
 app.model(TestsysStudentModel);
 
-
+app.model(SelectionModel);
 app.model(FreeClassroomInfoModel);
 app.model(CourseInfoModel);
 app.model(CurriculumTeacherModel);
@@ -367,11 +367,6 @@ const ScoreManagerPage = connect(state => {
     return {  _state: state.scoreManager };
 })(scoreManagerComponent);
 
-
-
-
-
-
 const ForumTopicPage = connect(state => {
     const url = state.forumhome.URL;
     const data = state.topic.allstate;
@@ -424,8 +419,6 @@ const ForumUserPostPage = connect(state => {
     return{postList :data};
 })(ForumUserPostComponent);
 
-
-
 const ForumLetterPage = connect(state => {
     const data = state.mail.input;
     return {allstate:data}
@@ -444,7 +437,10 @@ const ForumBoardPage = connect(state => {
     return { topicData:TopicData,publicData:PublicData,URL:url}
 })(BoardPageComponent);
 
-
+const CourseTablePage = connect(state => {
+    const {dataSource} = state.courseTable;
+    return {dataSource: dataSource};
+})(CourseTableComponent);
 
 
 const ExportPage = connect(state=>{
@@ -502,8 +498,7 @@ app.router(({history}) => (
                         <Route path="/classSelect/:courseId" component={ClassSelectPage}/>
                         <Route path="/stuList/:classId" component={StuListPage}/>
 
-
-
+                        <Route path="/courseTable" component={CourseTablePage}/>
                         <Route path="/scoreUpload" component={ScoreUploadPage} />
                         <Route path="/applyModify" component={ApplyModifyPage} />
                         <Route path="/scoreManager" component={ScoreManagerPage} />
@@ -521,7 +516,7 @@ app.router(({history}) => (
                         <Route exact path="/forum/search/topic/:key/:pageNum" component={ForumSearchPage}/>
                         <Route exact path="/forum/newpost=:boardid" component={ForumNewTopicPage}/>
                         <Route exact path="/forum/allboard" component={ForumAllBoardPage}/>
-                        <Route path="/forum/board/:boardid/:pageNum" component={ForumBoardPage}/>
+                        <Route path="/forum/board/:boardid/:pagceNum" component={ForumBoardPage}/>
                         <Route exact path="/forum/topic/:topicid/:pageNum" component={ForumTopicPage}/>
                         <Route exact path="/forum/userpost/:uid/:pageNumber" component={ForumUserPostPage}/>
 

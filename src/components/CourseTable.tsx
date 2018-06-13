@@ -51,6 +51,7 @@ export default class CourseTableComponent extends Component<CourseProps, CourseT
             title: "开课老师",
             dataIndex: 'teacher'
         }];
+        console.log("！！！")
         return(
             <div>
                {/*<NavigationBar current={'courseTable'} dispatch={this.props.dispatch}/>*/}

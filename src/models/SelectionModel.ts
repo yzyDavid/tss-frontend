@@ -19,19 +19,14 @@ const model = {
         setup({dispatch, history}) {
             return history.listen(({pathname}) => {
                 if (pathname === '/stuSelect'){
-                    dispatch({type: 'search', payload: {value: "", searchIndex: ""}})
-                }
-                if (pathname === '/stuSelect'){
-                    dispatch({type: 'dismiss', payload: -1})
-                }
-                if (pathname === '/stuSelect'){
-                    dispatch({type: 'select', payload: -1})
+                    dispatch({type: 'fetchClassLists'})
                 }
             });
         }
     },
     effects: {
         * fetchClassLists(payload:{},{call,put}){
+            console.log("~~")
             const response = yield call(tssFetch, '/classes/search', 'POST', {'courseName': ""});
             if(response.status === 401) {
                 console.log("error")

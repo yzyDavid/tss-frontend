@@ -6,21 +6,17 @@ import {message} from "antd";
 const model = {
     namespace: "courseTable",
     state: {
-        dataSource: [
-            {key: 1, courseId: "20001", courseName: "Software Engineering", timeSlot: "Mon_1_2", semester: "FIRST", credit: 3}
-        ]
+        dataSource: []
     },
     reducers: {
         updateCourseTable(st, payload) {
+            console.log("~~~")
             return {...st, ...payload.payload};
         },
     },
     subscriptions: {
         setup({dispatch, history}) {
             return history.listen(({pathname}) => {
-                // if (pathname === '/courseTable') {
-                //     dispatch({ type: 'refreshCourseTable', payload: {classNumber: ""} });
-                // }
                 if (pathname === '/courseTable') {
                     dispatch({ type: 'search', payload: {year: "", semester: ""} });
                 }
@@ -46,6 +42,7 @@ const model = {
                 //TODO
                     const jsonBody = yield call(response.text.bind(response));
                     const body = JSON.parse(jsonBody);
+                    //console.log(body["classes"]);
                     yield put({
                         type: "updateCourseTable",
                         payload: {dataSource:body["classes"]}
