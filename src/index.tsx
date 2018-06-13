@@ -274,8 +274,8 @@ const ManualSchedulingPage = connect(state => {
 const ManualSchModifyPage = connect(state => {
     const dataSource = state.freeclassroominfo.dataSource;
     const clazzInfo = state.courseinfo.clazzInfo;
-    const buildingData = state.curriculummanage.buildingData;
-    return {dataSource: dataSource, clazzInfo: clazzInfo, buildingData: buildingData};
+    //const buildingData = state.curriculummanage.buildingData;
+    return {dataSource: dataSource, clazzInfo: clazzInfo};
 })(ManualSchModifyPageComponent);
 
 const ClassroomManagePage = connect(state => {
