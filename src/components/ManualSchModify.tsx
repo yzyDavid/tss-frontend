@@ -9,39 +9,37 @@ import {FormEvent} from "react";
 const FormItem = Form.Item;
 const Option = Select.Option;
 const columns = [
-    {title: '地点', dataIndex: 'classroomId', key: 'classroomId'},
-    {title: '时间', dataIndex: 'classroomTime', key: 'classroomTime'},
-    {title: '容量', dataIndex: 'classroomCapacity', key: 'classroomCapacity'},
+    {title: '教室号', dataIndex: 'id', key: 'id'},
+    {title: '地点', dataIndex: 'buildingName', key: 'buildingName'},
+    {title: '教室', dataIndex: 'name', key: 'name'},
+    {title: '容量', dataIndex: 'capacity', key: 'capacity'},
 ];
+const error = function () { message.error('请先删除一条排课记录再进行选择');};
 
 var initData = [
-    {key: 1, classroomId: '', classroomTime: '', classroomCapacity: ''},
+    {id: '', buildingName: '', name:'', capacity: ''},
 
 ];
 var initClassInfo = {id:'', courseId:'', courseName:'', numLessonsLeft:'',numLessonsEachWeek:'',arrangements:[{buildingName:'',classroomId:'', typeName:''},]};
-var buildingsChildren = [<Option key={-1}>请选择校区</Option>,];
-var buildingInitData = [{key: 1, id: -1, name: ''},];
-var confirmData = {classroomId: '', classroomTime: '', classroomCapacity: ''};
-var selectedValue = {campusId: 0,buildingId: 0};
+//var buildingsChildren = [<Option key={-1}>请选择校区</Option>,];
+//var buildingInitData = [{key: 1, id: -1, name: ''},];
+var confirmData = {id: '', buildingName: '', name:'', capacity: ''};
+var selectedSlot = '';
 
 interface ManualSchModifyProps extends DvaProps {
     form: any;
     dataSource: any;
     location: any;
     clazzInfo: any;
-    buildingData: any;
+    //buildingData: any;
 }
 
 interface ViewState {
-    item2State: boolean;
-    item1Reset: boolean;
     modalState: boolean;
     refresh: boolean;
 }
 
 export class FreeClassroomFormData {
-    campusId: number;
-    buildingId: number;
     classroomDate: string;
     classroomTime: string;
 }
@@ -50,46 +48,42 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
     constructor(props){
         super(props);
         this.state = {
-            item2State: false,
-            item1Reset: false,
             modalState: false,
             refresh: false,
         }
-        this.handleChange1 = this.handleChange1.bind(this);
-        this.handleChange2 = this.handleChange2.bind(this);
         this.handleSubmit1 = this.handleSubmit1.bind(this);
         this.handleSubmit2 = this.handleSubmit2.bind(this);
         this.handleOk = this.handleOk.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
     }
 
-    handleChange1(values){
-        if(values)
-        {
-            selectedValue.campusId = values;
-            this.props.dispatch({type: 'curriculummanage/getBuilding', payload: selectedValue});
-            this.setState({item2State:true});
-            if(!this.state.item1Reset)
-                this.setState({item1Reset:true});
-        }
-    }
-
-    handleChange2(values){
-        if(this.state.item2State )
-        {
-            if(values)
-            {
-                selectedValue.buildingId = values;
-                this.props.dispatch({type: 'curriculummanage/getClassroom', payload: selectedValue});
-                if(this.state.item1Reset)
-                    this.setState({item1Reset:false});
-            }
-            else {
-                selectedValue = {campusId: 0,buildingId: 0};
-                this.setState({item2State: false, item1Reset: false,});
-            }
-        }
-    }
+    // handleChange1(values){
+    //     if(values)
+    //     {
+    //         selectedValue.campusId = values;
+    //         this.props.dispatch({type: 'curriculummanage/getBuilding', payload: selectedValue});
+    //         this.setState({item2State:true});
+    //         if(!this.state.item1Reset)
+    //             this.setState({item1Reset:true});
+    //     }
+    // }
+    //
+    // handleChange2(values){
+    //     if(this.state.item2State )
+    //     {
+    //         if(values)
+    //         {
+    //             selectedValue.buildingId = values;
+    //             this.props.dispatch({type: 'curriculummanage/getClassroom', payload: selectedValue});
+    //             if(this.state.item1Reset)
+    //                 this.setState({item1Reset:false});
+    //         }
+    //         else {
+    //             selectedValue = {campusId: 0,buildingId: 0};
+    //             this.setState({item2State: false, item1Reset: false,});
+    //         }
+    //     }
+    // }
 
     handleSubmit1 = (e: FormEvent<{}>) => {
         e.preventDefault();
@@ -98,16 +92,25 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
             if (err) {
                 return;
             }
-            this.props.dispatch({type: 'freeclassroominfo/freeClassroomInfo', payload: values});
+            selectedSlot = values.classroomDate+'_'+values.classroomTime;
+            this.props.dispatch({type: 'freeclassroominfo/freeClassroomInfo', payload: selectedSlot});
         });
     };
 
     handleSubmit2 = (e) => {
         e.preventDefault();
-        if(confirmData.classroomId.length>1)
-            this.setState({modalState: true,});
-        this.props.dispatch({type: 'courseinfo/modifyClassArrange', payload: {classroomId: 10000, typeName: 'MON_1_2', classId: 10001}});
-    };
+        if(parseInt(initClassInfo.numLessonsLeft) == 0)
+        {
+            error();
+        }
+        else
+        {
+            if(confirmData.id.length>1)
+                this.setState({modalState: true,});
+            console.log(confirmData);
+            this.props.dispatch({type: 'courseinfo/modifyClassArrange', payload: {classroomId: confirmData.id, typeName: selectedSlot, classId: initClassInfo.id}});
+        }
+       };
 
     handleOk() {
         this.setState({modalState: false,});
@@ -119,38 +122,38 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
 
     render() {
         const {getFieldDecorator} = this.props.form;
-        buildingInitData = this.props.buildingData;
-        if(this.state.item1Reset){
-            for (let i = buildingsChildren.length ; i >0; i--) {
-                buildingsChildren.pop();
-            }
-            for (let i = 0; i < buildingInitData.length; i++) {
-                buildingsChildren.push(<Option key={ buildingInitData[i].id}>{buildingInitData[i].name}</Option>);
-            }
-        }
+        // buildingInitData = this.props.buildingData;
+        // if(this.state.item1Reset){
+        //     for (let i = buildingsChildren.length ; i >0; i--) {
+        //         buildingsChildren.pop();
+        //     }
+        //     for (let i = 0; i < buildingInitData.length; i++) {
+        //         buildingsChildren.push(<Option key={ buildingInitData[i].id}>{buildingInitData[i].name}</Option>);
+        //     }
+        // }
         return (
             <div>
                 <Form layout={"inline"} onSubmit={this.handleSubmit1.bind(this)} style={{textAlign: 'center'}}>
-                    <FormItem
-                        label="校区" >
-                        {getFieldDecorator('campusId', {})(
-                            <Select  style={{width: 200}} onChange={this.handleChange1} >
-                                <Option value= {10000}>紫金港校区</Option>
-                                <Option value= {10001} >玉泉校区</Option>
-                                <Option value={10002}>西溪校区</Option>
-                                <Option value={10003}>华家池校区</Option>
-                                <Option value={10004}>之江校区</Option>
-                                <Option value={10005}>舟山校区</Option>
-                            </Select>
-                        )}
-                    </FormItem>
-                    <FormItem label="教学楼">
-                        {getFieldDecorator('buildingId', {})(
-                            <Select  disabled={!(this.state.item2State)} style={{width: 200}} onChange={this.handleChange2}>
-                                {buildingsChildren}
-                            </Select>
-                        )}
-                    </FormItem>
+                    {/*<FormItem*/}
+                        {/*label="校区" >*/}
+                        {/*{getFieldDecorator('campusId', {})(*/}
+                            {/*<Select  style={{width: 200}} onChange={this.handleChange1} >*/}
+                                {/*<Option value= {10000}>紫金港校区</Option>*/}
+                                {/*<Option value= {10001} >玉泉校区</Option>*/}
+                                {/*<Option value={10002}>西溪校区</Option>*/}
+                                {/*<Option value={10003}>华家池校区</Option>*/}
+                                {/*<Option value={10004}>之江校区</Option>*/}
+                                {/*<Option value={10005}>舟山校区</Option>*/}
+                            {/*</Select>*/}
+                        {/*)}*/}
+                    {/*</FormItem>*/}
+                    {/*<FormItem label="教学楼">*/}
+                        {/*{getFieldDecorator('buildingId', {})(*/}
+                            {/*<Select  disabled={!(this.state.item2State)} style={{width: 200}} onChange={this.handleChange2}>*/}
+                                {/*{buildingsChildren}*/}
+                            {/*</Select>*/}
+                        {/*)}*/}
+                    {/*</FormItem>*/}
                     <FormItem
                         label="日期" >
                         {getFieldDecorator('classroomDate', {})(
@@ -195,11 +198,9 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
                            onOk={this.handleOk} onCancel={this.handleCancel}
                     >
                         <br/>
-                        <p> 上课地点: {confirmData.classroomId}</p>
+                        <p> 上课地点: {confirmData.buildingName}+'   '+{confirmData.name}</p>
                         <br/>
-                        <p>  上课时间: {confirmData.classroomTime}</p>
-                        <br/>
-                        <p>  教室容量: {confirmData.classroomCapacity}</p>
+                        <p>  教室容量: {confirmData.capacity}</p>
                         <br/>
                     </Modal>
                 </Form>
@@ -207,6 +208,7 @@ class SearchForm extends Component<ManualSchModifyProps,ViewState> {
                 <Table
                     style={{width: "100%", background: "#ffffff"}}
                     columns={columns}
+                    rowKey = "id"
                     rowSelection={{
                         type: 'radio',
                         onSelect(record, selected, selectedRows) {
@@ -225,8 +227,8 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
     constructor(props,context) {
         super(props,context);
         this.state = {
-            item2State: false,
-            item1Reset: false,
+            // item2State: false,
+            // item1Reset: false,
             modalState: false,
             refresh: false,
         }
@@ -253,7 +255,7 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
             if(initClassInfo.arrangements.length == 1)
                 return (
                     <div>
-                        <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
+                        {/*<NavigationBar current={"course"} dispatch={this.props.dispatch}/>*/}
                         <Form  layout={"inline"} style={{textAlign: 'center'}}>
                             <FormItem label="课程号：" >{initClassInfo.courseId}</FormItem>
                             <FormItem label="课程名称：" >{initClassInfo.courseName}</FormItem>
@@ -276,14 +278,14 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
                             </FormItem>
                         </Form>
                         <div>
-                            <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource} buildingData={this.props.buildingData}/>
+                            <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource} initClassInfor={initClassInfo}/>
                         </div>
                     </div>
                 );
             else if(initClassInfo.arrangements.length == 2)
                 return (
                     <div>
-                        <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
+                        {/*<NavigationBar current={"course"} dispatch={this.props.dispatch}/>*/}
                         <div>
                         <Form  layout={"inline"} style={{textAlign: 'center'}}>
                             <FormItem label="课程号：" >{initClassInfo.courseId}</FormItem>
@@ -321,14 +323,14 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
                             </FormItem>
                         </Form>
                         <div>
-                            <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource} buildingData={this.props.buildingData}/>
+                            <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource} initClassInfor={initClassInfo}/>
                         </div>
                     </div>
                 );
             else
                 return (
                     <div>
-                        <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
+                        {/*<NavigationBar current={"course"} dispatch={this.props.dispatch}/>*/}
                         <Form  layout={"inline"} style={{textAlign: 'center'}}>
                             <FormItem label="课程号：" >{initClassInfo.courseId}</FormItem>
                             <FormItem label="课程名称：" >{initClassInfo.courseName}</FormItem>
@@ -336,17 +338,17 @@ export default class ManualSchModifyComponent extends Component<ManualSchModifyP
                         </Form><div/>
                         <div/>
                         <div>
-                            <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource} buildingData={this.props.buildingData}/>
+                            <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource} initClassInfor={initClassInfo}/>
                         </div>
                     </div>
                 );
         }else
             return (
                 <div>
-                    <NavigationBar current={"course"} dispatch={this.props.dispatch}/>
+                    {/*<NavigationBar current={"course"} dispatch={this.props.dispatch}/>*/}
                     <div/>
                     <div>
-                        <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource} buildingData={this.props.buildingData}/>
+                        <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource}/>
                     </div>
                 </div>
             );

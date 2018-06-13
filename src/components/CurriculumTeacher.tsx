@@ -100,13 +100,13 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
             {title: '排课安排', dataIndex: 'arrangements', key: 'arrangements'},
             {
                 title: "查看",
-                render: (text,record,index)=>(<a onClick={()=>{this.props.dispatch({type: "curriculumteacher/showList", payload: {courseId: this.props.dataSource[index].classId}})}}>学生名单</a>)
+                render: (text,record,index)=>(<a onClick={()=>{this.props.dispatch({type: "curriculumteacher/showList", payload: {classId: this.props.dataSource[index].classId}})}}>学生名单</a>)
             }
 
     ];
         return (
             <div>
-                <NavigationBar current={"list"} dispatch={this.props.dispatch}/>
+                {/*<NavigationBar current={"list"} dispatch={this.props.dispatch}/>*/}
                 <div>
                     <WrappedSearchForm dispatch={this.props.dispatch} teacherId={this.props.uid}/>
                 </div>
@@ -117,10 +117,6 @@ export default class CurriculumTeacher extends Component<CurriculumTeacherProps>
                         columns={columns}
                         dataSource={this.props.dataSource}/>
                 </div>
-                {/*<Form layout={"inline"} style={{textAlign: 'center'}}>*/}
-                    {/*<FormItem>*/}
-                    {/*<Button  type="primary" style={{fontSize: 'large'}}>打印</Button></FormItem>*/}
-                {/*</Form>*/}
             </div>
         );
     }

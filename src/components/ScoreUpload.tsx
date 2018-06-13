@@ -22,7 +22,7 @@ export default class scoreUploadComponent extends Component<ScoreProps,{}>{
     constructor(props)
     {
     	super(props)
-        this.uid = this.props.uid 
+        this.uid = "root"
     }
 
     changePage(step)
@@ -34,7 +34,7 @@ export default class scoreUploadComponent extends Component<ScoreProps,{}>{
     
     changeSemester(e)
     {
-        this.props.dispatch({ type: "scoreUpload/change_semester", payload: { "uid": this.props.uid, "semester": e.target.value} });
+        this.props.dispatch({ type: "scoreUpload/change_semester", payload: { "uid": this.uid, "semester": e.target.value} });
         this.forceUpdate()
     }
 
@@ -42,7 +42,7 @@ export default class scoreUploadComponent extends Component<ScoreProps,{}>{
     changeYear(e)
     {
 
-        this.props.dispatch({ type: "scoreUpload/change_year", payload: { "uid": this.props.uid, "year": e.target.value }});
+        this.props.dispatch({ type: "scoreUpload/change_year", payload: { "uid": this.uid, "year": e.target.value }});
         this.forceUpdate()
     }
 
@@ -55,7 +55,10 @@ export default class scoreUploadComponent extends Component<ScoreProps,{}>{
 
      changeScore(index, e)
     {
-         this.props.dispatch({ type: "scoreUpload/change_score", payload: { "index": index, "value": e.target.value } });
+         console.log("bbb",e.target.innerHTML)
+         console.log("ccc",index)
+
+         this.props.dispatch({ type: "scoreUpload/change_score", payload: { "index": index, "value": e.target.innerHTML } });
     }
 
 

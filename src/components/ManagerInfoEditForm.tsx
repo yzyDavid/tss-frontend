@@ -56,16 +56,16 @@ export class ManagerInfoEditForm extends Component<FormProps, InfoEditFormData> 
             intro: this.props.intro
         });
     };
-    normFile = (e) => {
-        console.log('Upload event:', e);
-        if (Array.isArray(e)) {
-            return e;
-        }
-        return e && e.fileList;
-    };
-    handleChange = (info) => {
-        info.fileList.slice(-1);
-    };
+    // normFile = (e) => {
+    //     console.log('Upload event:', e);
+    //     if (Array.isArray(e)) {
+    //         return e;
+    //     }
+    //     return e && e.fileList;
+    // };
+    // handleChange = (info) => {
+    //     info.fileList.slice(-1);
+    // };
     render() {
         const {getFieldDecorator} = this.props.form;
         const formItemLayout = {

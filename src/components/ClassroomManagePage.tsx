@@ -165,7 +165,7 @@ export default class ClassroomManagePage extends Component<ClassroomManageProps>
     render() {
         return (
             <div>
-                <NavigationBar current={"classroom"} dispatch={this.props.dispatch}/>
+                {/*<NavigationBar current={"classroom"} dispatch={this.props.dispatch}/>*/}
                 <br/>
                 <div>
                     <WrappedSearchForm dispatch={this.props.dispatch} dataSource={this.props.dataSource}/>

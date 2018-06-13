@@ -38,7 +38,7 @@ export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
                 flag = true;
                 return;
             }
-            this.props.dispatch({type: 'userinfo/modify', payload: {...values, uid: this.props.uid}});
+            this.props.dispatch({type: 'userinfo/modify', payload: {...values}});
             console.log('Value:', values);
         });
         // if(this.state.fileList)this.props.dispatch({type:'userinfo/modifyPhoto', payload: {file: this.state.fileList, uid: this.props.uid}});
@@ -48,7 +48,7 @@ export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
     refresh = () => {
         this.props.form.setFieldsValue({
             email: this.props.email,
-            tel: this.props.tel,
+            telephone: this.props.tel,
             intro: this.props.intro
         });
     };

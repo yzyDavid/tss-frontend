@@ -81,9 +81,10 @@ class SearchForm extends Component<UserManageFormProps, {}> {
                         {
                             getFieldDecorator('type', {})(
                                 <Select style={{width: 200}}>
-                                    <Option value="管理员">管理员</Option>
-                                    <Option value="学生">学生</Option>
-                                    <Option value="教师">教师</Option>
+                                    <Option value="System Administrator">系统管理员</Option>
+                                    <Option value="Teaching Administrator">教务管理员</Option>
+                                    <Option value="Teacher">学生</Option>
+                                    <Option value="Student">教师</Option>
                                 </Select>
                             )
                         }
@@ -111,7 +112,7 @@ class SearchForm extends Component<UserManageFormProps, {}> {
 
 const WrappedSearchForm: any = Form.create({})(SearchForm);
 const {Content} = Layout;
-let selected:string="";
+let selected:string[]=[];
 
 
 export default class UserManagePageComponent extends Component<UserManageProps, UserState> {
@@ -121,7 +122,7 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
             modal1Visible: false,
             modal2Visible: false,
             modal3Visible: false,
-            selected: ""
+            selected: [""]
         };
     }
     columns = [
@@ -147,6 +148,10 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
     formRef3: any;
     rowSelection = {
         onChange(selectedRowKeys, selectedRows) {
+            selected = [];
+            for(let i = 0; i < selectedRows.length; i++){
+                selected.push(selectedRows[i].uid);
+            }
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
         },
         onSelect(record, selected, selectedRows) {
@@ -173,50 +178,49 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
         this.props.dispatch({type: 'userinfo/showUser', payload: {uid: id}});
         this.setModal2Visible(true);
     };
-
     resetPassword(id:string){
         message.success("重置密码成功");
         // this.props.dispatch();
     }
     setModal1Visible(modalVisible) {
-        this.setState({modal1Visible: modalVisible});
         if (this.formRef1 && modalVisible === true) this.formRef1.refresh();
+        this.setState({modal1Visible: modalVisible});
     };
     setModal2Visible(modalVisible) {
-        this.setState({modal2Visible: modalVisible});
         if (this.formRef2 && modalVisible === true) this.formRef2.refresh();
+        this.setState({modal2Visible: modalVisible});
     };
     setModal3Visible(modalVisible) {
-        this.setState({modal3Visible: modalVisible});
         if (this.formRef3 && modalVisible === true) this.formRef3.refresh();
+        this.setState({modal3Visible: modalVisible});
     };
     handleOk1(e) {
         // if(!this.formRef.handleSubmit(e)) this.setModalVisible(false);
         this.setModal1Visible(false);
     }
     handleOk2(e) {
-        this.formRef2.handleSubmit(e);
-        message.success("编辑信息成功");
-        this.setModal2Visible(false);
+        if(!this.formRef2.handleSubmit(e)) {
+            message.success("编辑信息成功");
+            this.setModal2Visible(false);
+        }
     }
     handleOk3(e) {
-        this.formRef3.handleSubmit(e);
-        message.success("添加用户成功");
-        this.setModal3Visible(false);
+        if(!this.formRef3.handleSubmit(e)) {
+            message.success("添加用户成功");
+            this.setModal3Visible(false);
+        }
     }
     addUser(){
-        this.props.dispatch({type:'userinfo/addUser', payload:{uid: "", name: "", type: "", dept: "", gender:"男", year:""}});
-        this.props.dispatch({type:'userinfo/showUser', payload:{uid:""}});
+        this.props.dispatch({type:'userinfo/resetUser', payload:{}});
         this.setModal3Visible(true);
-        this.props.dispatch({type:'userinfo/deleteUser', payload:{uid:""}});
     }
     handleClick(){
-        this.props.dispatch({type:'userinfo/deleteUser', payload:{uid:selected.toString()}});
+        this.props.dispatch({type:'userinfo/deleteUser', payload:{uids: selected}});
     };
     render() {
         return (
             <div>
-                <NavigationBar current={"userManage"} dispatch={this.props.dispatch}/>
+                {/*<NavigationBar current={"userManage"} dispatch={this.props.dispatch}/>*/}
                 <br/>
                 <div>
                     <WrappedSearchForm data={this.props.data} dispatch={this.props.dispatch}/>
@@ -224,7 +228,7 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
                         return (
                             <Row>
                             <Col span={12} offset={0} style={{ textAlign: 'left'}} >
-                                <Button icon="delete" type="primary" onClick={this.handleClick}>删除已选用户</Button>
+                                <Button icon="delete" type="primary" onClick={()=>this.handleClick()}>删除已选用户</Button>
                                 <Button icon='plus' type="primary" onClick={()=>{this.addUser()}} style={{marginLeft: 8}}>添加新的用户</Button>
                             </Col>
                     </Row>)}} style={{width: "100%", background: "#ffffff"}} columns={this.columns} dataSource={this.props.data} rowSelection={this.rowSelection} className="table"/>
