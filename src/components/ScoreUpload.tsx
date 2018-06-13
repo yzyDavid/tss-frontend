@@ -22,7 +22,7 @@ export default class scoreUploadComponent extends Component<ScoreProps,{}>{
     constructor(props)
     {
     	super(props)
-        this.uid = "root"
+        this.uid = this.props.uid
     }
 
     changePage(step)
