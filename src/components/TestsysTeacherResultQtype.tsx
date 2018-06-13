@@ -22,7 +22,7 @@ export default class TestsysTeacherResultQtypecomponent extends Component<HomePa
                         <Breadcrumb.Item>按题目类型查询成绩</Breadcrumb.Item>
                     </Breadcrumb>
                     <Layout id = "content" style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-                        <WrappedResultSearchQtypeForm
+                        <WrappedResultSearchQtypeForm dispatch={this.props.dispatch}
                             results={this.props.qresult}/>
 
                     </Layout>

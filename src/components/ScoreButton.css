@@ -1,0 +1,39 @@
+.scoreButton { /* 按钮美化 */
+    padding-right: 20px;
+    margin-top: 12px;
+    width: 270px; /* 宽度 */
+    height: 40px; /* 高度 */
+    border-width: 0px; /* 边框宽度 */
+    border-radius: 3px; /* 边框半径 */
+    background: #1E90FF; /* 背景颜色 */
+    cursor: pointer; /* 鼠标移入按钮范围时出现手势 */
+    outline: none; /* 不显示轮廓线 */
+    font-family: Microsoft YaHei; /* 设置字体 */
+    color: white; /* 字体颜色 */
+    font-size: 17px; /* 字体大小 */
+}
+
+.scoreh3 {
+    display: inline;
+    padding-right: 15px;
+}
+
+.nav {
+    color: white;
+    text-decoration: none;
+}
+
+.applyHead {
+    margin-top: 40px;
+    margin-bottom: 150px;
+    text-align: center;
+    font-style: italic;
+    font-size: 60px;
+}
+
+.score_textarea {
+    font-size: 20px;
+    width: 600px;
+    height: 350px;
+}
+

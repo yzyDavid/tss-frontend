@@ -25,7 +25,7 @@ export default class TestsysTeacherResultPidComponent extends Component<ResultPi
                     </Breadcrumb>
                     <Layout id = "content" style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
                         <WrappedResultSearchPidForm dispatch={this.props.dispatch}
-                            results={this.props.qresult}/>
+                            qresult={this.props.qresult}/>
 
                     </Layout>
                 </Layout>

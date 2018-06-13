@@ -40,7 +40,6 @@ import TestsysStudentScoreComponent from "./components/TestsysStudentScore";
 import TestsysStudentModel from './models/TestsysStudentModel'
 
 
-
 import CurriculumTeacherModel from './models/CurriculumTeacherModel'
 import CurriculumManageModel from './models/CurriculumManageModel'
 import ClassroomManageModel from './models/ClassroomManageModel'
@@ -50,9 +49,12 @@ import PswdModel from './models/pswdModel';
 import DeptModel from './models/deptModel';
 import SelectionModel from './models/SelectionModel';
 import StuListModel from './models/StuListModel';
+import ScoreUploadModel from './models/ScoreUploadModel'
+import ApplyModifyModel from './models/ApplyModifyModel'
+import ScoreManagerModel from './models/ScoreManagerModel'
 
 import DeptManagePageComponent from './components/DeptManagePage';
-import { TssFooter, TssHeader } from './components/TssPublicComponents';
+import {TssFooter, TssHeader} from './components/TssPublicComponents';
 import HomePageComponent from './components/HomePage';
 import NavigationPageComponent from './components/NavigationPage';
 import UserPageComponent from './components/UserPage';
@@ -63,6 +65,7 @@ import ManualSchModifyPageComponent from './components/ManualSchModify';
 import SetSchedulingTimeComponent from './components/SetSchedulingTime'
 import CourseManagePageComponent from './components/CourseManagePage';
 import ClassroomManagePageComponent from './components/ClassroomManagePage';
+import ClassroomCreateComponent from './components/ClassroomCreate'
 import CurriculumTeacherPageComponent from './components/CurriculumTeacher';
 import CurriculumManagePageComponent from './components/CurriculumManage';
 import ManageTimeComponent from './components/ManageTime';
@@ -71,6 +74,12 @@ import ManagerSelectionComponent from './components/SelectionManager';
 import StudentSelectionComponent from './components/SelectionStudent';
 import ClassSelectionComponent from './components/SelectionClass';
 import StudentListComponent from './components/StudentList';
+
+
+import scoreUploadComponent from './components/ScoreUpload';
+import applyModifyComponent from './components/ApplyModify';
+import scoreManagerComponent from './components/ScoreManager'
+import ScoreManager from './components/ScoreManager';
 
 
 const {Content} = Layout;
@@ -95,6 +104,12 @@ app.model(CourseInfoModel);
 app.model(CurriculumTeacherModel);
 app.model(CurriculumManageModel);
 app.model(ClassroomManageModel);
+app.model(AutoSchedulingModel);
+
+
+app.model(ScoreUploadModel);
+app.model(ApplyModifyModel);
+app.model(ScoreManagerModel);
 
 
 const HomePage = connect(state => {
@@ -115,12 +130,12 @@ const UserManagePage = connect(state => {
 })(UserManagePageComponent);
 
 
-const TestsysHomePage = connect (state => {
-    return{}
+const TestsysHomePage = connect(state => {
+    return {}
 })(TestsysHomePageComponent);
 
 const TestsysTeacherPage = connect(state => {
-    return{}
+    return {}
 })(TestsysTeacherPageComponent);
 
 const TestsysStudentPage = connect(state => {
@@ -132,7 +147,7 @@ const TestsysTeacherQuestionPage = connect(state => {
 })(TestsysTeacherQuestionPageComponent);
 
 const TestsysTeacherPaperPage = connect(state => {
-    return{...state.teacherpaper}
+    return {...state.teacherpaper}
 })(TestsysTeacherPaperPageComponent);
 
 const TestsysTeacherQuestionInsertPage = connect(state => {
@@ -158,11 +173,11 @@ const TestsysStudentScorePage = connect(state => {
 
 
 const TestsysTeacherPaperInsertPage = connect(state => {
-    return{...state.teacherpaper}
+    return {...state.teacherpaper}
 })(TestsysTeacherPaperInsertComponent);
 
 const TestsysTeacherPaperSearchPage = connect(state => {
-    return{...state.teacherpaper}
+    return {...state.teacherpaper}
 })(TestsysTeacherPaperSearchComponent);
 
 const TestsysTeacherResultPage = connect(state => {
@@ -186,33 +201,41 @@ const TestsysTeacherResultQunitPage = connect(state => {
 })(TestsysTeacherResultQunitComponent);
 
 
-
 const AutoSchedulingPage = connect(state => {
     const dataSource = state.autoscheduling.dataSource;
-    const totalCourse = state.autoscheduling.totalCourse;
-    //console.log(state.autoscheduling.dataSource);
-    return {dataSource: dataSource, totalCourse: totalCourse};
+    const numArrangedClasses = state.autoscheduling.numArrangedClasses;
+    const schedulingTime = state.autoscheduling.schedulingTime;
+    return {dataSource: dataSource, numArrangedClasses: numArrangedClasses, schedulingTime: schedulingTime};
 })(AutoSchedulingComponent);
 
 const ManualSchedulingPage = connect(state => {
     const {dataSource} = state.courseinfo;
-    return {dataSource: dataSource};
+    const schedulingTime = state.autoscheduling.schedulingTime;
+    return {dataSource: dataSource, schedulingTime: schedulingTime};
 })(ManualSchedulingPageComponent);
 
 const ManualSchModifyPage = connect(state => {
     const dataSource = state.freeclassroominfo.dataSource;
-    return {dataSource: dataSource, courseInfo:  state.freeclassroominfo.selectedCourseInfo};
+    const clazzInfo = state.courseinfo.clazzInfo;
+    const buildingData = state.curriculummanage.buildingData;
+    return {dataSource: dataSource, clazzInfo: clazzInfo, buildingData: buildingData};
 })(ManualSchModifyPageComponent);
 
 const ClassroomManagePage = connect(state => {
     const {dataSource} = state.classroommanage;
-    return {dataSource:dataSource};
-
+    return {dataSource: dataSource};
 })(ClassroomManagePageComponent);
+
+const ClassroomCreatePage = connect(state => {
+    const {dataSource} = state.classroommanage;
+    return {dataSource: dataSource};
+})(ClassroomCreateComponent);
 
 const CurriculumTeacherPage = connect(state => {
     const {dataSource} = state.curriculumteacher;
-    return {dataSource: dataSource};
+    const uid = state.login.uid;
+    //console.log(uid);
+    return {dataSource: dataSource, uid: uid};
 })(CurriculumTeacherPageComponent);
 
 const CurriculumManagePage = connect(state => {
@@ -223,7 +246,7 @@ const CurriculumManagePage = connect(state => {
 })(CurriculumManagePageComponent);
 
 const SetSchedulingTimePage = connect(state => {
-    return{};
+    return {};
 })(SetSchedulingTimeComponent);
 
 const CourseManagePage = connect(state => {
@@ -234,38 +257,53 @@ const DeptManagePage = connect(state => {
     return {...state.dept, pswdShow: state.pswd.show};
 })(DeptManagePageComponent);
 
-
-const ManageTimePage = connect(state =>{
-    return{};
-})(ManageTimeComponent)
+const ManageTimePage = connect(state => {
+    return {};
+})(ManageTimeComponent);
 
 const PlanPage = connect(state => {
-    return {};
-})(PlanComponent)
+    return {uid: state.login.uid};
+})(PlanComponent);
 
-const ManSelectPage = connect(state =>{
+const ManSelectPage = connect(state => {
     const {dataSource} = state.courseinfo;
     return {dataSource: dataSource};
-})(ManagerSelectionComponent)
+})(ManagerSelectionComponent);
 
-const StuSelectPage = connect(state =>{
+const StuSelectPage = connect(state => {
     const {dataSource} = state.selectCourse;
     return {dataSource: dataSource}
-})(StudentSelectionComponent)
+})(StudentSelectionComponent);
 
-const ClassSelectPage = connect(state =>{
+const ClassSelectPage = connect(state => {
     return {};
-})(ClassSelectionComponent)
+})(ClassSelectionComponent);
 
-const StuListPage = connect(state =>{
+const StuListPage = connect(state => {
     const {dataSource} = state.studentList;
     return {dataSource: dataSource};
-})(StudentListComponent)
+})(StudentListComponent);
+
+const ScoreUploadPage = connect(state => {
+    const {uid, level} = state.login;
+    return {uid: uid, _state: state.scoreUpload};
+})(scoreUploadComponent);
+
+
+const ApplyModifyPage = connect(state => {
+    const {uid, level} = state.login;
+    return {uid: uid, _state: state.applyModify};
+})(applyModifyComponent);
+
+
+const ScoreManagerPage = connect(state => {
+    return {_state: state.scoreManager};
+})(scoreManagerComponent);
 
 app.router(({history}) => (
         <Router history={history}>
             <Layout>
-                <TssHeader />
+                <TssHeader/>
                 <Content style={{minHeight: '600px'}}>
                     <Switch>
                         <Route path="/" exact component={HomePage}/>
@@ -294,10 +332,11 @@ app.router(({history}) => (
                         <Route path="/testsys_teacher_result_qunit" component={TestsysTeacherResultQunitPage}/>
 
 
-                        <Route path="/autoScheduling" component={AutoSchedulingPage} />
-                        <Route path="/manualScheduling" component={ManualSchedulingPage} />
-                        <Route path="/manualSchModify/:name" component={ManualSchModifyPage} />
+                        <Route path="/autoScheduling" component={AutoSchedulingPage}/>
+                        <Route path="/manualScheduling" component={ManualSchedulingPage}/>
+                        <Route path="/manualSchModify/:name" component={ManualSchModifyPage}/>
                         <Route path="/classroomManage" component={ClassroomManagePage}/>
+                        <Route path="/classroomCreate" component={ClassroomCreatePage}/>
                         <Route path="/curriculumTeacher" component={CurriculumTeacherPage}/>
                         <Route path="/curriculumManage" component={CurriculumManagePage}/>
                         <Route path="/setSchedulingTime" component={SetSchedulingTimePage}/>
@@ -310,9 +349,15 @@ app.router(({history}) => (
                         <Route path="/classSelect/:courseId" component={ClassSelectPage}/>
                         <Route path="/stuList/:classId" component={StuListPage}/>
 
+
+                        <Route path="/scoreUpload" component={ScoreUploadPage}/>
+                        <Route path="/applyModify" component={ApplyModifyPage}/>
+                        <Route path="/scoreManager" component={ScoreManagerPage}/>
+
+
                     </Switch>
                 </Content>
-            <TssFooter/>
+                <TssFooter/>
             </Layout>
         </Router>
     )
