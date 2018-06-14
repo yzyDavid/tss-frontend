@@ -56,7 +56,7 @@ export class PswdForm extends Component<FormProps, LoginFormData> {
                                 {required: true, message: '请输入旧密码'}
                             ]
                         })(
-                            <Input />
+                            <Input type="password" />
                         )
                     }
                 </FormItem>
