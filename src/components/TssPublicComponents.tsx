@@ -69,7 +69,7 @@ export class TssFooter extends Component {
     render() {
         return (
             <Footer>
-                <div style={{textAlign: 'center'}}>&copy;2018 浙江大学</div>
+                <div style={{textAlign: 'center'}}>&copy;2018 浙江大学 v0.4.0</div>
             </Footer>
         );
     }
