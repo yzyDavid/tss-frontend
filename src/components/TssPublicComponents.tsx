@@ -170,7 +170,7 @@ export class NavigationBar extends Component<BarProps> {
                         <SubMenu title={<span><Icon type="book"/>选课系统</span>}>
                             <MenuItemGroup title="选课系统">
                                 <Menu.Item key="stuSelect">学生选课</Menu.Item>
-                                <Menu.Item key="unknown">课表查询</Menu.Item>
+                                <Menu.Item key="courseTable">课表查询</Menu.Item>
                             </MenuItemGroup>
                         </SubMenu>
                         <Menu.Item key="plan"><Icon type="calendar"/>培养方案</Menu.Item>
