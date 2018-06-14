@@ -116,7 +116,7 @@ export class NavigationBar extends Component<BarProps> {
                             <MenuItemGroup title="排课系统">
                                 <Menu.Item key="autoScheduling">自动排课</Menu.Item>
                                 <Menu.Item key="manualScheduling">手动调课</Menu.Item>
-                                <Menu.Item key="curriculumTeacher">课表查询</Menu.Item>
+                                <Menu.Item key="curriculumManage">课表查询</Menu.Item>
                                 <Menu.Item key="setSchedulingTime">排课时间</Menu.Item>
                             </MenuItemGroup>
                         </SubMenu>
