@@ -134,8 +134,8 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
                         <Menu.Item key="stuSelect">
                             <a onClick={this.handleClick.bind(this, {direction: "stuSelect"})}>学生选课</a>
                         </Menu.Item>
-                        <Menu.Item key="unknown">
-                            <a onClick={this.handleClick.bind(this, {direction: "unknown"})}>课表查询</a>
+                        <Menu.Item key="courseTable">
+                            <a onClick={this.handleClick.bind(this, {direction: "courseTable"})}>课表查询</a>
                         </Menu.Item>
                     </Menu>
                 );

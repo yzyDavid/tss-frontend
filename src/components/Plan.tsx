@@ -100,9 +100,6 @@ export default class PlanComponent extends Component<PlanProps> {
         },{
             title: "状态",
             dataIndex: "status"
-        },{
-            title: "学期",
-            dataIndex: 'semester'
         }, {
             title: "删除",
             render: (record) => (

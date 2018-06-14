@@ -48,7 +48,7 @@ export class CourseDetailForm extends Component<FormProps,CourseInfo>{
                     {/*<span className="ant-form-text"> {this.props.brief}</span>*/}
                 {/*</FormItem>*/}
 
-                <FormItem label="教师">
+                <FormItem label="教室">
                     <span className="ant-form-text"> {this.props.classroom}</span>
                 </FormItem>
             </Form>

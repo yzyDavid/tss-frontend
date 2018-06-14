@@ -72,6 +72,11 @@ export default class StudentSelectionComponent extends Component<UserProps, User
 
     render(){
         var wrapped;
+        if(this.props.dataSource.length==0){
+            wrapped = <div><span></span></div>;
+        }else{
+            wrapped = <WrappedCourseDetailForm  wrappedComponentRef={(inst) => this.formRef = inst} dispatch={this.props.dispatch} courseId={this.props.dataSource[this.state.classIndex]["id"]} courseName={this.props.dataSource[this.state.classIndex]["courseName"]} credit={this.props.dataSource[this.state.classIndex]["credit"]} classroom={this.props.dataSource[this.state.classIndex]["classroom"]} />
+        }
         const columns = [{
             title: "课程编号",
             dataIndex: "courseId",
@@ -108,11 +113,6 @@ export default class StudentSelectionComponent extends Component<UserProps, User
                     <a onClick={()=>this.dismiss(record)}>退选</a>
                 </span>)
         }];
-        if(this.props.dataSource.length==0){
-            wrapped = <div><span></span></div>;
-        }else{
-            wrapped = <WrappedCourseDetailForm  wrappedComponentRef={(inst) => this.formRef = inst} dispatch={this.props.dispatch} courseId={this.props.dataSource[this.state.classIndex]["id"]} courseName={this.props.dataSource[this.state.classIndex]["courseName"]} credit={this.props.dataSource[this.state.classIndex]["credit"]} classroom={this.props.dataSource[this.state.classIndex]["classroom"]} />
-        }
         return(
             <Layout>
                 <div>

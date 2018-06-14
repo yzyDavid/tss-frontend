@@ -1,6 +1,7 @@
 import {httpMethod, tssFetch} from '../utils/tssFetch';
 import {message} from 'antd';
 import {Router, Route, Switch, routerRedux, browserHistory} from 'dva/router';
+import {apiBaseUrl} from "../configs/apiBaseUrl";
 
 
 var myMap = new Map();
@@ -95,6 +96,9 @@ const model = {
                 const response = yield call(tssFetch, '/excel/download/classes/'+value, 'GET');
                 if(response.status == 200){
                     message.success("开始下载Excel");
+                    var win = window.open(apiBaseUrl+'/excel/download/classes/'+value, '_blank');
+                    if(win!=null)
+                        win.focus();
                 }else{
                     message.error("下载失败");
                 }
