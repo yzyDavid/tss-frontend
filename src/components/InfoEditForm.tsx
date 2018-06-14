@@ -117,22 +117,22 @@ export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
                         )
                     }
                 </FormItem>
-                <FormItem>
-                    {getFieldDecorator('upload', {
-                        valuePropName: 'fileList',
-                        getValueFromEvent: this.normFile,
-                    })(
-                        <Upload beforeUpload={this.beforeUpload} name="logo" action="/photo" method="post"
-                                listType="picture" onChange={this.handleChange}
-                                {...getFieldDecorator('upload', {
-                                    valuePropName: 'fileList',
-                                })}
-                        >
-                            <Button type="ghost">
-                                <Icon type="upload"/> 点击上传
-                            </Button>
-                        </Upload>)}
-                </FormItem>
+                {/*<FormItem>*/}
+                    {/*{getFieldDecorator('upload', {*/}
+                        {/*valuePropName: 'fileList',*/}
+                        {/*getValueFromEvent: this.normFile,*/}
+                    {/*})(*/}
+                        {/*<Upload beforeUpload={this.beforeUpload} name="logo" action="/photo" method="post"*/}
+                                {/*listType="picture" onChange={this.handleChange}*/}
+                                {/*{...getFieldDecorator('upload', {*/}
+                                    {/*valuePropName: 'fileList',*/}
+                                {/*})}*/}
+                        {/*>*/}
+                            {/*<Button type="ghost">*/}
+                                {/*<Icon type="upload"/> 点击上传*/}
+                            {/*</Button>*/}
+                        {/*</Upload>)}*/}
+                {/*</FormItem>*/}
             </Form>
         );
     }

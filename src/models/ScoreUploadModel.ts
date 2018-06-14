@@ -72,13 +72,13 @@ const model = {
 
 
         change_class_(state, payload) {
-            state.id = []
-            state.name = []
-            state.score = []
+            state.ids = []
+            state.names = []
+            state.scores = []
             var i = 0
             var obj = payload.payload
             for (var p in obj.students) {
-                state.ids.push(p)
+                state.ids.push(obj.students[p])
                 state.names.push(obj.name[i])
                 state.scores.push("0")
                 i++
@@ -86,9 +86,9 @@ const model = {
 
             state.last_page = Math.ceil(i / 12)
             for (var j = 0; j < (state.last_page * 12 - i); j++) {
-                state.ids.push("")
-                state.names.push("")
-                state.scores.push("")
+                state.ids.push(" ")
+                state.names.push(" ")
+                state.scores.push(" ")
             }
             console.log(state.name)
             return { ...state }
@@ -96,7 +96,7 @@ const model = {
 
         change_score(state, payload) {
          
-            state.scores[payload.index] = payload.payload.value
+            state.scores[payload.payload.index] = payload.payload.value
             return { ...state }
         },
 
@@ -168,16 +168,17 @@ const model = {
         *upload(payload, { call, put, select }) {
 
             var score = yield select(state => state.scoreUpload.scores)
-            var re = /^[0-9][0-9]?([.]5)?$/;
+            var re = /^\d{1,2}(\.5)?$/;
+           
 
             for (var p in score) {
-                if (score[p] === "") {
+                if (score[p] === "0") {
                     message.error("尚未登记完全！")
                     return 
                 }
 
-              
-                if (!re.test(score[p]) && score[p] !== "100") {
+             
+                if (!re.test(score[p]) && score[p] !== "100" && score[p] !== " ") {
                     message.error("输入格式错误！")
                     return 
                 }
@@ -186,32 +187,32 @@ const model = {
             var permission = 0
             var cid = yield select(state => state.scoreUpload.cid)
             var identity = { "cid": cid }
-            const response = yield call(tssFetch, "/grade/getclassstudentscore", "GET", identity)
+            const response = yield call(tssFetch, "/grade/getclasssgrade", "POST", identity)
             const jsonBody = yield call(response.text.bind(response))
             const obj = JSON.parse(jsonBody)
 
             var i = 0
             for (i = 0; i < 5; i++) {
-                if (obj['score'][i] == 1)
+                if (obj['scores'][i] != 0)
                     break
             }
             if (i === 5)
-                permission == 1
+                permission = 1
 
             if (permission === 0) {
                 message.error('该课程已经登记过成绩！')
                 return
             }
 
-            var student = yield select(state => state.students)
+ 
             var id = yield select(state => state.ids)
-            yield call(tssFetch,"/grade/add", "PUT", { "uid": payload. uid, "cid": cid, "studentid": id, "score": score })
+            yield call(tssFetch,"/grade/add", "PUT", { "uid": payload.payload.uid, "cid": cid, "studentid": id, "score": score })
             message.success("登记成功！")
         }
-
      }
 
 
 };
 
 export default model;
+ 

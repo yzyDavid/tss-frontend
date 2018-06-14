@@ -75,7 +75,7 @@ const model = {
 
 
         change_score(state, payload) {
-            state.scores[payload.index] = payload.payload.value
+            state.scores[payload.payload.index] = payload.payload.value
             return { ...state }
         },
 
@@ -155,11 +155,6 @@ const model = {
             yield call(tssFetch, "/grade/modify", "POST", { "uid": uid, "cid": cid, "score": score, "studentid": sid, "reasons": reason })
             message.success('提交成功')
         }
-
-
-
-
-
 
     }
 

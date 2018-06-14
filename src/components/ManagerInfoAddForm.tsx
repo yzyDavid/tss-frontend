@@ -10,6 +10,7 @@ const {TextArea} = Input;
 
 interface FormProps extends DvaProps {
     form: any;
+    deptList: any[]
 }
 
 export class ManagerInfoAddForm extends Component<FormProps> {
@@ -165,13 +166,13 @@ export class CourseInfoAddForm extends Component<FormProps> {
     };
 
     refresh = () => {
-        this.props.form.setFieldsValue({
-            cid: "",
-            name: "",
-            credit: "",
-            numLessonsEachWeek: "",
-            department: ""
-        });
+        // this.props.form.setFieldsValue({
+        //     cid: "",
+        //     name: "",
+        //     credit: "",
+        //     numLessonsEachWeek: "",
+        //     department: ""
+        // });
     };
 
     render() {
@@ -186,7 +187,13 @@ export class CourseInfoAddForm extends Component<FormProps> {
                 sm: {span: 14},
             },
         };
+        const dept = this.props.deptList.map((k) => {
+            return (
+                <Option value={`${k}`} key={`${k}`}>{`${k}`} </Option>
+            )
+        });
         return (
+
             <Form onSubmit={this.handleSubmit}>
                 <FormItem label="课程号" {...formItemLayout}>
                     {
@@ -232,9 +239,7 @@ export class CourseInfoAddForm extends Component<FormProps> {
                             initialValue: ''
                         })(
                             <Select>
-                                <Option value="计算机科学与技术学院"> 计算机科学与技术学院 </Option>
-                                <Option value="数学科学院"> 数学科学院 </Option>
-                                <Option value="公共管理学院"> 公共管理学院 </Option>
+                                {dept}
                             </Select>
                         )
                     }

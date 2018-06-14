@@ -10,8 +10,9 @@ interface FormProps extends DvaProps {
 }
 
 export class LoginFormData {
-    uid: string;
-    password: string;
+    old: string;
+    new: string;
+    new2: string
 }
 
 export class PswdForm extends Component<FormProps, LoginFormData> {
@@ -26,7 +27,11 @@ export class PswdForm extends Component<FormProps, LoginFormData> {
                 message.error('信息填写不合法');
                 return;
             }
-            this.props.dispatch({type:'login/login', payload: values});
+            if(values.new !== values.new2){
+                message.error('两次密码不一致');
+                return;
+            }
+            this.props.dispatch({type:'pswd/modify', payload: {oldPwd: values.old, newPwd: values.new}});
         });
     };
 

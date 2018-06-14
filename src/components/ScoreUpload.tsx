@@ -22,7 +22,7 @@ export default class scoreUploadComponent extends Component<ScoreProps,{}>{
     constructor(props)
     {
     	super(props)
-        this.uid = "root"
+        this.uid = this.props.uid
     }
 
     changePage(step)
@@ -58,7 +58,7 @@ export default class scoreUploadComponent extends Component<ScoreProps,{}>{
          console.log("bbb",e.target.innerHTML)
          console.log("ccc",index)
 
-         this.props.dispatch({ type: "scoreUpload/change_score", payload: { "index": index, "value": e.target.innerHTML } });
+         this.props.dispatch({ type: "scoreUpload/change_score", payload: { "index": 12*this.props._state.page+index, "value": e.target.innerHTML } });
     }
 
 

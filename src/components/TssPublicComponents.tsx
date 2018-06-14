@@ -21,9 +21,11 @@ export class TssHeader extends Component<TssProps> {
     handleCancal = () => {
         this.props.dispatch({type: 'pswd/showWindow', payload: {show: false}});
     };
-    handleOK = () => {
+    handleOK = (e) => {
+        this.formRef.handleSubmit(e);
         this.props.dispatch({type: 'pswd/showWindow', payload: {show: false}});
     };
+    formRef:any;
 
     render() {
         const Buttons = (props) => {
@@ -33,7 +35,8 @@ export class TssHeader extends Component<TssProps> {
                         <a href="javascript:void(0)" onClick={this.changePswd}
                            style={{fontSize: 15, marginRight: 10}}><Icon type="edit"/>修改密码</a>
                         <a href="javascript:void(0)" onClick={() => {
-                            message.success("注销成功")
+                            message.success("注销成功");
+                            this.props.dispatch({type: 'navigation/jump', payload: {direction: ""}});
                         }} style={{fontSize: 15, marginRight: 10}}><Icon type="logout"/>退出登陆</a>
                         <a href="javascript:void(0)" onClick={() => {
                             this.props.dispatch({type: 'navigation/jump', payload: {direction: "navi"}});
@@ -55,7 +58,7 @@ export class TssHeader extends Component<TssProps> {
                 </h1>
                 <Modal title="修改密码" wrapClassName="vertical-center-modal" visible={this.props.show}
                        onCancel={this.handleCancal} onOk={this.handleOK}>
-                    <WrappedPswdForm dispatch={this.props.dispatch}/>
+                    <WrappedPswdForm dispatch={this.props.dispatch} wrappedComponentRef={(inst) => this.formRef = inst}/>
                 </Modal>
             </Header>
         );
@@ -114,6 +117,7 @@ export class NavigationBar extends Component<BarProps> {
                                 <Menu.Item key="autoScheduling">自动排课</Menu.Item>
                                 <Menu.Item key="manualScheduling">手动调课</Menu.Item>
                                 <Menu.Item key="curriculumTeacher">课表查询</Menu.Item>
+                                <Menu.Item key="setSchedulingTime">排课时间</Menu.Item>
                             </MenuItemGroup>
                         </SubMenu>
                         <Menu.Item key="forum/home"><Icon type="message"/>师生论坛</Menu.Item>

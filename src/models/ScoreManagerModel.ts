@@ -26,7 +26,12 @@ const model = {
         change_page(state, payload) {
 
             if (state.num === state.page) {
-                message.error('last!')
+                state.page = state.page + 1
+                state.id = ""
+                state.uid = ""
+                state.cid = ""
+                state.reason = ""
+                state.score = ""
                 return {...state}
             }
 
@@ -62,7 +67,7 @@ const model = {
                 state.score = state.scores[0]
             }
             else {
-                alert('no more')
+                alert('当前没有请求')
             }
             return { ...state }
         }
@@ -90,11 +95,16 @@ const model = {
             const uid = yield select(state => state.scoreManager.uid)
             const cid = yield select(state => state.scoreManager.cid)
             const score = yield select(state => state.scoreManager.score)
+            const page = yield select(state => state.scoreManager.page)
+            const num = yield select(state => state.scoreManager.num)
 
-            console.log(id,uid,cid,score)
+            if (page > num) {
+                message.error('当前无请求!')
+                return
+            }
 
             if (id === "" || uid === "" || cid === "" || score === "") {
-                message.error('missing!')
+                message.error('信息缺失!')
                 return
             }
 
@@ -102,7 +112,11 @@ const model = {
 
             yield call(tssFetch, "/grade/processmodify", "POST", { "id": id, "uids": uid, "cids": cid, "score": score, "agree": payload.payload.res })
             message.success("处理成功")
+
+            
             yield put({ 'type': "change_page", 'payload': {} })
+            
+                
         }
             
     }

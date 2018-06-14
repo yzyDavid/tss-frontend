@@ -19,7 +19,7 @@ class applyModifyComponent extends Component<ScoreProps, {}>{
     uid: string;
     constructor(props) {
         super(props)
-        this.uid = "root"
+        this.uid = this.props.uid
     }
 
 

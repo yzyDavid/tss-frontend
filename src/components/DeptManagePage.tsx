@@ -3,6 +3,9 @@ import {Component, FormEvent} from 'react';
 import {Form, Button, Modal, Input, Icon, Select, Table, Divider, Col, Row, Layout, message} from 'antd';
 import DvaProps from '../types/DvaProps';
 import {WrappedAddDeptForm} from "./AddDeptForm";
+import {WrappedAddMajorForm} from "./AddMajorForm";
+import {WrappedAddClassForm} from "./AddClassForm";
+import {WrappedAddStuForm} from "./AddStuForm";
 import {WrappedInfoEditForm} from './InfoEditForm';
 import {NavigationBar, TssFooter, TssHeader} from "./TssPublicComponents";
 
@@ -15,6 +18,7 @@ interface DeptProps extends DvaProps {
     data: any;
     majorData: any;
     classData: any;
+    stuData: any;
     name: string;
     majorName: string;
     className: string;
@@ -27,20 +31,53 @@ interface DeptState {
     modal2Visible: boolean;
     modal3Visible: boolean;
     modal4Visible: boolean;
+    modal5Visible: boolean;
+    modal6Visible: boolean;
+    modal7Visible: boolean;
 }
 
-const rowSelection = {
+let selected1: string[] = [];
+let selected2: string[] = [];
+let selected3: string[] = [];
+let selected4: string[] = [];
+
+
+const rowSelection1 = {
     onChange(selectedRowKeys, selectedRows) {
+        selected1 = [];
+        for (let i = 0; i < selectedRows.length; i++) {
+            selected1.push(selectedRows[i].name);
+        }
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
     },
-    onSelect(record, selected, selectedRows) {
-        console.log(record, selected, selectedRows);
-    },
-    onSelectAll(selected, selectedRows, changeRows) {
-        console.log(selected, selectedRows, changeRows);
+};
+const rowSelection2 = {
+    onChange(selectedRowKeys, selectedRows) {
+        selected2 = [];
+        for (let i = 0; i < selectedRows.length; i++) {
+            selected2.push(selectedRows[i].name);
+        }
+        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
     },
 };
-
+const rowSelection3 = {
+    onChange(selectedRowKeys, selectedRows) {
+        selected3 = [];
+        for (let i = 0; i < selectedRows.length; i++) {
+            selected3.push(selectedRows[i].name);
+        }
+        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    },
+};
+const rowSelection4 = {
+    onChange(selectedRowKeys, selectedRows) {
+        selected4 = [];
+        for (let i = 0; i < selectedRows.length; i++) {
+            selected4.push(selectedRows[i].uid);
+        }
+        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    },
+};
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -142,7 +179,10 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
             modal1Visible: false,
             modal2Visible: false,
             modal3Visible: false,
-            modal4Visible: false
+            modal4Visible: false,
+            modal5Visible: false,
+            modal6Visible: false,
+            modal7Visible: false
         };
     }
 
@@ -187,11 +227,18 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
         },
     ];
 
+    columnsStu = [
+        {title: '学生学号', dataIndex: 'uid', key: 'uid'},
+        {title: '学生姓名', dataIndex: 'name', key: 'name'},
+    ];
 
     formRef1: any;
     formRef2: any;
     formRef3: any;
     formRef4: any;
+    formRef5: any;
+    formRef6: any;
+    formRef7: any;
 
     getInfo(id: string) {
         // this.props.dispatch({type: '/user/info', payload: {uid: id}});
@@ -202,36 +249,52 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
     };
 
     modifyDept(name: string) {
+        this.props.dispatch({type: 'dept/getDept', payload: {name: name}});
         this.setModal1Visible(true);
     }
 
     modifyClass(name: string) {
+        this.props.dispatch({type: 'dept/getClass', payload: {name: name}});
         this.setModal3Visible(true);
     }
 
     modifyMajor(name: string) {
+        this.props.dispatch({type: 'dept/getMajor', payload: {name: name}});
         this.setModal2Visible(true);
-
     }
 
     setModal1Visible(modalVisible) {
-        if (this.formRef1 && modalVisible === true) this.formRef1.refresh();
+        // if (this.formRef1 && modalVisible === true) this.formRef1.refresh();
         this.setState({modal1Visible: modalVisible, modal2Visible: false, modal3Visible: false});
     };
 
     setModal2Visible(modalVisible) {
-        if (this.formRef2 && modalVisible === true) this.formRef2.refresh();
+        // if (this.formRef2 && modalVisible === true) this.formRef2.refresh();
         this.setState({modal1Visible: false, modal2Visible: modalVisible, modal3Visible: false});
     };
 
     setModal3Visible(modalVisible) {
-        if (this.formRef3 && modalVisible === true) this.formRef3.refresh();
+        // if (this.formRef3 && modalVisible === true) this.formRef3.refresh();
         this.setState({modal1Visible: false, modal2Visible: false, modal3Visible: modalVisible});
     };
 
     setModal4Visible(modalVisible) {
         // if (this.formRef4 && modalVisible === true) this.formRef4.refresh();
         this.setState({modal1Visible: false, modal2Visible: false, modal3Visible: false, modal4Visible: modalVisible});
+    };
+
+    setModal5Visible(modalVisible) {
+        this.setState({modal1Visible: false, modal2Visible: false, modal3Visible: false, modal5Visible: modalVisible});
+    };
+
+    setModal6Visible(modalVisible) {
+        // if (this.formRef4 && modalVisible === true) this.formRef4.refresh();
+        this.setState({modal1Visible: false, modal2Visible: false, modal3Visible: false, modal6Visible: modalVisible});
+    };
+
+    setModal7Visible(modalVisible) {
+        // if (this.formRef4 && modalVisible === true) this.formRef4.refresh();
+        this.setState({modal1Visible: false, modal2Visible: false, modal3Visible: false, modal7Visible: modalVisible});
     };
 
     handleOk1(e) {
@@ -251,6 +314,21 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
 
     handleOk4(e) {
         if (!this.formRef4.handleSubmit(e)) this.setModal4Visible(false);
+        // this.setModal3Visible(false);
+    }
+
+    handleOk5(e) {
+        if (!this.formRef5.handleSubmit(e)) this.setModal5Visible(false);
+        // this.setModal3Visible(false);
+    }
+
+    handleOk6(e) {
+        if (!this.formRef6.handleSubmit(e)) this.setModal6Visible(false);
+        // this.setModal3Visible(false);
+    }
+
+    handleOk7(e) {
+        if (!this.formRef7.handleSubmit(e)) this.setModal7Visible(false);
         // this.setModal3Visible(false);
     }
 
@@ -274,7 +352,10 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
                         return (
                             <Row>
                                 <Col span={12} offset={0} style={{textAlign: 'left'}}>
-                                    <Button icon="delete" type="primary">删除已选院系</Button>
+                                    <Button icon="delete" type="primary" onClick={() => this.props.dispatch({
+                                        type: 'dept/deleteDept',
+                                        payload: {names: selected1}
+                                    })}>删除已选院系</Button>
                                     <Button icon='plus' type="primary" style={{marginLeft: 8}}
                                             onClick={() => {
                                                 this.setModal4Visible(true)
@@ -282,7 +363,7 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
                                 </Col>
                             </Row>)
                     }} style={{width: "100%", background: "#ffffff"}} columns={this.columns}
-                           dataSource={this.props.data} rowSelection={rowSelection} className="table"/>
+                           dataSource={this.props.data} rowSelection={rowSelection1} className="table"/>
                     <Modal
                         title="查看编辑院系信息"
                         wrapClassName="vertical-center-modal"
@@ -296,12 +377,17 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
                             return (
                                 <Row>
                                     <Col span={24} offset={0} style={{textAlign: 'left'}}>
-                                        <Button icon="delete" type="primary">删除已选专业</Button>
-                                        <Button icon='plus' type="primary" style={{marginLeft: 8}}>添加新的专业</Button>
+                                        <Button icon="delete" type="primary" onClick={() => this.props.dispatch({
+                                            type: 'dept/deleteMajor',
+                                            payload: {names: selected2}
+                                        })}>删除已选专业</Button>
+                                        <Button icon='plus' type="primary" style={{marginLeft: 8}} onClick={() => {
+                                            this.setModal5Visible(true)
+                                        }}>添加新的专业</Button>
                                     </Col>
                                 </Row>)
                         }} style={{width: "100%", background: "#ffffff"}} columns={this.columnsMajor}
-                               dataSource={this.props.majorData} rowSelection={rowSelection} className="table"/>
+                               dataSource={this.props.majorData} rowSelection={rowSelection2} className="table"/>
                     </Modal>
                     <Modal
                         title="查看编辑专业信息"
@@ -317,12 +403,17 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
                             return (
                                 <Row>
                                     <Col span={24} offset={0} style={{textAlign: 'left'}}>
-                                        <Button icon="delete" type="primary">删除已选专业</Button>
-                                        <Button icon='plus' type="primary" style={{marginLeft: 8}}>添加新的专业</Button>
+                                        <Button icon="delete" type="primary" onClick={() => this.props.dispatch({
+                                            type: 'dept/deleteClass',
+                                            payload: {names: selected3}
+                                        })}>删除已选班级</Button>
+                                        <Button icon='plus' type="primary" style={{marginLeft: 8}} onClick={() => {
+                                            this.setModal6Visible(true)
+                                        }}>添加新的班级</Button>
                                     </Col>
                                 </Row>)
                         }} style={{width: "100%", background: "#ffffff"}} columns={this.columnsClass}
-                               dataSource={this.props.classData} rowSelection={rowSelection} className="table"/>
+                               dataSource={this.props.classData} rowSelection={rowSelection3} className="table"/>
                     </Modal>
                     <Modal
                         title="查看编辑班级信息"
@@ -334,6 +425,18 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
                         <WrappedClassForm wrappedComponentRef={(inst) => this.formRef3 = inst}
                                           dispatch={this.props.dispatch} majorName={this.props.majorName}
                                           className={this.props.className} year={this.props.year}/>
+                        <Table size="small" footer={() => {
+                            return (
+                                <Row>
+                                    <Col span={24} offset={0} style={{textAlign: 'left'}}>
+                                        {/*<Button icon="delete" type="primary">删除已选学生</Button>*/}
+                                        <Button icon='plus' type="primary" style={{marginLeft: 8}} onClick={() => {
+                                            this.setModal7Visible(true)
+                                        }}>添加新的学生</Button>
+                                    </Col>
+                                </Row>)
+                        }} style={{width: "100%", background: "#ffffff"}} columns={this.columnsStu}
+                               dataSource={this.props.stuData} rowSelection={rowSelection4} className="table"/>
                     </Modal>
                     <Modal
                         title="添加院系"
@@ -344,6 +447,36 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
                     >
                         <WrappedAddDeptForm wrappedComponentRef={(inst) => this.formRef4 = inst}
                                             dispatch={this.props.dispatch}/>
+                    </Modal>
+                    <Modal
+                        title="添加专业"
+                        wrapClassName="vertical-center-modal"
+                        visible={this.state.modal5Visible}
+                        onOk={(e) => this.handleOk5(e)}
+                        onCancel={() => this.setModal5Visible(false)}
+                    >
+                        <WrappedAddMajorForm wrappedComponentRef={(inst) => this.formRef5 = inst}
+                                             dispatch={this.props.dispatch} dept={this.props.name}/>
+                    </Modal>
+                    <Modal
+                        title="添加班级"
+                        wrapClassName="vertical-center-modal"
+                        visible={this.state.modal6Visible}
+                        onOk={(e) => this.handleOk6(e)}
+                        onCancel={() => this.setModal6Visible(false)}
+                    >
+                        <WrappedAddClassForm wrappedComponentRef={(inst) => this.formRef6 = inst}
+                                             dispatch={this.props.dispatch} major={this.props.majorName}/>
+                    </Modal>
+                    <Modal
+                        title="添加学生"
+                        wrapClassName="vertical-center-modal"
+                        visible={this.state.modal7Visible}
+                        onOk={(e) => this.handleOk7(e)}
+                        onCancel={() => this.setModal7Visible(false)}
+                    >
+                        <WrappedAddStuForm wrappedComponentRef={(inst) => this.formRef7 = inst}
+                                           dispatch={this.props.dispatch} majorClass={this.props.className}/>
                     </Modal>
                 </div>
             </div>
@@ -370,15 +503,16 @@ export class DeptForm extends Component<DeptFormProps, DeptFormData> {
                 flag = true;
                 return;
             }
+            this.props.dispatch({type: 'dept/modifyDept', payload: {name: this.props.name, newName: values.name}});
             console.log('Value:', values);
         });
         return flag;
     };
 
     refresh = () => {
-        this.props.form.setFieldsValue({
-            name: this.props.name,
-        });
+        // this.props.form.setFieldsValue({
+        //     name: this.props.name,
+        // });
     };
     handleChange = (info) => {
         info.fileList.slice(-1);
@@ -436,15 +570,19 @@ export class MajorForm extends Component<MajorFormProps, MajorData> {
                 flag = true;
                 return;
             }
+            this.props.dispatch({
+                type: 'dept/modifyMajor',
+                payload: {name: this.props.majorName, newName: values.majorName, department: values.dept}
+            });
             console.log('Value:', values);
         });
         return flag;
     };
 
     refresh = () => {
-        this.props.form.setFieldsValue({
-            name: this.props.majorName,
-        });
+        // this.props.form.setFieldsValue({
+        //     name: this.props.majorName,
+        // });
     };
     handleChange = (info) => {
         info.fileList.slice(-1);
@@ -519,15 +657,24 @@ export class ClassForm extends Component<ClassFormProps, ClassData> {
                 flag = true;
                 return;
             }
+            this.props.dispatch({
+                type: 'dept/modifyClass',
+                payload: {
+                    name: this.props.className,
+                    newName: values.className,
+                    major: values.majorName,
+                    year: values.year
+                }
+            });
             console.log('Value:', values);
         });
         return flag;
     };
 
     refresh = () => {
-        this.props.form.setFieldsValue({
-            name: this.props.majorName,
-        });
+        // this.props.form.setFieldsValue({
+        //     name: this.props.majorName,
+        // });
     };
 
     render() {

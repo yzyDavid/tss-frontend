@@ -2,6 +2,7 @@ import {Component, FormEvent} from 'react';
 import * as React from 'react';
 import {Icon, Form, Input, message} from 'antd';
 import DvaProps from '../types/DvaProps';
+import Select from "antd/es/select";
 
 const FormItem = Form.Item;
 
@@ -14,13 +15,14 @@ interface FormProps extends DvaProps {
     semester: string;
     dept: string;
     intro: string;
+    deptList: any[];
 }
 
 class CourseFormData {
     cid: string;
     name: string;
     credit: string;
-    weeklyNum: string;
+    numLessonsEachWeek: string;
     semester: string;
     dept: string;
     intro: string;
@@ -36,7 +38,7 @@ export class CourseEditForm extends Component<FormProps, CourseFormData> {
                 flag = true;
                 return;
             }
-            // this.props.dispatch({type:'userinfo/modify', payload: {...values, uid: this.props.uid}});
+            this.props.dispatch({type:'course/modify', payload: {...values, cid: this.props.cid}});
             console.log('Value:', values);
         });
         return flag;
@@ -44,13 +46,13 @@ export class CourseEditForm extends Component<FormProps, CourseFormData> {
 
     refresh = () => {
         this.props.form.setFieldsValue({
-            cid: this.props.cid,
-            name: this.props.name,
-            credit: this.props.credit,
-            weeklyNum: this.props.weeklyNum,
-            semester: this.props.semester,
-            dept: this.props.dept,
-            intro: this.props.intro
+            // cid: this.props.cid,
+            // name: this.props.name,
+            // credit: this.props.credit,
+            // numLessonsEachWeek: this.props.weeklyNum,
+            // semester: this.props.semester,
+            // dept: this.props.dept,
+            // intro: this.props.intro
         });
     };
     handleChange = (info) => {
@@ -68,6 +70,12 @@ export class CourseEditForm extends Component<FormProps, CourseFormData> {
                 sm: {span: 14},
             },
         };
+
+        const dept = this.props.deptList.map((k) => {
+            return (
+                <Select.Option value={`${k}`} key={`${k}`}>{`${k}`} </Select.Option>
+            )
+        });
         return (
             <Form onSubmit={this.handleSubmit}>
                 <FormItem label="课程号" {...formItemLayout}>
@@ -93,7 +101,7 @@ export class CourseEditForm extends Component<FormProps, CourseFormData> {
                     </FormItem>
                 <FormItem label="每周课时" {...formItemLayout} hasFeedback>
                     {
-                        getFieldDecorator('weeklyNum', {
+                        getFieldDecorator('numLessonsEachWeek', {
                             initialValue: this.props.weeklyNum
                         })(
                             <Input prefix={<Icon type="" style={{fontSize: 13}}/>} />
@@ -102,10 +110,12 @@ export class CourseEditForm extends Component<FormProps, CourseFormData> {
                     </FormItem>
                 <FormItem label="院系" {...formItemLayout} hasFeedback>
                     {
-                        getFieldDecorator('dept', {
+                        getFieldDecorator('department', {
                             initialValue: this.props.dept
                         })(
-                            <Input prefix={<Icon type="" style={{fontSize: 13}}/>} />
+                            <Select>
+                                {dept}
+                            </Select>
                         )
                     }
                     </FormItem>
@@ -120,7 +130,7 @@ export class CourseEditForm extends Component<FormProps, CourseFormData> {
                     </FormItem>
                 <FormItem label="Introduction" {...formItemLayout} hasFeedback>
                     {
-                        getFieldDecorator('name', {
+                        getFieldDecorator('intro', {
                             initialValue: this.props.intro
                         })(
                             <Input prefix={<Icon type="" style={{fontSize: 13}}/>} />

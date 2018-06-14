@@ -162,6 +162,9 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
                         <Menu.Item key="curriculumTeacher">
                             <a onClick={this.handleClick.bind(this, {direction: "curriculumManage"})}>课表查询</a>
                         </Menu.Item>
+                        <Menu.Item key="setSchedulingTime">
+                            <a onClick={this.handleClick.bind(this, {direction: "setSchedulingTime"})}>排课时间</a>
+                        </Menu.Item>
                     </Menu>
                 );
                 return (
@@ -195,10 +198,10 @@ export default class NavigationPageComponent extends Component<NaviProps, {}> {
             if (props.level === 'Teaching Administrator' || props.level === "System Administrator") {
                 const menu = (
                     <Menu>
-                        <Menu.Item key="testsys">
+                        <Menu.Item key="testsys_teacher">
                             <a onClick={this.handleClick.bind(this, {direction: "testsys_teacher"})}>教师测试系统</a>
                         </Menu.Item>
-                        <Menu.Item key="testsys">
+                        <Menu.Item key="testsys_student">
                             <a onClick={this.handleClick.bind(this, {direction: "testsys_student"})}>学生测试系统</a>
                         </Menu.Item>
                         <Menu.Item key="scoreManager">

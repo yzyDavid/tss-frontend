@@ -17,11 +17,11 @@ const model = {
     },
     reducers: {
         updateCourseInfo(st, payload) {
-            return {...st, ...payload.payload, show:true};
+            return {...st, ...payload.payload, show: true};
         },
     },
     subscriptions: {
-        setup({ dispatch, history }) {
+        setup({dispatch, history}) {
             history.listen(location => {
                 if (location.pathname === '/user') {
                     dispatch({type: 'userInfo', payload: {uid: null}});
@@ -30,39 +30,49 @@ const model = {
         }
     },
     effects: {
-        * search(payload: {payload: {cid: any, name: any, dept: any}}, {call, put}){
+        * search(payload: { payload: { cid: any, name: any, department: any } }, {call, put}) {
             // console.log("search course");
             const msg = payload.payload;
             const response = yield call(tssFetch, '/course/query', 'POST', msg);
-            if(response.status !== 200) {
-                message.error('搜索院系信息失败');
+            if (response.status !== 200) {
+                message.error('搜索课程信息失败');
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                console.log(body);
                 return;
             }
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
-            let tmp:any = [];
-            for(let i = 0; i < body.cids.length; i++){
-                tmp.push({key: (tmp.length+1).toString(), name: body.names[i], credit: body.credits[i], dept: body.depts[i]});
+            console.log(body);
+            let tmp: any = [];
+            for (let i = 0; i < body.cids.length; i++) {
+                tmp.push({
+                    key: (tmp.length + 1).toString(),
+                    name: body.names[i],
+                    cid: body.cids[i],
+                    dept: body.departments[i]
+                });
             }
             yield put({
                 type: 'updateCourseInfo',
                 payload: {data: tmp}
             });
         },
-        * modify(payload: { payload: {uid: null|string, email: null|string, telephone: null|string, intro: null|string} }, {call, put}) {
-            // const msg = payload.payload;
-            // const response = yield call(tssFetch, '/user/modify', 'POST', msg);
-            // if(response.status === 400) {
-            //     message.error('编辑个人信息失败');
-            //     return;
-            // }
+        * modify(payload: { payload: { cid: string, name: string, credit: any, numLessonsEachWeek: any, department: any, intro: any, semester: any } }, {call, put}) {
+            const msg = payload.payload;
+            const response = yield call(tssFetch, '/course/modify', 'POST', msg);
+            if(response.status !== 200) {
+                message.error('编辑院系信息失败');
+                return;
+            }
+            else message.success('ok');
             // yield put({type: 'userInfo', payload: {uid: null}});
             return;
         },
-        * add(payload: {payload: {cid: string, name: string, credit: any, numLessonsEachWeek: any, department: any}},{call,put}){
+        * add(payload: { payload: { cid: string, name: string, credit: any, numLessonsEachWeek: any, department: any } }, {call, put}) {
             const msg = payload.payload;
             const response = yield call(tssFetch, '/course/add', 'PUT', msg);
-            if(response.status !== 200) {
+            if (response.status !== 201) {
                 message.error('添加课程失败');
                 const jsonBody = yield call(response.text.bind(response));
                 const body = JSON.parse(jsonBody);
@@ -73,6 +83,46 @@ const model = {
             const body = JSON.parse(jsonBody);
             message.success(body.status);
         },
+        * get(payload: { payload: { cid: string } }, {call, put}) {
+            const msg = payload.payload;
+            const response = yield call(tssFetch, '/course/get/info', 'POST', msg);
+            if (response.status !== 200) {
+                message.error('查询课程信息失败');
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                console.log(body);
+
+                message.error(body.status);
+                return;
+            }
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            message.success(body.status);
+            yield put({
+                type: 'updateCourseInfo',
+                payload: {
+                    cid: body.cid === null ? "" : body.cid,
+                    dept: body.department === null ? "" : body.department,
+                    name: body.name === null ? "" : body.name,
+                    intro: body.intro === null ? "" : body.intro,
+                    weeklyNum: body.numLessonsEachWeek === null ? "" : body.numLessonsEachWeek,
+                    credit: body.credit === null ? "" : body.credit,
+                    semester:body.semester===null?"":body.semester
+                }
+            });
+        },
+        * delete(payload: { payload: { cids: string[] } }, {call, put}) {
+            const msg = payload.payload;
+            console.log(msg);
+            for(let i = 0; i < msg.cids.length; i++){
+                const response = yield call(tssFetch, '/course/delete', 'DELETE', {cid: msg.cids[i]});
+                if (response.status !== 200) {
+                    message.error('删除课程失败');
+                    return;
+                }
+            }
+            message.success('删除课程成功');
+        }
     }
 };
 
