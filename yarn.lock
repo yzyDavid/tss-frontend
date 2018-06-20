@@ -6373,6 +6373,13 @@ react-slick@~0.21.0:
     json2mq "^0.2.0"
     object-assign "^4.1.0"
 
+react-to-print@^1.0.19:
+  version "1.0.19"
+  resolved "http://registry.npm.taobao.org/react-to-print/download/react-to-print-1.0.19.tgz#3b30dcd272d0cc5b516c1581717831bd7483de5b"
+  dependencies:
+    prop-types "^15.6.0"
+    react "^16.2.0"
+
 react@^16.2.0:
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.2.0.tgz#a31bd2dab89bff65d42134fa187f24d054c273ba"
