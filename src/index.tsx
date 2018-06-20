@@ -48,7 +48,7 @@ import CourseModel from './models/courseModel';
 import PswdModel from './models/pswdModel';
 import DeptModel from './models/deptModel';
 import SelectionModel from './models/SelectionModel';
-import StuCheckTimeModel from './models/stuCheckTimeModel';
+import StuCheckTimeModel from './models/StuCheckTimeModel';
 import CourseTableModel from './models/CourseTableModel';
 import PlanModel from './models/PlanModel';
 import ManageTimeModel from './models/ManageTimeModel';
@@ -110,7 +110,7 @@ import ForumMailModel from "./models/forumMailModel"
 import ForumUserModel from "./models/forumUserModel"
 import ForumNewTopicMode from "./models/forumNewTopicModel"
 import ForumUserPostComponent from "./components/ForumUserPost"
-/*import StuCheckTimeComponent from "./components/StuCheckTime"*/
+import StuCheckTimeComponent from "./components/StuCheckTime"
 
 const {Content} = Layout;
 
@@ -447,10 +447,10 @@ const ExportPage = connect(state => {
     return {dataSource: dataSource};
 })(exportComponent);
 
-/*const StuCheckTimePage = connect(state => {
+const StuCheckTimePage = connect(state => {
     const {dataSource} = state.stuTimeTable;
     return {dataSource: dataSource};
-})(StuCheckTimeComponent);*/
+})(StuCheckTimeComponent);
 
 app.router(({history}) => (
         <Router history={history}>
@@ -501,7 +501,7 @@ app.router(({history}) => (
                         <Route path="/stuSelect" component={StuSelectPage}/>
                         <Route path="/classSelect/:courseId" component={ClassSelectPage}/>
                         <Route path="/stuList/:classId" component={StuListPage}/>
-{/*                        <Route path="/stuCheckTime" component={StuCheckTimePage}/>*/}
+                        <Route path="/stuCheckTime" component={StuCheckTimePage}/>
                         <Route path="/courseTable" component={CourseTablePage}/>
                         <Route path="/scoreUpload" component={ScoreUploadPage}/>
                         <Route path="/applyModify" component={ApplyModifyPage}/>
