@@ -172,6 +172,7 @@ export class NavigationBar extends Component<BarProps> {
                             <MenuItemGroup title="选课系统">
                                 <Menu.Item key="stuSelect">学生选课</Menu.Item>
                                 <Menu.Item key="courseTable">课表查询</Menu.Item>
+                                <Menu.Item key="stuCheckTime">选课时间</Menu.Item>
                             </MenuItemGroup>
                         </SubMenu>
                         <Menu.Item key="plan"><Icon type="calendar"/>培养方案</Menu.Item>

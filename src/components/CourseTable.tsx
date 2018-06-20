@@ -2,9 +2,8 @@ import * as React from 'react';
 import {Component} from 'react';
 import {Layout, Modal, Breadcrumb, Icon, Table, Button, Input, Select, Form} from 'antd';
 import 'antd/dist/antd.css';
-import {NavigationBar} from './TssPublicComponents'
 import DvaProps from '../types/DvaProps';
-
+import * as ReactToPrint from "react-to-print"
 const { Column } = Table;
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -28,7 +27,7 @@ export default class CourseTableComponent extends Component<CourseProps, CourseT
         }
         this.handleSubmit = this.handleSubmit.bind(this)
     }
-
+    myRef: any;
     handleSubmit = (e)=>{
     console.log(this.state.year);
     console.log(this.state.semester);
@@ -61,6 +60,7 @@ export default class CourseTableComponent extends Component<CourseProps, CourseT
                                 <Option value="2015">2015</Option>
                                 <Option value="2016">2016</Option>
                                 <Option value="2017">2017</Option>
+                                <Option value="2018">2018</Option>
                             </Select>
                         </FormItem>
                         <FormItem label="学期">
@@ -77,9 +77,16 @@ export default class CourseTableComponent extends Component<CourseProps, CourseT
                         </Button>
                     </Form>
                     <br/>
-                    <Table dataSource={this.props.dataSource} columns={columns}>
+                    <div ref={el=>(this.myRef=el)}>
+                    <Table dataSource={this.props.dataSource} columns={columns} >
                     </Table>
-                    <Button type="primary" >打印课表</Button>
+                    </div>
+                    <div style={{margin: 10}}>
+                    <ReactToPrint
+                        trigger={()=><Button icon="download" type="primary" >打印课表</Button>}
+                        content={()=>this.myRef}
+                    />
+                    </div>
                 </div>
 
             </div>
