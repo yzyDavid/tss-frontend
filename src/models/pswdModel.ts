@@ -21,7 +21,6 @@ const model = {
         setup({dispatch, history}) {
             history.listen(location => {
                 dispatch({type: 'changeVisible', payload: {current: location.pathname.substring(1)}});
-                console.log(location.pathname.substring(1));
                 if (location.pathname === '/') {
                     dispatch({type: 'changeVisible', payload: {visible: false, naviVisible: false}});
                 }
@@ -54,6 +53,20 @@ const model = {
             message.success(body.status);
             yield put({type: 'changeVisible', payload: {show: false}});
             return;
+        },
+        * reset(payload: {payload: {uid: string}}, {call, put}) {
+            const msg = payload.payload;
+            const response = yield call(tssFetch, '/user/reset/pwd', 'POST', msg);
+            if (response.status !== 200) {
+                message.error('重制密码失败');
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                message.error(body.status);
+                return;
+            }
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            message.success(body.status);
         }
     }
 };

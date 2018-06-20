@@ -7,6 +7,7 @@ import {WrappedManagerInfoViewForm} from './ManagerInfoViewForm'
 import {NavigationBar, TssFooter, TssHeader} from "./TssPublicComponents";
 import {WrappedManagerInfoAddForm} from './ManagerInfoAddForm'
 import {type} from "os";
+import {getType} from "../utils/localStorage";
 
 interface UserManageFormProps extends DvaProps {
     data: any;
@@ -35,6 +36,8 @@ interface UserState {
     modal1Visible: boolean;
     modal2Visible: boolean;
     modal3Visible: boolean;
+    modal4Visible: boolean;
+    fname: string;
     selected: any;
 }
 
@@ -42,9 +45,10 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 class SearchForm extends Component<UserManageFormProps, {}> {
-    componentDidMount(){
-        this.props.dispatch({type: 'dept/getDeptList', payload:{}});
+    componentDidMount() {
+        this.props.dispatch({type: 'dept/getDeptList', payload: {}});
     }
+
     handleSearch = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -61,7 +65,7 @@ class SearchForm extends Component<UserManageFormProps, {}> {
         const {getFieldDecorator} = this.props.form;
         const dept = this.props.deptList.map((k) => {
             return (
-                    <Option value={`${k}`} key={`${k}`}>{`${k}`} </Option>
+                <Option value={`${k}`} key={`${k}`}>{`${k}`} </Option>
             )
         });
         return (
@@ -93,8 +97,8 @@ class SearchForm extends Component<UserManageFormProps, {}> {
                                 <Select style={{width: 200}}>
                                     <Option value="System Administrator">系统管理员</Option>
                                     <Option value="Teaching Administrator">教务管理员</Option>
-                                    <Option value="Teacher">学生</Option>
-                                    <Option value="Student">教师</Option>
+                                    <Option value="Teacher">教师</Option>
+                                    <Option value="Student">学生</Option>
                                 </Select>
                             )
                         }
@@ -105,7 +109,6 @@ class SearchForm extends Component<UserManageFormProps, {}> {
                                 <Select style={{width: 200}}>
                                     {dept}
                                 </Select>
-
                             )
                         }
                     </FormItem>
@@ -124,18 +127,25 @@ let selected: string[] = [];
 
 
 export default class UserManagePageComponent extends Component<UserManageProps, UserState> {
-    componentDidMount(){
-        // this.props.dispatch({type: 'dept/getDeptList', payload:{}});
+    componentDidMount() {
+        const type = getType();
+        if (type != 'Teaching Administrator' && type != 'System Administrator') {
+            this.props.dispatch({type: "navigation/jump", payload: {direction: 'navi'}});
+            return;
+        }
     }
+
     constructor(props) {
         super(props);
         this.state = {
             modal1Visible: false,
             modal2Visible: false,
             modal3Visible: false,
+            modal4Visible: false,
+            fname: '',
             selected: [""]
         };
-        this.props.dispatch({type: 'dept/getDeptList', payload:{}});
+        this.props.dispatch({type: 'dept/getDeptList', payload: {}});
         console.log(this.props.deptList);
     }
 
@@ -164,6 +174,8 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
     formRef1: any;
     formRef2: any;
     formRef3: any;
+    formRef4: any;
+    import: any;
     rowSelection = {
         onChange(selectedRowKeys, selectedRows) {
             selected = [];
@@ -173,7 +185,6 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
         },
         onSelect(record, selected, selectedRows) {
-            // this.onSelect(record, selected, selectedRows);
             selected = record.uid.toString();
             console.log("selected", selected);
         },
@@ -198,8 +209,8 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
     };
 
     resetPassword(id: string) {
-        message.success("重置密码成功");
-        // this.props.dispatch();
+        // message.success("重置密码成功");
+        this.props.dispatch({type: 'pswd/reset', payload: {uid: id}});
     }
 
     setModal1Visible(modalVisible) {
@@ -215,6 +226,11 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
     setModal3Visible(modalVisible) {
         if (this.formRef3 && modalVisible === true) this.formRef3.refresh();
         this.setState({modal3Visible: modalVisible});
+    };
+
+    setModal4Visible(modalVisible) {
+        if (this.formRef4 && modalVisible === true) this.formRef4.refresh();
+        this.setState({modal4Visible: modalVisible});
     };
 
     handleOk1(e) {
@@ -236,6 +252,19 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
         }
     }
 
+    handleOk4(e) {
+        if(this.state.fname === '') {
+            message.warning('未选择文件');
+            return;
+        }
+        this.props.dispatch({
+            type: 'userinfo/addUser',
+            payload: {names: this.names, uids: this.uids, genders: this.genders, type: this.type, passwords: this.passwords}
+        });
+        this.setModal4Visible(false);
+        this.setState({fname: ''});
+    }
+
     addUser() {
         this.props.dispatch({type: 'userinfo/resetUser', payload: {}});
         this.setModal3Visible(true);
@@ -246,13 +275,56 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
         selected = [];
     };
 
+    handleBatchAdd() {
+        this.setModal4Visible(true);
+    };
+
+    uids: any[];
+    names: any[];
+    genders: any[];
+    type: any;
+    passwords: any[];
+
+    uploadHandler(name, content) {
+        let uploadFile = {
+            name: name,
+            fileContent: content
+        };
+        let uids: any = [];
+        let names: any = [];
+        let genders: any = [];
+        let type: any;
+        let passwords: any = [];
+        let records = content.split(/[\n]/);
+        for (let i = 0; i < records.length; i++) {
+            if (i === 0) {
+                type = records[i];
+            }
+            else {
+                let tmp = records[i].split(/[,]/);
+                if(tmp[0]!=undefined && tmp[1]!=undefined && tmp[2]!=undefined) {
+                    uids.push(tmp[0]);
+                    names.push(tmp[1]);
+                    genders.push(tmp[2]);
+                    passwords.push(null);
+                }
+            }
+        }
+        this.uids = uids;
+        this.names = names;
+        this.genders = genders;
+        this.type = type;
+        this.passwords = passwords;
+        this.setState({fname: name});
+    };
+
     render() {
         return (
             <div>
-                {/*<NavigationBar current={"userManage"} dispatch={this.props.dispatch}/>*/}
                 <br/>
                 <div>
-                    <WrappedSearchForm data={this.props.data} dispatch={this.props.dispatch} deptList={this.props.deptList}/>
+                    <WrappedSearchForm data={this.props.data} dispatch={this.props.dispatch}
+                                       deptList={this.props.deptList}/>
                     <Table footer={() => {
                         return (
                             <Row>
@@ -262,6 +334,8 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
                                     <Button icon='plus' type="primary" onClick={() => {
                                         this.addUser()
                                     }} style={{marginLeft: 8}}>添加新的用户</Button>
+                                    <Button icon="upload" type="primary" style={{marginLeft: 8}}
+                                            onClick={() => this.handleBatchAdd()}>批量上传用户</Button>
                                 </Col>
                             </Row>)
                     }} style={{width: "100%", background: "#ffffff"}} columns={this.columns}
@@ -307,9 +381,77 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
                                                    dept={this.props.dept} type={this.props.type}
                                                    year={this.props.year}/>
                     </Modal>
+                    <Modal
+                        title="批量添加用户"
+                        wrapClassName="vertical-center-modal"
+                        visible={this.state.modal4Visible}
+                        onOk={(e) => this.handleOk4(e)}
+                        onCancel={() => {
+                            this.setModal4Visible(false);
+                            this.setState({fname:''});
+                        }}
+                    >
+                        <p>文件输入格式：（.txt文件）首行输入用户类型(Student,Teacher,Teaching Administrator,System Administrator)</p>
+                        <p>例如：</p>
+                        <p>Student</p>
+                        <p>3150100000,姓名,男</p>
+                        <p>3150100001,姓名,女</p>
+                        <p>3150100002,姓名,男</p>
+                        <p>3150100003,姓名,男</p>
+                        <Button onClick={() => {this.import.openDisk()}}><Icon type={"upload"}/>选择上传文件</Button>
+                        <p>{this.state.fname}</p>
+                        <Import
+                            ref={el => this.import = el}
+                            uploadCallback={this.uploadHandler.bind(this)}
+                            dispatch={this.props.dispatch}
+                        />
+                    </Modal>
                 </div>
             </div>
         );
     }
 }
 
+interface ImportProps
+    extends DvaProps {
+    uploadCallback: any
+}
+
+export class Import extends Component<ImportProps> {
+    constructor(props) {
+        super(props);
+        this.bindHander();
+    };
+
+    fileUpload: any;
+
+    bindHander() {
+        this.openDisk = this.openDisk.bind(this);
+        this.readFileContent = this.readFileContent.bind(this);
+    };
+
+    openDisk() {
+        this.fileUpload.click();
+    };
+
+    readFileContent(e) {
+        let
+            _self = this,
+            file = e.target.files[0];
+        if (file) {
+            let
+                reader = new FileReader();
+            reader.readAsText(file);
+            reader.onload = function () {
+                _self.props.uploadCallback(file.name, reader.result);
+            };
+        } else
+            console.log('error');
+    };
+
+    render() {
+        return <input type="file" hidden={true} ref={(el) => {
+            this.fileUpload = el
+        }} onChange={this.readFileContent} accept={".txt"}/>
+    }
+}

@@ -76,6 +76,9 @@ export class ManagerInfoViewForm extends Component<FormProps, InfoEditFormData> 
                 <FormItem label="学号或教工号" {...formItemLayout}>
                     <span className="ant-form-text" > {this.props.uid} </span>
                 </FormItem>
+                <FormItem label="姓名" {...formItemLayout}>
+                    <span className="ant-form-text" > {this.props.name} </span>
+                </FormItem>
                 <FormItem label="性别" {...formItemLayout}>
                     <span className="ant-form-text"> {this.props.gender}</span>
                 </FormItem>

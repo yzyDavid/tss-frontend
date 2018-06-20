@@ -37,6 +37,7 @@ export class TssHeader extends Component<TssProps> {
                         <a href="javascript:void(0)" onClick={() => {
                             message.success("注销成功");
                             this.props.dispatch({type: 'navigation/jump', payload: {direction: ""}});
+                            this.props.dispatch({type: 'login/logout', payload: {}});
                         }} style={{fontSize: 15, marginRight: 10}}><Icon type="logout"/>退出登陆</a>
                         <a href="javascript:void(0)" onClick={() => {
                             this.props.dispatch({type: 'navigation/jump', payload: {direction: "navi"}});

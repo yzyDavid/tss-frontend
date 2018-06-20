@@ -8,6 +8,7 @@ import {WrappedCourseEditForm} from "./CourseEditForm"
 import {Layout, message} from 'antd';
 import {WrappedCourseInfoAddForm} from "./ManagerInfoAddForm";
 import {Simulate} from "react-dom/test-utils";
+import {getType} from "../utils/localStorage";
 
 interface FormProps extends DvaProps {
     data: any;
@@ -128,6 +129,13 @@ let selected: string[] = [];
 
 
 export default class CourseManagePageComponent extends Component<CourseProps, CourseState> {
+    componentDidMount(){
+        const type = getType();
+        if(type != 'Teaching Administrator' && type != 'System Administrator'){
+            this.props.dispatch({type: "navigation/jump", payload:{direction: 'navi'}});
+            return;
+        }
+    }
     constructor(props) {
         super(props);
         this.state = {
