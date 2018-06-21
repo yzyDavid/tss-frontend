@@ -103,7 +103,7 @@ import BoardPageComponent from './components/ForumBoardPage'
 import TopicPageComponent from './components/ForumTopicPage'
 import ForumReplyListModel from './models/forumReplyListModel'
 import ForumHomeModel from './models/forumHomeModel'
-import ForumBoardMOdel from './models/forumBoardModel'
+import ForumBoardModel from './models/forumBoardModel'
 import SearchComponent from "./components/ForumSearchPage"
 import AllBoardComponent from "./components/ForumAllBoard"
 import ForumMailModel from "./models/forumMailModel"
@@ -111,6 +111,7 @@ import ForumUserModel from "./models/forumUserModel"
 import ForumNewTopicMode from "./models/forumNewTopicModel"
 import ForumUserPostComponent from "./components/ForumUserPost"
 import StuCheckTimeComponent from "./components/StuCheckTime"
+
 const {Content} = Layout;
 
 const app = dva({
@@ -152,7 +153,7 @@ app.model(ForumAllBoardModel);
 app.model(ForumMyPostModel);
 app.model(ForumTopicModel);
 app.model(ForumHomeModel);
-app.model(ForumBoardMOdel);
+app.model(ForumBoardModel);
 app.model(ForumReplyListModel);
 app.model(ForumMailModel);
 app.model(ForumUserInfoModel);
@@ -315,7 +316,7 @@ const DeptManagePage = connect(state => {
 
 const ManageTimePage = connect(state => {
     return {...state.manageTime};
-})(ManageTimeComponent)
+})(ManageTimeComponent);
 
 const PlanPage = connect(state => {
 
@@ -324,21 +325,21 @@ const PlanPage = connect(state => {
     const {uid, level} = state.login;
     return {dataSource1: dataSource1, dataSource2: dataSource2, uid: uid}
 
-})(PlanComponent)
+})(PlanComponent);
 
 const ManSelectPage = connect(state => {
     const {dataSource} = state.selectManCourse;
     return {dataSource: dataSource};
-})(ManagerSelectionComponent)
+})(ManagerSelectionComponent);
 
 const StuSelectPage = connect(state => {
     const {dataSource} = state.selectCourse;
     return {dataSource: dataSource}
-})(StudentSelectionComponent)
+})(StudentSelectionComponent);
 
 const ClassSelectPage = connect(state => {
     return {};
-})(ClassSelectionComponent)
+})(ClassSelectionComponent);
 
 const StuListPage = connect(state => {
     const {dataSource} = state.studentList;
@@ -444,12 +445,12 @@ const CourseTablePage = connect(state => {
 const ExportPage = connect(state => {
     const {dataSource} = state.export;
     return {dataSource: dataSource};
-})(exportComponent)
+})(exportComponent);
 
-const StuCheckTimePage = connect(state=>{
+const StuCheckTimePage = connect(state => {
     const {dataSource} = state.stuTimeTable;
     return {dataSource: dataSource};
-})(StuCheckTimeComponent)
+})(StuCheckTimeComponent);
 
 app.router(({history}) => (
         <Router history={history}>
@@ -500,7 +501,7 @@ app.router(({history}) => (
                         <Route path="/stuSelect" component={StuSelectPage}/>
                         <Route path="/classSelect/:courseId" component={ClassSelectPage}/>
                         <Route path="/stuList/:classId" component={StuListPage}/>
-                        <Route path="/stuCheckTime" component ={StuCheckTimePage}/>
+                        <Route path="/stuCheckTime" component={StuCheckTimePage}/>
                         <Route path="/courseTable" component={CourseTablePage}/>
                         <Route path="/scoreUpload" component={ScoreUploadPage}/>
                         <Route path="/applyModify" component={ApplyModifyPage}/>

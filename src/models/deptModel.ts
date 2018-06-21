@@ -318,7 +318,7 @@ const model = {
         },
         * deleteTea(payload: { payload: { uids: string[], department: string } }, {call, put}) {
             const msg = payload.payload;
-            const response = yield call(tssFetch, '/dept/department/delete/user', 'DELETE', msg);
+            const response = yield call(tssFetch, '/dept/department/delete/user', 'POST', msg);
             if (response.status !== 200) {
                 message.error('删除教师失败');
                 return;

@@ -67,6 +67,7 @@ export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
         });
         this.setState({uploadFile: null});
         this.uploadFile = null;
+        this.fname = ''
     };
 
     normFile = (e) => {
@@ -89,6 +90,15 @@ export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
     };
 
     uploadHandler(name, content) {
+        if(name == ''){
+            this.uploadFile = null;
+            this.fname = '';
+            this.props.form.setFieldsValue({
+                fname: ''
+            });
+            this.setState({uploadFile: null, fname: name});
+            return;
+        }
         let uploadFile = {
             name: name,
             fileContent: content
@@ -99,7 +109,7 @@ export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
         console.log('fname', this.fname);
         this.props.form.setFieldsValue({
             fname: name
-        })
+        });
     }
 
     render
@@ -214,6 +224,7 @@ class Import extends Component<ImportProps> {
         let
             _self = this,
             file = e.target.files[0];
+        console.log("read");
         if (file) {
             let
                 reader = new FileReader();
@@ -228,12 +239,13 @@ class Import extends Component<ImportProps> {
             };
         } else
             console.log('error');
+            _self.props.uploadCallback('', null);
     };
 
     render() {
         return <input type="file" hidden={true} ref={(el) => {
             this.fileUpload = el
-        }} onChange={this.readFileContent} accept={".jpg"}/>
+        }} onClick={this.readFileContent} onChange={this.readFileContent} accept={".jpg"}/>
     }
 }
 
