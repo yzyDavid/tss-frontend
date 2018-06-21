@@ -47,7 +47,9 @@ const model = {
             {
                 const response = yield call(tssFetch, '/classes/search', 'POST', {'courseId': value} );
                 if(response.status != 200) {
-                    message.error("不存在该课程");
+                    const jsonBody = yield call(response.text.bind(response));
+                    const body = JSON.parse(jsonBody);
+                    message.error(body["status"])
                     yield put({
                         type: 'updateCourseInfo',
                         payload: {dataSource: []}
@@ -70,7 +72,6 @@ const model = {
                     const jsonBody = yield call(response.text.bind(response));
                     const body = JSON.parse(jsonBody);
                     message.error(body["status"])
-                    //message.error("不存在该课程");
                     yield put({
                         type: 'updateCourseInfo',
                         payload: {dataSource: []}
@@ -91,7 +92,6 @@ const model = {
                     const jsonBody = yield call(response.text.bind(response));
                     const body = JSON.parse(jsonBody);
                     message.error(body["status"])
-                    //message.error("不存在该课程");
                     yield put({
                         type: 'updateCourseInfo',
                         payload: {dataSource: []}

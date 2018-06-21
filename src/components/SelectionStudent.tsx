@@ -75,7 +75,7 @@ export default class StudentSelectionComponent extends Component<UserProps, User
         if(this.props.dataSource.length==0){
             wrapped = <div><span></span></div>;
         }else{
-            wrapped = <WrappedCourseDetailForm  wrappedComponentRef={(inst) => this.formRef = inst} dispatch={this.props.dispatch} courseId={this.props.dataSource[this.state.classIndex]["id"]} courseName={this.props.dataSource[this.state.classIndex]["courseName"]} credit={this.props.dataSource[this.state.classIndex]["credit"]} classroom={this.props.dataSource[this.state.classIndex]["classroom"]} />
+            wrapped = <WrappedCourseDetailForm  wrappedComponentRef={(inst) => this.formRef = inst} dispatch={this.props.dispatch} courseId={this.props.dataSource[this.state.classIndex]["courseId"]} courseName={this.props.dataSource[this.state.classIndex]["courseName"]} credit={this.props.dataSource[this.state.classIndex]["credit"]} classroom={this.props.dataSource[this.state.classIndex]["classroom"]} intro={this.props.dataSource[this.state.classIndex]["intro"]} />
         }
         const columns = [{
             title: "课程编号",
