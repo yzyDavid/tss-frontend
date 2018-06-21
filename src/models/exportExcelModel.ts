@@ -6,8 +6,8 @@ const model = {
     namespace: 'export',
     state: {
         dataSource: [
-            {key: 1, courseId: '00001', classId: '201001',courseName: "My Plan",year: "2018", semester: "SECOND", timeSlot: "SUN_3_5", capacity: 100, numStudent: 0, brief: "asdf"},
-            {key: 2, courseId: '00002', classId: '201003',courseName: "your Plan",year: "2018", semester: "SECOND", timeSlot: "SUN_3_5", capacity: 100, numStudent: 0, brief: "bbbb"},
+            {key: 1, courseId: '00001', classId: '201001',courseName: "My Plan", semester: "SECOND", teacherName: "", timeSlot: "SUN_3_5", capacity: 100, numStudent: 0, brief: "asdf"},
+            {key: 2, courseId: '00002', classId: '201003',courseName: "your Plan", semester: "SECOND", teacherName: "", timeSlot: "SUN_3_5", capacity: 100, numStudent: 0, brief: "bbbb"},
         ]
     },
     reducers: {

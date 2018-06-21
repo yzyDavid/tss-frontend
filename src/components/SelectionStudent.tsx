@@ -88,11 +88,11 @@ export default class StudentSelectionComponent extends Component<UserProps, User
             dataIndex: "courseName",
             render: (text, record, index) => <a onClick={()=>this.ChooseCourse(index, true)}>{text}</a>
         },{
-            title: "学年",
-            dataIndex: "year",
-        },{
             title: "学期",
             dataIndex: 'semester'
+        },{
+            title: "教师",
+            dataIndex: 'teacherName'
         },{
             title: "时间",
             dataIndex: 'timeSlot'

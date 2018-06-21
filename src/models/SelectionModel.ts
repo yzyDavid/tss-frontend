@@ -6,8 +6,8 @@ const model = {
     namespace: 'selectCourse',
     state: {
         dataSource: [
-            {key: 1, courseId: '00001', classId: '201001',courseName: "My Plan",year: "2018", semester: "SECOND", timeSlot: "SUN_3_5", capacity: 100, numStudent: 0, brief: "asdf"},
-            {key: 2, courseId: '00002', classId: '201003',courseName: "your Plan",year: "2018", semester: "SECOND", timeSlot: "SUN_3_5", capacity: 100, numStudent: 0, brief: "bbbb"},
+            {key: 1, courseId: '00001', classId: '201001',courseName: "My Plan", semester: "SECOND", teacherName: "", timeSlot: "SUN_3_5", capacity: 100, numStudent: 0, intro: "asdf"},
+            {key: 2, courseId: '00002', classId: '201003',courseName: "your Plan", semester: "SECOND", teacherName: "", timeSlot: "SUN_3_5", capacity: 100, numStudent: 0, intro: "bbbb"},
         ]
     },
     reducers: {
@@ -67,7 +67,10 @@ const model = {
                 const response = yield call(tssFetch, '/classes/search', 'POST', {'courseName': value});
                 if(response.status != 200) {
                     console.log("error")
-                    message.error("不存在该课程");
+                    const jsonBody = yield call(response.text.bind(response));
+                    const body = JSON.parse(jsonBody);
+                    message.error(body["status"])
+                    //message.error("不存在该课程");
                     yield put({
                         type: 'updateCourseInfo',
                         payload: {dataSource: []}
@@ -85,7 +88,10 @@ const model = {
             else if(index=="教师"){
                 const response = yield call(tssFetch, '/classes/search', 'POST', {'teacherName': value});
                 if(response.status != 200) {
-                    message.error("不存在该课程");
+                    const jsonBody = yield call(response.text.bind(response));
+                    const body = JSON.parse(jsonBody);
+                    message.error(body["status"])
+                    //message.error("不存在该课程");
                     yield put({
                         type: 'updateCourseInfo',
                         payload: {dataSource: []}

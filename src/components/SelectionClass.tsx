@@ -48,13 +48,11 @@ export default class ClassSelectionComponent extends Component<UserProps, UserSt
             title: "课程编号",
             dataIndex: "classId",
         },{
-            title: "学年",
-            dataIndex: "year",
-        },{
             title: "学期",
             dataIndex: 'semester'
         },{
-
+            title: "教师",
+            dataIndex: 'teacherName'
         },{
             title: "容量",
             dataIndex: "capacity"
@@ -62,7 +60,7 @@ export default class ClassSelectionComponent extends Component<UserProps, UserSt
             title: "已选",
             dataIndex: "numStudent"
         },{
-            title:"操作",
+            title: "操作",
             render: (record)=>(
                 <span>
                     <a onClick={()=>this.select(record)}>选课/</a>

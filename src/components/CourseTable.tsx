@@ -44,6 +44,9 @@ export default class CourseTableComponent extends Component<CourseProps, CourseT
             title: "上课时间",
             dataIndex: "timeSlot"
         },{
+            title: "上课地点",
+            dataIndex: "classroom"
+        },{
             title: "学分",
             dataIndex: 'credit'
         },{
