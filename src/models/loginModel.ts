@@ -1,29 +1,29 @@
 import {message} from 'antd';
 import {routerRedux} from 'dva/router';
 import GlobalState from '../types/globalState';
-import {loadSession, saveSession} from '../utils/localStorage';
+import {getType, loadSession, logOut, saveSession} from '../utils/localStorage';
 import {LoginFormData} from '../components/LoginForm';
 import {tssFetch} from '../utils/tssFetch';
 
 const state: GlobalState = {
     token: '',
     uid: '',
-    username: ''
+    username: '',
 };
 
 const model = {
     namespace: 'login',
     state: {
         ...state,
+        type: ''
         // type: 'Teaching Administrator',
         // type: 'System Administrator'
-        type: 'Teacher'
+        // type: 'Teacher'
         // type: 'Student'
-
     },
     reducers: {
         saveSession(st) {
-            saveSession({token: st.token, username: st.username, uid: st.uid});
+            saveSession({token: st.token, uid: st.uid, type: st.type});
             return {...st};
         },
         loadSession(st) {
@@ -31,6 +31,19 @@ const model = {
         },
         updateSession(st, payload) {
             return {...st, ...payload.payload};
+        }
+    },
+    subscriptions: {
+        setup({dispatch, history}) {
+            history.listen(location => {
+                let t = getType();
+                if (t) {
+                    dispatch({
+                        type: 'updateSession',
+                        payload: {type: t}
+                    })
+                }
+            });
         }
     },
     effects: {
@@ -44,18 +57,21 @@ const model = {
             }
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
-            yield put({type: 'updateSession', payload: {uid: body.uid, password: msg.password, token: body.token, type: body.type}});
+            yield put({type: 'updateSession', payload: {uid: body.uid, token: body.token, type: body.type}});
             message.success('登录成功');
-            yield put(routerRedux.push('/navi'));
             yield put({type: 'saveSession'});
+            yield put(routerRedux.push('/navi'));
             return;
         },
         * echo(payload: {}, {call, put}) {
             const response = yield call(tssFetch, '/echo', 'GET', {});
             console.log(response);
+        },
+        * logout(payload: {}, {call, put}) {
+            logOut();
+            yield put({type: 'updateSession', payload: {uid: '', token: '', type: '', username: ''}});
         }
     },
-    subscriptions: {}
 };
 
 export default model;

@@ -5,6 +5,7 @@ import {Button, Card, message, Row, Col, Dropdown, Menu, Modal, Layout} from 'an
 import DvaProps from '../types/DvaProps';
 import {WrappedPswdForm} from './PswdEditForm'
 import {TssFooter, TssHeader} from "./TssPublicComponents";
+import {getType} from "../utils/localStorage";
 
 
 interface NaviProps extends DvaProps {
@@ -28,6 +29,14 @@ const JumpButton = (props) => {
 const {Content} = Layout;
 
 export default class NavigationPageComponent extends Component<NaviProps, {}> {
+    componentDidMount(){
+        const type = getType();
+        console.log(type);
+        if(type != 'Teaching Administrator' && type != 'System Administrator' && type != 'Teacher' && type != 'Student'){
+            console.log('jump');
+            this.props.dispatch({type: "navigation/jump", payload:{direction: ''}});
+        }
+    }
     handleClick = (e) => {
         this.props.dispatch({type: 'navigation/jump', payload: {direction: e.direction}});
     };

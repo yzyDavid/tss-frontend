@@ -29,82 +29,88 @@ const model = {
         },
     },
     effects: {
-        * search(payload: { payload: { tag: string, name: string } }, {call, put}) {
+        * search(payload: { payload: { name: string } }, {call, put}) {
             const msg = payload.payload;
-            if (msg.tag === "1") {
-                if (msg.name === "" || msg.name === undefined) {
-                    const response = yield call(tssFetch, '/dept/department/get/list', 'POST', {});
-                    if (response.status === 401) {
-                        message.error('获取院系列表失败');
-                        return;
-                    }
+            if (msg.name === "" || msg.name === undefined) {
+                const response = yield call(tssFetch, '/dept/department/get/list', 'POST', {});
+                if (response.status !== 200) {
+                    // message.error('获取院系列表失败');
                     const jsonBody = yield call(response.text.bind(response));
                     const body = JSON.parse(jsonBody);
-                    message.success(body.status);
-                    const tmp = body.names;
-                    let deptData: any = [];
-                    for (let i = 0; i < tmp.length; i = i + 1) {
-                        deptData.push({key: (deptData.length + 1).toString(), name: tmp[i]})
-                    }
-                    yield put({
-                        type: 'updateDeptInfo',
-                        payload: {data: deptData}
-                    });
+                    message.warning(body.status);
+                    return;
                 }
-                else {
-                    const response = yield call(tssFetch, '/dept/department/get/info', 'POST', {name: msg.name});
-                    if (response.status === 401) {
-                        message.error('获取院系列表失败');
-                        return;
-                    }
-                    const jsonBody = yield call(response.text.bind(response));
-                    const body = JSON.parse(jsonBody);
-                    message.success(body.status);
-                    const deptData: any = [{key: "1", name: body.name}];
-                    yield put({
-                        type: 'updateDeptInfo',
-                        payload: {data: deptData}
-                    });
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                message.success(body.status);
+                const tmp = body.names;
+                let deptData: any = [];
+                // console.log('haha',tmp);
+                for (let i = 0; i < tmp.length; i = i + 1) {
+                    deptData.push({key: (deptData.length + 1).toString(), name: tmp[i]})
                 }
-            }
-            else if (msg.tag === "2") {
-                if (msg.name === "") {
-                    message.error("请输入专业名称");
-                }
-                else {
-                    const response = yield call(tssFetch, '/dept/major/get/info', 'POST', {name: msg.name});
-                    if (response.status === 401) {
-                        message.error('获取专业列表失败');
-                        return;
-                    }
-                    const jsonBody = yield call(response.text.bind(response));
-                    const body = JSON.parse(jsonBody);
-                    message.success(body.status);
-                    yield put({
-                        type: 'updateDeptInfo',
-                        payload: {majorData: [{key: "1", name: body.name}]}
-                    });
-                }
+                yield put({
+                    type: 'updateDeptInfo',
+                    payload: {data: deptData}
+                });
             }
             else {
-                if (msg.name === "") {
-                    message.error("请输入班级名称");
-                }
-                else {
-                    const response = yield call(tssFetch, '/dept/class/get/info', 'POST', {name: msg.name});
-                    if (response.status === 401) {
-                        message.error('获取班级列表失败');
-                        return;
-                    }
+                const response = yield call(tssFetch, '/dept/department/get/info', 'POST', {name: msg.name});
+                if (response.status !== 200) {
+                    // message.error('获取院系列表失败');
                     const jsonBody = yield call(response.text.bind(response));
                     const body = JSON.parse(jsonBody);
-                    message.success(body.status);
-                    yield put({
-                        type: 'updateDeptInfo',
-                        payload: {classData: [{key: "1", name: body.name}]}
-                    });
+                    message.warning(body.status);
+                    return;
                 }
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                message.success(body.status);
+                const deptData: any = [{key: "1", name: body.name}];
+                yield put({
+                    type: 'updateDeptInfo',
+                    payload: {data: deptData}
+                });
             }
+
+            // else if (msg.tag === "2") {
+            //     if (msg.name === "") {
+            //         message.error("请输入专业名称");
+            //     }
+            //     else {
+            //         const response = yield call(tssFetch, '/dept/major/get/info', 'POST', {name: msg.name});
+            //         if (response.status === 401) {
+            //             message.error('获取专业列表失败');
+            //             return;
+            //         }
+            //         const jsonBody = yield call(response.text.bind(response));
+            //         const body = JSON.parse(jsonBody);
+            //         message.success(body.status);
+            //         yield put({
+            //             type: 'updateDeptInfo',
+            //             payload: {majorData: [{key: "1", name: body.name}]}
+            //         });
+            //     }
+            // }
+            // else {
+            //     if (msg.name === "") {
+            //         message.error("请输入班级名称");
+            //     }
+            //     else {
+            //         const response = yield call(tssFetch, '/dept/class/get/info', 'POST', {name: msg.name});
+            //         if (response.status === 401) {
+            //             message.error('获取班级列表失败');
+            //             return;
+            //         }
+            //         const jsonBody = yield call(response.text.bind(response));
+            //         const body = JSON.parse(jsonBody);
+            //         message.success(body.status);
+            //         yield put({
+            //             type: 'updateDeptInfo',
+            //             payload: {classData: [{key: "1", name: body.name}]}
+            //         });
+            //     }
+            // }
         },
         * add(payload: { payload: { name: string } }, {call, put}) {
             console.log("add");
@@ -151,6 +157,19 @@ const model = {
             console.log(response);
             if (response.status !== 200) {
                 message.error('添加学生失败');
+                return;
+            }
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            message.success(body.status);
+        },
+        * addTea(payload: { payload: { uids: string[], department: string } }, {call, put}) {
+            // console.log("add");
+            const msg = payload.payload;
+            const response = yield call(tssFetch, '/dept/department/add/user', 'POST', msg);
+            console.log(response);
+            if (response.status !== 200) {
+                message.error('添加教师失败');
                 return;
             }
             const jsonBody = yield call(response.text.bind(response));
@@ -250,7 +269,7 @@ const model = {
         },
         * deleteDept(payload: { payload: { names: string[] } }, {call, put}) {
             const msg = payload.payload;
-            for(let i = 0; i < msg.names.length; i++){
+            for (let i = 0; i < msg.names.length; i++) {
                 const response = yield call(tssFetch, '/dept/department/delete', 'DELETE', {name: msg.names[i]});
                 if (response.status !== 200) {
                     message.error('删除院系失败');
@@ -261,7 +280,7 @@ const model = {
         },
         * deleteMajor(payload: { payload: { names: string[] } }, {call, put}) {
             const msg = payload.payload;
-            for(let i = 0; i < msg.names.length; i++){
+            for (let i = 0; i < msg.names.length; i++) {
                 const response = yield call(tssFetch, '/dept/major/delete', 'DELETE', {name: msg.names[i]});
                 if (response.status !== 200) {
                     message.error('删除专业失败');
@@ -272,7 +291,7 @@ const model = {
         },
         * deleteClass(payload: { payload: { names: string[] } }, {call, put}) {
             const msg = payload.payload;
-            for(let i = 0; i < msg.names.length; i++){
+            for (let i = 0; i < msg.names.length; i++) {
                 const response = yield call(tssFetch, '/dept/class/delete', 'DELETE', {name: msg.names[i]});
                 if (response.status !== 200) {
                     message.error('删除班级失败');
@@ -281,7 +300,32 @@ const model = {
             }
             message.success('删除班级成功');
         },
-        * modifyDept(payload: { payload: { name: string, newName: string } }, {call, put}){
+        * deleteStu(payload: { payload: { uids: string[], majorClass: string } }, {call, put}) {
+            const msg = payload.payload;
+            // for (let i = 0; i < msg.uids.length; i++) {
+            // const response = yield call(tssFetch, '/dept/class/delete', 'DELETE', {name: msg.names[i]});
+            // if (response.status !== 200) {
+            //     message.error('删除班级失败');
+            //     return;
+            // }
+            // }
+            const response = yield call(tssFetch, '/dept/class/delete', 'DELETE', msg);
+            if (response.status !== 200) {
+                message.error('删除学生失败');
+                return;
+            }
+            message.success('删除学生成功');
+        },
+        * deleteTea(payload: { payload: { uids: string[], department: string } }, {call, put}) {
+            const msg = payload.payload;
+            const response = yield call(tssFetch, '/dept/department/delete/user', 'POST', msg);
+            if (response.status !== 200) {
+                message.error('删除教师失败');
+                return;
+            }
+            message.success('删除教师成功');
+        },
+        * modifyDept(payload: { payload: { name: string, newName: string } }, {call, put}) {
             const msg = payload.payload;
             const response = yield call(tssFetch, '/dept/department/modify', 'POST', msg);
             if (response.status !== 200) {
@@ -290,7 +334,7 @@ const model = {
             }
             message.success('编辑院系成功');
         },
-        * modifyMajor(payload: { payload: { name: string, newName: string, department: any } }, {call, put}){
+        * modifyMajor(payload: { payload: { name: string, newName: string, department: any } }, {call, put}) {
             const msg = payload.payload;
             const response = yield call(tssFetch, '/dept/major/modify', 'POST', msg);
             if (response.status !== 200) {
@@ -299,7 +343,7 @@ const model = {
             }
             message.success('编辑专业成功');
         },
-        * modifyClass(payload: { payload: { name: string, newName: string, major: any, year: any } }, {call, put}){
+        * modifyClass(payload: { payload: { name: string, newName: string, major: any, year: any } }, {call, put}) {
             const msg = payload.payload;
             const response = yield call(tssFetch, '/dept/class/modify', 'POST', msg);
             if (response.status !== 200) {
