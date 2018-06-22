@@ -114,7 +114,7 @@ const model = {
                 const response = yield call(tssFetch, '/classes/register', 'POST', {'classId': value});
                 if (response.status == 200) {
                     message.success("选课成功");
-                    return;
+                    yield put(routerRedux.push('/stuSelect'));
                 }
                 else {
                     const jsonBody = yield call(response.text.bind(response));
@@ -129,7 +129,7 @@ const model = {
               const response = yield call(tssFetch, '/classes/drop', 'DELETE', {'classId': value});
               if (response.status == 200) {
                   message.success("退课成功");
-                  return;
+                  yield put(routerRedux.push('/stuSelect'));
               }
               else{
                   const jsonBody = yield call(response.text.bind(response));
