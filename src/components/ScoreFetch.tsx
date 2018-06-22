@@ -64,7 +64,36 @@ export default class scoreFetchComponent extends Component<ScoreProps,{}>{
         this.forceUpdate();
     }
 
-
+    componentDidMount() {        
+        if (this.props._state === "0")
+        {
+            var myChart = echarts.init(document.getElementById('main'));        
+            var dataScore = [0,0,0,0,0];        
+            var i=0;
+            for (var p in this.props._state.class_score.scores)
+            {
+                i++;
+                if (this.props._state.class_score.scores[i]<=60) dataScore[0]++;
+                else if (this.props._state.class_score.scores[i]<=70) dataScore[1]++;
+                else if (this.props._state.class_score.scores[i]<=80) dataScore[2]++;
+                else if (this.props._state.class_score.scores[i]<=90) dataScore[3]++;
+                else dataScore[4]++;
+            }
+            myChart.setOption({
+                title: { text: '成绩分析表' },
+                tooltip: {},
+                xAxis: {
+                    data: ["50-59", "60-69", "70-79", "80-89", "90-100"]
+                },
+                yAxis: {},
+                series: [{
+                    name: '销量',
+                    type: 'bar',
+                    data: [dataScore[0], dataScore[1], dataScore[2], dataScore[3], dataScore[4]],                
+                }]
+            });        
+        }
+    }
 
     render()
     {       
@@ -178,7 +207,7 @@ export default class scoreFetchComponent extends Component<ScoreProps,{}>{
                         <tr>
                             <td className="scoreHead">课程成绩直方图</td>
                             <td className="evenrowcolor">
-                            <img src={require('../img/score.png')} alt="" />                                              
+                            <div id="main"  style={{ width: 400, height: 400 }}></div>
                             </td>
                         </tr>
                         </tbody>
@@ -230,8 +259,7 @@ export default class scoreFetchComponent extends Component<ScoreProps,{}>{
 
                         </tbody>
                     </table>        
-                    <div style={{ textAlign:"center" }}>
-                    <h1 style={{ textSize: "60px" }}>课程成绩表</h1></div>                    
+                    <div style={{ textAlign:"center" }}><h1 style={{ textSize: "60px" }}>课程成绩表</h1></div>
                     <table className="scoreTable" style={{ align: "center", cellPadding:"15px", margin:"0px auto", width:"80%"}}>
 
                         <tbody>
@@ -359,7 +387,12 @@ export default class scoreFetchComponent extends Component<ScoreProps,{}>{
                             <td className="scoreHead">课程平均成绩</td>
                             <td className="evenrowcolor">{_state.class_score.avg}</td>
                         </tr>
-
+                        <tr>
+                            <td className="scoreHead">课程成绩直方图</td>
+                            <td className="evenrowcolor">
+                            <div id="main"  style={{ width: 400, height: 400 }}></div>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                     <table style={{ align:"center", margin: "0px auto", cellPadding:"10px", width:"20%" }}>
