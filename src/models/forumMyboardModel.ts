@@ -4,16 +4,11 @@ import {tssFetch} from '../utils/tssFetch';
 const model = {
     namespace: 'myboard',
     state: {
-        uid:'sunjian',
-        list: [{
-            'id':'3',
-            'boardname':'计算机组成-楼学庆',
 
-        },{
-            'id':'4',
-            'boardname':'数据结构基础-陈越',
-
-        }]
+        bookList:{
+            "boardNames": ["版面名"],
+            "boardIDs":["123"]
+        }
     },
     reducers: {
         updateAllBoardInfo(state, payload) {
@@ -21,19 +16,19 @@ const model = {
         }
     },
     effects: {
-        * getallboard(payload: {payload:{newuser:string}}, {call, put}) {
-
-            yield put({type: 'updateAllBoardInfo', payload: {uid :'test'}});
+        * getMyBoard(payload: {payload:any}, {call, put}) {
+            console.log("我在关注")
+            const response = yield call(tssFetch, '/section/showbook', 'GET', {});
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            console.log("我的关注列表");
+            console.log(body)
+            yield put({type: 'updateAllBoardInfo', payload: {bookList:body}});
 
             return ;
         },
 
-        *show({ payload },{select,call, put}){
-            const name = yield select(state =>state);
-         //   console.log("in show:",name.allboard.uid);
 
-            return ;
-        }
     }
 };
 

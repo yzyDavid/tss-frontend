@@ -19,15 +19,17 @@ export default class MyBoard extends Component<MyBoardProps>{
 
 
     render(){
+
+        let display = new Array();
+        for(var i=0;i<this.props.mylist.boardIDs.length;i++){
+            display.push(<Menu.Item key={this.props.mylist.boardIDs[i]}>{this.props.mylist.boardNames[i]}</Menu.Item>)
+        }
+
         return(
             <Menu mode="inline" onSelect={key=>this.props.dispatch({type:'board/gotoboard', payload:{boardid:key.key}})}>
                 <SubMenu key="myboard" title={<span><Icon type="heart" />订阅版块</span>}  >
                     {
-                        this.props.mylist.map(function(board){
-                            return (
-                                <Menu.Item key={board.id}>{board.boardname}</Menu.Item>
-                            )
-                        })
+                        display
                     }
 
                 </SubMenu>

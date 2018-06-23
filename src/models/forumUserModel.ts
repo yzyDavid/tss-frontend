@@ -24,15 +24,15 @@ const model = {
     },
     effects: {
         *changePhoto(payload: {payload:any}, {call, put}) {
-            const msg = payload.payload;
-            const data = new DataForm();
-            data.data =msg;
-            console.log(data.data);
-            const response = yield call(tssFetch, '/test/string', 'POST', data);
+
+            console.log("下面是传送的图片data");
+            console.log(payload.payload);
+            const response = yield call(tssFetch, '/file/upload', 'POST', payload.payload);
             // yield put(routerRedux.push({
             //     pathname: "/board="+msg,
             // }));
             const jsonBody = yield call(response.text.bind(response));
+            console.log("下面是返回")
             console.log(jsonBody);
             return;
 

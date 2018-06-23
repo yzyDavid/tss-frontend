@@ -18,7 +18,7 @@ interface ForumHomeProps extends DvaProps {
     uid: string;
     hot:any;
     latest:any;
-
+    unread:any;
 }
 
 
@@ -36,10 +36,17 @@ export default class ForumHomePageComponent extends Component<ForumHomeProps>{
     componentWillMount(){
         // this.props.dispatch({type:'forumhome/get24', payload:{}});
         // this.props.dispatch({type:'forumhome/getLatest', payload:{}});
+        this.props.dispatch({type:"ForumNavigation/updateUnread",payload:{}});
+        this.props.dispatch({type:"myboard/getMyBoard",payload:{}})
+        //this.props.dispatch({type:"forumhome/getMyBoard",payload:{}});
     }
     clickAllBoard= (e) =>{
 
         this.props.dispatch({type:'forumhome/gotoAllBoard', payload:{}})
+    };
+
+    gotoPage=(e)=>{
+        this.props.dispatch({type:'forumhome/gotoPage', payload:e})
     };
     render(){
 
@@ -48,12 +55,12 @@ export default class ForumHomePageComponent extends Component<ForumHomeProps>{
             title: '版面',
             dataIndex: 'board',
             key: 'board',
-            render: (text,record) => <a  href={this.props.URL+"#/forum/board/"+record.boardid+"/1"}>{text}</a>,width:150,
+            render: (text,record) => <a onClick={this.gotoPage.bind(this,"/forum/board/"+record.boardid+"/1")} >{text}</a>,width:150,
         }, {
             title: '标题',
             dataIndex: 'title',
             key: 'title',
-            render: (text,record) => <a  href={this.props.URL+"#/forum/topic/"+record.topicid+"/1"}>{text}</a>,width:400,
+            render: (text,record) => <a  onClick={this.gotoPage.bind(this,"/forum/topic/"+record.topicid+"/1")} >{text}</a>,width:400,
         }, {
             title: '作者',
             dataIndex: 'author',
@@ -84,8 +91,8 @@ export default class ForumHomePageComponent extends Component<ForumHomeProps>{
                 author:this.props.hot.authors[i],
                 replyNUM:this.props.hot.replyNUMs[i],
                 time:this.props.hot.times[i],
-
-
+                topicid:this.props.hot.topicids[i],
+                boardid:this.props.hot.boardids[i]
             })
         }
 
@@ -97,14 +104,15 @@ export default class ForumHomePageComponent extends Component<ForumHomeProps>{
                 author:this.props.latest.authors[i],
                 replyNUM:this.props.latest.replyNUMs[i],
                 time:this.props.latest.times[i],
-
+                topicid:this.props.latest.topicids[i],
+                boardid:this.props.latest.boardids[i]
 
             })
         }
         return(
             <BrowserFrame>
                 <div style={{height:"100%"}} className="ant-layout-topaside">
-                    <NavigationBar current={"home"} dispatch={this.props.dispatch}/>
+                    <NavigationBar  unread={this.props.unread} current={"home"} dispatch={this.props.dispatch}/>
 
 
 

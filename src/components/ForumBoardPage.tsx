@@ -31,6 +31,7 @@ interface BoardProps extends DvaProps{
     URL:string;
     publicData:any,
     topicData:any;
+    unread:any;
 }
 
 export default class BoardPageComponent extends Component<BoardProps>{
@@ -41,7 +42,7 @@ export default class BoardPageComponent extends Component<BoardProps>{
         boardID:"",
         showModal:"false",
         editorState: EditorState.createEmpty(),
-
+        watch:"",
     };
 
 
@@ -80,26 +81,39 @@ export default class BoardPageComponent extends Component<BoardProps>{
         topicData.currentPage = pageNum;
 
         this.setState({boardID:boardID});
-
+        this.setState({watch:this.props.publicData.watched});
+        console.log("看看到底什么")
+        console.log(this.props.publicData.watched)
         this.props.dispatch({type:'board/getPublicData', payload:publicData});
         this.props.dispatch({type:'board/getTopicData', payload:topicData});
+        this.props.dispatch({type:"ForumNavigation/updateUnread",payload:{}});
     }
 
     gotoAnotherPage=(page)=>{
 
-        var data = new getTopicDataForm;
-        data.currentPage = page.toString();
-        data.boardID = this.state.boardID;
-        this.props.dispatch({type:'board/getTopicData', payload:data})
+        var newpath = "/forum/board/"+this.state.boardID+"/"+page.toString();
+        this.props.dispatch({type:'forumhome/gotoPageReload',payload:newpath})
     };
 
     PostNewTopic = () => {
-       // console.log(this.props.boardinfo.boardID);
+        // console.log(this.props.boardinfo.boardID);
         this.props.dispatch({type:'board/newtopic', payload:this.props.publicData.boardID})
     };
 
+    gotoPage=(e)=>{
+        this.props.dispatch({type:'forumhome/gotoPage',payload:e})
+    }
+
     ChangeWatch = () => {
-        this.props.dispatch({type:'board/newtopic', payload:{}})
+        const data = new getPublicDataForm;
+        data.boardID = this.state.boardID
+        if(this.state.watch==="true"){
+            this.setState({watch:false})
+            this.props.dispatch({type:'board/book', payload:data})
+        }else{
+            this.setState({watch:true})
+            this.props.dispatch({type:'board/unbook', payload:data})
+        }
     };
 
 
@@ -134,10 +148,15 @@ export default class BoardPageComponent extends Component<BoardProps>{
 
         const Topcolumns = [
             {
+                title:"",
+                key:"",
+                render: (text, record) =>(<Icon type="pushpin-o" />),width:10,
+            },
+            {
                 title: '标题',
                 dataIndex: 'title',
                 key: 'title',
-                render: (text, record) => <a   href={this.props.URL+"#/forum/topic/"+record.id+"/1"}> {text}</a>,width:300,
+                render: (text, record) => <a  onClick={this.gotoPage.bind(this,"/forum/topic/"+record.id+"/1")}> {text}</a>,width:300,
             }, {
                 title: '作者',
                 dataIndex: 'author',
@@ -163,7 +182,7 @@ export default class BoardPageComponent extends Component<BoardProps>{
                 title: '标题',
                 dataIndex: 'title',
                 key: 'title',
-                render: (text, record) => <a  style={{float:"left"}} href={this.props.URL+"#/forum/topic/"+record.id+"/1"}> {text}</a>,width:300,
+                render: (text, record) => <a onClick={this.gotoPage.bind(this,"/forum/topic/"+record.id+"/1")} style={{float:"left"}} > {text}</a>,width:300,
             }, {
                 title: '作者',
                 dataIndex: 'author',
@@ -183,13 +202,20 @@ export default class BoardPageComponent extends Component<BoardProps>{
 
 
         let isWatch;
-        if(this.props.publicData.isWatched === "false"){
+
+
+
+        if(this.state.watch==="false"){
             isWatch = <Button type="primary" onClick={this.ChangeWatch}>点击关注</Button>
-        }else{
+        }else {
+
             isWatch = <Button onClick={this.ChangeWatch}>取消关注</Button>;
         }
 
+
+
         let topList = new Array();
+
 
         for(var i=0;i<this.props.publicData.topTitles.length;i++){
             topList.push({
@@ -202,6 +228,7 @@ export default class BoardPageComponent extends Component<BoardProps>{
             })
 
         }
+
 
         let topicList = new Array();
         for(var i=0;i<this.props.topicData.topicTitles.length;i++){
@@ -219,7 +246,7 @@ export default class BoardPageComponent extends Component<BoardProps>{
 
         return(
             <BrowserFrame>
-                {/*<NavigationBar current={""} dispatch={this.props.dispatch}/>*/}
+                <NavigationBar unread={this.props.unread} current={""} dispatch={this.props.dispatch}/>
                 <div style={{marginLeft:280,marginRight:280,marginTop:10}}>
                     <div style={{fontWeight:"bold",fontSize:30}}>
                         <div style={{float:"left"}}>{this.props.publicData.boardName}</div>
@@ -244,24 +271,24 @@ export default class BoardPageComponent extends Component<BoardProps>{
 
                     <div style={{marginTop:80,fontSize:20}}>置顶</div>
 
-                        <Modal title="发布公告" visible={this.state.showModal==="true"} width={1000}
-                               onOk={this.handleOk}
-                               onCancel={this.handleCancel}
-                               okText={"发布"}
-                               cancelText={"取消发布"}
-                        >
-                            <div style={{height:200}}>
-                                <Editor
+                    <Modal title="发布公告" visible={this.state.showModal==="true"} width={1000}
+                           onOk={this.handleOk}
+                           onCancel={this.handleCancel}
+                           okText={"发布"}
+                           cancelText={"取消发布"}
+                    >
+                        <div style={{height:200}}>
+                            <Editor
 
-                                    wrapperClassName="demo-wrapper  "
-                                    editorClassName="demo-editor"
-                                    localization={{
-                                        locale: 'zh',
-                                    }}
-                                    onEditorStateChange={this.onEditorStateChange}
-                                />
-                            </div>
-                        </Modal>
+                                wrapperClassName="demo-wrapper  "
+                                editorClassName="demo-editor"
+                                localization={{
+                                    locale: 'zh',
+                                }}
+                                onEditorStateChange={this.onEditorStateChange}
+                            />
+                        </div>
+                    </Modal>
 
 
                     <div style={{marginTop:0,float:"none",backgroundColor:"#f9ecc6"}} >
@@ -269,7 +296,7 @@ export default class BoardPageComponent extends Component<BoardProps>{
                             <Form layout="inline">
 
 
-                                <Table  {...{pagination:false}}  columns={Topcolumns} dataSource={topList} />
+                                <Table  {...{pagination:false}}  locale={{emptyText:"暂无置顶帖"}} columns={Topcolumns} dataSource={topList} />
                             </Form>
                         </div>
                     </div>
@@ -278,6 +305,7 @@ export default class BoardPageComponent extends Component<BoardProps>{
                         <div style={{marginTop:40,fontSize:20,float:"left"}}>帖子</div>
                         <div style={{marginTop:40,float:"right"}}> <Pagination showQuickJumper
                                                                                onChange={this.gotoAnotherPage}
+                                                                               pageSize={20}
                                                                                defaultCurrent={parseInt(this.props.topicData.currntPage)} total={parseInt(this.props.topicData.totalPage)*20}  /></div>
                     </div>
 
@@ -291,6 +319,7 @@ export default class BoardPageComponent extends Component<BoardProps>{
                     </div>
                     <div style={{marginTop:0,float:"right"}}> <Pagination showQuickJumper
                                                                           onChange={this.gotoAnotherPage}
+                                                                          pageSize={20}
                                                                           defaultCurrent={parseInt(this.props.topicData.currntPage)} total={parseInt(this.props.topicData.totalPage)*20}  /></div>
 
                 </div>

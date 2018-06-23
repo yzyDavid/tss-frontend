@@ -8,33 +8,13 @@ const model = {
         replylist: {
             "currentPage":1,
             "totalPage":100,
-            "data":[{
-                "uid":"2",
-                "name":"回复用户的ID",
-                "title":"帖子标题",
-                "topicID":123,
-                "time":"2018-05-01 12:23:23"
-            },{
-                "uid":"3",
-                "name":"回复用户的ID",
-                "title":"帖子标题",
-                "topicID":123,
-                "time":"2018-05-01 12:23:23"
-            },
-                {
-                    "uid":"4",
-                    "name":"回复用户的ID",
-                    "title":"帖子标题",
-                    "topicID":123,
-                    "time":"2018-05-01 12:23:23"
-                },
-                {
-                    "uid":"5",
-                    "name":"回复用户的ID",
-                    "title":"帖子标题",
-                    "topicID":123,
-                    "time":"2018-05-01 12:23:23"
-                }]
+            "times":["2016"],
+            "userIDs":["315"],
+            "userNames":["dasdas"],
+            "topicIDs":["123"],
+            "replyPos":["回复的内容在该贴中的楼层数"],
+            "reads":["1"],
+            "titles":["标题"]
         }
     },
     reducers: {
@@ -43,19 +23,25 @@ const model = {
         }
     },
     effects: {
-        * getallboard(payload: {payload:{newuser:string}}, {call, put}) {
-            console.log(payload.payload.newuser);
-            yield put({type: 'updateAllBoardInfo', payload: {uid :'test'}});
+        * getData(payload: {payload:any}, {call, put}) {
+            const data = payload.payload;
+            const response = yield call(tssFetch, '/reply/show', 'POST', data);
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            yield put({type: 'updateAllBoardInfo', payload: {replylist:body}});
 
             return ;
         },
 
-        *show({ payload },{select,call, put}){
-            const name = yield select(state =>state);
-          //  console.log("in show:",name.allboard.uid);
+        * setReplyRead(payload: {payload:any}, {call, put}) {
+            const data = payload.payload;
+            const response = yield call(tssFetch, '/reply/confirm', 'POST', data);
+            const jsonBody = yield call(response.text.bind(response));
+
 
             return ;
-        }
+        },
+
     }
 };
 

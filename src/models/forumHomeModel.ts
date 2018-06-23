@@ -6,24 +6,24 @@ const model = {
     state: {
         URL:"localhost:3000/",
         HotList:{
-            "boardNames":["数据结构"],
-            "titles":["这是一个帖子的标题"],
-            "authors":["作者名"],
-            "boardids":["123"],
-            "topicids":["123"],
-            "times":["这里是时间"],
+            "boardNames":["编译原理"],
+            "titles":["编译原理考试问题"],
+            "authors":["JoeyYoung"],
+            "boardids":["101"],
+            "topicids":["44"],
+            "times":["2018-06-13 19:47:03.0"],
             "replyNUMs":["5"],
             "lastReplyTimes":["最后回复时间"]
         },
 
 
         LatestList:{
-            "boardNames":["数据结构"],
-            "titles":["这是一个帖子的标题"],
-            "authors":["作者名"],
-            "boardids":["123"],
-            "topicids":["123"],
-            "times":["这里是时间"],
+            "boardNames":["编译原理"],
+            "titles":["编译原理考试问题"],
+            "authors":["JoeyYoung"],
+            "boardids":["101"],
+            "topicids":["44"],
+            "times":["2018-06-13 19:47:03.0"],
             "replyNUMs":["5"],
             "lastReplyTimes":["最后回复时间"]
         }
@@ -52,6 +52,28 @@ const model = {
 
             return ;
         },
+
+        *gotoPage(payload: {payload:string}, {call, put}) {
+
+            yield put(routerRedux.push({
+                pathname: payload.payload,
+            }));
+
+            return ;
+        },
+
+
+        * gotoPageReload(payload: {payload:string}, {call, put}) {
+
+            yield put(routerRedux.push({
+                pathname: payload.payload,
+            }));
+
+            location.reload()
+            return ;
+        },
+
+
         *get24(payload:{payload:{}},{call,put}){
 
             const response = yield call(tssFetch, '/section/info', 'GET', {});

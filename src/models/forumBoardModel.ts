@@ -19,8 +19,7 @@ const model = {
             "topReplys":["置顶帖回复数"],
             "topTopicIDs":["置顶帖的ID"],
             "topLastReplyTimes":["最后回复的时间"],
-
-            "isWatched":"true"
+            "watched":"true"
         },
 
         topicData:{
@@ -32,10 +31,12 @@ const model = {
             "topicTimes":["置顶帖发帖时间"],
             "topicReplys":["置顶帖回复数"],
             "topicIDs":["置顶帖的ID"],
-            "topicLastReplyTimes":["最后回复的时间"]
+            "topicLastReplyTimes":["最后回复的时间"],
+            "names":["jack"],
+
         }
 
-},
+    },
     reducers: {
         updateBoardInfo(state, payload) {
             return {...state,...payload.payload};
@@ -59,8 +60,8 @@ const model = {
             const response = yield call(tssFetch, '/topic/topinfo', 'POST', data);
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
-            // console.log("下面是publicData in forumBoardModel");
-            // console.log(body);
+            console.log("下面是publicData in forumBoardModel");
+            console.log(body);
             yield put({type: 'updateBoardInfo', payload: {publicData:body}});
 
         },
@@ -73,7 +74,7 @@ const model = {
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
 
-           // yield put({type: 'updateBoardInfo', payload: {topicData:body}});
+            yield put({type: 'updateBoardInfo', payload: {topicData:body}});
 
         },
 
@@ -81,14 +82,12 @@ const model = {
         *changeBoardInfo(payload: {payload:any}, {call, put}){
 
             const data = payload.payload;
-            console.log("test123")
-            console.log(data);
             const response = yield call(tssFetch, '/section/addnotice', 'POST', data);
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
 
             location.reload();
-           // yield put({type: 'updateBoardInfo', payload: {topicData:body}});
+            // yield put({type: 'updateBoardInfo', payload: {topicData:body}});
 
         },
 
@@ -99,6 +98,31 @@ const model = {
             yield put(routerRedux.push({
                 pathname: '/forum/newpost='+data,
             }));
+
+        },
+
+        *book(payload: {payload:any}, {call, put}){
+
+            const data = payload.payload;
+            const response = yield call(tssFetch, '/section/book', 'POST', data);
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+
+            console.log("看看订阅成功了吗")
+            console.log(body);
+            // yield put({type: 'updateBoardInfo', payload: {topicData:body}});
+
+        },
+        *unbook(payload: {payload:any}, {call, put}){
+
+            const data = payload.payload;
+            const response = yield call(tssFetch, '/section/unbook', 'POST', data);
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+
+            console.log("看看取消订阅了吗")
+            console.log(body);
+            // yield put({type: 'updateBoardInfo', payload: {topicData:body}});
 
         },
 

@@ -6,7 +6,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
-import { Pagination,Button,Icon} from "antd";
+import { Pagination,Button,Icon,message} from "antd";
 import NavigationBar from './ForumNavigation';
 
 
@@ -18,6 +18,7 @@ import NavigationBar from './ForumNavigation';
 interface TopicProps extends DvaProps{
     allstate:any,
     URL:string;
+    unread:any
 }
 
 
@@ -34,7 +35,8 @@ export default class TopicPageComponent extends Component<TopicProps>{
         editorState: EditorState.createEmpty(),
         showQuote:false,
         replyNum:0,
-
+        topicID:"",
+        page:""
     };
 
     constructor(props) {
@@ -44,25 +46,12 @@ export default class TopicPageComponent extends Component<TopicProps>{
 
     gotoAnotherPage=(page)=>{
         if(page<=this.props.allstate.totalPage){
-            var path = document.location.hash.toString();
-            const temp = "#/forum/topic/";
-            path = path.substring(temp.length);
-            var topicID = "";
 
-            var pos;
-            for(var i=0;i<path.length;i++){
-                if(path.charAt(i)==='/'){
-                    pos=i;
-                    break;
-                }else{
-                    topicID+=path.charAt(i);
-                }
-            }
+            var newpath = "/forum/topic/"+this.state.topicID+"/"+page.toString()
 
-
-
-            const Data = {tid:topicID,page:page};
+            const Data = {tid:this.state.topicID,page:page.toString()};
             this.props.dispatch({type:'topic/getData', payload:Data});
+            this.props.dispatch({type:'forumhome/gotoPage', payload:newpath});
         }
     };
 
@@ -95,6 +84,11 @@ export default class TopicPageComponent extends Component<TopicProps>{
         //todo 增加权限检查
         this.props.dispatch({type:'topic/setTop', payload:{topicID:this.props.allstate.topicID}});
     }
+
+
+    gotoPage=(e)=>{
+        this.props.dispatch({type:'forumhome/gotoPage', payload:e});
+    }
     componentWillMount(){
         var path = document.location.hash.toString();
         const temp = "#/forum/topic/";
@@ -114,7 +108,14 @@ export default class TopicPageComponent extends Component<TopicProps>{
         currentPage =  path.substring(pos+1);
 
         const Data = {tid:topicID,page:currentPage};
+        this.setState({topicID:topicID,page:currentPage});
+        console.log("下面是帖子数据");
+        console.log(Data)
         this.props.dispatch({type:'topic/getData', payload:Data});
+        this.props.dispatch({type:"ForumNavigation/updateUnread",payload:{}});
+
+        console.log("看当前页数")
+        console.log(this.props.allstate.currentPage)
     }
 
     postReply =(e)=>{
@@ -123,7 +124,13 @@ export default class TopicPageComponent extends Component<TopicProps>{
         postData.tid = this.props.allstate.topicID;
         postData.quoteIndex = this.state.replyNum.toString();
         postData.text =  draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())).toString();
-        this.props.dispatch({type:'topic/postReply', payload:postData})
+
+        if(postData.text === "<p></p>\n"){
+            message.warning("回复内容不能为空")
+        }else{
+            this.props.dispatch({type:'topic/postReply', payload:postData})
+        }
+
     };
 
 
@@ -147,14 +154,14 @@ export default class TopicPageComponent extends Component<TopicProps>{
                         <img src={this.props.allstate.lzphoto} width="60" height="60" />
                     </div>
                     <div >
-                        <div style={{fontSize:16,fontWeight:"bold",marginLeft:70,marginTop:40}}>
+                        <div onClick={this.gotoPage.bind(this,"/forum/uid/"+this.props.allstate.lzid)} style={{fontSize:16,fontWeight:"bold",marginLeft:70,marginTop:40,cursor:"pointer",width:100}}>
                             {this.props.allstate.lzname}
                         </div>
                         <div style={{marginLeft:70, fontSize:12 ,borderBottomStyle:"solid", borderBottomWidth:1,}}>发布于{this.props.allstate.lztime}</div>
                         {/*<div style={{marginTop:20 , fontSize:18,borderStyle:"solid"}} dangerouslySetInnerHTML={{__html: draftToHtml(reply.quote)}} />*/}
                         {q}
                         <div style={{marginTop:45 , marginBottom:20,fontSize:18}} dangerouslySetInnerHTML={{__html: this.props.allstate.lztext}} /></div>
-                    <div onClick={this.replyFloor.bind(this,"-1")} style={{cursor:"pointer",width:"30px"}} >回复</div>
+                    {/*<div onClick={this.replyFloor.bind(this,"-1")} style={{cursor:"pointer",width:"30px"}} >回复</div>*/}
 
                 </div>
             </div>
@@ -166,13 +173,13 @@ export default class TopicPageComponent extends Component<TopicProps>{
 
         }else{
             for(var i=0; i<this.props.allstate.ids.length;i++){
-                var author = this.props.allstate.ids[i];
+                var author = this.props.allstate.names[i];
                 var replyKey = this.props.allstate.indexs[i];
                 var headurl = this.props.allstate.photos[i];
                 var time = this.props.allstate.times[i];
                 var quote = this.props.allstate.quotes[i];
                 var text = this.props.allstate.texts[i];
-
+                var id = this.props.allstate.ids[i];
                 var quoteIndex = this.props.allstate.quoteIndexs[i];
                 var quoteAuthor = this.props.allstate.quoteAuthors[i];
                 var quoteTime  = this.props.allstate.quoteTimes[i];
@@ -199,7 +206,7 @@ export default class TopicPageComponent extends Component<TopicProps>{
                                 <img src={headurl} width="60" height="60" />
                             </div>
                             <div >
-                                <div style={{fontSize:16,fontWeight:"bold",marginLeft:70,marginTop:40}}>
+                                <div onClick={this.gotoPage.bind(this,"/forum/uid/"+id)} style={{fontSize:16,fontWeight:"bold",marginLeft:70,marginTop:40,cursor:"pointer",width:100}}>
                                     {author}
                                 </div>
                                 <div style={{marginLeft:70, fontSize:12 ,borderBottomStyle:"solid", borderBottomWidth:1,}}>发布于{time}</div>
@@ -215,10 +222,10 @@ export default class TopicPageComponent extends Component<TopicProps>{
                 )
             }
 
-            quoteIndex = this.props.allstate.quoteIndexs[this.state.replyNum-1];
-            quoteAuthor = this.props.allstate.quoteAuthors[this.state.replyNum-1];
-            quoteTime = this.props.allstate.quoteTimes[this.state.replyNum-1];
-            text = this.props.allstate.texts[this.state.replyNum-1];
+            quoteIndex = this.props.allstate.indexs[this.state.replyNum-1-10*(this.props.allstate.currentPage-1)];
+            quoteAuthor = this.props.allstate.names[this.state.replyNum-1-10*(this.props.allstate.currentPage-1)];
+            quoteTime = this.props.allstate.times[this.state.replyNum-1-10*(this.props.allstate.currentPage-1)];
+            text = this.props.allstate.texts[this.state.replyNum-1-10*(this.props.allstate.currentPage-1)];
 
             if(this.state.showQuote==true){
                 quoteZone = <div  style={{marginTop:45 , marginBottom:20, borderStyle:"solid" ,borderWidth:1,backgroundColor:"rgb(200, 200, 200)"}}>
@@ -235,12 +242,12 @@ export default class TopicPageComponent extends Component<TopicProps>{
             <BrowserFrame>
                 {/*<div dangerouslySetInnerHTML={{__html: draftToHtml(this.props.testreply)}} />*/}
 
-                <NavigationBar current={""} dispatch={this.props.dispatch}/>
-                <div style={{marginLeft:200,marginTop:10,fontSize:20}}><a href={this.props.URL+"#/forum/board="+this.props.allstate.boardID}>{this.props.allstate.boardName}</a></div>
+                <NavigationBar unread={this.props.unread} current={""} dispatch={this.props.dispatch}/>
+                <div style={{marginLeft:200,marginTop:10,fontSize:20}}><a onClick={this.gotoPage.bind(this,"/forum/board/"+this.props.allstate.boardID+"/1")}>{this.props.allstate.boardName}</a></div>
                 <div >
-                    <Pagination style={{ marginTop:20,marginLeft:200,marginBottom:20,}} showQuickJumper defaultCurrent={this.props.allstate.currentPage} total={this.props.allstate.totalPage*10} onChange={this.gotoAnotherPage}/>
-                    <div onClick={this.deleteTopic.bind(this)} style={{float:"right",marginRight:200}}>删除</div>
-                    <div onClick={this.changeTop.bind(this)} style={{float:"right",marginRight:10}}>置顶</div>
+                    <Pagination style={{ marginTop:20,marginLeft:200,marginBottom:20,}} showQuickJumper defaultCurrent={parseInt(this.props.allstate.currentPage)} total={this.props.allstate.totalPage*10} onChange={this.gotoAnotherPage}/>
+                    <div onClick={this.deleteTopic.bind(this)} style={{float:"right",marginRight:200,cursor:"pointer"}}>删除</div>
+                    <div onClick={this.changeTop.bind(this)} style={{float:"right",marginRight:10,cursor:"pointer"}}>置顶</div>
                 </div>
                 <div style={{marginLeft:200, marginRight:200,marginBottom:20,
                     backgroundColor: "rgb(255,255,255)",fontSize:30,borderStyle:"solid",
@@ -261,14 +268,15 @@ export default class TopicPageComponent extends Component<TopicProps>{
                 }
 
                 <div>
-                    <Pagination style={{marginLeft:200,marginBottom:20,}} showQuickJumper defaultCurrent={this.props.allstate.currentPage} total={this.props.allstate.totalPage*10} onChange={this.gotoAnotherPage}/>
+                    <Pagination style={{marginLeft:200,marginBottom:20,}} showQuickJumper defaultCurrent={parseInt(this.props.allstate.currentPage)} total={this.props.allstate.totalPage*10} onChange={this.gotoAnotherPage}/>
                     {/*<div style={{float:"left",marginRight:200}}>删除</div>*/}
                     {/*<div style={{float:"left",marginRight:10}}>置顶</div>*/}
                 </div>
-                <div style={{marginLeft:200,marginTop:10,fontSize:20,marginBottom:20}}><a href={this.props.URL+"#/forum/board/"+this.props.allstate.boardID+"/1"}>{this.props.allstate.boardName}</a></div>
+                <div style={{marginLeft:200,marginTop:10,fontSize:20,marginBottom:20}}><a onClick={this.gotoPage.bind(this,"/forum/board/"+this.props.allstate.boardID+"/1")} >{this.props.allstate.boardName}</a></div>
 
                 <div style={{marginBottom:20,marginLeft:200,marginRight:200,backgroundColor: "rgb(255,255,255)",height:300}}>
                     {quoteZone}
+                    <div>上传文件或图片</div>
                     <Editor
                         wrapperClassName="demo-wrapper  "
                         editorClassName="demo-editor"

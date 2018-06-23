@@ -1,6 +1,9 @@
 import {routerRedux} from 'dva/router';
 import {tssFetch} from '../utils/tssFetch';
 import {boardForm} from "./forumBoardModel";
+import {message} from 'antd'
+import {Simulate} from "react-dom/test-utils";
+import compositionEnd = Simulate.compositionEnd;
 
 
 
@@ -42,6 +45,7 @@ const model = {
             "lztime":"123",
             "lzname":"楼主ID",
 
+            "names":["jack"]
         }
 
     },
@@ -115,6 +119,11 @@ const model = {
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
 
+            if(body.status==="set top ok"){
+                message.success("置顶成功");
+            }else{
+                message.warning("置顶失败，请重试")
+            }
 
 
         },

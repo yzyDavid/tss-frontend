@@ -10,6 +10,7 @@ const MenuItemGroup = Menu.ItemGroup;
 
 interface BarProps extends DvaProps {
     current: string;
+    unread:any;
 }
 
 export default class NavigationBar extends Component<BarProps>{
@@ -19,6 +20,7 @@ export default class NavigationBar extends Component<BarProps>{
         this.handleClick = this.handleClick.bind(this);
     }
     componentDidMount() {
+        // this.props.dispatch
     };
     handleClick(e) {
         if(e.key !== this.props.current)this.props.dispatch({type:'ForumNavigation/jump', payload: {direction: e.key}});
@@ -37,10 +39,9 @@ export default class NavigationBar extends Component<BarProps>{
                     <Menu.Item key="home">
                         <Icon type="calendar" />首页
                     </Menu.Item>
-                    {/*<Menu.Item key="alipay">*/}
-                    {/*<a href="http://www.alipay.com/" target="_blank"><Icon type="message" />*/}
-                    {/*学生论坛</a>*/}
-                    {/*</Menu.Item>*/}
+
+
+
                     <SubMenu title={<span><Icon type="user" />个人中心</span>}>
                         <MenuItemGroup >
                             <Menu.Item key="userinfo">基本信息</Menu.Item>
@@ -49,13 +50,15 @@ export default class NavigationBar extends Component<BarProps>{
                     </SubMenu>
 
 
-                    <SubMenu title={<span><Icon type="message" />消息中心<Badge style={{marginLeft:10,marginBottom:3}} count={5}>
+                    <SubMenu title={<span><Icon type="message" />消息中心<Badge style={{marginLeft:10,marginBottom:3}} count={parseInt(this.props.unread.replyNum)+parseInt(this.props.unread.letterNum)}>
                             </Badge></span>}>
                         <MenuItemGroup >
                             <Menu.Item key="PrivateLetter">私信
-                                <Badge style={{marginLeft:10,marginBottom:3}} count={0}>
-                            </Badge></Menu.Item>
-                            <Menu.Item key="Reply">回复我的</Menu.Item>
+                                <Badge style={{marginLeft:10,marginBottom:3}} count={parseInt(this.props.unread.letterNum)}>
+                                </Badge></Menu.Item>
+                            <Menu.Item key="Reply">回复我的
+                                <Badge style={{marginLeft:10,marginBottom:3}} count={parseInt(this.props.unread.replyNum)}>
+                                </Badge></Menu.Item>
                         </MenuItemGroup>
                     </SubMenu>
                 </Menu>

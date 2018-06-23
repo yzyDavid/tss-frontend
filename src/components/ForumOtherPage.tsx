@@ -1,21 +1,12 @@
 import * as React from 'react';
 import {Component} from 'react';
-import {Form, Button,  Upload,Icon,Pagination} from 'antd';
+import {Form, Button,  Upload,Icon} from 'antd';
 import DvaProps from '../types/DvaProps';
 import NavigationBar from './ForumNavigation';
-import {readFile} from "fs";
-import {Simulate} from "react-dom/test-utils";
-import waiting = Simulate.waiting;
 
-
-export class photoDataForm{
-    bytes:any
-    name:string
-}
 interface UserProps extends DvaProps {
     userInfo:any
     unread:any
-    postList:any
 }
 
 const FormItem = Form.Item;
@@ -32,8 +23,6 @@ export default class ForumUserPageComponent extends Component<UserProps> {
             status: 'done',
             url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
         }],
-        reader: new FileReader(),
-        fileType:""
     };
 
     constructor(props){
@@ -59,45 +48,11 @@ export default class ForumUserPageComponent extends Component<UserProps> {
         reader.addEventListener('load', () => callback(reader.result));
         reader.readAsDataURL(img);
     }
+    handleChange = (info,) => {
 
-
-
-
-    handleChange = (info) => {
-
-        console.log("info")
-        console.log(info)
-
-        var type = info.file.originFileObj.name;
-        var pos = type.length;
-        for(var i = pos-1;i>=0;i--){
-            if(type.charAt(i)==='.'){
-                pos=i;
-                break;
-            }
+        if(info.file.status ==="error"){
+            this.props.dispatch({type:'forumUser/changePhoto', payload:info})
         }
-
-        type = type.substring(pos+1);
-        console.log("类型");
-        console.log(type)
-
-        this.setState({fileType:type})
-        this.state.reader.readAsArrayBuffer(info.file.originFileObj)
-
-//        setTimeout("this.changePhoto()", 3000); // 1秒钟后调用callback函数
-        setTimeout(()=>{
-            var buf = new Uint8Array(this.state.reader.result);
-            const data = new photoDataForm;
-            data.bytes = buf;
-            data.name = this.state.fileType;
-            this.props.dispatch({type:"forumUser/changePhoto",payload:data})
-        },2000);
-
-        this.state.reader.onload=function (ev) {
-            console.log("我好了")
-
-        };
-
 
     };
 
@@ -105,9 +60,6 @@ export default class ForumUserPageComponent extends Component<UserProps> {
     gotoPage=(e)=>{
         this.props.dispatch({type:'forumhome/gotoPage', payload:e})
     }
-
-
-
     beforeUpload(file) {
         const isJPG = file.type === 'image/png';
         if (!isJPG) {
@@ -119,20 +71,17 @@ export default class ForumUserPageComponent extends Component<UserProps> {
         }
         return isJPG && isLt2M;
     }
-    request(){
-
-    }
 
     componentWillMount(){
 
-
-
+        var uid = document.location.hash;
+        var offset = "/forum/uid/"
+        uid = uid.substring(offset.length+1);
+        this.setState({uid:uid})
         this.props.dispatch({type:"ForumNavigation/updateUnread",payload:{}});
     }
     render() {
-
-
-
+        const { previewVisible, previewImage, fileList } = this.state;
         return <div>
             <NavigationBar unread={this.props.unread}  current={""} dispatch={this.props.dispatch}/>
             <div style={{marginLeft: 200, marginRight: 200, marginTop: 10}}>
@@ -154,31 +103,27 @@ export default class ForumUserPageComponent extends Component<UserProps> {
                         type="line-chart"/>&nbsp;发帖统计:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{this.props.userInfo.postNum}</div>
                     <div style={{marginTop: 10}}><Icon
                         type="info"/>&nbsp;个人简介:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{this.props.userInfo.description}</div>
-                    <div style={{marginTop: 10}}><a onClick={this.gotoPage.bind(this,"/forum/mypost/page=1")}>查看发帖纪录</a></div>
-
+                    <div style={{marginTop: 10}}><a onClick={this.gotoPage.bind(this,"/forum/userpost/"+this.state.uid+"/1")}>查看发帖纪录</a></div>
+                    <div style={{marginTop: 10}}><a onClick={this.gotoPage.bind(this,"/forum/privateLetter")}>给Ta私信</a></div>
                 </div>
                 <div style={{marginLeft: "45%", marginTop: 20}}>
                     <Upload
 
-                        // action=""
-                        // listType="picture"
+                        action=""
+                        listType="picture"
 
                         // onPreview={this.handlePreview}
-                        onChange={this.handleChange.bind(this)}
-                        customRequest={this.request}
+                        onChange={this.handleChange}
                         // showUploadList={false}
                         // action="//jsonplaceholder.typicode.com/posts/"
                         // beforeUpload={this.beforeUpload}
                         // onChange={this.handleChange}
                     >
-                        <Button type="primary"><Icon type="edit"/>更换头像</Button>
+
                     </Upload>
 
                 </div>
             </div>
-
-
-
         </div>;
     }
 }

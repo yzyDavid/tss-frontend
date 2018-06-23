@@ -6,10 +6,10 @@ const model = {
     state: {
         userInfo:{
             "photo":"https://wx3.sinaimg.cn/mw690/91e4a538gy1frcbj13o5oj20ku0kuta5.jpg",
-            "UserName":"我是用户名",
+            "UserName":"JoeyYoung",
             "email":"8678@163.com",
             "tel":"98465848",
-            "postNum":3123,
+            "postNum":7,
             "description":"这个人什么也没说",
 
         }

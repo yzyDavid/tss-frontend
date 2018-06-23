@@ -28,11 +28,15 @@ interface SearchProps extends DvaProps {
     topicData:any;
     boardData:any;
     userData:any;
+    unread:any;
 }
 
 export default class SearchPage extends Component<SearchProps>{
 
-
+    state:{
+        key:string
+        type:string
+    }
     constructor(props){
         super(props);
 
@@ -41,6 +45,7 @@ export default class SearchPage extends Component<SearchProps>{
 
 
     componentWillMount(){
+        this.props.dispatch({type:"ForumNavigation/updateUnread",payload:{}});
         var location = document.location.hash.toString();
         const temp = "#/forum/search/";
         location = location.substring(temp.length);
@@ -56,7 +61,7 @@ export default class SearchPage extends Component<SearchProps>{
             }
         }
 
-        console.log(type)
+        this.setState({type:type})
 
         if(type==="topic"){
             console.log("in title")
@@ -78,16 +83,21 @@ export default class SearchPage extends Component<SearchProps>{
 
 
             let data = new searchTopicForm;
-             data.key = key;
-             data.page = page;
-             console.log("下面是search topic的关键字");
-             console.log(data);
+            key = decodeURI(key);
+            data.key = key;
+            data.page = page;
+            console.log("下面是search topic的关键字");
+            this.setState({key:key})
+            console.log(data);
             this.props.dispatch({type:'search/getSearchData', payload:{key:data,type:type}})
         }else if(type==="board" || type==="user"){
 
             var key = location.substring(pos);
+
             var data = new searchForm;
+            key = decodeURI(key);
             data.key = key;
+            this.setState({key:key})
             this.props.dispatch({type:'search/getSearchData', payload:{key:data,type:type}})
 
         }
@@ -95,43 +105,51 @@ export default class SearchPage extends Component<SearchProps>{
 
     }
 
+    gotoPage=(e)=>{
+        this.props.dispatch({type:'forumhome/gotoPage', payload:e})
+    };
 
     render(){
 
         let resultNum;
         let display = new Array();
 
-        if(this.props.typeList.type==="标题"){
+        if(this.state.type==="topic"){
             resultNum = this.props.topicData.titles.length;
-            display.push(
-                <Pagination style={{marginTop:15}} pageSize={20} showQuickJumper defaultCurrent={parseInt(this.props.topicData.currentPage)}
-                            total={parseInt(this.props.topicData.totalPage)*20}
-                />
-            );
+            if(resultNum===0){
 
-            for(var i =0;i<this.props.topicData.titles.length;i++){
+            }else{
+
                 display.push(
-                    <div style={{fontSize:22,borderStyle:"solid",marginTop:10,borderWidth:1,backgroundColor:"rgb(255,255,255)"}}>
-                        <div style={{marginLeft:20,marginTop:10,marginBottom:10}}>
-                            {this.props.topicData.times[i]}:&nbsp;&nbsp;在
-                            <a href={this.props.URL+"#/forum/board="+this.props.topicData.boardIDs[i]}>{this.props.topicData.boardNames[i]}</a>
-                            发表了
-                            <a href={this.props.URL+"#/forum/topic/"+this.props.topicData.topicIDs[i]+"/1"}>{"《"+this.props.topicData.titles[i]+"》"}</a>
-                        </div>
-                    </div>
+                    <Pagination style={{marginTop:15}} pageSize={20} showQuickJumper defaultCurrent={parseInt(this.props.topicData.currentPage)}
+                                total={parseInt(this.props.topicData.totalPage)*20}
+                    />
+                );
 
+                for(var i =0;i<this.props.topicData.titles.length;i++){
+                    display.push(
+                        <div style={{fontSize:22,borderStyle:"solid",marginTop:10,borderWidth:1,backgroundColor:"rgb(255,255,255)"}}>
+                            <div style={{marginLeft:20,marginTop:10,marginBottom:10}}>
+                                {this.props.topicData.times[i]}:&nbsp;&nbsp;在
+                                <a onClick={this.gotoPage.bind(this,"/forum/board"+this.props.topicData.boardIDs[i]+"/1")} >{this.props.topicData.boardNames[i]}</a>
+                                发表了
+                                <a onClick={this.gotoPage.bind(this,"/forum/topic/"+this.props.topicData.topicIDs[i]+"/1")} >{"《"+this.props.topicData.titles[i]+"》"}</a>
+                            </div>
+                        </div>
+
+                    )
+                }
+
+
+
+                display.push(
+                    <Pagination style={{marginTop:15}} pageSize={20} showQuickJumper defaultCurrent={parseInt(this.props.topicData.currentPage)}
+                                total={parseInt(this.props.topicData.totalPage)*20}
+                    />
                 )
             }
 
-
-
-            display.push(
-                <Pagination style={{marginTop:15}} pageSize={20} showQuickJumper defaultCurrent={parseInt(this.props.topicData.currentPage)}
-                            total={parseInt(this.props.topicData.totalPage)*20}
-                />
-            )
-
-        }else if(this.props.typeList.type==="版块"){
+        }else if(this.state.type==="board"){
             resultNum = this.props.boardData.boardNames.length;
             for(var i=0; i<resultNum;i++){
 
@@ -143,7 +161,7 @@ export default class SearchPage extends Component<SearchProps>{
 
 
 
-        }else if(this.props.typeList.type==="用户"){
+        }else if(this.state.type==="user"){
             resultNum = this.props.userData.userIDs.length;
             for(var i=0; i<resultNum;i++){
 
@@ -154,7 +172,7 @@ export default class SearchPage extends Component<SearchProps>{
                             <img  width="100%" src={this.props.userData.photoURLs[i]} />
                         </div>
                         <div >
-                            <h3>{this.props.userData.userNames[i]}</h3>
+                            <a onClick={this.gotoPage.bind(this,"/forum/uid/"+this.props.userData.userIDs[i])}>{this.props.userData.userNames[i]}</a>
 
                         </div>
                     </Card>
@@ -166,16 +184,16 @@ export default class SearchPage extends Component<SearchProps>{
 
 
         return(
-                <div>
-                <NavigationBar current={""} dispatch={this.props.dispatch}/>
-                <div style={{fontSize:25,marginLeft:200,marginTop:10}}>按{this.props.typeList.type}搜索"{this.props.keyList.key}"</div>
+            <div>
+                <NavigationBar  unread={this.props.unread} current={""} dispatch={this.props.dispatch}/>
+                <div style={{fontSize:25,marginLeft:200,marginTop:10}}>按{this.props.typeList.type}搜索"{this.state.key}"</div>
                 <div style={{marginLeft:200,marginTop:10}}>↓共有记录{resultNum}条</div>
                 <div style={{marginLeft:200,marginRight:200,marginTop:20,}}>
-                {
-                display
-                }
+                    {
+                        display
+                    }
                 </div>
-                </div>
+            </div>
         )
 
     }

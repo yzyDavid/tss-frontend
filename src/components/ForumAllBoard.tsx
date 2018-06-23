@@ -13,8 +13,8 @@ const SubMenu = Menu.SubMenu;
 
 
 interface AllBoardProps extends DvaProps {
-
-    boardList:any; 
+    unread:any;
+    boardList:any;
 }
 
 export default class AllBoard extends Component<AllBoardProps>{
@@ -32,6 +32,7 @@ export default class AllBoard extends Component<AllBoardProps>{
 
     componentWillMount(){
         this.props.dispatch({type:'ForumAllBoard/getData', payload:{}});
+        this.props.dispatch({type:"ForumNavigation/updateUnread",payload:{}});
     }
     render(){
 
@@ -47,7 +48,7 @@ export default class AllBoard extends Component<AllBoardProps>{
 
         return(
             <div>
-                {/*<NavigationBar current={""} dispatch={this.props.dispatch}/>*/}
+                <NavigationBar unread={this.props.unread} current={""} dispatch={this.props.dispatch}/>
                 <div style={{fontSize:25,marginLeft:200,marginTop:10}}>全部版块</div>
                 <div style={{marginLeft:200,marginRight:200,marginTop:20,}}>
                     {
