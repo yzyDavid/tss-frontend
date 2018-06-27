@@ -56,16 +56,7 @@ export class ManagerInfoEditForm extends Component<FormProps, InfoEditFormData> 
             intro: this.props.intro
         });
     };
-    // normFile = (e) => {
-    //     console.log('Upload event:', e);
-    //     if (Array.isArray(e)) {
-    //         return e;
-    //     }
-    //     return e && e.fileList;
-    // };
-    // handleChange = (info) => {
-    //     info.fileList.slice(-1);
-    // };
+
     render() {
         const {getFieldDecorator} = this.props.form;
         const formItemLayout = {
@@ -87,6 +78,7 @@ export class ManagerInfoEditForm extends Component<FormProps, InfoEditFormData> 
                     {
                         getFieldDecorator('name', {
                             rules: [
+                                {required: true, message: '姓名不能为空'}
                             ],
                             initialValue: this.props.name
                         })(
@@ -124,23 +116,9 @@ export class ManagerInfoEditForm extends Component<FormProps, InfoEditFormData> 
                             initialValue: this.props.type
                         })(
                             <Select>
-                                <Option value="教务管理员"> 教务管理员 </Option>
-                                <Option value="教师"> 教师 </Option>
-                                <Option value="学生"> 学生 </Option>
-                            </Select>
-                        )
-                    }
-                </FormItem>
-                <FormItem label="院系" {...formItemLayout} hasFeedback>
-                    {
-                        getFieldDecorator('dept', {
-                            initialValue: this.props.dept
-                        })(
-                            <Select>
-                                <Option value="计算机科学与技术学院"> 计算机科学与技术学院 </Option>
-                                <Option value="数学科学院"> 数学科学院 </Option>
-                                <Option value="公共管理学院"> 公共管理学院 </Option>
-                                <Option value="教务处"> 教务处 </Option>
+                                <Option value="Teaching Administrator"> 教务管理员 </Option>
+                                <Option value="Teacher"> 教师 </Option>
+                                <Option value="Student"> 学生 </Option>
                             </Select>
                         )
                     }
@@ -153,7 +131,7 @@ export class ManagerInfoEditForm extends Component<FormProps, InfoEditFormData> 
                             ],
                             initialValue: this.props.year
                         })(
-                            <Input prefix={<Icon type="mail" style={{fontSize: 13}}/>} />
+                            <Input prefix={<Icon type="calendar" style={{fontSize: 13}}/>} />
                         )
                     }
                 </FormItem>

@@ -72,45 +72,6 @@ const model = {
                     payload: {data: deptData}
                 });
             }
-
-            // else if (msg.tag === "2") {
-            //     if (msg.name === "") {
-            //         message.error("请输入专业名称");
-            //     }
-            //     else {
-            //         const response = yield call(tssFetch, '/dept/major/get/info', 'POST', {name: msg.name});
-            //         if (response.status === 401) {
-            //             message.error('获取专业列表失败');
-            //             return;
-            //         }
-            //         const jsonBody = yield call(response.text.bind(response));
-            //         const body = JSON.parse(jsonBody);
-            //         message.success(body.status);
-            //         yield put({
-            //             type: 'updateDeptInfo',
-            //             payload: {majorData: [{key: "1", name: body.name}]}
-            //         });
-            //     }
-            // }
-            // else {
-            //     if (msg.name === "") {
-            //         message.error("请输入班级名称");
-            //     }
-            //     else {
-            //         const response = yield call(tssFetch, '/dept/class/get/info', 'POST', {name: msg.name});
-            //         if (response.status === 401) {
-            //             message.error('获取班级列表失败');
-            //             return;
-            //         }
-            //         const jsonBody = yield call(response.text.bind(response));
-            //         const body = JSON.parse(jsonBody);
-            //         message.success(body.status);
-            //         yield put({
-            //             type: 'updateDeptInfo',
-            //             payload: {classData: [{key: "1", name: body.name}]}
-            //         });
-            //     }
-            // }
         },
         * add(payload: { payload: { name: string } }, {call, put}) {
             console.log("add");
@@ -204,6 +165,9 @@ const model = {
             console.log(response);
             if (response.status !== 200) {
                 message.error('获取信息失败');
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                message.error(body.status);
                 return;
             }
             const jsonBody = yield call(response.text.bind(response));
@@ -226,21 +190,24 @@ const model = {
             console.log(response);
             if (response.status !== 200) {
                 message.error('获取信息失败');
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                message.error(body.status);
                 return;
             }
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
             message.success(body.status);
-            console.log(body);
+            // console.log(body);
             const unames = body.unames;
             const uids = body.uids;
             let deptData: any = [];
-            console.log(unames);
-            console.log(uids);
+            // console.log(unames);
+            // console.log(uids);
             for (let i = 0; i < uids.length; i = i + 1) {
                 deptData.push({key: (deptData.length + 1).toString(), name: unames[i], uid: uids[i]})
             }
-            console.log(deptData);
+            // console.log(deptData);
             yield put({
                 type: 'updateDeptInfo',
                 payload: {stuData: deptData, className: body.name}
@@ -251,6 +218,9 @@ const model = {
             const response = yield call(tssFetch, '/dept/department/get/list', 'POST', {});
             if (response.status !== 200) {
                 message.error('获取院系列表失败');
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                message.error(body.status);
                 return;
             }
             const jsonBody = yield call(response.text.bind(response));
@@ -273,6 +243,9 @@ const model = {
                 const response = yield call(tssFetch, '/dept/department/delete', 'DELETE', {name: msg.names[i]});
                 if (response.status !== 200) {
                     message.error('删除院系失败');
+                    const jsonBody = yield call(response.text.bind(response));
+                    const body = JSON.parse(jsonBody);
+                    message.error(body.status);
                     return;
                 }
             }
@@ -284,6 +257,9 @@ const model = {
                 const response = yield call(tssFetch, '/dept/major/delete', 'DELETE', {name: msg.names[i]});
                 if (response.status !== 200) {
                     message.error('删除专业失败');
+                    const jsonBody = yield call(response.text.bind(response));
+                    const body = JSON.parse(jsonBody);
+                    message.error(body.status);
                     return;
                 }
             }
@@ -295,6 +271,9 @@ const model = {
                 const response = yield call(tssFetch, '/dept/class/delete', 'DELETE', {name: msg.names[i]});
                 if (response.status !== 200) {
                     message.error('删除班级失败');
+                    const jsonBody = yield call(response.text.bind(response));
+                    const body = JSON.parse(jsonBody);
+                    message.error(body.status);
                     return;
                 }
             }
@@ -309,9 +288,12 @@ const model = {
             //     return;
             // }
             // }
-            const response = yield call(tssFetch, '/dept/class/delete', 'DELETE', msg);
+            const response = yield call(tssFetch, '/dept/class/delete/user', 'POST', msg);
             if (response.status !== 200) {
                 message.error('删除学生失败');
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                message.error(body.status);
                 return;
             }
             message.success('删除学生成功');
@@ -321,6 +303,9 @@ const model = {
             const response = yield call(tssFetch, '/dept/department/delete/user', 'POST', msg);
             if (response.status !== 200) {
                 message.error('删除教师失败');
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                message.error(body.status);
                 return;
             }
             message.success('删除教师成功');
@@ -330,6 +315,9 @@ const model = {
             const response = yield call(tssFetch, '/dept/department/modify', 'POST', msg);
             if (response.status !== 200) {
                 message.error('编辑院系失败');
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                message.error(body.status);
                 return;
             }
             message.success('编辑院系成功');
@@ -339,6 +327,9 @@ const model = {
             const response = yield call(tssFetch, '/dept/major/modify', 'POST', msg);
             if (response.status !== 200) {
                 message.error('编辑专业失败');
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                message.error(body.status);
                 return;
             }
             message.success('编辑专业成功');
@@ -348,6 +339,9 @@ const model = {
             const response = yield call(tssFetch, '/dept/class/modify', 'POST', msg);
             if (response.status !== 200) {
                 message.error('编辑班级失败');
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                message.error(body.status);
                 return;
             }
             message.success('编辑班级成功');

@@ -194,8 +194,6 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
     };
     onSelect = (record, selected, selectedRows) => {
         console.log(record, selected, selectedRows);
-        // this.selected = record.uid;
-        // this.setState({selected: record.uid});
     };
 
     getInfo(id: string) {
@@ -229,7 +227,7 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
     };
 
     setModal4Visible(modalVisible) {
-        if (this.formRef4 && modalVisible === true) this.formRef4.refresh();
+        // if (this.formRef4 && modalVisible === true) this.formRef4.refresh();
         this.setState({modal4Visible: modalVisible});
     };
 
@@ -253,13 +251,19 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
     }
 
     handleOk4(e) {
-        if(this.state.fname === '') {
+        if (this.state.fname === '') {
             message.warning('未选择文件');
             return;
         }
         this.props.dispatch({
             type: 'userinfo/addUser',
-            payload: {names: this.names, uids: this.uids, genders: this.genders, type: this.type, passwords: this.passwords}
+            payload: {
+                names: this.names,
+                uids: this.uids,
+                genders: this.genders,
+                type: this.type,
+                passwords: this.passwords
+            }
         });
         this.setModal4Visible(false);
         this.setState({fname: ''});
@@ -286,6 +290,10 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
     passwords: any[];
 
     uploadHandler(name, content) {
+        if(name === ''){
+            this.setState({fname: ''});
+            return;
+        }
         let uploadFile = {
             name: name,
             fileContent: content
@@ -302,7 +310,7 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
             }
             else {
                 let tmp = records[i].split(/[,]/);
-                if(tmp[0]!=undefined && tmp[1]!=undefined && tmp[2]!=undefined) {
+                if (tmp[0] != undefined && tmp[1] != undefined && tmp[2] != undefined) {
                     uids.push(tmp[0]);
                     names.push(tmp[1]);
                     genders.push(tmp[2]);
@@ -366,7 +374,8 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
                                                     name={this.props.name} gender={this.props.gender}
                                                     dept={this.props.dept} type={this.props.type}
                                                     email={this.props.email} tel={this.props.telephone}
-                                                    intro={this.props.intro} year={this.props.year}/>
+                                                    intro={this.props.intro} year={this.props.year}
+                        />
                     </Modal>
                     <Modal
                         title="添加用户"
@@ -388,7 +397,7 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
                         onOk={(e) => this.handleOk4(e)}
                         onCancel={() => {
                             this.setModal4Visible(false);
-                            this.setState({fname:''});
+                            this.setState({fname: ''});
                         }}
                     >
                         <p>文件输入格式：（.txt文件）首行输入用户类型(Student,Teacher,Teaching Administrator,System Administrator)</p>
@@ -398,7 +407,9 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
                         <p>3150100001,姓名,女</p>
                         <p>3150100002,姓名,男</p>
                         <p>3150100003,姓名,男</p>
-                        <Button onClick={() => {this.import.openDisk()}}><Icon type={"upload"}/>选择上传文件</Button>
+                        <Button onClick={() => {
+                            this.import.openDisk()
+                        }}><Icon type={"upload"}/>选择上传文件</Button>
                         <p>{this.state.fname}</p>
                         <Import
                             ref={el => this.import = el}
@@ -445,13 +456,15 @@ export class Import extends Component<ImportProps> {
             reader.onload = function () {
                 _self.props.uploadCallback(file.name, reader.result);
             };
-        } else
+        } else {
+            _self.props.uploadCallback('', '');
             console.log('error');
+        }
     };
 
     render() {
         return <input type="file" hidden={true} ref={(el) => {
             this.fileUpload = el
-        }} onChange={this.readFileContent} accept={".txt"}/>
+        }} onClick={this.readFileContent} onChange={this.readFileContent} accept={".txt"}/>
     }
 }

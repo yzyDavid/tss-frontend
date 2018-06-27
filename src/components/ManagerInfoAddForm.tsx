@@ -47,16 +47,6 @@ export class ManagerInfoAddForm extends Component<FormProps> {
             // dept: this.props.dept
         });
     };
-    // normFile = (e) => {
-    //     console.log('Upload event:', e);
-    //     if (Array.isArray(e)) {
-    //         return e;
-    //     }
-    //     return e && e.fileList;
-    // };
-    // handleChange = (info) => {
-    //     info.fileList.slice(-1);
-    // };
     render() {
         const {getFieldDecorator} = this.props.form;
         const formItemLayout = {
@@ -74,20 +64,19 @@ export class ManagerInfoAddForm extends Component<FormProps> {
                 <FormItem label="学号或教工号" {...formItemLayout}>
                     {
                         getFieldDecorator('uid', {
-                            rules: [],
-                            initialValue: ""
+                            rules: [{required: true, message: '学号教工号不能为空'},
+                                {pattern: /^[0-9]{10}$/, message:'请输入十位数字'}],
                         })(
-                            <Input prefix={<Icon type="user" style={{fontSize: 13}}/>}/>
+                            <Input prefix={<Icon type="credit-card" style={{fontSize: 13}}/>}/>
                         )
                     }
                 </FormItem>
                 <FormItem label="姓名" {...formItemLayout} hasFeedback>
                     {
                         getFieldDecorator('name', {
-                            rules: [],
-                            initialValue: ""
+                            rules: [{required: true, message: '姓名不能为空'}],
                         })(
-                            <Input prefix={<Icon type="name" style={{fontSize: 13}}/>}/>
+                            <Input prefix={<Icon type="user" style={{fontSize: 13}}/>}/>
                         )
                     }
                 </FormItem>
@@ -116,32 +105,6 @@ export class ManagerInfoAddForm extends Component<FormProps> {
                         )
                     }
                 </FormItem>
-                {/*<FormItem label="院系" {...formItemLayout} hasFeedback>*/}
-                {/*{*/}
-                {/*getFieldDecorator('dept', {*/}
-                {/*initialValue: this.props.dept*/}
-                {/*})(*/}
-                {/*<Select>*/}
-                {/*<Option value="计算机科学与技术学院"> 计算机科学与技术学院 </Option>*/}
-                {/*<Option value="数学科学院"> 数学科学院 </Option>*/}
-                {/*<Option value="公共管理学院"> 公共管理学院 </Option>*/}
-                {/*<Option value="教务处"> 教务处 </Option>*/}
-                {/*</Select>*/}
-                {/*)*/}
-                {/*}*/}
-                {/*</FormItem>*/}
-                {/*<FormItem label="入学年份" {...formItemLayout} hasFeedback>*/}
-                {/*{*/}
-                {/*getFieldDecorator('year', {*/}
-                {/*rules: [*/}
-                {/*{message: "请输入四位数字", pattern: /^[1-2][0-9][0-9][0-9]$/, }*/}
-                {/*],*/}
-                {/*initialValue: this.props.year*/}
-                {/*})(*/}
-                {/*<Input prefix={<Icon type="mail" style={{fontSize: 13}}/>} />*/}
-                {/*)*/}
-                {/*}*/}
-                {/*</FormItem>*/}
             </Form>
         );
     }
@@ -157,9 +120,9 @@ export class CourseInfoAddForm extends Component<FormProps> {
         this.props.form.validateFieldsAndScroll((err: any, values: any) => {
             if (err) {
                 message.error('信息填写不合法');
-                flag = true;
                 return;
             }
+            flag = true;
             this.props.dispatch({type: 'course/add', payload: {...values}});
         });
         return flag;
@@ -198,7 +161,8 @@ export class CourseInfoAddForm extends Component<FormProps> {
                 <FormItem label="课程号" {...formItemLayout}>
                     {
                         getFieldDecorator('cid', {
-                            rules: [],
+                            rules: [{required: true, message: '课程号不能为空'},
+                                {pattern: /^[0-9A-C]{8}$/, message:'课程号为8位数字和字母的组合'}],
                             initialValue: ''
                         })(
                             <Input prefix={<Icon type="user" style={{fontSize: 13}}/>}/>
@@ -208,35 +172,39 @@ export class CourseInfoAddForm extends Component<FormProps> {
                 <FormItem label="课程名" {...formItemLayout} hasFeedback>
                     {
                         getFieldDecorator('name', {
-                            rules: [],
+                            rules: [{required: true, message: '课程名不能为空'}],
                             initialValue: ''
                         })(
-                            <Input prefix={<Icon type="name" style={{fontSize: 13}}/>}/>
+                            <Input prefix={<Icon type="book" style={{fontSize: 13}}/>}/>
                         )
                     }
                 </FormItem>
                 <FormItem label="学分" {...formItemLayout}>
                     {
                         getFieldDecorator('credit', {
+                            rules: [{required: true, message: '学分不能为空'},
+                                {pattern: /^[0-9]+((\.[0-9]$)|$)/, message:'请输入合法数字，最多一位小数'}],
                             initialValue: ''
                         })(
-                            <Input prefix={<Icon type="name" style={{fontSize: 13}}/>}/>
+                            <Input prefix={<Icon type="bar-chart" style={{fontSize: 13}}/>}/>
                         )
                     }
                 </FormItem>
                 <FormItem label="周学时数" {...formItemLayout} hasFeedback>
                     {
                         getFieldDecorator('numLessonsEachWeek', {
+                            rules: [{required: true, message: '周学时数不能为空'},
+                                {pattern: /^[0-9]+((\.[0-9]$)|$)/, message:'请输入合法数字，最多一位小数'}],
                             initialValue: ''
                         })(
-                            <Input prefix={<Icon type="name" style={{fontSize: 13}}/>}/>
+                            <Input prefix={<Icon type="bars" style={{fontSize: 13}}/>}/>
                         )
                     }
                 </FormItem>
                 <FormItem label="所属院系" {...formItemLayout} hasFeedback>
                     {
                         getFieldDecorator('department', {
-                            initialValue: ''
+                            rules: [{required: true, message: '请选择院系'}]
                         })(
                             <Select>
                                 {dept}
@@ -244,18 +212,6 @@ export class CourseInfoAddForm extends Component<FormProps> {
                         )
                     }
                 </FormItem>
-                {/*<FormItem label="入学年份" {...formItemLayout} hasFeedback>*/}
-                {/*{*/}
-                {/*getFieldDecorator('year', {*/}
-                {/*rules: [*/}
-                {/*{message: "请输入四位数字", pattern: /^[1-2][0-9][0-9][0-9]$/, }*/}
-                {/*],*/}
-                {/*initialValue: this.props.year*/}
-                {/*})(*/}
-                {/*<Input prefix={<Icon type="mail" style={{fontSize: 13}}/>} />*/}
-                {/*)*/}
-                {/*}*/}
-                {/*</FormItem>*/}
             </Form>
         );
     }

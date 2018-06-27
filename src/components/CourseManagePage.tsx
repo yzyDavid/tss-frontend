@@ -97,7 +97,7 @@ class SearchForm extends Component<FormProps> {
                                 rules: [
                                 ]
                             })(
-                                <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} style={{width: 200}}/>
+                                <Input prefix={<Icon type="book" style={{fontSize: 13}}/>} style={{width: 200}}/>
                             )
                         }
                     </FormItem>
@@ -190,17 +190,17 @@ export default class CourseManagePageComponent extends Component<CourseProps, Co
     };
 
     handleOk1(e) {
-        // if(!this.formRef.handleSubmit(e)) this.setModalVisible(false);
+        // if(this.formRef1.handleSubmit(e)) this.setModal1Visible(false);
         this.setModal1Visible(false);
     };
 
     handleOk2(e) {
-        if(!this.formRef2.handleSubmit(e)) this.setModal2Visible(false);
-        this.setModal2Visible(false);
+        if(this.formRef2.handleSubmit(e)) this.setModal2Visible(false);
+        // this.setModal2Visible(false);
     };
 
     handleOk3(e) {
-        if(!this.formRef3.handleSubmit(e)) this.setModal3Visible(false);
+        if(this.formRef3.handleSubmit(e)) this.setModal3Visible(false);
         // this.setModal2Visible(false);
     };
 

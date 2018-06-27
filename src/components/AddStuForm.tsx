@@ -21,14 +21,20 @@ export class AddStuForm extends Component<FormProps, FormData> {
     handleSubmit = (e: FormEvent<{}>) => {
         e.preventDefault();
         const formProps = this.props.form;
+        let flag = false;
         formProps.validateFieldsAndScroll((err: any, values: FormData) => {
             if (err) {
                 message.error('信息填写不合法');
                 return;
             }
+            flag = true;
             console.log(this.props);
-            this.props.dispatch({type:'dept/addStu', payload: {uids: [values.uid], majorClass: this.props.majorClass}});
+            this.props.dispatch({
+                type: 'dept/addStu',
+                payload: {uids: [values.uid], majorClass: this.props.majorClass}
+            });
         });
+        return flag;
     };
 
     render() {
@@ -49,10 +55,11 @@ export class AddStuForm extends Component<FormProps, FormData> {
                     {
                         getFieldDecorator('uid', {
                             rules: [
-                                {required: true, message: '请输入名称'}
+                                {required: true, message: '请输入学号'},
+                                {pattern: /^[0-9]{10}$/, message: '请输入十位数字'}
                             ]
                         })(
-                            <Input />
+                            <Input prefix={<Icon type="user" style={{fontSize: 13}}/>}/>
                         )
                     }
                 </FormItem>

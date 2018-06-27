@@ -25,6 +25,7 @@ interface DeptProps extends DvaProps {
     className: string;
     pswdShow: boolean;
     year: string;
+    deptList: any[];
 }
 
 interface DeptState {
@@ -115,59 +116,13 @@ class SearchForm extends Component<FormProps, FormState> {
 
     render() {
         const {getFieldDecorator} = this.props.form;
-        // let Item2 = () => {
-        //     switch (this.state.tag) {
-        //         case "1":
-        //             return (<FormItem label="院系" labelCol={{span: 8, offset: 4}} wrapperCol={{span: 8}}>
-        //                 {
-        //                     getFieldDecorator('name', {})(
-        //                         <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} style={{width: 200}}/>
-        //                     )
-        //                 }
-        //             </FormItem>);
-        //         case "2":
-        //             return (<FormItem label="专业" labelCol={{span: 8, offset: 4}} wrapperCol={{span: 8}}>
-        //                 {
-        //                     getFieldDecorator('name', {
-        //                         rules: []
-        //                     })(
-        //                         <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} style={{width: 200}}/>
-        //                     )
-        //                 }
-        //             </FormItem>);
-        //         default :
-        //             return (<FormItem label="班级" labelCol={{span: 8, offset: 4}} wrapperCol={{span: 8}}>
-        //                 {
-        //                     getFieldDecorator('name', {})(
-        //                         <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} style={{width: 200}}/>
-        //                     )
-        //                 }
-        //             </FormItem>);
-        //     }
-        // };
         return (
             <div>
                 <Form className="ant-advanced-search-form" layout={"inline"} onSubmit={this.handleSearch}>
-                    {/*<FormItem label="院系／专业／班级" labelCol={{span: 10, offset: 4}} wrapperCol={{span: 8}}>*/}
-                    {/*{*/}
-                    {/*getFieldDecorator('tag', {*/}
-                    {/*initialValue: "1",*/}
-                    {/*onChange: this.handleChange*/}
-                    {/*})(*/}
-                    {/*<Select style={{width: 200}}>*/}
-                    {/*<Option value="1">院系</Option>*/}
-                    {/*<Option value="2">专业</Option>*/}
-                    {/*<Option value="3">班级</Option>*/}
-                    {/*</Select>*/}
-                    {/*)*/}
-
-                    {/*}*/}
-                    {/*</FormItem>*/}
-                    {/*<Item2/>*/}
                     <FormItem label="院系" labelCol={{span: 8, offset: 4}} wrapperCol={{span: 8}}>
                         {
                             getFieldDecorator('name', {})(
-                                <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} style={{width: 200}}/>
+                                <Input prefix={<Icon type="team" style={{fontSize: 13}}/>} style={{width: 200}}/>
                             )
                         }
                     </FormItem>
@@ -332,18 +287,18 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
     };
 
     handleOk1(e) {
-        // if(!this.formRef.handleSubmit(e)) this.setModalVisible(false);
-        this.setModal1Visible(false);
+        if(this.formRef1.handleSubmit(e)) this.setModal1Visible(false);
+        // this.setModal1Visible(false);
     }
 
     handleOk2(e) {
-        // if(!this.formRef.handleSubmit(e)) this.setModalVisible(false);
-        this.setModal2Visible(false);
+        if(this.formRef2.handleSubmit(e)) this.setModal2Visible(false);
+        // this.setModal2Visible(false);
     }
 
     handleOk3(e) {
-        // if(!this.formRef.handleSubmit(e)) this.setModalVisible(false);
-        this.setModal3Visible(false);
+        if(this.formRef3.handleSubmit(e)) this.setModal3Visible(false);
+        // this.setModal3Visible(false);
     }
 
     handleOk4(e) {
@@ -362,7 +317,7 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
     }
 
     handleOk7(e) {
-        if (!this.formRef7.handleSubmit(e)) this.setModal7Visible(false);
+        if (this.formRef7.handleSubmit(e)) this.setModal7Visible(false);
         // this.setModal3Visible(false);
     }
 
@@ -385,6 +340,10 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
     uids: any = [];
 
     uploadHandler(name, content) {
+        if(name === ''){
+            this.setState({fname: name});
+            return;
+        }
         let uploadFile = {
             name: name,
             fileContent: content
@@ -471,7 +430,7 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
                     >
                         <WrappedMajorForm wrappedComponentRef={(inst) => this.formRef2 = inst}
                                           dispatch={this.props.dispatch} majorName={this.props.majorName}
-                                          dept={this.props.name}/>
+                                          dept={this.props.name} deptList={this.props.deptList}/>
                         <Table size="small" footer={() => {
                             return (
                                 <Row>
@@ -610,14 +569,14 @@ class DeptFormData {
 
 export class DeptForm extends Component<DeptFormProps, DeptFormData> {
     handleSubmit = (e: FormEvent<{}>) => {
-        let flag = false;
         e.preventDefault();
+        let flag = false;
         this.props.form.validateFieldsAndScroll((err: any, values: DeptFormData) => {
             if (err) {
                 message.error('信息填写不合法');
-                flag = true;
                 return;
             }
+            flag = true;
             this.props.dispatch({type: 'dept/modifyDept', payload: {name: this.props.name, newName: values.name}});
             console.log('Value:', values);
         });
@@ -650,10 +609,10 @@ export class DeptForm extends Component<DeptFormProps, DeptFormData> {
                 <FormItem label="院系名称" {...formItemLayout} hasFeedback>
                     {
                         getFieldDecorator('name', {
-                            rules: [],
+                            rules: [{required: true, message: '名称不能为空'}],
                             initialValue: this.props.name
                         })(
-                            <Input prefix={<Icon type="mail" style={{fontSize: 13}}/>}/>
+                            <Input prefix={<Icon type="team" style={{fontSize: 13}}/>}/>
                         )
                     }
                 </FormItem>
@@ -668,6 +627,7 @@ interface MajorFormProps extends DvaProps {
     form: any;
     majorName: string;
     dept: string;
+    deptList: any[];
 }
 
 class MajorData {
@@ -676,20 +636,22 @@ class MajorData {
 }
 
 export class MajorForm extends Component<MajorFormProps, MajorData> {
+    componentDidMount(){
+        this.props.dispatch({type: 'dept/getDeptList', payload: {}});
+    }
     handleSubmit = (e: FormEvent<{}>) => {
         let flag = false;
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err: any, values: MajorData) => {
             if (err) {
                 message.error('信息填写不合法');
-                flag = true;
                 return;
             }
+            flag = true;
             this.props.dispatch({
                 type: 'dept/modifyMajor',
                 payload: {name: this.props.majorName, newName: values.majorName, department: values.dept}
             });
-            console.log('Value:', values);
         });
         return flag;
     };
@@ -715,15 +677,20 @@ export class MajorForm extends Component<MajorFormProps, MajorData> {
                 sm: {span: 14},
             },
         };
+        const dept = this.props.deptList.map((k) => {
+            return (
+                <Option value={`${k}`} key={`${k}`}>{`${k}`} </Option>
+            )
+        });
         return (
             <Form onSubmit={this.handleSubmit}>
                 <FormItem label="专业名称" {...formItemLayout} hasFeedback>
                     {
                         getFieldDecorator('majorName', {
-                            rules: [],
+                            rules: [{required: true, message: '名称不能为空'}],
                             initialValue: this.props.majorName
                         })(
-                            <Input prefix={<Icon type="mail" style={{fontSize: 13}}/>}/>
+                            <Input prefix={<Icon type="team" style={{fontSize: 13}}/>}/>
                         )
                     }
                 </FormItem>
@@ -734,10 +701,7 @@ export class MajorForm extends Component<MajorFormProps, MajorData> {
                             initialValue: this.props.dept
                         })(
                             <Select>
-                                <Option value="计算机科学与技术学院"> 计算机科学与技术学院</Option>
-                                <Option value="数学科学院"> 数学科学院</Option>
-                                <Option value="公共管理学院"> 公共管理学院</Option>
-                                <Option value="教务处"> 教务处</Option>
+                                {dept}
                             </Select>
                         )
                     }
@@ -769,9 +733,9 @@ export class ClassForm extends Component<ClassFormProps, ClassData> {
         this.props.form.validateFieldsAndScroll((err: any, values: ClassData) => {
             if (err) {
                 message.error('信息填写不合法');
-                flag = true;
                 return;
             }
+            flag = true;
             this.props.dispatch({
                 type: 'dept/modifyClass',
                 payload: {
@@ -809,30 +773,31 @@ export class ClassForm extends Component<ClassFormProps, ClassData> {
                 <FormItem label="班级名称" {...formItemLayout} hasFeedback>
                     {
                         getFieldDecorator('className', {
-                            rules: [],
+                            rules: [{required: true, message: '名称不能为空'}],
                             initialValue: this.props.className
                         })(
-                            <Input prefix={<Icon type="name" style={{fontSize: 13}}/>}/>
+                            <Input prefix={<Icon type="user" style={{fontSize: 13}}/>}/>
                         )
                     }
                 </FormItem>
                 <FormItem label="所属专业" {...formItemLayout} hasFeedback>
                     {
                         getFieldDecorator('majorName', {
-                            rules: [],
+                            rules: [{required: true, message: '请输入专业'}],
                             initialValue: this.props.majorName
                         })(
-                            <Input prefix={<Icon type="major" style={{fontSize: 13}}/>}/>
+                            <Input prefix={<Icon type="team" style={{fontSize: 13}}/>}/>
                         )
                     }
                 </FormItem>
                 <FormItem label="年份" {...formItemLayout} hasFeedback>
                     {
                         getFieldDecorator('year', {
-                            rules: [],
+                            rules: [{required: true, message: '请输入年份'},
+                                {pattern: /^[1-2][0-9]{3}$/, message: '请输入合法的四位数字'}],
                             initialValue: this.props.year
                         })(
-                            <Input prefix={<Icon type="time" style={{fontSize: 13}}/>}/>
+                            <Input prefix={<Icon type="calendar" style={{fontSize: 13}}/>}/>
                         )
                     }
                 </FormItem>
