@@ -19,6 +19,7 @@ interface TopicProps extends DvaProps{
     allstate:any,
     URL:string;
     unread:any
+    photo:any;
 }
 
 
@@ -50,6 +51,7 @@ export default class TopicPageComponent extends Component<TopicProps>{
             var newpath = "/forum/topic/"+this.state.topicID+"/"+page.toString()
 
             const Data = {tid:this.state.topicID,page:page.toString()};
+            this.setState({page:page.toString()})
             this.props.dispatch({type:'topic/getData', payload:Data});
             this.props.dispatch({type:'forumhome/gotoPage', payload:newpath});
         }
@@ -82,7 +84,11 @@ export default class TopicPageComponent extends Component<TopicProps>{
 
     changeTop(){
         //todo 增加权限检查
-        this.props.dispatch({type:'topic/setTop', payload:{topicID:this.props.allstate.topicID}});
+        if(parseInt(this.props.allstate.top)==1){
+            this.props.dispatch({type:'topic/cancelTop', payload:{topicID:this.props.allstate.topicID}});
+        }else{
+            this.props.dispatch({type:'topic/setTop', payload:{topicID:this.props.allstate.topicID}});
+        }
     }
 
 
@@ -138,7 +144,12 @@ export default class TopicPageComponent extends Component<TopicProps>{
 
     render(){
         const { editorState } = this.state;
-
+        var istop;
+        if(parseInt(this.props.allstate.top)==1){
+            istop="取消置顶"
+        }else{
+            istop="置顶"
+        }
         let replylist = new Array();
         let quoteZone;
         let LZ;
@@ -151,7 +162,7 @@ export default class TopicPageComponent extends Component<TopicProps>{
                 <div style={{width:"96%", marginLeft:"auto",marginRight:"auto",marginTop:10}}>
 
                     <div style={{float:"left"}}>
-                        <img src={this.props.allstate.lzphoto} width="60" height="60" />
+                        <img src={this.props.photo.url} width="60" height="60" />
                     </div>
                     <div >
                         <div onClick={this.gotoPage.bind(this,"/forum/uid/"+this.props.allstate.lzid)} style={{fontSize:16,fontWeight:"bold",marginLeft:70,marginTop:40,cursor:"pointer",width:100}}>
@@ -175,7 +186,7 @@ export default class TopicPageComponent extends Component<TopicProps>{
             for(var i=0; i<this.props.allstate.ids.length;i++){
                 var author = this.props.allstate.names[i];
                 var replyKey = this.props.allstate.indexs[i];
-                var headurl = this.props.allstate.photos[i];
+                var headurl = this.props.photo.url;
                 var time = this.props.allstate.times[i];
                 var quote = this.props.allstate.quotes[i];
                 var text = this.props.allstate.texts[i];
@@ -245,9 +256,10 @@ export default class TopicPageComponent extends Component<TopicProps>{
                 <NavigationBar unread={this.props.unread} current={""} dispatch={this.props.dispatch}/>
                 <div style={{marginLeft:200,marginTop:10,fontSize:20}}><a onClick={this.gotoPage.bind(this,"/forum/board/"+this.props.allstate.boardID+"/1")}>{this.props.allstate.boardName}</a></div>
                 <div >
-                    <Pagination style={{ marginTop:20,marginLeft:200,marginBottom:20,}} showQuickJumper defaultCurrent={parseInt(this.props.allstate.currentPage)} total={this.props.allstate.totalPage*10} onChange={this.gotoAnotherPage}/>
+                    {/*{this.props.allstate.currentPage}*/}
+                    <Pagination style={{ marginTop:20,marginLeft:200,marginBottom:20,}} current={parseInt(this.state.page)} showQuickJumper defaultCurrent={parseInt(this.state.page)} total={this.props.allstate.totalPage*10} onChange={this.gotoAnotherPage}/>
                     <div onClick={this.deleteTopic.bind(this)} style={{float:"right",marginRight:200,cursor:"pointer"}}>删除</div>
-                    <div onClick={this.changeTop.bind(this)} style={{float:"right",marginRight:10,cursor:"pointer"}}>置顶</div>
+                    <div onClick={this.changeTop.bind(this)} style={{float:"right",marginRight:10,cursor:"pointer"}}>{istop}</div>
                 </div>
                 <div style={{marginLeft:200, marginRight:200,marginBottom:20,
                     backgroundColor: "rgb(255,255,255)",fontSize:30,borderStyle:"solid",
@@ -268,7 +280,7 @@ export default class TopicPageComponent extends Component<TopicProps>{
                 }
 
                 <div>
-                    <Pagination style={{marginLeft:200,marginBottom:20,}} showQuickJumper defaultCurrent={parseInt(this.props.allstate.currentPage)} total={this.props.allstate.totalPage*10} onChange={this.gotoAnotherPage}/>
+                    <Pagination style={{marginLeft:200,marginBottom:20,}} showQuickJumper current={parseInt(this.state.page)} defaultCurrent={parseInt(this.state.page)} total={this.props.allstate.totalPage*10} onChange={this.gotoAnotherPage}/>
                     {/*<div style={{float:"left",marginRight:200}}>删除</div>*/}
                     {/*<div style={{float:"left",marginRight:10}}>置顶</div>*/}
                 </div>

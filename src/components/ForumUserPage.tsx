@@ -15,6 +15,7 @@ export class photoDataForm{
 interface UserProps extends DvaProps {
     userInfo:any
     unread:any
+    photo:any
     postList:any
 }
 
@@ -125,7 +126,7 @@ export default class ForumUserPageComponent extends Component<UserProps> {
 
     componentWillMount(){
 
-
+        this.props.dispatch({type:"ForumUserInfo/getMyInfo",payload:{}});
 
         this.props.dispatch({type:"ForumNavigation/updateUnread",payload:{}});
     }
@@ -137,12 +138,12 @@ export default class ForumUserPageComponent extends Component<UserProps> {
             <NavigationBar unread={this.props.unread}  current={""} dispatch={this.props.dispatch}/>
             <div style={{marginLeft: 200, marginRight: 200, marginTop: 10}}>
                 <div style={{marginLeft: "45%"}}>
-                    <img height="100" width="100" src={this.props.userInfo.photo}></img>
+                    <img height="100" width="100" src={this.props.photo.url}></img>
 
                 </div>
                 <div style={{marginLeft: "40%", marginTop: 20, fontSize: 22}}>
                     <div><Icon
-                        type="user"/>&nbsp;用户名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{this.props.userInfo.UserName}
+                        type="user"/>&nbsp;用户名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{this.props.userInfo.userName}
                     </div>
                     <div style={{marginTop: 10}}><Icon
                         type="mail"/>&nbsp;E-mail:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{this.props.userInfo.email}
@@ -158,21 +159,21 @@ export default class ForumUserPageComponent extends Component<UserProps> {
 
                 </div>
                 <div style={{marginLeft: "45%", marginTop: 20}}>
-                    <Upload
+                    {/*<Upload*/}
 
-                        // action=""
-                        // listType="picture"
+                        {/*// action=""*/}
+                        {/*// listType="picture"*/}
 
-                        // onPreview={this.handlePreview}
-                        onChange={this.handleChange.bind(this)}
-                        customRequest={this.request}
-                        // showUploadList={false}
-                        // action="//jsonplaceholder.typicode.com/posts/"
-                        // beforeUpload={this.beforeUpload}
-                        // onChange={this.handleChange}
-                    >
-                        <Button type="primary"><Icon type="edit"/>更换头像</Button>
-                    </Upload>
+                        {/*// onPreview={this.handlePreview}*/}
+                        {/*onChange={this.handleChange.bind(this)}*/}
+                        {/*customRequest={this.request}*/}
+                        {/*// showUploadList={false}*/}
+                        {/*// action="//jsonplaceholder.typicode.com/posts/"*/}
+                        {/*// beforeUpload={this.beforeUpload}*/}
+                        {/*// onChange={this.handleChange}*/}
+                    {/*>*/}
+                        {/*<Button type="primary"><Icon type="edit"/>更换头像</Button>*/}
+                    {/*</Upload>*/}
 
                 </div>
             </div>

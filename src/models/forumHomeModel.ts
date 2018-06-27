@@ -74,16 +74,24 @@ const model = {
         },
 
 
-        *get24(payload:{payload:{}},{call,put}){
+        *get30(payload:{payload:{}},{call,put}){
 
-            const response = yield call(tssFetch, '/section/info', 'GET', {});
+            const response = yield call(tssFetch, '/hot/mnum', 'GET', {});
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
-            yield put({type: 'updateInfo', payload: {list:body}});
+            yield put({type: 'updateInfo', payload: {HotList:body}});
 
 
         },
+        *getLatest(payload:{payload:{}},{call,put}){
 
+            const response = yield call(tssFetch, '/hot/new', 'GET', {});
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+            yield put({type: 'updateInfo', payload: {LatestList:body}});
+
+
+        },
 
 
         *setHotType(payload: {payload: {type:string}}, {call, put}) {
@@ -101,10 +109,10 @@ const model = {
                 const body = JSON.parse(jsonBody);
                 yield put({type: 'updateInfo', payload: {list:body}});
             }else if(selected=="30"){
-                const response = yield call(tssFetch, '/section/info', 'GET', {});
+                const response = yield call(tssFetch, '/hot/mnum', 'GET', {});
                 const jsonBody = yield call(response.text.bind(response));
                 const body = JSON.parse(jsonBody);
-                yield put({type: 'updateInfo', payload: {list:body}});
+                yield put({type: 'updateInfo', payload: {HotList:body}});
             }
 
         },

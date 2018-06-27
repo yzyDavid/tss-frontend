@@ -29,6 +29,7 @@ interface SearchProps extends DvaProps {
     boardData:any;
     userData:any;
     unread:any;
+    photo:any
 }
 
 export default class SearchPage extends Component<SearchProps>{
@@ -167,9 +168,9 @@ export default class SearchPage extends Component<SearchProps>{
 
                 var name = this.props.userData.userNames[i];
                 display.push(    <div>
-                    <Card style={{ width: 240 ,float:"left",marginLeft:20,marginTop:20}} bodyStyle={{ padding: 0 }}>
-                        <div >
-                            <img  width="100%" src={this.props.userData.photoURLs[i]} />
+                    <Card style={{ width: 50 ,float:"left",marginLeft:20,marginTop:20}} bodyStyle={{ padding: 0 }}>
+                        <div style={{width:"50px",height:"50px"}}>
+                            <img  width="100%" src={this.props.photo.url} />
                         </div>
                         <div >
                             <a onClick={this.gotoPage.bind(this,"/forum/uid/"+this.props.userData.userIDs[i])}>{this.props.userData.userNames[i]}</a>

@@ -7,6 +7,11 @@ import NavigationBar from './ForumNavigation';
 interface UserProps extends DvaProps {
     userInfo:any
     unread:any
+    photo:any
+}
+
+export class dataForm{
+    userID:string
 }
 
 const FormItem = Form.Item;
@@ -40,14 +45,7 @@ export default class ForumUserPageComponent extends Component<UserProps> {
     };
 
 
-    handleChange1 = ({ fileList }) => this.setState({ fileList });
 
-
-    getBase64(img, callback) {
-        const reader = new FileReader();
-        reader.addEventListener('load', () => callback(reader.result));
-        reader.readAsDataURL(img);
-    }
     handleChange = (info,) => {
 
         if(info.file.status ==="error"){
@@ -73,11 +71,13 @@ export default class ForumUserPageComponent extends Component<UserProps> {
     }
 
     componentWillMount(){
-
+        var data = new dataForm()
         var uid = document.location.hash;
         var offset = "/forum/uid/"
         uid = uid.substring(offset.length+1);
+        data.userID =uid
         this.setState({uid:uid})
+        this.props.dispatch({type:"ForumUserInfo/getUserInfo",payload:data});
         this.props.dispatch({type:"ForumNavigation/updateUnread",payload:{}});
     }
     render() {
@@ -86,12 +86,12 @@ export default class ForumUserPageComponent extends Component<UserProps> {
             <NavigationBar unread={this.props.unread}  current={""} dispatch={this.props.dispatch}/>
             <div style={{marginLeft: 200, marginRight: 200, marginTop: 10}}>
                 <div style={{marginLeft: "45%"}}>
-                    <img height="100" width="100" src={this.props.userInfo.photo}></img>
+                    <img height="100" width="100" src={this.props.photo.url}></img>
 
                 </div>
                 <div style={{marginLeft: "40%", marginTop: 20, fontSize: 22}}>
                     <div><Icon
-                        type="user"/>&nbsp;用户名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{this.props.userInfo.UserName}
+                        type="user"/>&nbsp;用户名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{this.props.userInfo.userName}
                     </div>
                     <div style={{marginTop: 10}}><Icon
                         type="mail"/>&nbsp;E-mail:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{this.props.userInfo.email}

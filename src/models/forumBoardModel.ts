@@ -73,7 +73,8 @@ const model = {
             const response = yield call(tssFetch, '/topic/info', 'POST', data);
             const jsonBody = yield call(response.text.bind(response));
             const body = JSON.parse(jsonBody);
-
+            console.log("下面是topicData in forumBoardModel");
+            console.log(body);
             yield put({type: 'updateBoardInfo', payload: {topicData:body}});
 
         },
@@ -110,7 +111,9 @@ const model = {
 
             console.log("看看订阅成功了吗")
             console.log(body);
-            // yield put({type: 'updateBoardInfo', payload: {topicData:body}});
+            location.reload();
+            //yield put({type: 'updateBoardInfo', payload: {topicData:{"watched":"true"}}});
+             //yield put({type: 'updateBoardInfo', payload: {topicData:body}});
 
         },
         *unbook(payload: {payload:any}, {call, put}){
@@ -122,6 +125,8 @@ const model = {
 
             console.log("看看取消订阅了吗")
             console.log(body);
+            location.reload()
+            //yield put({type: 'updateBoardInfo', payload: {topicData:{"watched":"false"}}});
             // yield put({type: 'updateBoardInfo', payload: {topicData:body}});
 
         },

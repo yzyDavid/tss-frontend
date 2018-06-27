@@ -34,8 +34,8 @@ export default class ForumHomePageComponent extends Component<ForumHomeProps>{
 
 
     componentWillMount(){
-        // this.props.dispatch({type:'forumhome/get24', payload:{}});
-        // this.props.dispatch({type:'forumhome/getLatest', payload:{}});
+
+         this.props.dispatch({type:'forumhome/getLatest', payload:{}});
         this.props.dispatch({type:"ForumNavigation/updateUnread",payload:{}});
         this.props.dispatch({type:"myboard/getMyBoard",payload:{}})
         //this.props.dispatch({type:"forumhome/getMyBoard",payload:{}});

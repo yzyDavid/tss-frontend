@@ -44,7 +44,7 @@ const model = {
             "lzphoto":"url",
             "lztime":"123",
             "lzname":"楼主ID",
-
+            "top":"0",
             "names":["jack"]
         }
 
@@ -127,6 +127,31 @@ const model = {
 
 
         },
+
+        *cancelTop(payload: {payload:any}, {call, put}){
+
+            const Data = payload.payload;
+
+            const data = new topicForm();
+            data.topicID = Data.topicID;
+
+            const response = yield call(tssFetch, '/topic/setntop', 'POST', data);
+            const jsonBody = yield call(response.text.bind(response));
+            const body = JSON.parse(jsonBody);
+
+            console.log("看取消置顶")
+            console.log(body)
+            // if(body.status==="set top ok"){
+            //     message.success("取消置顶成功");
+            // }else{
+            //     message.warning("取消置顶失败，请重试")
+            // }
+
+
+        },
+
+
+
 
 
     },

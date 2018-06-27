@@ -107,12 +107,14 @@ export default class BoardPageComponent extends Component<BoardProps>{
     ChangeWatch = () => {
         const data = new getPublicDataForm;
         data.boardID = this.state.boardID
-        if(this.state.watch==="true"){
+        if(this.props.publicData.watched==="true"){
             this.setState({watch:false})
-            this.props.dispatch({type:'board/book', payload:data})
+            this.props.dispatch({type:'board/unbook', payload:data})
+            console.log("看看新的")
+            console.log(this.props.publicData.watched)
         }else{
             this.setState({watch:true})
-            this.props.dispatch({type:'board/unbook', payload:data})
+            this.props.dispatch({type:'board/book', payload:data})
         }
     };
 
@@ -204,8 +206,8 @@ export default class BoardPageComponent extends Component<BoardProps>{
         let isWatch;
 
 
-
-        if(this.state.watch==="false"){
+        //console.log("in state"+this.state.watch)
+        if(this.props.publicData.watched==="false"){
             isWatch = <Button type="primary" onClick={this.ChangeWatch}>点击关注</Button>
         }else {
 
@@ -231,15 +233,19 @@ export default class BoardPageComponent extends Component<BoardProps>{
 
 
         let topicList = new Array();
-        for(var i=0;i<this.props.topicData.topicTitles.length;i++){
-            topicList.push({
-                title:this.props.topicData.topicTitles[i],
-                author:this.props.topicData.topicAuthors[i],
-                replyNUM:this.props.topicData.topicReplys[i],
-                time:this.props.topicData.topicTimes[i],
-                id:this.props.topicData.topicIDs[i],
+        if(this.props.topicData.topicTitles==null ){
 
-            })
+        }else{
+            for(var i=0;i<this.props.topicData.topicTitles.length;i++){
+                topicList.push({
+                    title:this.props.topicData.topicTitles[i],
+                    author:this.props.topicData.topicAuthors[i],
+                    replyNUM:this.props.topicData.topicReplys[i],
+                    time:this.props.topicData.topicTimes[i],
+                    id:this.props.topicData.topicIDs[i],
+
+                })
+            }
         }
 
 

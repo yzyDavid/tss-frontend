@@ -371,7 +371,8 @@ const ForumTopicPage = connect(state => {
     const url = state.forumhome.URL;
     const data = state.topic.allstate;
     const data1 = state.ForumNavigation.unread;
-    return {allstate: data,URL:url,unread:data1};
+    const data2 = state.ForumUserInfo.photo;
+    return {allstate: data,URL:url,unread:data1,photo:data2};
 })(TopicPageComponent);
 
 const ForumReplyPage = connect(state => {
@@ -388,7 +389,8 @@ const ForumSearchPage = connect(state => {
     const topic = state.search.topicData;
     const user = state.search.userData;
     const data = state.ForumNavigation.unread;
-    return {unread:data,typeList:type,keyList:key,boardData:board,topicData:topic,userData:user};
+    const data2 = state.ForumUserInfo.photo;
+    return {unread:data,typeList:type,keyList:key,boardData:board,topicData:topic,userData:user,photo:data2};
 })(SearchComponent);
 
 const ForumAllBoardPage = connect(state => {
@@ -412,13 +414,15 @@ const ForumUserPage = connect(state => {
     const data = state.ForumUserInfo.userInfo;
     const data1 =state.ForumNavigation.unread;;
     const data3 = state.mypost.postList;
-    return {userInfo:data,unread:data1,postList:data3};
+    const data4 = state.ForumUserInfo.photo;
+    return {userInfo:data,unread:data1,postList:data3,photo:data4};
 })(ForumUserPageComponent);
 
 const ForumOtherPage = connect(state => {
     const data = state.ForumUserInfo.userInfo;
-    const data1 =state.ForumNavigation.unread;;
-    return {userInfo:data,unread:data1};
+    const data1 =state.ForumNavigation.unread;
+    const data2= state.ForumUserInfo.photo;
+    return {userInfo:data,unread:data1,photo:data2};
 })(ForumOtherComponent);
 
 

@@ -46,18 +46,22 @@ export default class MyPostPageComponent extends Component<MyPostProps>{
 
         let display = new Array();
 
-        for(var i =0;i<this.props.postList.titles.length;i++){
-            display.push(
-                <div style={{fontSize:22,borderStyle:"solid",marginTop:10,borderWidth:1,backgroundColor:"rgb(255,255,255)"}}>
-                    <div style={{marginLeft:20,marginTop:10,marginBottom:10}}>
-                        {this.props.postList.times[i]}:&nbsp;&nbsp;在
-                        <a onClick={this.gotoPage.bind(this,"/forum/board/"+this.props.postList.boardIDs[i]+"/1")} >{this.props.postList.boardNames[i]}</a>
-                        发表了
-                        <a onClick={this.gotoPage.bind(this,"/forum/topic/"+this.props.postList.topicIDs[i]+"/1")} >{"《"+this.props.postList.titles[i]+"》"}</a>
-                    </div>
-                </div>
+        if(this.props.postList.titles==null){
 
-            )
+        }else{
+            for(var i =0;i<this.props.postList.titles.length;i++){
+                display.push(
+                    <div style={{fontSize:22,borderStyle:"solid",marginTop:10,borderWidth:1,backgroundColor:"rgb(255,255,255)"}}>
+                        <div style={{marginLeft:20,marginTop:10,marginBottom:10}}>
+                            {this.props.postList.times[i]}:&nbsp;&nbsp;在
+                            <a onClick={this.gotoPage.bind(this,"/forum/board/"+this.props.postList.boardIDs[i]+"/1")} >{this.props.postList.boardNames[i]}</a>
+                            发表了
+                            <a onClick={this.gotoPage.bind(this,"/forum/topic/"+this.props.postList.topicIDs[i]+"/1")} >{"《"+this.props.postList.titles[i]+"》"}</a>
+                        </div>
+                    </div>
+
+                )
+            }
         }
 
 
