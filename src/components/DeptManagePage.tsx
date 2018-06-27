@@ -39,6 +39,10 @@ interface DeptState {
     modal8Visible: boolean;
     modal9Visible: boolean;
     fname: string;
+    selected1: any[];
+    selected2: any[];
+    selected3: any[];
+    selected4: any[];
 }
 
 let selected1: string[] = [];
@@ -46,43 +50,6 @@ let selected2: string[] = [];
 let selected3: string[] = [];
 let selected4: string[] = [];
 
-
-const rowSelection1 = {
-    onChange(selectedRowKeys, selectedRows) {
-        selected1 = [];
-        for (let i = 0; i < selectedRows.length; i++) {
-            selected1.push(selectedRows[i].name);
-        }
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-    },
-};
-const rowSelection2 = {
-    onChange(selectedRowKeys, selectedRows) {
-        selected2 = [];
-        for (let i = 0; i < selectedRows.length; i++) {
-            selected2.push(selectedRows[i].name);
-        }
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-    },
-};
-const rowSelection3 = {
-    onChange(selectedRowKeys, selectedRows) {
-        selected3 = [];
-        for (let i = 0; i < selectedRows.length; i++) {
-            selected3.push(selectedRows[i].name);
-        }
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-    },
-};
-const rowSelection4 = {
-    onChange(selectedRowKeys, selectedRows) {
-        selected4 = [];
-        for (let i = 0; i < selectedRows.length; i++) {
-            selected4.push(selectedRows[i].uid);
-        }
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-    },
-};
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -159,7 +126,11 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
             modal7Visible: false,
             modal8Visible: false,
             modal9Visible: false,
-            fname: ''
+            fname: '',
+            selected1: [],
+            selected2: [],
+            selected3: [],
+            selected4: [],
         };
     }
 
@@ -218,14 +189,6 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
     formRef7: any;
     formRef9: any;
     import: any;
-
-    getInfo(id: string) {
-        // this.props.dispatch({type: '/user/info', payload: {uid: id}});
-    };
-
-    modifyInfo(name: string) {
-        // this.props.dispatch({type: '/user/info', payload: {uid: id}});
-    };
 
     modifyDept(name: string) {
         this.props.dispatch({type: 'dept/getDept', payload: {name: name}});
@@ -372,6 +335,62 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
                 sm: {span: 14},
             },
         };
+        const rowSelection1 = {
+            selectedRowKeys: this.state.selected1,
+            onChange: (selectedRowKeys, selectedRows) => {
+                selected1 = [];
+                let selectedKeys: any = [];
+                for (let i = 0; i < selectedRows.length; i++) {
+                    selected1.push(selectedRows[i].name);
+                    selectedKeys.push(selectedRows[i].key);
+                }
+                this.setState({selected1: selectedKeys});
+                // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+                // console.log(selected);
+            }
+        };
+        const rowSelection2 = {
+            selectedRowKeys: this.state.selected2,
+            onChange: (selectedRowKeys, selectedRows) => {
+                selected2 = [];
+                let selectedKeys: any = [];
+                for (let i = 0; i < selectedRows.length; i++) {
+                    selected2.push(selectedRows[i].name);
+                    selectedKeys.push(selectedRows[i].key);
+                }
+                this.setState({selected2: selectedKeys});
+                // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+                // console.log(selected);
+            }
+        };
+        const rowSelection3 = {
+            selectedRowKeys: this.state.selected3,
+            onChange: (selectedRowKeys, selectedRows) => {
+                selected3 = [];
+                let selectedKeys: any = [];
+                for (let i = 0; i < selectedRows.length; i++) {
+                    selected3.push(selectedRows[i].name);
+                    selectedKeys.push(selectedRows[i].key);
+                }
+                this.setState({selected3: selectedKeys});
+                // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+                // console.log(selected);
+            }
+        };
+        const rowSelection4 = {
+            selectedRowKeys: this.state.selected4,
+            onChange: (selectedRowKeys, selectedRows) => {
+                selected4 = [];
+                let selectedKeys: any = [];
+                for (let i = 0; i < selectedRows.length; i++) {
+                    selected4.push(selectedRows[i].uid);
+                    selectedKeys.push(selectedRows[i].key);
+                }
+                this.setState({selected4: selectedKeys});
+                // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+                // console.log(selected);
+            }
+        };
         return (
             <div>
                 <br/>
@@ -381,10 +400,10 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
                         return (
                             <Row>
                                 <Col span={12} offset={0} style={{textAlign: 'left'}}>
-                                    <Button icon="delete" type="primary" onClick={() => this.props.dispatch({
+                                    <Button icon="delete" type="primary" onClick={() => {this.props.dispatch({
                                         type: 'dept/deleteDept',
                                         payload: {names: selected1}
-                                    })}>删除已选院系</Button>
+                                    }); this.setState({selected1: []})}}>删除已选院系</Button>
                                     <Button icon='plus' type="primary" style={{marginLeft: 8}}
                                             onClick={() => {
                                                 this.setModal4Visible(true)
@@ -406,10 +425,10 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
                             return (
                                 <Row>
                                     <Col span={24} offset={0} style={{textAlign: 'left'}}>
-                                        <Button icon="delete" type="primary" onClick={() => this.props.dispatch({
+                                        <Button icon="delete" type="primary" onClick={() => {this.props.dispatch({
                                             type: 'dept/deleteMajor',
                                             payload: {names: selected2}
-                                        })}>删除已选专业</Button>
+                                        }); this.setState({selected2: []})}}>删除已选专业</Button>
                                         <Button icon='plus' type="primary" style={{marginLeft: 8}} onClick={() => {
                                             this.setModal5Visible(true)
                                         }}>添加新的专业</Button>
@@ -435,10 +454,10 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
                             return (
                                 <Row>
                                     <Col span={24} offset={0} style={{textAlign: 'left'}}>
-                                        <Button icon="delete" type="primary" onClick={() => this.props.dispatch({
+                                        <Button icon="delete" type="primary" onClick={() => {this.props.dispatch({
                                             type: 'dept/deleteClass',
                                             payload: {names: selected3}
-                                        })}>删除已选班级</Button>
+                                        }); this.setState({selected3: []})}}>删除已选班级</Button>
                                         <Button icon='plus' type="primary" style={{marginLeft: 8}} onClick={() => {
                                             this.setModal6Visible(true)
                                         }}>添加新的班级</Button>
@@ -461,10 +480,10 @@ export default class DeptManagePageComponent extends Component<DeptProps, DeptSt
                             return (
                                 <Row>
                                     <Col span={24} offset={0} style={{textAlign: 'left'}}>
-                                        <Button icon="delete" type="primary" onClick={() => this.props.dispatch({
+                                        <Button icon="delete" type="primary" onClick={() => {this.props.dispatch({
                                             type: 'dept/deleteStu',
                                             payload: {uids: selected4, majorClass: this.props.className}
-                                        })}>删除已选学生</Button>
+                                        }); this.setState({selected4: []})}}>删除已选学生</Button>
                                         <Button icon='plus' type="primary" style={{marginLeft: 8}} onClick={() => {
                                             this.setModal7Visible(true)
                                         }}>添加新的学生</Button>

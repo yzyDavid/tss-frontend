@@ -124,15 +124,21 @@ class SearchForm extends Component<UserManageFormProps, {}> {
 const WrappedSearchForm: any = Form.create({})(SearchForm);
 const {Content} = Layout;
 let selected: string[] = [];
+let selectedKeys: any[] = [];
 
 
 export default class UserManagePageComponent extends Component<UserManageProps, UserState> {
+    mounted;
     componentDidMount() {
         const type = getType();
+        this.mounted = true;
         if (type != 'Teaching Administrator' && type != 'System Administrator') {
             this.props.dispatch({type: "navigation/jump", payload: {direction: 'navi'}});
             return;
         }
+    }
+    componentWillUnmount(){
+        this.mounted = false;
     }
 
     constructor(props) {
@@ -143,7 +149,7 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
             modal3Visible: false,
             modal4Visible: false,
             fname: '',
-            selected: [""]
+            selected: []
         };
         this.props.dispatch({type: 'dept/getDeptList', payload: {}});
         console.log(this.props.deptList);
@@ -176,25 +182,7 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
     formRef3: any;
     formRef4: any;
     import: any;
-    rowSelection = {
-        onChange(selectedRowKeys, selectedRows) {
-            selected = [];
-            for (let i = 0; i < selectedRows.length; i++) {
-                selected.push(selectedRows[i].uid);
-            }
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-        },
-        onSelect(record, selected, selectedRows) {
-            selected = record.uid.toString();
-            console.log("selected", selected);
-        },
-        onSelectAll(selected, selectedRows, changeRows) {
-            console.log(selected, selectedRows, changeRows);
-        },
-    };
-    onSelect = (record, selected, selectedRows) => {
-        console.log(record, selected, selectedRows);
-    };
+
 
     getInfo(id: string) {
         this.props.dispatch({type: 'userinfo/showUser', payload: {uid: id}});
@@ -277,6 +265,7 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
     handleClick() {
         this.props.dispatch({type: 'userinfo/deleteUser', payload: {uids: selected}});
         selected = [];
+        this.setState({selected: []});
     };
 
     handleBatchAdd() {
@@ -327,6 +316,20 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
     };
 
     render() {
+        const rowSelection = {
+            selectedRowKeys: this.state.selected,
+            onChange:  (selectedRowKeys, selectedRows) => {
+                selected = [];
+                selectedKeys = [];
+                for (let i = 0; i < selectedRows.length; i++) {
+                    selected.push(selectedRows[i].uid);
+                    selectedKeys.push(selectedRows[i].key);
+                }
+                this.setState({selected: selectedKeys});
+                // selectedKeys = selectedRowKeys;
+                console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            },
+        };
         return (
             <div>
                 <br/>
@@ -347,7 +350,7 @@ export default class UserManagePageComponent extends Component<UserManageProps, 
                                 </Col>
                             </Row>)
                     }} style={{width: "100%", background: "#ffffff"}} columns={this.columns}
-                           dataSource={this.props.data} rowSelection={this.rowSelection} className="table"/>
+                           dataSource={this.props.data} rowSelection={rowSelection} className="table"/>
                     <Modal
                         title="查看用户信息"
                         wrapClassName="vertical-center-modal"

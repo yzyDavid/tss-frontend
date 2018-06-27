@@ -31,6 +31,16 @@ export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
         //     fileName: ''
         // })
     };
+    constructor(props){
+        super(props);
+        this.setState({
+            email: this.props.email,
+            tel: this.props.tel,
+            intro: this.props.intro,
+            uploadFile: null,
+            fname: ''
+        })
+    }
 
     import: any;
     fname: string = '';
@@ -80,21 +90,18 @@ export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
     handleChange = (info) => {
         info.fileList.slice(-1);
     };
-    // beforeUpload = (file) => {
-    //     this.setState({fileList: file});
-    //     return false;
-    // };
 
     uploadClick() {
         this.import.openDisk()
     };
 
     uploadHandler(name, content) {
-        if(name == ''){
+        if (name == '') {
             this.uploadFile = null;
             this.fname = '';
+            this.setState({fname: name});
             this.props.form.setFieldsValue({
-                fname: ''
+                fname: name
             });
             this.setState({uploadFile: null, fname: name});
             return;
@@ -112,8 +119,7 @@ export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
         });
     }
 
-    render
-    () {
+    render() {
         const {getFieldDecorator} = this.props.form;
         const formItemLayout = {
             labelCol: {
@@ -125,6 +131,7 @@ export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
                 sm: {span: 14},
             },
         };
+        const FileTag = () => {return <span>this.state.fname</span>};
         return (
             <Form onSubmit={this.handleSubmit}>
                 <FormItem label="学号或教工号" {...formItemLayout}>
@@ -176,23 +183,6 @@ export class InfoEditForm extends Component<FormProps, InfoEditFormData> {
                     uploadCallback={this.uploadHandler.bind(this)}
                     dispatch={this.props.dispatch}
                 />
-                {/*<Input type="file"/>*/}
-                {/*<FormItem>*/}
-                {/*{getFieldDecorator('upload', {*/}
-                {/*valuePropName: 'fileList',*/}
-                {/*getValueFromEvent: this.normFile,*/}
-                {/*})(*/}
-                {/*<Upload beforeUpload={this.beforeUpload} name="logo" action="/photo" method="post"*/}
-                {/*listType="picture" onChange={this.handleChange}*/}
-                {/*{...getFieldDecorator('upload', {*/}
-                {/*valuePropName: 'fileList',*/}
-                {/*})}*/}
-                {/*>*/}
-                {/*<Button type="ghost">*/}
-                {/*<Icon type="upload"/> 点击上传*/}
-                {/*</Button>*/}
-                {/*</Upload>)}*/}
-                {/*</FormItem>*/}
             </Form>
         );
     }
@@ -239,7 +229,7 @@ class Import extends Component<ImportProps> {
             };
         } else
             console.log('error');
-            _self.props.uploadCallback('', null);
+        _self.props.uploadCallback('', null);
     };
 
     render() {

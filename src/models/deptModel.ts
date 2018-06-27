@@ -38,6 +38,10 @@ const model = {
                     const jsonBody = yield call(response.text.bind(response));
                     const body = JSON.parse(jsonBody);
                     message.warning(body.status);
+                    yield put({
+                        type: 'updateDeptInfo',
+                        payload: {data: []}
+                    });
                     return;
                 }
                 const jsonBody = yield call(response.text.bind(response));
@@ -61,6 +65,10 @@ const model = {
                     const jsonBody = yield call(response.text.bind(response));
                     const body = JSON.parse(jsonBody);
                     message.warning(body.status);
+                    yield put({
+                        type: 'updateDeptInfo',
+                        payload: {data: []}
+                    });
                     return;
                 }
                 const jsonBody = yield call(response.text.bind(response));
@@ -281,13 +289,6 @@ const model = {
         },
         * deleteStu(payload: { payload: { uids: string[], majorClass: string } }, {call, put}) {
             const msg = payload.payload;
-            // for (let i = 0; i < msg.uids.length; i++) {
-            // const response = yield call(tssFetch, '/dept/class/delete', 'DELETE', {name: msg.names[i]});
-            // if (response.status !== 200) {
-            //     message.error('删除班级失败');
-            //     return;
-            // }
-            // }
             const response = yield call(tssFetch, '/dept/class/delete/user', 'POST', msg);
             if (response.status !== 200) {
                 message.error('删除学生失败');

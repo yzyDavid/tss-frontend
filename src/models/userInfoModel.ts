@@ -39,6 +39,9 @@ const model = {
             const response = yield call(tssFetch, '/user/get/own/info', 'POST', msg);
             if (response.status !== 200) {
                 message.error('查询个人信息失败');
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                message.error(body.status);
                 return;
             }
             const jsonBody = yield call(response.text.bind(response));
@@ -66,6 +69,9 @@ const model = {
             const response = yield call(tssFetch, '/user/modify/own/info', 'POST', msg);
             if (response.status === 400) {
                 message.error('编辑个人信息失败');
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                message.error(body.status);
                 return;
             }
             yield put({type: 'userInfo', payload: {uid: null}});
@@ -98,6 +104,9 @@ const model = {
             });
             if(response.status !== 200) {
                 message.error('搜索用户失败');
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                message.error(body.status);
                 return;
             }
             const jsonBody = yield call(response.text.bind(response));
@@ -153,6 +162,9 @@ const model = {
             const response = yield call(tssFetch, '/user/modify/info', 'POST', msg);
             if (response.status === 400) {
                 message.error('编辑用户信息失败');
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                message.error(body.status);
                 return;
             }
             const jsonBody = yield call(response.text.bind(response));
@@ -164,6 +176,9 @@ const model = {
             const response = yield call(tssFetch, '/user/add', 'PUT', msg);
             if (response.status === 400) {
                 message.error('添加用户失败');
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                message.error(body.status);
                 return;
             }
             const jsonBody = yield call(response.text.bind(response));
@@ -175,6 +190,9 @@ const model = {
             const response = yield call(tssFetch, '/user/delete', 'DELETE', msg);
             if (response.status !== 200) {
                 message.error('删除用户失败');
+                const jsonBody = yield call(response.text.bind(response));
+                const body = JSON.parse(jsonBody);
+                message.error(body.status);
                 return;
             }
             const jsonBody = yield call(response.text.bind(response));
